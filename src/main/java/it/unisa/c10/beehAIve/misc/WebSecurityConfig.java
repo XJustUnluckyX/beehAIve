@@ -1,4 +1,4 @@
-package it.unisa.c10.beehAIve;
+package it.unisa.c10.beehAIve.misc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
