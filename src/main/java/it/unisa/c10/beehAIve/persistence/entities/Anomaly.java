@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Anomaly {
   @Id
   private int id; //temporary
-  private String name;
+  private String type;
   private boolean resolved;
   private int sensorID;
   private int hiveID;
