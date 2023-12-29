@@ -4,4 +4,5 @@ package it.unisa.c10.beehAIve.controller.gestioneAnomalie;
 // temperatura, umidità, peso, presenza regina
 // e invia l'anomalia al database
 public class AnomalyController {
+
 }
