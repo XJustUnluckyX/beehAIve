@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="../css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-    <div th:insert="fragments/header :: navbar"></div>
-
-    <main>
-        <section>
-            <h1> Test </h1>
-        </section>
-    </main>
+    <div th:replace="fragments/header :: navbar"></div>
+    <div class="placeholder"></div>
+    <div class="container">
+        <img src="../assets/logo_icon.png" alt="Logo" id="logo">
+    </div>
 
 
 </body>

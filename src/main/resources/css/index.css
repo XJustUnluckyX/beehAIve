@@ -1,0 +1,20 @@
+*{
+    font-family: Helvetica;
+    background: #FFF0B3;
+}
+.container{
+
+    text-align: center;
+    height: 85vh;
+    width: 100%;
+}
+.placeholder{
+
+    height: 10vh;
+    width: 100%;
+    background: #FFE087;
+}
+#logo{
+
+    height: 30rem;
+}
