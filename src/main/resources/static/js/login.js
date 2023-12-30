@@ -9,3 +9,7 @@ registerBtn.addEventListener('click', () => {
 loginBtn.addEventListener('click', () => {
     container.classList.remove("active");
 });
+
+function test() {
+    alert("test");
+}
