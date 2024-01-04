@@ -8,7 +8,6 @@ import os
 dataset_path = os.path.dirname(__file__) + "\dataset\\HiveDataset.csv"
 merged_audio_dir = "D:\Desktop\\fafo\merge"
 
-
 # Lettura CSV
 ds = pd.read_csv(dataset_path)
 
@@ -32,9 +31,17 @@ filename_to_remove = set(ds_filename_list) - set(merged_audio_names)
 # Produciamo un nuovo dataframe rimuovendo le righe di cui non abbiamo il file
 ds2 = ds[~ds["file name"].isin(filename_to_remove)]
 
+ds2.to_csv("dataset/Cleaned_Dataset.csv", index=False)
+
 # Controlliamo quali righe abbiamo rimosso (Solo righe dove è presente la regina)
 print(ds["queen presence"].value_counts())
 print(ds2["queen presence"].value_counts())
+
+# TEST 1: Undersampling della classe maggioritaria
+
+
+
+
 
 # Le righe del dataset in cui la regina è assente, per dare un razionale dietro la scelta della rimozione di
 # segment1 e segment0 dove singoli. Riscrivere codice TODO

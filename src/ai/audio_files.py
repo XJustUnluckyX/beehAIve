@@ -5,11 +5,12 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 from pydub import AudioSegment
-
+    
 # Directory con le clip audio
 dir = "D:\Desktop\\fafo\sound_files"
 dir2 = "D:\Desktop\\fafo\merge"
 dir3 = "D:\Desktop\\fafo\spectrograms"
+THREAD_NO = 5
 #dir = "D:\Desktop\dataset\sound_files\sound_files"
 
 audio_list = os.listdir(dir)
@@ -75,12 +76,11 @@ audio_list = os.listdir(dir)
 def spectrograms(i):
     file_list = os.listdir(dir2)
     file_list2 = os.listdir(dir3)
-    for item in range(i * 239, (i+1) * 239 -1):
+    for item in range(i * (len(file_list)/THREAD_NO), (i+1) * (len(file_list)/THREAD_NO)):
         file = file_list[item]
         if (file[:-4] + "_spect.png") in file_list2:
             continue
         else:
-            print(file + " iniziato")
             y, sr = librosa.load(dir2 + "\\" + file, sr=None) # Caricamento del file audio
             spect = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max) # Realizzazione dello spettrogramma
             librosa.display.specshow(spect, sr=sr, x_axis='time', y_axis='log') # Visualizzazione dello spettrogramma
@@ -89,7 +89,6 @@ def spectrograms(i):
             plt.savefig(dir3 + "\\" + file[:-4] + "_spect.png") # Salvataggio dello spettrogramma nella cartella
             del y, sr, spect
             gc.collect()
-            print(file + " salvato")
 
 
 if __name__ == '__main__': # Si assicura l'esecuzione del seguente blocco solo dal processo principale, così
