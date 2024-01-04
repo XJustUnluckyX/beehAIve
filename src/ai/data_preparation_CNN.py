@@ -10,6 +10,7 @@ ds = ds.drop(["temp diff", "humidity diff"], axis=1)
 ds["file name"] = ds["file name"].str[:-4] + "_spect.png"
 
 # Salviamo 30 Spettrogrammi a parte per la DEMO (27 dove vi è la regina e 3 dove non vi è)
+# TODO aumentare il numero di Spettrogrammi a 100, cambiare il codice di conseguenza
 
 demo_ds_first_half = ds.loc[ds["queen presence"] == 1].sample(n=27)
 demo_ds_second_half = ds.loc[ds["queen presence"] == 0].sample(n=3)
