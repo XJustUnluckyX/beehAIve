@@ -7,7 +7,7 @@ from PIL import Image
 from sklearn.model_selection import StratifiedKFold
 
 # Prendiamo i dati da dare al modello
-ds = pd.read_csv("dataset/TEST1_CNN_Dataset.csv")
+ds = pd.read_csv("../../dataset/TEST1_CNN_dataset.csv")
 spectrogram_dir = "D:\Desktop\\fafo\spectrograms"
 
 file_list = ds["file name"].tolist()
@@ -87,7 +87,7 @@ for train, test in skf.split(X_train, y_train):
 
 
 try:
-    with open("CNN Evaluation Log.txt", "a") as file:
+    with open("../../logs/CNN Evaluation Log.txt", "a") as file:
         file.write(f"-------------------\n"
                 "STATO CONFIGURAZIONE: \n"
                 f"Pooling: {pooling}, Dense_neurons: {dense_neurons}, Optimizer: {optimizer}, "

@@ -5,7 +5,7 @@ import os
 #TODO rendere il codice leggibile
 
 # Path del CSV del dataset
-dataset_path = os.path.dirname(__file__) + "\dataset\\HiveDataset.csv"
+dataset_path = os.path.dirname(__file__) + "../../dataset/hive_dataset.csv"
 merged_audio_dir = "D:\Desktop\\fafo\merge"
 
 # Lettura CSV
@@ -31,7 +31,7 @@ filename_to_remove = set(ds_filename_list) - set(merged_audio_names)
 # Produciamo un nuovo dataframe rimuovendo le righe di cui non abbiamo il file
 ds2 = ds[~ds["file name"].isin(filename_to_remove)]
 
-ds2.to_csv("dataset/Cleaned_Dataset.csv", index=False)
+ds2.to_csv("../../dataset/cleaned_dataset.csv", index=False)
 
 # Controlliamo quali righe abbiamo rimosso (Solo righe dove è presente la regina)
 print(ds["queen presence"].value_counts())

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-dataset_path = os.path.dirname(__file__) + "\dataset\\Cleaned_Dataset.csv"
+dataset_path = os.path.dirname(__file__) + "../../dataset/cleaned_dataset.csv"
 
 ds = pd.read_csv(dataset_path)
 
@@ -17,7 +17,7 @@ demo_ds_second_half = ds.loc[ds["queen presence"] == 0].sample(n=3)
 
 demo_ds = pd.concat([demo_ds_first_half, demo_ds_second_half], axis=0)
 
-demo_ds.to_csv("dataset/Demo_Dataset.csv", index=False)
+demo_ds.to_csv("../../dataset/demo_dataset.csv", index=False)
 
 ds = ds.drop(demo_ds.index)
 
@@ -27,5 +27,5 @@ ds_undersampled = ds.groupby("queen presence").apply(lambda x: x.sample(n=min(15
 
 ds_undersampled = ds_undersampled.reset_index(drop=True)
 
-ds_undersampled.to_csv("dataset/TEST1_CNN_Dataset.csv", index=False)
+ds_undersampled.to_csv("../../dataset/TEST1_CNN_dataset.csv", index=False)
 
