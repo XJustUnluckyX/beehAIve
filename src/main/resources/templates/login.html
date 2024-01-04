@@ -2,61 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/login.css}" rel="stylesheet"/>
-    <script th:src="@{js/login.js}" type="text/javascript"></script>
+    <link th:href="@{/css/fragments/header.css}" rel="stylesheet"/>
     <title>Title</title>
 </head>
 <body>
-<div class="placeholder"> Placeholder </div>
-<div class="body">
-    <div class="container" id="container">
-    <div class="form-container sign-up">
-        <form>
-            <h1>Create Account</h1>
-            <div class="social-icons">
-                <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+
+    <div th:replace="fragments/header :: navbar"></div>
+    <div class="wrapper">
+        <div class="login_box">
+            <div class="login-header">
+                <span>Login</span>
             </div>
-            <span>or use your email for registeration</span>
-            <input type="text" placeholder="Name">
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <button>Sign Up</button>
-        </form>
-    </div>
-    <div class="form-container sign-in">
-        <form>
-            <h1>Sign In</h1>
-            <div class="social-icons">
-                <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+
+            <div class="input_box">
+                <input type="text" th:id="user" class="input-field" th:placeholder="Username" required>
+                <label th:for="user" class="label">Username</label>
+                <i class="bx bx-user icon"></i>
             </div>
-            <span>or use your email password</span>
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <a href="#">Forget Your Password?</a>
-            <button>Sign In</button>
-        </form>
-    </div>
-    <div class="toggle-container">
-        <div class="toggle">
-            <div class="toggle-panel toggle-left">
-                <h1>Welcome Back!</h1>
-                <p>Enter your personal details to use all of site features</p>
-                <button class="hidden" id="login">Sign In</button>
+
+            <div class="input_box">
+                <input type="password" th:id="pass" class="input-field" th:placeholder="Password" required>
+                <label th:for="pass" class="label">Password</label>
+                <i class="bx bx-lock-alt icon"></i>
             </div>
-            <div class="toggle-panel toggle-right">
-                <h1>Welcome, Friend!</h1>
-                <p>Enter your personal details to use all of site features</p>
-                <button class="hidden" id="register">Sign Up</button>
+
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" th:id="remember">
+                    <label th:for="remember">Remember me</label>
+                </div>
+
+                <div class="forgot">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+
+            <div class="input_box">
+                <input type="submit" class="input-submit" value="Login">
+            </div>
+
+            <div class="register">
+                <span>Don't have an account? <a href="#">Register</a></span>
             </div>
         </div>
     </div>
-</div>
-</div>
+
 </body>
 </html>

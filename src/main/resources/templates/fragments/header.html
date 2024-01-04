@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{css/fragments/header.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <script th:src="@{js/jquery.js}" type="text/javascript"></script>
     <title>Title</title>
 </head>
 <body>
     <header th:fragment="navbar">
-            <div class="container">
+            <div class="container-header">
                 <nav>
                     <ul>
-                        <li class="icon"> <img th:src="@{assets/home_icon.png}" alt="Home"> </li>
+                        <li class="icon-header"> <img th:src="@{assets/home_icon.png}" alt="Home"> </li>
                         <li> Log-in </li>
                         <li> About Us </li>
                         <li> Contact Us </li>
                         <li> Info </li>
-                        <li class="icon2"> <img th:src="@{assets/menu_icon.png}" alt="Home"> </li>
+                        <li class="icon2-header"> <img th:src="@{assets/menu_icon.png}" alt="Home"> </li>
                     </ul>
                 </nav>
             </div>
