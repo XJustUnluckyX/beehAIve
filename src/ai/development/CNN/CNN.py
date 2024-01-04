@@ -8,7 +8,7 @@ from sklearn.model_selection import StratifiedKFold
 
 # Prendiamo i dati da dare al modello
 ds = pd.read_csv("../../dataset/TEST1_CNN_dataset.csv")
-spectrogram_dir = "D:\Desktop\\fafo\spectrograms"
+spectrogram_dir = "D:\Desktop\\fafo\spectrograms" # spect_dir = "../resources/spectrograms"
 
 file_list = ds["file name"].tolist()
 

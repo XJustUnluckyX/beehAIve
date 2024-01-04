@@ -6,7 +6,7 @@ import os
 
 # Path del CSV del dataset
 dataset_path = os.path.dirname(__file__) + "../../dataset/hive_dataset.csv"
-merged_audio_dir = "D:\Desktop\\fafo\merge"
+merged_audio_dir = "D:\Desktop\\fafo\merge" # merged_sound_dir = "../resources/merge"
 
 # Lettura CSV
 ds = pd.read_csv(dataset_path)

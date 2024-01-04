@@ -7,9 +7,9 @@ import numpy as np
 from pydub import AudioSegment
     
 # Directory con le clip audio
-dir = "D:\Desktop\\fafo\sound_files"
-dir2 = "D:\Desktop\\fafo\merge"
-dir3 = "D:\Desktop\\fafo\spectrograms"
+dir = "D:\Desktop\\fafo\sound_files" # sound_dir = "../resources/sound_files"
+dir2 = "D:\Desktop\\fafo\merge" # merged_sound_dir = "../resources/merge"
+dir3 = "D:\Desktop\\fafo\spectrograms" # spect_dir = "../resources/spectrograms"
 THREAD_NO = 5
 #dir = "D:\Desktop\dataset\sound_files\sound_files"
 
