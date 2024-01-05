@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # Lettura del dataset contenente le informazioni relative alle arnie
-dataset_path = os.path.dirname(__file__) + "../../dataset/hive_dataset.csv"
+dataset_path = os.path.dirname(__file__) + "..\\..\\dataset\\hive_dataset.csv"
 dataset = pd.read_csv(dataset_path)
 print(dataset)
 

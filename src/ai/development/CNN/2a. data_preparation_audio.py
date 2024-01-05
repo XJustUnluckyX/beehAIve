@@ -6,36 +6,40 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pydub import AudioSegment
     
-# Directory con le clip audio
-audio_dir = "D:\Desktop\\fafo\sound_files" # sound_dir = "../resources/sound_files"
-merged_audio_dir = "D:\Desktop\\fafo\merge" # merged_sound_dir = "../resources/merge"
-spectrograms_dir = "D:\Desktop\\fafo\spectrograms"  #  spect_dir = "../resources/spectrograms"
-THREAD_NO = 5
-#dir = "D:\Desktop\dataset\sound_files\sound_files"
+# Recupero delle directory relative ai segmenti audio, ai file audio uniti e relativi spettrogrammi
+audio_dir = ""  # = "..\\..\\resources\\sound_files"
+merged_audio_dir = ""  # = "..\\..\\resources\\merged_sound_files"
+spectrograms_dir = "..\\..\\resources\\spectrograms"
+
+THREAD_NO = 5  # Definizione del numero di thread per la parallelizzazione
 
 audio_list = os.listdir(audio_dir)
 
-# Definiamo dei set per trovare i file con meno di tre segmenti
+# Definizione di tre insiemi per trovare file audio con meno di tre segmenti
 segment0_set = set()
 segment1_set = set()
 segment2_set = set()
 
+# Aggiunta dei segmenti audio nei relativi insiemi
 for file in audio_list:
-    if (file.endswith("segment0.wav")):
+    if file.endswith("segment0.wav"):  # Aggiunta dei segmenti 0 all'insieme "segment0_set"
         file = file[:-14]
         segment0_set.add(file)
-    if (file.endswith("segment1.wav")):
+    if file.endswith("segment1.wav"):  # Aggiunta dei segmenti 1 all'insieme "segment1_set"
         file = file[:-14]
         segment1_set.add(file)
-    if (file.endswith("segment2.wav")):
+    if file.endswith("segment2.wav"):  # Aggiunta dei segmenti 2 all'insieme "segment2_set"
         file = file[:-14]
         segment2_set.add(file)
 
-# Set di file da cancellare
-set_to_remove1 = segment0_set.difference(segment1_set)
-set_to_remove2 = segment0_set.difference(segment2_set)
+# Definizione di due insiemi contenenti i file audio da eliminare
+set_to_remove1 = segment0_set.difference(segment1_set)  # Insieme contenente i file audio che
+# presentano il segmento 0 ma non il segmento 1
+set_to_remove2 = segment0_set.difference(segment2_set)  # Insieme contenente i file audio che
+# presentano il segmento 0 e il segmento 1 ma non il segmento 2
 
-# Loop per cancellare i segmenti 0 e 1 dove necessario
+# Eliminazione dei file audio che presentano solo i segmenti 0 e 1. In altre parole, si eliminano
+# i file audio che non presentano almeno tre segmenti
 for file in audio_list:
     file = file[:-14]
     if file in set_to_remove1:
@@ -50,7 +54,7 @@ for file in audio_list:
             file = file + "__segment1.wav"
             os.remove(audio_dir + "\\" + file)
 
-# Loop per cancellare tutti i segmenti 3, 4 e 5
+# Eliminazione di tutti i segmenti 3, 4 e 5
 for file in audio_list:
     file = file[:-14]
     if os.path.exists(audio_dir + "\\" + file + "__segment3.wav"):
@@ -63,7 +67,7 @@ for file in audio_list:
         file = file + "__segment5.wav"
         os.remove(audio_dir + "\\" + file)
 
-# Unisce i vari segmenti in un unico file
+# Unione dei segmenti 0, 1 e 2 in un unico file audio da tre minuti
 for i in (range(int(len(audio_list)/3))):
     segment0 = AudioSegment.from_wav(audio_dir + "\\" + audio_list[i * 3])
     segment1 = AudioSegment.from_wav(audio_dir + "\\" + audio_list[i * 3 + 1])
@@ -75,24 +79,37 @@ for i in (range(int(len(audio_list)/3))):
 merged_audio_list = os.listdir(merged_audio_dir)
 spectrogram_list = os.listdir(spectrograms_dir)
 
+
+# Creazione degli spettrogrammi relativi a ogni file audio
 def spectrograms(i):
-    for item in range(i * (len(merged_audio_list)/THREAD_NO), (i+1) * (len(merged_audio_list)/THREAD_NO)):
-        file = merged_audio_list[item]
-        if (file[:-4] + "_spect.png") in spectrogram_list:
-            continue
+    # Ogni thread itera su un proprio range di file audio
+    thread_range = range(i * (len(merged_audio_list)/THREAD_NO),
+                         (i+1) * (len(merged_audio_list)/THREAD_NO))
+
+    for item in thread_range:
+        audio_file = merged_audio_list[item]
+        if (audio_file[:-4] + "_spect.png") in spectrogram_list:
+            continue  # Non aggiungiamo l'immagine se essa è già presente nella cartella
         else:
-            y, sr = librosa.load(merged_audio_dir + "\\" + file, sr=None) # Caricamento del file audio
-            spect = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max) # Realizzazione dello spettrogramma
-            librosa.display.specshow(spect, sr=sr, x_axis='time', y_axis='log') # Visualizzazione dello spettrogramma
-            plt.axis("off")  # Eliminazione degli assi dall'immagine prodotta
-            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Eliminazione del padding bianco attorno lo spettrogramma
-            plt.savefig(spectrograms_dir + "\\" + file[:-4] + "_spect.png") # Salvataggio dello spettrogramma nella cartella
+            # Caricamento del file audio
+            y, sr = librosa.load(merged_audio_dir + "\\" + audio_file, sr=None)
+            # Realizzazione dello spettrogramma
+            spect = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)
+            # Visualizzazione dello spettrogramma
+            librosa.display.specshow(spect, sr=sr, x_axis='time', y_axis='log')
+            # Eliminazione degli assi dall'immagine prodotta
+            plt.axis("off")
+            # Eliminazione del padding bianco attorno lo spettrogramma
+            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+            # Salvataggio dello spettrogramma nella cartella
+            plt.savefig(spectrograms_dir + "\\" + audio_file[:-4] + "_spect.png")
+            # Le variabili non sono più necessarie e vanno rimosse dalla memoria
             del y, sr, spect
+            # Richiamo manuale del Garbage Collector per liberare la memoria occupata
             gc.collect()
 
 
-# Si assicura l'esecuzione del seguente blocco solo dal processo principale, così
-# da non essere eseguito da alcun processo figlio
-if __name__ == '__main__':
-    with multiprocessing.Pool(5) as p:
-        p.map(spectrograms, [0,1,2,3,4])
+# Chiamata alla funzione spectrograms su cinque thread diversi
+if __name__ == '__main__':  # Si assicura l'esecuzione del blocco solo sul processo principale
+    with multiprocessing.Pool(THREAD_NO) as p:
+        p.map(spectrograms, [0, 1, 2, 3, 4])
