@@ -15,5 +15,9 @@ public class RedirectController {
   public String login (Model model) {
     return "login";
   }
+  @GetMapping("/registration-page")
+  public String register (Model model) {
+    return "registration-page";
+  }
 
 }

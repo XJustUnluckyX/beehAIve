@@ -27,10 +27,6 @@ a {
     color: var(--second-color);
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 .wrapper {
     width: 100%;
     display: flex;
