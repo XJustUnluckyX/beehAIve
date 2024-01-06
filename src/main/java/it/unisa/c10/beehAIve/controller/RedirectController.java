@@ -19,5 +19,7 @@ public class RedirectController {
   public String register (Model model) {
     return "registration-page";
   }
+  @GetMapping("/subscription-page")
+  public String subscription (Model model) { return "subscription-page";}
 
 }
