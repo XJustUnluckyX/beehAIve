@@ -8,11 +8,11 @@ from PIL import Image
 from sklearn.model_selection import StratifiedKFold
 
 # Recupero del dataset pulito e pronto all'uso
-cnn_dataset_path = os.path.dirname(__file__) + "../../dataset/CNN_dataset.csv"
+cnn_dataset_path = os.path.dirname(__file__) + "..\\..\\dataset\\CNN_dataset.csv"
 cnn_dataset = pd.read_csv(cnn_dataset_path)
 
 # Recupero degli spettrogrammi contenuti nel dataset
-spectrograms_dir = "D:\\Desktop\\fafo\\spectrograms"  # = "../resources/spectrograms"
+spectrograms_dir = "..\\..\\resources\\spectrograms"
 spectrogram_list = cnn_dataset["file name"].tolist()
 
 # Creazione delle variabili per l'addestramento della CNN
