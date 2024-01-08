@@ -63,5 +63,48 @@ public class AnomalyController {
     return "index";
   }
 
+  @GetMapping("/ccd_test")
+  public String ccd_test() {
+    HttpURLConnection connection = null;
+    DataOutputStream outputStream = null;
+    try {
+      URL url = new URL("http://127.0.0.1:5000/predict_ccd_fia"); // Maybe a / is missing
+      String[] inputData = {"{\"queen presence\" : 0, \"apparent hive temp\": 40, \"apparent temp diff\": 0}"};
+      for (String input : inputData) {
+        byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("charset", "utf-8");
+        connection.setRequestProperty("Content-Length", Integer.toString(input.length()));
+        outputStream = new DataOutputStream(connection.getOutputStream());
+        outputStream.write(postDataToSend);
+        outputStream.flush();
+
+        if (connection.getResponseCode() != 200) {
+          throw new RuntimeException("HTTP Error Code: " + connection.getResponseCode());
+        }
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        String output;
+        System.out.println("Output: ");
+        while ((output = bufferedReader.readLine()) != null) {
+          System.out.println(output);
+        }
+        connection.disconnect();
+      }
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e); //TODO check exceptions
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (connection != null)
+        connection.disconnect();
+    }
+
+    return "index";
+  }
 
 }
