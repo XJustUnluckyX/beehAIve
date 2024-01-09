@@ -59,7 +59,7 @@ def AristeoHeuristic(row):
     # denominatore. In altri termini, al denominatore sono riportati i pesi più alti
     ccd_probability = (internal_temp_coeff + temp_diff_coeff + queen_coeff) / (150 + 60 + 40)
 
-    return ccd_probability
+    return float(ccd_probability)
 
 
 # Modalità d'uso 1, SENZA CNN
@@ -87,7 +87,7 @@ def predict_CCD_no_CNN():
         prediction = np.where(prediction > 0.5, 1, 0)
 
         # Restituiamo la previsione
-        return jsonify ({"ccd_result": int(prediction[0]), "ccd_probability": ccd_probability})
+        return jsonify ({"ccd_result": int(prediction[0]), "ccd_true_probability": ccd_probability})
 
 # Modalità d'uso 2, CON CNN
 @app.route("/ccd",methods=["POST"])
@@ -136,7 +136,7 @@ def predict_CCD():
         prediction = np.where(prediction > 0.5, 1, 0)
 
         # Restituiamo la previsione
-        return jsonify ({"ccd_result": int(prediction[0]), "ccd_true_probability": ccd_true_probability, "predicted_queen": int(predicted_queen[0]), "actual_queen": actual_queen})
+        return jsonify({"ccd_result": int(prediction[0]), "ccd_true_probability": ccd_true_probability, "predicted_queen": int(predicted_queen[0]), "actual_queen": int(actual_queen)})
 
 
 if __name__ == "__main__":

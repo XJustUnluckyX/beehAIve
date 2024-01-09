@@ -15,7 +15,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/", "/index.html", "/cnn_test", "/ccd_test").permitAll()
+                                .requestMatchers("/", "/cnn_test", "/predict_with_cnn", "/predict_without_cnn").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
