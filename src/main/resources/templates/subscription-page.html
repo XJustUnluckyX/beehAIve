@@ -2,12 +2,99 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/subscription-page.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/subscription-page.css}" type="text/css">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <style>
+        body{
+            background: #FFE087;
+        }
+        .vertical-line {
+            border-left: 2px solid #000; /* Colore e spessore della linea sinistra */
+            border-right: 2px solid #000; /* Colore e spessore della linea destra */
+            height: 100%; /* Altezza del div */
+        }
+        /* Regola personalizzata per l'altezza della riga */
+        .custom-row {
+            height: 30vh; /* Imposta l'altezza desiderata */
+        }
+        /* Regola personalizzata per l'altezza delle card */
+        .custom-card {
+            height: 45vh;
+            border-width: 3px; /* Imposta lo spessore del bordo */
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* Aggiungi sfumatura al bordo */
+        }
+        /* Stile opzionale per il contenuto delle colonne */
+        .custom-price {
+            border: 1px solid black;
+            width: 75%;
+            align-self: center;
+        }
+    </style>
     <title>Title</title>
 </head>
 <body>
 
     <div th:insert="fragments/header :: navbar"></div>
+    <div class="container-lg text-center my-5">
+        <div class="row justify-content-between custom-row">
+            <div class="col col-1 ">  </div>
+            <div class="col col-sm-6 vertical-line" style="font-size: 2rem;">
+                Test
+            </div>
+            <div class="col col-1 ">  </div>
+        </div>
+    </div>
 
-</body>
+    <div class="container-fluid text-center my-5 ">
+        <div class="row justify-content-around custom-row my-5">
+
+            <!--        Prima carta per la scelta dell'abbonamento-->
+            <div class="col-lg-4 col-md-4">
+                <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-header" style="background-color: #FEB800;">Special title treatment</h5>
+                        <hr> <!-- Linea orizzontale -->
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <h3 class="card-text custom-price w-80">Price/Month</h3>
+                        <hr> <!-- Linea orizzontale -->
+                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--        Seconda carta per la scelta dell'abbonamento-->
+            <div class="col-lg-4 col-md-4">
+                <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-header" style="background-color: #FEB800;">Special title treatment</h5>
+                        <hr> <!-- Linea orizzontale -->
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <h3 class="card-text custom-price w-80">Price/Month</h3>
+                        <hr> <!-- Linea orizzontale -->
+                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--        Terza carta per la scelta dell'abbonamento-->
+            <div class="col-lg-4 col-md-4">
+                <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-header" style="background-color: #FEB800;">Special title treatment</h5>
+                        <hr> <!-- Linea orizzontale -->
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <h3 class="card-text custom-price w-80">Price/Month</h3>
+                        <hr> <!-- Linea orizzontale -->
+                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+    </body>
 </html>

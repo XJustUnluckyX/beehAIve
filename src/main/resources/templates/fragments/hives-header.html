@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{js/jquery.js}" type="text/javascript"></script>
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <title>Title</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg" style="background-color: #FFF0B3; color: black;" th:fragment="hive_navbar">
+    <div class="container-fluid">
+        <button class="btn d-block d-lg-none d-xl-none" type="button"  data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+            Hive menu
+        </button>
+        <a class="navbar-brand" href="#"> BeehAIve </a>
+        <button class="navbar-toggler" type="button"  data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">
+                        Log-in
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        About Us
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Contact Us
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Info
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <button class="btn d-none d-lg-block" type="button"  data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+            Hive menu
+        </button>
+    </div>
+</nav>
+
+    <div class="offcanvas offcanvas-start" style="background-color: #ffb800" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+        <div class="offcanvas-header">
+            <h3 class="offcanvas-title" id="staticBackdropLabel">Hive navigation menu</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="container mx-auto my-4">
+                <img class="img-fluid max w-50" src="../../static/assets/logo_icon.png" alt="Logo" id="logo">
+            </div>
+            <div>
+                <h2><a class="nav-link" style="padding: 10px" href="#"> Statistics </a></h2>
+                <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>
+                <h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>
+                <h2><a class="nav-link" style="padding: 10px" href="#"> Modify Hive </a></h2>
+                <h2><a class="nav-link" style="padding: 10px" href="#"> Remove Hive </a></h2>
+            </div>
+        </div>
+    </div>
+
+
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

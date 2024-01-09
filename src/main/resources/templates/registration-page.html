@@ -15,17 +15,26 @@
             <div class="login-header">
                 <span>Login</span>
             </div>
-
             <div class="input_box">
-                <input type="text" th:id="user" class="input-field" th:placeholder="Username" required>
-                <label th:for="user" class="label">Username</label>
-                <i class="bx bx-user icon"></i>
+                <input type="text" th:id="user" class="input-field" th:placeholder="Name" required>
+                <label th:for="user" class="label">Name</label>
+            </div>
+            <div class="input_box">
+                <input type="text" th:id="user1" class="input-field" th:placeholder="Surname" required>
+                <label th:for="user1" class="label">Surname</label>
+            </div>
+            <div class="input_box">
+                <input type="text" th:id="user2" class="input-field" th:placeholder="Username" required>
+                <label th:for="user2" class="label">Username</label>
             </div>
 
             <div class="input_box">
-                <input type="password" th:id="pass" class="input-field" th:placeholder="Password" required>
+                <input type="password" th:id="pass" class="input-field" placeholder="Password" required>
                 <label th:for="pass" class="label">Password</label>
-                <i class="bx bx-lock-alt icon"></i>
+            </div>
+            <div class="input_box">
+                <input type="password" th:id="pass1" class="input-field" placeholder="Confirm Password" required>
+                <label th:for="pass1" class="label">Confirm Password</label>
             </div>
 
             <div class="remember-forgot">
@@ -34,21 +43,17 @@
                     <label th:for="remember">Remember me</label>
                 </div>
 
-                <div class="forgot">
-                    <a href="#">Forgot password?</a>
-                </div>
             </div>
 
             <div class="input_box">
-                <input type="submit" class="input-submit" value="Login">
+                <input type="submit" class="input-submit" value="Register">
             </div>
 
             <div class="register">
-                <span>Don't have an account? <a href="#">Register</a></span>
+                <span>Already have an account? <a href="#">Login</a></span>
             </div>
         </div>
     </div>
-
 
     <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>
