@@ -16,6 +16,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                   .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
                   .requestMatchers("/registration-page", "/subscription-page", "/creation-hive").permitAll()
+                  .requestMatchers("/driver_fia").permitAll()
                   .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

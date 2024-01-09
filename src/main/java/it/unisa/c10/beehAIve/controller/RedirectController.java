@@ -23,5 +23,7 @@ public class RedirectController {
   public String subscription (Model model) { return "subscription-page";}
   @GetMapping("/creation-hive")
   public String creation (Model model) { return "hive/creation-hive";}
+  @GetMapping("/driver_fia")
+  public String driverFia (Model model) { return "driver-fia";}
 
 }
