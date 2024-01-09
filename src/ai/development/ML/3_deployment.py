@@ -14,8 +14,7 @@ f.close()
 @app.route("/predict_ccd_fia",methods=["POST"])
 def predict_CCD():
     if request.method == "POST":
-        # Lavoriamo con i nomi degli spettrogrammi per questione di semplicità, idealmente qui
-        # avremmo passato il file audio generato dai sensori per convertirlo in uno spettrogramma
+        # Prendiamo i dati inviati attraverso HTTP
         decoded_data = request.data.decode("utf-8")
         input_json = json.loads(decoded_data)
 

@@ -22,6 +22,9 @@ ds_filename_list = dataset["file name"].tolist()
 files_to_remove = set(ds_filename_list) - set(spectrograms_list)
 dataset = dataset[~dataset["file name"].isin(files_to_remove)]
 
+# Salviamo il dataset pulito, poiché ci sarà utile per simulare i sensori in fase di deployment
+dataset.to_csv("..\\..\\dataset\\CNN_dataset_cleaned.csv", index=False)
+
 # Estrazione delle righe del dataset da utilizzare come demo dell'applicazione
 demo_dataset_half_1 = dataset.loc[dataset["queen presence"] == 1].sample(92)  # Righe con regina
 demo_dataset_half_2 = dataset.loc[dataset["queen presence"] == 0].sample(8)  # Righe senza regina
