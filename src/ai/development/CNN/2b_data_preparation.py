@@ -6,7 +6,7 @@ dataset_path = os.path.dirname(__file__) + "\\..\\..\\dataset\\hive_dataset.csv"
 dataset = pd.read_csv(dataset_path)
 
 # Recupero degli spettrogrammi corrispettivi a ogni file audio
-spectrograms_dir = "\\..\\..\\resources\\spectrograms"
+spectrograms_dir = "..\\..\\resources\\spectrograms"
 
 # Eliminazione delle colonne non necessarie al nostro problema
 dataset = dataset.drop(["device", "hive number", "hive pressure", "weather pressure",
