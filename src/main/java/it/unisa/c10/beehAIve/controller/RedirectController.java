@@ -21,5 +21,7 @@ public class RedirectController {
   }
   @GetMapping("/subscription-page")
   public String subscription (Model model) { return "subscription-page";}
+  @GetMapping("/creation-hive")
+  public String creation (Model model) { return "hive/creation-hive";}
 
 }
