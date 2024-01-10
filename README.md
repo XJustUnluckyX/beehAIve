@@ -39,9 +39,21 @@ Per mostrare quanto da noi prodotto, è stato inoltre creato un piccolo driver, 
 
 ## Come eseguire
 
-Per poter eseguire la parte di CNN è necessario caricare prima una cartella contentente i file audio del dataset (reperibile al seguente link: //TODO), in modo da potersi ricavare gli spettogrammi e poter eseguire il modello sulle immagini, mentre nessuna procudeura particolare è richiesta per l'esecuzione del modello di Machine Learning
-
 Per poter eseguire il nostro driver basterà eseguire i seguenti passaggi:
-1. Scaricare il modello della nostra CNN situato nel [seguente Drive](https://drive.google.com/drive/u/0/folders/1-9QYqQ02ekceGdyQ61xjTOjKwhGBPvom), all'interno della cartella CNN Model e denominato CNN.keras. All'interno dello stesso drive è possibile trovare anche altri file presenti all'interno del progetto, come i Dataset dell'ultima esecuzione, il modello di Machine Learning o gli spettrogrammi. Questi sono già situati all'interno della repository
 
+1. Clonare la repository in locale
+2. Scaricare il modello della nostra CNN situato nel [seguente Drive](https://drive.google.com/drive/u/0/folders/1-9QYqQ02ekceGdyQ61xjTOjKwhGBPvom), all'interno della cartella CNN Model e denominato CNN.keras. All'interno dello stesso drive è possibile trovare anche altri file presenti all'interno del progetto, come i Dataset dell'ultima esecuzione, il modello di Machine Learning o gli spettrogrammi. Questi sono già situati all'interno della repository
+3. Inserire il file CNN.keras all'interno di src/ai/development/CNN. Questi step sono necessari poichè Git non permette di caricare file di taglia troppo elevata
+4. Eseguire lo script deployment_driver.py situato all'interno di src/ai/development e aspettare la sua esecuzione (Nel caso in cui vi siano degli errori, questi sono probabilmente dovuti a librerie non presenti. Per evitare problemi tra versioni, è bene indicare che è stato utilizzato Python 3.9.6, con tutte le libreria importate aggiornate all'ultima versione)
+5. Eseguire TomCat per far partire il progetto Spring
+6. All'interno dell'url aggiungere /driver_fia
+7. Da qui è possibile utilizzare senza problemi il driver del nostro modello
+
+Se invece si desidera eseguire gli step per la produzione dei vari modelli:
+
+1. Clonare la repository in locale
+2. Come prima, scaricare la CNN e inserirla all'interno della cartella
+3. Eseguire gli script in ordine di enumerazione, sia per la cartella CNN, sia per la cartella ML (**IMPORTANTE**: Si sconsiglia di eseguire gli script 2a_data_preparation_audio.py e 3a_data_modeling_tuning.py relativi alla CNN, poichè questi richiedono molto tempo di computazione. I risultati degli script sono rispettivamente gli spettrogrammi presenti in src/ai/resources/spectrograms e la configurazione usata per la CNN all'interno del file di training)
+
+In questo caso è bene citare che usciranno fuori modelli leggermente diversi da quelli da noi utilizzati per produrre la documentazione, quindi i grafici e le metriche potrebbero essere disallineati (Seppur non distanti dai valori riportati)
 
