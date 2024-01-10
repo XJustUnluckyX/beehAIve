@@ -16,12 +16,12 @@ https://www.kaggle.com/datasets/annajyang/beehive-sounds
 
 ## Notebooks e Documentazione
 
-Per seguire l'intero processo di sviluppo della CNN e del modello di Machine Learning sono stati prodotti due notebook, situati ail'interno della repository ai seguenti path: <br/>
+Per seguire l'intero processo di sviluppo della CNN e del modello di Machine Learning sono stati prodotti due notebook, che riassumono quanto da noi fatto. Essi sono situati ail'interno della repository ai seguenti path: <br/>
 CNN: src/ai/development/CNN/CNN_development_notebook.ipynb <br/>
 ML: src/ai/development/ML/ML_development_notebook.ipynb
 
-Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni passaggi nella nostra pipeline che implicano un ampio utilizzo di randomicità, oltre che delle computazioni particolarmente onerose (In particolare la conversione da file audio a spettrogrammi). Si consiglia invece si leggere la documentazione da noi prodotta, che ricalca gli step in forma più discorsiva e dettagliata.
-È possibile trovarla all'interno della repository al seguente path:
+Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni passaggi nella nostra pipeline che implicano un ampio utilizzo di randomicità, oltre che delle computazioni particolarmente onerose (In particolare la conversione da file audio a spettrogrammi). Si consiglia invece si leggere la documentazione da noi prodotta, che ricalca gli step in forma più dettagliata e discorsiva.
+È possibile trovarla all'interno della repository al seguente path: <br/>
 //TODO
 
 
