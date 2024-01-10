@@ -25,4 +25,6 @@ public class RedirectController {
   public String creation (Model model) { return "hive/creation-hive";}
   @GetMapping("/dashboard")
   public String dashboard (Model model) { return "hive/dashboard";}
+  @GetMapping("/state-hive")
+  public String state (Model model) { return "hive/state-hive";}
 }
