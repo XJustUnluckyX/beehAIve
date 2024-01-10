@@ -1,4 +1,3 @@
-# beehAIve
 ![logo-beehAIve](https://github.com/XJustUnluckyX/beehAIve/assets/126207669/1e0ee410-9da0-42c1-b1d2-4cc793595e9c)
 
 # Overview
