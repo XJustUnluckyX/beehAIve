@@ -2,23 +2,19 @@
 
 # Overview
 
-BeehAIve nasce con lo scopo di supportare gli apicoltori nel salvaguardare le api, identificando la presenza o l'assenza dell'ape regina in un'arnia tramite una CNN, per poi passare il dato, insieme ad altre metriche, ad un algoritmo di Machine Learning per prevedere un possibile caso di CCD (Colony Collapse Disorder) dell'arnia.
+BeehAIve nasce con lo scopo di supportare gli apicoltori nel loro lavoro e nella salvaguardia delle api, identificando la presenza o l'assenza dell'ape regina in un'arnia tramite una CNN, per poi passare questo dato, insieme ad altre metriche, ad un algoritmo di Machine Learning per prevedere un possibile caso di CCD (Colony Collapse Disorder) dell'arnia.
 
-# Colony Collapse Disorder
-
-È una delle maggiori cause di perdita delle arnie, è possibile prevederlo secondo diverse metriche, tra le più importanti: peso, umidità interna ed esterna dell'arnia, temperatura interna ed esterna e presenza o assenza dell'ape regina.
+Il CCD è una delle maggiori cause dello spopolamento delle arnie. Ad oggi questo rappresenta uno dei maggiori fattori di rischio per le Api, in quanto una volta abbandonata l'arnia, sarebbero destinate a morire. Potenziali indicatori di questo fenomeno sono peso dell'arnia, umidità interna ed esterna dell'arnia, temperatura interna ed esterna e presenza o assenza dell'ape regina.
 
 # Dataset
 
-Le metriche per addestrare la nostra CNN e il nostro modello di Machine Learning le abbiamo prese da questo dataset:
+Per addestrare la nostra CNN e il nostro modello di Machine Learning abbiamo utilizzato il seguente dataset, il quale contiene anche i suoni del ronzio delle api, oltre che l'indicazione (inserita manualmente da degli esperti) sull'assenza o presenza della regina:
 
 https://www.kaggle.com/datasets/annajyang/beehive-sounds
 
-il quale risulta essere abbastanza completo, contentendo diversi valori, anche se molti di questi non ci serviranno per i nostri modelli.
-
 # Notebooks
 
-Per parlare dell'intero processo di sviluppo della CNN e del modello di Machine Learning abbiamo usato due notebook, uno per ogni modello, trovabili ai seguenti link:
+Per seguire l'intero processo di sviluppo della CNN e del modello di Machine Learning sono stati prodotti due notebook, trovabili ail'interno della repo ai seguenti path:
 
 //TODO
 
