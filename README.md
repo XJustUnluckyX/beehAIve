@@ -1,5 +1,3 @@
-![logo-beehAIve](https://github.com/XJustUnluckyX/beehAIve/assets/126207669/1e0ee410-9da0-42c1-b1d2-4cc793595e9c)
-
 # Overview
 
 BeehAIve nasce con lo scopo di supportare gli apicoltori nel loro lavoro e nella salvaguardia delle api, identificando la presenza o l'assenza dell'ape regina in un'arnia tramite una CNN, per poi passare questo dato, insieme ad altre metriche, ad un algoritmo di Machine Learning per prevedere un possibile caso di CCD (Colony Collapse Disorder) dell'arnia.
@@ -57,3 +55,4 @@ Se invece si desidera eseguire gli step per la produzione dei vari modelli:
 
 È bene far presente che i modelli risultanti saranno sicuramente leggermente diversi da quelli da noi utilizzati per produrre la documentazione, quindi i grafici e le metriche potrebbero essere disallineati (Seppur non eccessivamente distanti dai valori riportati)
 
+![logo-beehAIve](https://github.com/XJustUnluckyX/beehAIve/assets/126207669/1e0ee410-9da0-42c1-b1d2-4cc793595e9c)
