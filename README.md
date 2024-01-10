@@ -24,20 +24,19 @@ Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni pas
 È possibile trovarla all'interno della repository al seguente path: <br/>
 //TODO
 
-
-# Stuttura Repository
+## Struttura dei File 
 
 Per l'esame di FIA la cartella da visitare è una, "ai": è dove sono contenute tutti i file relativi ai modelli di Intelligenza Artificiale, suddivisi in due sottocartelle, una per la CNN e una per il modello di Machine Learning, suddivisi ulteriormente in un file per quasi ogni passo del CRISP-DM (Business Understanding esculso).
 
 Mentre il file "src/main/resources/templates/driver-fia.html" è una pagina statica contentente due form per testare i due modelli.
 
-Tutto il codice da noi prodotto per l'esame di FIA è situato sotto src/ai. In particolare qui è possibile usare i dataset da noi utilizzati, i vari file di sviluppo che ricalcano le fasi del CRISP-DM e altre risorse utili (Come gli spettrogrammi già computati o i log di valutazione delle configurazioni della CNN). É inoltre possibile trovare il deploy dei modelli attraverso Flask.
+Tutto il codice e il materiale da noi prodotto per l'esame di FIA relativo ai modelli è situato sotto src/ai. In particolare qui è possibile usare i dataset da noi utilizzati, i vari file di sviluppo che ricalcano le fasi del CRISP-DM e altre risorse utili (Come gli spettrogrammi già computati o i log di valutazione delle configurazioni della CNN). É inoltre possibile trovare il deploy dei modelli attraverso Flask.
 
-Per mostrare quanto da noi prodotto, è stato inoltre creato un piccolo driver, il quale codice è costruito sull'architettura già esistente di beehAIve. Le cartelle di nostro interesse sono le seguenti: <br/>
-src/main/java/it/unisa/c10/beehAIve/driverFia (Per trovare il backend relativo al driver) <br/>
-src/main/java/it/unisa/c10/beehAIve/misc/FlaskAdapter.java (Per trovare la nostra implementazione dell'adapter per comunicare con Flask attraverso HTTP) <br/>
+Per mostrare quanto da noi prodotto, è stato inoltre creato un piccolo driver, il quale codice è costruito sull'architettura già esistente di beehAIve. I file di nostro interesse sono i seguenti: <br/>
+1. src/main/java/it/unisa/c10/beehAIve/driverFia (Per trovare tutto il backend relativo al driver) <br/>
+2. src/main/java/it/unisa/c10/beehAIve/misc/FlaskAdapter.java (Per trovare la nostra implementazione dell'adapter per comunicare con Flask attraverso HTTP) <br/>
+3. src/main/resources/templates/driver-fia.html (Per trovare il template front end del nostro driver)
 
-
-# Come eseguire
+## Come eseguire
 
 Per poter eseguire la parte di CNN è necessario caricare prima una cartella contentente i file audio del dataset (reperibile al seguente link: //TODO), in modo da potersi ricavare gli spettogrammi e poter eseguire il modello sulle immagini, mentre nessuna procudeura particolare è richiesta per l'esecuzione del modello di Machine Learning
