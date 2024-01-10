@@ -6,19 +6,24 @@ BeehAIve nasce con lo scopo di supportare gli apicoltori nel loro lavoro e nella
 
 Il CCD è una delle maggiori cause dello spopolamento delle arnie. Ad oggi questo rappresenta uno dei maggiori fattori di rischio per le Api, in quanto una volta abbandonata l'arnia, sarebbero destinate a morire. Potenziali indicatori di questo fenomeno sono peso dell'arnia, umidità interna ed esterna dell'arnia, temperatura interna ed esterna e presenza o assenza dell'ape regina.
 
-# Dataset
+# Per l'esame di Fondamenti di Intelligenza Artificiale
+
+## Dataset
 
 Per addestrare la nostra CNN e il nostro modello di Machine Learning abbiamo utilizzato il seguente dataset, il quale contiene anche i suoni del ronzio delle api, oltre che l'indicazione (inserita manualmente da degli esperti) sull'assenza o presenza della regina:
 
 https://www.kaggle.com/datasets/annajyang/beehive-sounds
 
-# Notebooks
+## Notebooks e Documentazione
 
-Per seguire l'intero processo di sviluppo della CNN e del modello di Machine Learning sono stati prodotti due notebook, trovabili ail'interno della repo ai seguenti path:
+Per seguire l'intero processo di sviluppo della CNN e del modello di Machine Learning sono stati prodotti due notebook, situati ail'interno della repository ai seguenti path:
+CNN: src/ai/development/CNN/CNN_development_notebook.ipynb
+ML: src/ai/development/ML/ML_development_notebook.ipynb
 
+Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni passaggi nella nostra pipeline che implicano un ampio utilizzo di randomicità, oltre che delle computazioni particolarmente onerose (In particolare la conversione da file audio a spettrogrammi). Si consiglia invece si leggere la documentazione da noi prodotta, che ricalca gli step in forma più discorsiva e dettagliata.
+È possibile trovarla all'interno della repository al seguente path:
 //TODO
 
-//TODO
 
 # Stuttura Repository
 
