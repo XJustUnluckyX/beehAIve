@@ -34,7 +34,9 @@ Mentre il file "src/main/resources/templates/driver-fia.html" è una pagina stat
 Tutto il codice da noi prodotto per l'esame di FIA è situato sotto src/ai. In particolare qui è possibile usare i dataset da noi utilizzati, i vari file di sviluppo che ricalcano le fasi del CRISP-DM e altre risorse utili (Come gli spettrogrammi già computati o i log di valutazione delle configurazioni della CNN). É inoltre possibile trovare il deploy dei modelli attraverso Flask.
 
 Per mostrare quanto da noi prodotto, è stato inoltre creato un piccolo driver, il quale codice è costruito sull'architettura già esistente di beehAIve. Le cartelle di nostro interesse sono le seguenti: <br/>
-src/main
+src/main/java/it/unisa/c10/beehAIve/driverFia (Per trovare il backend relativo al driver) <br/>
+src/main/java/it/unisa/c10/beehAIve/misc/FlaskAdapter.java (Per trovare la nostra implementazione dell'adapter per comunicare con Flask attraverso HTTP) <br/>
+
 
 # Come eseguire
 
