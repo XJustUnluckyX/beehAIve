@@ -28,4 +28,8 @@ Per parlare dell'intero processo di sviluppo della CNN e del modello di Machine 
 
 Per l'esame di FIA la cartella da visitare è una, "ai": è dove sono contenute tutti i file relativi ai modelli di Intelligenza Artificiale, suddivisi in due sottocartelle, una per la CNN e una per il modello di Machine Learning, suddivisi ulteriormente in un file per quasi ogni passo del CRISP-DM (Business Understanding esculso).
 
-Mentre nella cartella "main"
+Mentre il file "src/main/resources/templates/driver-fia.html" è una pagina statica contentente due form per testare i due modelli.
+
+# Come eseguire
+
+Per poter eseguire la parte di CNN è necessario caricare prima una cartella contentente i file audio del dataset (reperibile al seguente link: //TODO), in modo da potersi ricavare gli spettogrammi e poter eseguire il modello sulle immagini, mentre nessuna procudeura particolare è richiesta per l'esecuzione del modello di Machine Learning
