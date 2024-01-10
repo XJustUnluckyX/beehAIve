@@ -6,7 +6,7 @@ BeehAIve nasce con lo scopo di supportare gli apicoltori nel salvaguardare le ap
 
 # Colony Collapse Disorder
 
-È una delle maggiori cause di perdita delle arnie, è possibile prevederlo secondo diverse metriche, tra le più importanti: peso. umidità interna ed esterna dell'arnia, temperatura interna ed esterna e presenza o assenza dell'ape regina.
+È una delle maggiori cause di perdita delle arnie, è possibile prevederlo secondo diverse metriche, tra le più importanti: peso, umidità interna ed esterna dell'arnia, temperatura interna ed esterna e presenza o assenza dell'ape regina.
 
 # Dataset
 
