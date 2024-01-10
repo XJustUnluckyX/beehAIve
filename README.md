@@ -20,7 +20,7 @@ Per seguire l'intero processo di sviluppo della CNN e del modello di Machine Lea
 CNN: src/ai/development/CNN/CNN_development_notebook.ipynb <br/>
 ML: src/ai/development/ML/ML_development_notebook.ipynb
 
-Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni passaggi nella nostra pipeline che implicano un ampio utilizzo di randomicità, oltre che delle computazioni particolarmente onerose (In particolare la conversione da file audio a spettrogrammi). Si consiglia invece si leggere la documentazione da noi prodotta, che ricalca gli step in forma più dettagliata e discorsiva.
+Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni passaggi nella nostra pipeline che implicano un ampio utilizzo di randomicità, oltre che delle computazioni particolarmente onerose (In particolare la conversione da file audio a spettrogrammi). Si consiglia invece di leggere la documentazione da noi prodotta, che ricalca gli step in forma più dettagliata e discorsiva.
 È possibile trovarla all'interno della repository al seguente path: <br/>
 //TODO
 
@@ -30,6 +30,11 @@ Nonostante ciò, è **fortemente sconsigliato** eseguirli, a causa di alcuni pas
 Per l'esame di FIA la cartella da visitare è una, "ai": è dove sono contenute tutti i file relativi ai modelli di Intelligenza Artificiale, suddivisi in due sottocartelle, una per la CNN e una per il modello di Machine Learning, suddivisi ulteriormente in un file per quasi ogni passo del CRISP-DM (Business Understanding esculso).
 
 Mentre il file "src/main/resources/templates/driver-fia.html" è una pagina statica contentente due form per testare i due modelli.
+
+Tutto il codice da noi prodotto per l'esame di FIA è situato sotto src/ai. In particolare qui è possibile usare i dataset da noi utilizzati, i vari file di sviluppo che ricalcano le fasi del CRISP-DM e altre risorse utili (Come gli spettrogrammi già computati o i log di valutazione delle configurazioni della CNN). É inoltre possibile trovare il deploy dei modelli attraverso Flask.
+
+Per mostrare quanto da noi prodotto, è stato inoltre creato un piccolo driver, il quale codice è costruito sull'architettura già esistente di beehAIve. Le cartelle di nostro interesse sono le seguenti: <br/>
+src/main
 
 # Come eseguire
 
