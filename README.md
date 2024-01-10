@@ -40,3 +40,8 @@ Per mostrare quanto da noi prodotto, è stato inoltre creato un piccolo driver, 
 ## Come eseguire
 
 Per poter eseguire la parte di CNN è necessario caricare prima una cartella contentente i file audio del dataset (reperibile al seguente link: //TODO), in modo da potersi ricavare gli spettogrammi e poter eseguire il modello sulle immagini, mentre nessuna procudeura particolare è richiesta per l'esecuzione del modello di Machine Learning
+
+Per poter eseguire il nostro driver basterà eseguire i seguenti passaggi:
+1. Scaricare il modello della nostra CNN situato nel [seguente Drive](https://drive.google.com/drive/u/0/folders/1-9QYqQ02ekceGdyQ61xjTOjKwhGBPvom), all'interno della cartella CNN Model e denominato CNN.keras. All'interno dello stesso drive è possibile trovare anche altri file presenti all'interno del progetto, come i Dataset dell'ultima esecuzione, il modello di Machine Learning o gli spettrogrammi. Questi sono già situati all'interno della repository
+
+
