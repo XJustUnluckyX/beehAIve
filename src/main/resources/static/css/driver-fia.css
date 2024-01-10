@@ -1,0 +1,15 @@
+.hive_card{
+    border-radius: 30px;
+    border: 1px solid black;
+    background-color: #ffb800;
+}
+
+.hive_selector{
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: #FFF0B3;
+}
+
+body{
+    background: #FFE087 !important;
+}
