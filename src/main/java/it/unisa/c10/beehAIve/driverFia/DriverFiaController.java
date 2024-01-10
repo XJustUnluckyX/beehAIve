@@ -24,20 +24,13 @@ public class DriverFiaController {
     this.driverFiaService = driverFiaService;
   }
 
+  // Indirizziamo le richieste per restituire il template Thymeleaf del Driver
   @GetMapping("/driver_fia")
   public String load_driver () {
     return "driver-fia";
   }
 
-//  @PostMapping("/predict_with_cnn")
-//  @ResponseBody
-//  public String cddPredictionWithCNN(@RequestBody String model) {
-//    System.out.println("Test");
-//    System.out.println(model);
-////    driverFiaService.predictWithCNN(10,20);
-//    return "test";
-//  }
-
+  // Previsione con la CNN, invocato attraverso Ajax
   @GetMapping("/predict_with_cnn")
   @ResponseBody
   public String cddPredictionWithCNN(@RequestParam String hiveTemp, @RequestParam String ambTemp) {
@@ -47,6 +40,7 @@ public class DriverFiaController {
     return json;
   }
 
+  // Previsione senza CNN, invocato attraverso Ajax
   @GetMapping("/predict_without_cnn")
   @ResponseBody
   public String cddPredictionWithoutCNN(@RequestParam String hiveTemp, @RequestParam String ambTemp, @RequestParam String queenPresence) {

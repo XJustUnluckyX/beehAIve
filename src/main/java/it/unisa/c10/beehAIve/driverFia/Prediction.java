@@ -1,7 +1,7 @@
 package it.unisa.c10.beehAIve.driverFia;
 
+// Questo oggetto rappresenta il risultato del nostro Modello
 public class Prediction {
-
   private int ccd_result;
   private int predicted_queen;
   private int actual_queen;
