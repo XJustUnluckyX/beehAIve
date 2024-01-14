@@ -8,7 +8,7 @@ La seguente classe, dopo aver ricevuto l'input dalla classe SimulateSensorServic
 2. Controllare se esiste un'anomalia sulla temperatura dell'arnia.
 3. Controllare se esiste un'anomalia sull'umidità dell'arnia.
 4. Controllare se la regina è presente, consultando la rete neurale (quest'ultima sarà un microservizio Flask a parte,
-quindi il metodo corrispondente riceverà in input il file audio).
+quindi il metodo corrispondente riceverà in input il file audio). TODO spostare qua il codice
 5. Controllare se l'arnia è a rischio CCD, interfacciandosi con l'Adapter.
  */
 

@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+
 // Gestisce la comunicazione con l'adapter per il modello e i vari controlli arbitari sulla misurazione, ovvero
 // temperatura, umidità, peso, presenza regina
 // e invia l'anomalia al database

@@ -15,7 +15,57 @@ import java.nio.charset.StandardCharsets;
 //Converte una misurazione in JSON, comunica col microservice in Flask e riconverte la risposta in un oggetto Previsione
 public class FlaskAdapter {
 
-  // Questo metodo si connette al server Flask passando per la CNN
+  // Questo metodo fa fare una previsione alla CNN partendo dal nome di uno spettrogramma
+  public boolean predictQueenPresence (String fileName) {
+    HttpURLConnection connection = null;
+    DataOutputStream outputStream = null;
+    boolean result = true;
+    try {
+      // Istanzia la connessione sull'ip
+      URL url = new URL("http://127.0.0.1:5000/use_cnn");
+      // Formattiamo in formato JSON
+      // 3 in queen presence è un valore mock solo per far apparire il valore nel dictionary di python
+      // si è deciso un numero diverso da 0 e 1 così da evitare discrepanze
+      String[] inputData = {"{\"file name\" : \"" + fileName + "\"}"};
+      System.out.println(inputData[0]);
+      for (String input : inputData) {
+        // Scriviamo il nostro file JSON sulla connessione
+        byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("charset", "utf-8");
+        connection.setRequestProperty("Content-Length", Integer.toString(input.length()));
+        outputStream = new DataOutputStream(connection.getOutputStream());
+        outputStream.write(postDataToSend);
+        outputStream.flush();
+
+        if (connection.getResponseCode() != 200) {
+          throw new RuntimeException("HTTP Error Code: " + connection.getResponseCode());
+        }
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        // Leggiamo il nostro output
+        String output;
+        while ((output = bufferedReader.readLine()) != null) {
+          result = (Integer.parseInt(output) == 1);
+        }
+        connection.disconnect();
+      }
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (connection != null)
+        connection.disconnect();
+    }
+    return result;
+  }
+
+  // Questo metodo si connette al server Flask passando per la CNN (Driver FIA)
   public Prediction predictWithCNN (double apparentHiveTemp, double apparentWeatherTemp) {
     Prediction prediction = null;
     HttpURLConnection connection = null;
@@ -68,7 +118,7 @@ public class FlaskAdapter {
   }
 
 
-  // Questo metodo si connette al server Flask senza passare per la CNN
+  // Questo metodo si connette al server Flask senza passare per la CNN (Driver FIA)
   public Prediction predictWithoutCNN(double apparentHiveTemp, double apparentWeatherTemp, int queenPresence) {
     Prediction prediction = null;
     HttpURLConnection connection = null;
