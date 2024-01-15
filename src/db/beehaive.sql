@@ -9,7 +9,7 @@ CREATE TABLE Beekeeper (
     first_name varchar(50) not null,
     last_name varchar(50) not null,
     company_name varchar(100),
-    company_PIVA varchar(100),
+    company_PIVA varchar(100) unique,
     isSubscribed boolean not null,
     subscr_expiration_date datetime
 );
@@ -89,10 +89,10 @@ CREATE TABLE Measurement (
 
 # Inserimenti - Stato Zero
 INSERT INTO Beekeeper (email, passwordhash, first_name, last_name, company_name, company_PIVA, isSubscribed, subscr_expiration_date) VALUES
-('n.gallotta@gmail.com',SHA2('Password-123',256),'Nicolò','Gallotta','The London Bee Company','GB123456789',1,'2027-01-14 19:30:00'),
-('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','The London Bee Company','GB123456789',1,'2027-01-14 19:30:00'),
-('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','The London Bee Company','GB123456789',1,'2027-01-14 19:30:00'),
-('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','The London Bee Company','GB123456789',1,'2027-01-14 19:30:00');
+('n.gallotta@gmail.com',SHA2('Password-123',256),'Nicolò','Gallotta','The London Bee Company','GBLBC123456789',1,'2027-01-14 19:30:00'),
+('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','Bee Raw','USBR123456789',1,'2027-01-14 19:30:00'),
+('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','Rowse Honey','GBRH123456789',1,'2027-01-14 19:30:00'),
+('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,'2027-01-14 19:30:00');
 
 INSERT INTO Bee (scientific_name, common_name, bee_description, photo) VALUES
 ('Apis millifera','Honeybee','This is the most common and widely raised species for honey production worldwide. Honeybees are divided into various subspecies.','honeybee.png'),
