@@ -45,5 +45,5 @@ model.compile(optimizer="adam", loss="binary_crossentropy", metrics=metrics)
 model.fit(X_train, y_train, epochs=4, batch_size=16)
 
 # Salvataggio del modello
-model.save("CNN.keras")
+# model.save("CNN.keras")
 

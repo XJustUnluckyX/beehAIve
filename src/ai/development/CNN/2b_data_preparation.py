@@ -6,7 +6,7 @@ dataset_path = os.path.dirname(__file__) + "\\..\\..\\dataset\\hive_dataset.csv"
 dataset = pd.read_csv(dataset_path)
 
 # Recupero degli spettrogrammi corrispettivi a ogni file audio
-spectrograms_dir = "\\..\\..\\resources\\spectrograms"
+spectrograms_dir = "..\\..\\resources\\spectrograms"
 
 # Eliminazione delle colonne non necessarie al nostro problema
 dataset = dataset.drop(["device", "hive number", "hive pressure", "weather pressure",
@@ -21,6 +21,9 @@ spectrograms_list = os.listdir(spectrograms_dir)
 ds_filename_list = dataset["file name"].tolist()
 files_to_remove = set(ds_filename_list) - set(spectrograms_list)
 dataset = dataset[~dataset["file name"].isin(files_to_remove)]
+
+# Salviamo il dataset pulito, poiché ci sarà utile per simulare i sensori in fase di deployment
+dataset.to_csv("..\\..\\dataset\\CNN_dataset_cleaned.csv", index=False)
 
 # Estrazione delle righe del dataset da utilizzare come demo dell'applicazione
 demo_dataset_half_1 = dataset.loc[dataset["queen presence"] == 1].sample(92)  # Righe con regina

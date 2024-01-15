@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/login.css}" rel="stylesheet"/>
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <title>Title</title>
+</head>
+<body>
+
+    <div th:replace="fragments/header :: navbar"></div>
+    <div class="wrapper">
+        <div class="login_box">
+            <div class="login-header">
+                <span>Login</span>
+            </div>
+            <div class="input_box">
+                <input type="text" th:id="user" class="input-field" th:placeholder="Name" required>
+                <label th:for="user" class="label">Name</label>
+            </div>
+            <div class="input_box">
+                <input type="text" th:id="user1" class="input-field" th:placeholder="Surname" required>
+                <label th:for="user1" class="label">Surname</label>
+            </div>
+            <div class="input_box">
+                <input type="text" th:id="user2" class="input-field" th:placeholder="Username" required>
+                <label th:for="user2" class="label">Username</label>
+            </div>
+
+            <div class="input_box">
+                <input type="password" th:id="pass" class="input-field" placeholder="Password" required>
+                <label th:for="pass" class="label">Password</label>
+            </div>
+            <div class="input_box">
+                <input type="password" th:id="pass1" class="input-field" placeholder="Confirm Password" required>
+                <label th:for="pass1" class="label">Confirm Password</label>
+            </div>
+
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" th:id="remember">
+                    <label th:for="remember">Remember me</label>
+                </div>
+
+            </div>
+
+            <div class="input_box">
+                <input type="submit" class="input-submit" value="Register">
+            </div>
+
+            <div class="register">
+                <span>Already have an account? <a href="#">Login</a></span>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

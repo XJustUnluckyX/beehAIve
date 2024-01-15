@@ -2,12 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../css/hive/creation-hive.css" type="text/css">
     <title>Title</title>
+    <link th:href="@{/css/hive/creation-hive.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-    <div th:insert="fragments/header :: navbar"></div>
+<div th:insert="fragments/header :: navbar"></div>
 
+<section class="gradient-custom" style="height: 94vh">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+
+            <div class="col-12 col-lg-9 col-xl-8">
+                <div class="card-body">
+                    <div class="card-body p-4 hive_card">
+                        <h1 class="label text-center" style="font-size: 3rem;"> Hive Creation </h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-9 col-xl-8">
+                <div class="card-body">
+                    <div class="card-body p-4 p-md-5 hive_card">
+                        <form>
+
+                            <!--                            Nome dell'arnia-->
+                            <div class="row">
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-outline">
+                                        <h5 class="form-label" for="firstName">Hive Name:</h5>
+                                        <input type="text" id="firstName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            Tipo dell'arnia-->
+                            <div class="row">
+                                <div class="col-12 mb-1">
+                                    <h5 class="form-label select-label">Hive Type:</h5>
+                                </div>
+                            </div>
+
+                            <!--                            Opzioni del tipo d'arnia-->
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <select class="select form-control-lg hive_selector">
+                                        <option value="1" disabled selected>Choose option</option>
+                                        <option value="2">Langstroth</option>
+                                        <option value="3">Warre</option>
+                                        <option value="4">Arnia Top-Bar</option>
+                                        <option value="5">Arnia Orizzontale</option>
+                                        <option value="6">Arnia Verticale</option>
+                                        <option value="7">Bee Skep</option>
+                                        <option value="8">WBC</option>
+                                        <option value="9">Dadant</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--                            Checklist con le specie delle api-->
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 mb-4" style="font-weight: bold">
+                                    <h5 class="mb-2 pb-1">Bee Species: </h5>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apismellifera"
+                                               value="option1" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        <label class="form-check-label" for="Apismellifera">Apis mellifera (Api miele)</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apiscerana"
+                                               value="option2" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        <label class="form-check-label" for="Apiscerana">Apis cerana (Api asiatiche)</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apisdorsata"
+                                               value="option3" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        <label class="form-check-label" for="Apisdorsata">Apis dorsata (Api giganti)</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apisfiorea"
+                                               value="option4" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        <label class="form-check-label" for="Apisfiorea">Apis florea (Api nane)</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            Pulsanti di invio e cancellazione-->
+                            <div class="row">
+                                <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
+                                    <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                    <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
