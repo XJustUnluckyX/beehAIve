@@ -1,6 +1,16 @@
 package it.unisa.c10.beehAIve.service.gestioneArnie;
 
+import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
+import it.unisa.c10.beehAIve.persistence.dao.OperationDAO;
+import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
+import it.unisa.c10.beehAIve.persistence.entities.Hive;
+import it.unisa.c10.beehAIve.persistence.entities.Operation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /*
 La seguente classe deve supportare le seguenti operazioni:
@@ -14,5 +24,59 @@ La seguente classe deve supportare le seguenti operazioni:
 
 @Service
 public class DashboardService {
+
+  private HiveDAO hiveDAO;
+  private OperationDAO operationDAO;
+
+  @Autowired
+  DashboardService(HiveDAO hiveDao, OperationDAO operationDAO){
+    this.hiveDAO = hiveDao;
+    this.operationDAO = operationDAO;
+  }
+
+  public void creationhive(Hive hive){
+    hiveDAO.save(hive);
+  }
+
+  public void ModifyHive(int id, String Nickname, String HiveType, String Bees_Type){
+    Optional<Hive> tempHive = hiveDAO.findById(id);
+
+    tempHive.get().setNickname(Nickname);
+    tempHive.get().setHiveType(HiveType);
+    tempHive.get().setBeeSpecies(Bees_Type);
+
+    hiveDAO.save(tempHive.get());
+  }
+
+  public void DeleteHive(int id){
+    hiveDAO.deleteById(id);
+  }
+
+  public List ShowAllHive(){
+    return hiveDAO.findAll();
+  }
+
+  public List ShowAllHiveByAnomaly(Anomaly anomaly){
+    return null;
+  }
+
+  public List ShowAllHiveByOperation(Operation operation){
+    Optional<Hive> hive;
+    List<Hive> hives = new ArrayList<>();
+    List<Integer> HivesId = new ArrayList<>();
+    List<Operation> temp = operationDAO.findAllByStatus("not completed");
+
+    for (int i = 0; i > temp.size()-1; i++){
+      HivesId.add(temp.get(i).getId());
+      hive = hiveDAO.findById(HivesId.get(i));
+      hives.add(hive.get());
+    }
+
+    return hives;
+
+  }
+
+  //inserire come input la chiave primaria delle arnie
+  public void ShowHive(String nickname){}
 
 }
