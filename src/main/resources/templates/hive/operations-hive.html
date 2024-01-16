@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../static/css/hive/operations-hive.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/hive/operations-hive.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/hive/hive-template.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{js/hive-template.js}" type="text/javascript"></script>
+    <script th:src="@{js/jquery.js}" type="text/javascript"></script>
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
 </head>
@@ -10,6 +15,10 @@
 
 <div th:insert="fragments/hives-header :: hive_navbar"></div>
 <div th:insert="fragments/hives-header :: offcanvas"></div>
+<div th:insert="fragments/hives-header :: modify_hive"></div>
+<div th:insert="fragments/hives-header :: remove_hive"></div>
+
+
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 

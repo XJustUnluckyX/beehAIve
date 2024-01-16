@@ -4,7 +4,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/hive/hive-template.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{js/hive-template.js}" type="text/javascript"></script>
     <script th:src="@{js/jquery.js}" type="text/javascript"></script>
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
@@ -64,8 +66,137 @@
             <h2><a class="nav-link" style="padding: 10px" href="#"> Statistics </a></h2>
             <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>
             <h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>
-            <h2><a class="nav-link" style="padding: 10px" href="#"> Modify Hive </a></h2>
-            <h2><a class="nav-link" style="padding: 10px" href="#"> Remove Hive </a></h2>
+            <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modify_hive"> <h2>Modify Hive</h2> </button></h2>
+            <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#remove_hive"> <h2>Remove Hive</h2> </button></h2>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modify_hive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_hiveLabel" aria-hidden="true" th:fragment="modify_hive">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="modify_hiveLabel">Modify Hive Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <!--                Form per la modifica dell'arnia-->
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12 col-lg-9 col-xl-8">
+                        <div class="card-body">
+                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                                <form>
+
+                                    <!--                            Nome dell'arnia-->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="firstName">Hive Name:</h5>
+                                                <input type="text" id="firstName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--                            Tipo dell'arnia-->
+                                    <div class="row">
+                                        <div class="col-12 mb-1">
+                                            <h5 class="form-label select-label">Hive Type:</h5>
+                                        </div>
+                                    </div>
+
+                                    <!--                            Opzioni del tipo d'arnia-->
+                                    <div class="row">
+                                        <div class="col-12 mb-4">
+                                            <select class="select form-control-lg hive_selector">
+                                                <option value="1" disabled selected>Choose option</option>
+                                                <option value="2">Langstroth</option>
+                                                <option value="3">Warre</option>
+                                                <option value="4">Arnia Top-Bar</option>
+                                                <option value="5">Arnia Orizzontale</option>
+                                                <option value="6">Arnia Verticale</option>
+                                                <option value="7">Bee Skep</option>
+                                                <option value="8">WBC</option>
+                                                <option value="9">Dadant</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!--                            Checklist con le specie delle api-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-8 col-8 mb-4" style="font-weight: bold">
+                                            <h5 class="mb-2 pb-1">Bee Species: </h5>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apismellifera"
+                                                       value="option1" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <label class="form-check-label" for="Apismellifera">Apis mellifera (Api miele)</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apiscerana"
+                                                       value="option2" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <label class="form-check-label" for="Apiscerana">Apis cerana (Api asiatiche)</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apisdorsata"
+                                                       value="option3" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <label class="form-check-label" for="Apisdorsata">Apis dorsata (Api giganti)</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apisfiorea"
+                                                       value="option4" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <label class="form-check-label" for="Apisfiorea">Apis florea (Api nane)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Confirm Changes</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove_hive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="remove_hiveLabel" aria-hidden="true" th:fragment="remove_hive">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="remove_hiveLabel">Remove Hive</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-9 d-flex align-items-center">
+                            <h4>
+                                You are about to end the existence of this hive from your dashboard. <br>
+                                Are you sure you want to continue the operation?
+                            </h4>
+                        </div>
+                        <div class="col-3 d-flex align-items-center">
+                            <img class="img-fluid" th:src="@{/assets/sad_bee.png}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Remove</button>
+            </div>
+
         </div>
     </div>
 </div>
