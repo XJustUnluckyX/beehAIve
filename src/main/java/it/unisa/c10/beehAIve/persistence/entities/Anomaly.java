@@ -3,7 +3,7 @@ package it.unisa.c10.beehAIve.persistence.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Anomaly {
@@ -11,7 +11,7 @@ public class Anomaly {
   private int id;
   private String anomalyName;
   private boolean resolved;
-  private LocalDate detectionDate;
+  private LocalDateTime detectionDate;
   private int sensorId;
   private int hiveId;
   private String beekeeperEmail;
@@ -40,11 +40,11 @@ public class Anomaly {
     resolved = resolved;
   }
 
-  public LocalDate getDetectionDate() {
+  public LocalDateTime getDetectionDate() {
     return detectionDate;
   }
 
-  public void setDetectionDate(LocalDate detectionDate) {
+  public void setDetectionDate(LocalDateTime detectionDate) {
     this.detectionDate = detectionDate;
   }
 

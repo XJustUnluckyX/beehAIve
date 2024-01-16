@@ -1,5 +1,6 @@
 package it.unisa.c10.beehAIve.persistence.dao;
 
+import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -62,6 +63,10 @@ public interface MeasurementDAO extends JpaRepository<Measurement, Integer> {
                              "OR (m.weight NOT BETWEEN 25 AND 130) " +
                                  "AND m.hiveId = :hiveId")
   List<Measurement> findBadMeasurementsByHiveId(int hiveId);
+
+  List<Measurement> findByHiveIdOrderByMeasurementDateAsc(int hiveId);
+
+  Measurement findTopByHiveIdOrderByMeasurementDateDesc(int hiveId);
 
   int countByHiveId(int hiveId);
 }
