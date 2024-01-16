@@ -28,14 +28,16 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
 
   List<Hive> findByBeeSpeciesAndBeekeeperEmail(String beeSpecies, String beekeeperEmail);
 
-  @Query("SELECT nickname, hiveType, creationDate, beekeeperEmail, beeSpecies " +
-             "FROM Hive " +
-                 "WHERE nickname = :nickname " +
-                     "AND hiveType = :hiveType " +
-                         "AND (creationDate BETWEEN :date1 AND :date2) " +
-                             "AND beekeeperEmail = :beekeeperEmail " +
-                                 "AND beeSpecies = :beeSpecies")
+  @Query("SELECT h " +
+             "FROM Hive h " +
+                 "WHERE h.nickname = :nickname " +
+                     "AND h.hiveType = :hiveType " +
+                         "AND (h.creationDate BETWEEN :date1 AND :date2) " +
+                             "AND h.beekeeperEmail = :beekeeperEmail " +
+                                 "AND h.beeSpecies = :beeSpecies")
   List<Hive> findByFilters(String nickname, String hiveType, LocalDate date1, LocalDate date2, String beekeeperEmail, String beeSpecies);
 
   void deleteByBeekeeperEmail(String beekeeperEmail);
+
+  int countByBeekeeperEmail(String beekeeperEmail);
 }

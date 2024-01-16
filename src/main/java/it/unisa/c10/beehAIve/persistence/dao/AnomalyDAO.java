@@ -17,7 +17,7 @@ public interface AnomalyDAO extends JpaRepository<Anomaly, Integer> {
 
   // deleteById
 
-  List<Anomaly> findByName(String name);
+  List<Anomaly> findByAnomalyName(String anomalyName);
 
   List<Anomaly> findByResolvedTrue();
 
