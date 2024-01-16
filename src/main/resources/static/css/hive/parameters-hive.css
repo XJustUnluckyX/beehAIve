@@ -1,0 +1,35 @@
+.custom-base{
+    height: 90vh !important;
+    width: 90% !important;
+}
+
+.custom-queen{
+    height: 5vh !important;
+}
+.custom-stat{
+    height: 20vh !important;
+}
+.custom-graph{
+    height: 20vh !important;
+}
+.custom-border{
+    border: 2px solid black !important;
+    border-radius: 30px !important;
+}
+.custom-temper{
+    font-size: 4vw !important;
+}
+
+
+@media only screen and (max-width: 576px){
+    .custom-stat{
+        height: 35vh !important;
+    }
+
+    h3{
+        font-size: 5vw !important;
+    }
+    .custom-temper{
+        font-size: 5vw !important;
+    }
+}
