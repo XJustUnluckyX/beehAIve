@@ -6,6 +6,22 @@ import jakarta.persistence.Id;
 @Entity
 public class Sensor {
   @Id
-  private int id; //temporary
-  private int hiveID;
+  private int id;
+  private int hiveId;
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getHiveId() {
+    return hiveId;
+  }
+
+  public void setHiveId(int hiveID) {
+    this.hiveId = hiveID;
+  }
 }
