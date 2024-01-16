@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+9<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,32 +15,34 @@
             <div class="login-header">
                 <span>Login</span>
             </div>
+            <form th:action="@{/process_register}" th:object="${user}"
+                  method="post">
             <div class="input_box">
-                <input type="text" th:id="email" class="input-field" placeholder="Email" required>
+                <input type="email" th:id="email" class="input-field" placeholder="Email" required>
                 <label th:for="email" class="label">Email</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="user" class="input-field" placeholder="First Name" required>
+                <input type="text" th:id="firstName" class="input-field" placeholder="First Name" required>
                 <label th:for="user" class="label">First Name</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="user1" class="input-field" placeholder="Last Name" required>
+                <input type="text" th:id="lastName" class="input-field" placeholder="Last Name" required>
                 <label th:for="user1" class="label">Last Name</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="comp_name" class="input-field" placeholder="Company Name">
+                <input type="text" th:id="companyName" class="input-field" placeholder="Company Name">
                 <label th:for="comp_name" class="label">Company Name</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="piva" class="input-field" placeholder="Company PIVA">
+                <input type="text" th:id="companyPiva" class="input-field" placeholder="Company PIVA">
                 <label th:for="piva" class="label">Company PIVA</label>
             </div>
             <div class="input_box">
-                <input type="password" th:id="pass" class="input-field" placeholder="Password" required>
+                <input type="password" th:id="passwordhash" class="input-field" placeholder="Password" required>
                 <label th:for="pass" class="label">Password</label>
             </div>
             <div class="input_box">
-                <input type="password" th:id="pass1" class="input-field" placeholder="Confirm Password" required>
+                <input type="password" th:id="confirmPassword" class="input-field" placeholder="Confirm Password" required>
                 <label th:for="pass1" class="label">Confirm Password</label>
             </div>
 
@@ -55,6 +57,8 @@
             <div class="input_box">
                 <input type="submit" class="input-submit" value="Register">
             </div>
+
+            </form>
 
             <div class="register">
                 <span>Already have an account? <a href="#">Login</a></span>
