@@ -13,7 +13,7 @@ public class Measurement {
   private double ambientTemperature;
   private double humidity;
   private double ambientHumidity;
-  private double presentQueen;
+  private boolean presentQueen;
 
   public DateAndSensorID getDateAndSensorID() {
     return dateAndSensorID;
@@ -71,11 +71,11 @@ public class Measurement {
     this.ambientHumidity = ambientHumidity;
   }
 
-  public double getPresentQueen() {
+  public boolean isPresentQueen() {
     return presentQueen;
   }
 
-  public void setPresentQueen(double presentQueen) {
+  public void setPresentQueen(boolean presentQueen) {
     this.presentQueen = presentQueen;
   }
 }

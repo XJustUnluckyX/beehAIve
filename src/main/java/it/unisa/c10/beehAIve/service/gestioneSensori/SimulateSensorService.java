@@ -7,6 +7,7 @@ import it.unisa.c10.beehAIve.persistence.entities.DateAndSensorID;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
 import it.unisa.c10.beehAIve.persistence.entities.Sensor;
+import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -39,13 +40,13 @@ public class SimulateSensorService {
 
   private HiveDAO hiveDAO;
   private MeasurementDAO measurementDAO;
-  private FlaskAdapter adapter = new FlaskAdapter();
-
+  private AnomalyService anomalyService;
 
   @Autowired
-  public SimulateSensorService(HiveDAO hiveDAO, MeasurementDAO measurementDAO) {
+  public SimulateSensorService(HiveDAO hiveDAO, MeasurementDAO measurementDAO, AnomalyService anomalyService) {
     this.hiveDAO = hiveDAO;
     this.measurementDAO = measurementDAO;
+    this.anomalyService = anomalyService;
   }
 
   public Measurement simulateMeasurements() {
@@ -92,7 +93,7 @@ public class SimulateSensorService {
       String newSpectrogram = simulateSpectrogram();
 
       // Controlliamo se la regina è presente attraverso l'utilizzo della CNN
-      boolean newPresentQueen = adapter.predictQueenPresence(newSpectrogram);
+      boolean newPresentQueen = anomalyService.predictQueenPresence(newSpectrogram);
 
       // Generiamo il nuovo peso dell'arnia
       double lastWeight = lastMeasurement.getWeight();
@@ -104,7 +105,7 @@ public class SimulateSensorService {
       measurementDAO.sendMeasurement();
 
       // Manda al controllo anomalie la misurazione
-
+      // TODO
 
     }
 

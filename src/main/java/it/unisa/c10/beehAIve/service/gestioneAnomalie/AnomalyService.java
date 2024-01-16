@@ -1,5 +1,10 @@
 package it.unisa.c10.beehAIve.service.gestioneAnomalie;
 
+import it.unisa.c10.beehAIve.misc.FlaskAdapter;
+import it.unisa.c10.beehAIve.persistence.dao.AnomalyDAO;
+import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
+import it.unisa.c10.beehAIve.persistence.entities.Measurement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /*
@@ -14,5 +19,83 @@ quindi il metodo corrispondente riceverà in input il file audio). TODO spostare
 
 @Service
 public class AnomalyService {
+
+  private FlaskAdapter adapter = new FlaskAdapter();
+  private AnomalyDAO anomalyDAO;
+  @Autowired
+  public AnomalyService(AnomalyDAO anomalyDAO) {
+    this.anomalyDAO = anomalyDAO;
+  }
+
+  public Anomaly checkHiveWeight(Measurement measurement) {
+    if (measurement.getWeight() < 25) {
+      //Create anomaly and send to db
+    } else if (measurement.getWeight() > 135) {
+      //Create anomaly and send to db
+    } else {
+      return null;
+    }
+
+    return null;
+
+  }
+
+  public Anomaly checkHiveTemperature(Measurement measurement) {
+    if (measurement.getTemperature() < 32) {
+      //Create anomaly and send to db
+    } else if (measurement.getTemperature() > 37) {
+      //Create anomaly and send to db
+    } else {
+      return null;
+    }
+
+    return null;
+
+  }
+
+  public Anomaly checkHiveHumidity(Measurement measurement) {
+    if (measurement.getHumidity() < 32) {
+      //Create anomaly and send to db
+    } else if (measurement.getHumidity() > 37) {
+      //Create anomaly and send to db
+    } else {
+      return null;
+    }
+
+    return null;
+
+  }
+
+  public Anomaly checkQueenPresence(Measurement measurement) {
+    if (!measurement.isPresentQueen()) {
+      //Create Anomaly
+    } else {
+      return null;
+    }
+
+    return null;
+
+  }
+
+
+
+  public boolean predictQueenPresence (String spectrogram) {
+    return adapter.predictQueenPresence(spectrogram);
+  }
+
+  public Anomaly predictCCDPresence (Measurement measurement) {
+    boolean CCD = adapter.predictCCD(measurement.getTemperature(), measurement.getAmbientTemperature(), measurement.getHumidity(), measurement.getAmbientHumidity(), measurement.isPresentQueen());
+    if (CCD) {
+      //Create Anomaly
+    } else {
+      return null;
+    }
+
+    return null;
+
+  }
+
+
+
 
 }

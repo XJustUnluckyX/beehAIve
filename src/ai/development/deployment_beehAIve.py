@@ -16,31 +16,28 @@ ccd_model = pickle.load(f)
 f.close()
 
 # # Modalità d'uso 1, SENZA CNN
-# @app.route("/ccd_no_cnn",methods=["POST"])
-# def predict_CCD_no_CNN():
-#     if request.method == "POST":
-#         # Prendiamo i dati inviati attraverso HTTP
-#         decoded_data = request.data.decode("utf-8")
-#         input_json = json.loads(decoded_data)
-#
-#         # Calcoliamo la probabilità effettiva di CCD seguendo l'euristica
-#         ccd_probability = AristeoHeuristic(input_json)
-#
-#         # In ordine abbiamo queen presence, apparent hive temp, apparent temp diff
-#         to_predict = np.fromiter(input_json.values(), dtype=float)
-#
-#         # Formattiamo l'input in un formato leggibile al nostro modello
-#         list = []
-#         list.append(to_predict)
-#         predict_array = np.asarray(list)
-#
-#         # Effettuiamo la previsione
-#         prediction = ccd_model.predict(predict_array)
-#         prediction = prediction.flatten()
-#         prediction = np.where(prediction > 0.5, 1, 0)
-#
-#         # Restituiamo la previsione
-#         return jsonify ({"ccd_result": int(prediction[0]), "ccd_true_probability": ccd_probability})
+@app.route("/predict_ccd",methods=["POST"])
+def predict_CCD_no_CNN():
+    if request.method == "POST":
+        # Prendiamo i dati inviati attraverso HTTP
+        decoded_data = request.data.decode("utf-8")
+        input_json = json.loads(decoded_data)
+
+        # In ordine abbiamo queen presence, apparent hive temp, apparent temp diff
+        to_predict = np.fromiter(input_json.values(), dtype=float)
+
+        # Formattiamo l'input in un formato leggibile al nostro modello
+        list = []
+        list.append(to_predict)
+        predict_array = np.asarray(list)
+
+        # Effettuiamo la previsione
+        prediction = ccd_model.predict(predict_array)
+        prediction = prediction.flatten()
+        prediction = np.where(prediction > 0.5, 1, 0)
+
+        # Restituiamo la previsione
+        return jsonify (int(prediction[0]))
 
 # Utilizzo della CNN
 @app.route("/use_cnn",methods=["POST"])
