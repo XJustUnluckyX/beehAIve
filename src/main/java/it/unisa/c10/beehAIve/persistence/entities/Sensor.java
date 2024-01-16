@@ -9,6 +9,8 @@ public class Sensor {
   private int id;
   private int hiveId;
 
+  private String beekeeperEmail;
+
   public int getId() {
     return id;
   }
@@ -23,5 +25,13 @@ public class Sensor {
 
   public void setHiveId(int hiveID) {
     this.hiveId = hiveID;
+  }
+
+  public String getBeekeeperEmail() {
+    return beekeeperEmail;
+  }
+
+  public void setBeekeeperEmail(String beekeeperEmail) {
+    this.beekeeperEmail = beekeeperEmail;
   }
 }

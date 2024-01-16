@@ -10,8 +10,8 @@ public class Operation {
   @Id
   private int id;
   private String name;
-  private String type; //we could use enum
-  private String status; //we could use enum
+  private String type;
+  private String status;
   private LocalDate date;
   private String notes;
   private int hiveId;

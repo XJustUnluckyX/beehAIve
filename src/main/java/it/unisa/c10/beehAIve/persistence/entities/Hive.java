@@ -10,7 +10,7 @@ public class Hive {
   @Id
   private int id;
   private String nickname;
-  private String hiveType; //we could use enum
+  private String hiveType;
   private LocalDate creationDate;
   private String beekeeperEmail;
   private String beeSpecies;
