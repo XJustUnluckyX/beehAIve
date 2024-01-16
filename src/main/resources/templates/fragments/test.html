@@ -5,10 +5,24 @@
     <title>Title</title>
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .custom-base{
+            height: 90vh;
+            width: 90%;
+        }
+        .custom-graph{
+            height: 40vh;
+            width: 80%;
+        }
+        .custom-border{
+            border: 2px solid black;
+            border-radius: 30px;
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #FFF0B3; color: black;" th:fragment="navbar">
+<nav class="navbar navbar-expand-lg" style="background-color: #FFF0B3; color: black; border-bottom: 2px solid black ;" th:fragment="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"> BeehAIve </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,96 +55,102 @@
     </div>
 </nav>
 
-<section class="gradient-custom" style="height: 94vh">
-    <div class="container py-5 h-100">
-        <div class="row justify-content-center align-items-center h-100">
+<section class="gradient-custom h-100 " style="height: 94vh">
+    <div class="container-fluid py-4 custom-base" >
+        <div class="row py-3 bg-warning d-flex justify-content-center custom-border">
 
-            <div class="col-12 col-lg-9 col-xl-8">
-                <div class="card-body">
-                    <div class="card-body p-4 hive_card">
-                        <h1 class="label text-center" style="font-size: 3rem;"> Hive Creation </h1>
+            <div class="row">
+                <div class="col-md-3 my-2">
+                    <h5>Hive Name: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Type: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Species: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive State: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Name: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Sensor State: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Data Creation: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Lastest Update: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3 my-2">
+                    <h5>Production: </h5>
+                </div>
+                <div class="col">
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded custom-border" placeholder="Insert" aria-label="Insert" aria-describedby="insert-addon"/>
+                        <button type="button" class="btn btn-outline-primary custom-border" data-mdb-ripple-init> Sumbit </button>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-lg-9 col-xl-8">
-                <div class="card-body">
-                    <div class="card-body p-4 p-md-5 hive_card">
-                        <form>
+            <div class="row">
+                <div class="col-1 d-none d-lg-block"></div>
+                <div class="col bg-success custom-graph custom-border">
 
-<!--                            Nome dell'arnia-->
-                            <div class="row">
-                                <div class="col-md-12 mb-4">
-                                    <div class="form-outline">
-                                        <h5 class="form-label" for="firstName">Hive Name:</h5>
-                                        <input type="text" id="firstName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                    </div>
-                                </div>
-                            </div>
-
-<!--                            Tipo dell'arnia-->
-                            <div class="row">
-                                <div class="col-12 mb-1">
-                                    <h5 class="form-label select-label">Hive Type:</h5>
-                                </div>
-                            </div>
-
-<!--                            Opzioni del tipo d'arnia-->
-                            <div class="row">
-                                <div class="col-12 mb-4">
-                                    <select class="select form-control-lg hive_selector">
-                                        <option value="1" disabled selected>Choose option</option>
-                                        <option value="2">Langstroth</option>
-                                        <option value="3">Warre</option>
-                                        <option value="4">Arnia Top-Bar</option>
-                                        <option value="5">Arnia Orizzontale</option>
-                                        <option value="6">Arnia Verticale</option>
-                                        <option value="7">Bee Skep</option>
-                                        <option value="8">WBC</option>
-                                        <option value="9">Dadant</option>
-                                    </select>
-                                </div>
-                            </div>
-
-<!--                            Checklist con le specie delle api-->
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12 mb-4" style="font-weight: bold">
-                                    <h5 class="mb-2 pb-1">Bee Species: </h5>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apismellifera"
-                                               value="option1" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        <label class="form-check-label" for="Apismellifera">Apis mellifera (Api miele)</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apiscerana"
-                                               value="option2" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        <label class="form-check-label" for="Apiscerana">Apis cerana (Api asiatiche)</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apisdorsata"
-                                               value="option3" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        <label class="form-check-label" for="Apisdorsata">Apis dorsata (Api giganti)</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Apisfiorea"
-                                               value="option4" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        <label class="form-check-label" for="Apisfiorea">Apis florea (Api nane)</label>
-                                    </div>
-                                </div>
-                            </div>
-
-<!--                            Pulsanti di invio e cancellazione-->
-                            <div class="row">
-                                <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
-                                    <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                    <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
                 </div>
+                <div class="col-1 d-none d-lg-block"></div>
             </div>
+
         </div>
     </div>
 </section>
