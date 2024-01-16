@@ -48,7 +48,9 @@ CREATE TABLE Production (
 CREATE TABLE Sensor (
     ID int primary key auto_increment,
     hive_ID int not null,
-    foreign key (hive_ID) references Hive(ID)
+    beekeeper_email varchar(50) not null,
+    foreign key (hive_ID) references Hive(ID),
+	foreign key (beekeeper_email) references Beekeeper(email)
 );
 
 CREATE TABLE Anomaly (
@@ -58,8 +60,10 @@ CREATE TABLE Anomaly (
     detection_date date not null,
     sensor_ID int not null,
     hive_ID int not null,
+    beekeeper_email varchar(50) not null,
     foreign key (sensor_ID) references Sensor(ID),
-    foreign key (hive_ID) references Hive(ID)
+    foreign key (hive_ID) references Hive(ID),
+    foreign key (beekeeper_email) references Beekeeper(email)
 );
 
 CREATE TABLE Operation (
@@ -76,6 +80,7 @@ CREATE TABLE Operation (
 );
 
 CREATE TABLE Measurement (
+	ID int primary key auto_increment,
     sensor_ID int not null auto_increment,
     measurement_date datetime not null,
     weight double not null,
@@ -85,7 +90,6 @@ CREATE TABLE Measurement (
     humidity double not null,
     ambient_humidity double not null,
     isQueenPresent boolean not null,
-    primary key (sensor_ID, measurement_date),
     foreign key (sensor_ID) references Sensor(ID)
 );
 
@@ -122,22 +126,22 @@ INSERT INTO Production (product, weight, notes, registration_date, hive_ID, beek
 ('Honey',2,'Favorable weather.','2027-01-14',7,'f.festa@gmail.com'),
 ('Honey',2.5,'Bees were happy today.','2027-01-14',10,'a.depasquale@gmail.com');
 
-INSERT INTO Sensor (hive_ID) VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6),
-(7),
-(8),
-(9),
-(10),
-(11),
-(12);
+INSERT INTO Sensor (hive_ID, beekeeper_email) VALUES
+(1,'n.gallotta@gmail.com'),
+(2,'n.gallotta@gmail.com'),
+(3,'n.gallotta@gmail.com'),
+(4,'s.valente@gmail.com'),
+(5,'s.valente@gmail.com'),
+(6,'s.valente@gmail.com'),
+(7,'f.festa@gmail.com'),
+(8,'f.festa@gmail.com'),
+(9,'f.festa@gmail.com'),
+(10,'a.depasquale@gmail.com'),
+(11,'a.depasquale@gmail.com'),
+(12,'a.depasquale@gmail.com');
 
-INSERT INTO Anomaly (anomaly_name, isResolved, detection_date, sensor_ID, hive_ID) VALUES
-('Temperature Out of Range',1,'2027-01-14',1,1);
+INSERT INTO Anomaly (anomaly_name, isResolved, detection_date, sensor_ID, hive_ID, beekeeper_email) VALUES
+('Temperature Out of Range',1,'2027-01-14',1,1,'n.gallotta@gmail.com');
 
 INSERT INTO Operation (operation_name, operation_type, operation_status, operation_date, notes, hive_ID, beekeeper_email) VALUES
 ('Temperature Adjustment','Transfer','Completed','2027-01-15','Adjusted hive temperature by providing additional insulation during cold weather.',1,'n.gallotta@gmail.com');
