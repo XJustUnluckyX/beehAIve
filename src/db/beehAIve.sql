@@ -57,7 +57,7 @@ CREATE TABLE Anomaly (
     ID int primary key auto_increment,
     anomaly_name varchar(100) not null,
     resolved boolean not null,
-    detection_date date not null,
+    detection_date datetime not null,
     sensor_ID int not null,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
@@ -143,8 +143,8 @@ INSERT INTO Sensor (hive_ID, beekeeper_email) VALUES
 (12,'a.depasquale@gmail.com');
 
 INSERT INTO Anomaly (anomaly_name, resolved, detection_date, sensor_ID, hive_ID, beekeeper_email) VALUES
-('Temperature Out of Range',1,'2027-01-14',1,1,'n.gallotta@gmail.com'),
-('Humidity Out of Range',0,'2027-01-16',1,1,'n.gallotta@gmail.com');
+('Temperature Out of Range',1,'2027-01-14 09:00:00',1,1,'n.gallotta@gmail.com'),
+('Humidity Out of Range',0,'2027-01-16 17:00:00',1,1,'n.gallotta@gmail.com');
 
 INSERT INTO Operation (operation_name, operation_type, operation_status, operation_date, notes, hive_ID, beekeeper_email) VALUES
 ('Temperature Adjustment','Transfer','Completed','2027-01-15','Adjusted hive temperature by providing additional insulation during cold weather.',1,'n.gallotta@gmail.com');
