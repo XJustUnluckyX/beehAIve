@@ -3,17 +3,18 @@ package it.unisa.c10.beehAIve.persistence.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Anomaly {
   @Id
-  private int id; //temporary
-  private String type;
+  private int id;
+  private String anomalyName;
   private boolean resolved;
-  private int sensorID;
-  private int hiveID;
-  private LocalDateTime date;
+  private LocalDate detectionDate;
+  private int sensorId;
+  private int hiveId;
+  private String beekeeperEmail;
 
   public int getId() {
     return id;
@@ -23,12 +24,12 @@ public class Anomaly {
     this.id = id;
   }
 
-  public String getType() {
-    return type;
+  public String getAnomalyName() {
+    return anomalyName;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setAnomalyName(String name) {
+    this.anomalyName = name;
   }
 
   public boolean isResolved() {
@@ -36,30 +37,38 @@ public class Anomaly {
   }
 
   public void setResolved(boolean resolved) {
-    this.resolved = resolved;
+    resolved = resolved;
   }
 
-  public int getSensorID() {
-    return sensorID;
+  public LocalDate getDetectionDate() {
+    return detectionDate;
   }
 
-  public void setSensorID(int sensorID) {
-    this.sensorID = sensorID;
+  public void setDetectionDate(LocalDate detectionDate) {
+    this.detectionDate = detectionDate;
   }
 
-  public int getHiveID() {
-    return hiveID;
+  public int getSensorId() {
+    return sensorId;
   }
 
-  public void setHiveID(int hiveID) {
-    this.hiveID = hiveID;
+  public void setSensorId(int sensorID) {
+    this.sensorId = sensorID;
   }
 
-  public LocalDateTime getDate() {
-    return date;
+  public int getHiveId() {
+    return hiveId;
   }
 
-  public void setDate(LocalDateTime date) {
-    this.date = date;
+  public void setHiveId(int hiveID) {
+    this.hiveId = hiveID;
+  }
+
+  public String getBeekeeperEmail() {
+    return beekeeperEmail;
+  }
+
+  public void setBeekeeperEmail(String beekeeperEmail) {
+    this.beekeeperEmail = beekeeperEmail;
   }
 }
