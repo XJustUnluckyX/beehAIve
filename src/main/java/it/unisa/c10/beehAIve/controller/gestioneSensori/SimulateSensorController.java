@@ -1,5 +1,7 @@
 package it.unisa.c10.beehAIve.controller.gestioneSensori;
 
+import it.unisa.c10.beehAIve.service.gestioneSensori.SimulateSensorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
@@ -10,9 +12,17 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SimulateSensorController {
 
+  private SimulateSensorService sensorService;
+
+  @Autowired
+  public SimulateSensorController (SimulateSensorService sensorService) {
+    this.sensorService = sensorService;
+  }
+
   @Scheduled(cron = "*/10 * * * * *")
   public void testMethod() {
-    System.out.println("test lol");
+    System.out.println("Initialized subroutine");
+    sensorService.simulateMeasurements();
   }
 
 }

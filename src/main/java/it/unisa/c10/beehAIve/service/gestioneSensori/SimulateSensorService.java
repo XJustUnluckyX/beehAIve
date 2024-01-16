@@ -1,20 +1,15 @@
 package it.unisa.c10.beehAIve.service.gestioneSensori;
 
-import it.unisa.c10.beehAIve.misc.FlaskAdapter;
 import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.dao.MeasurementDAO;
-import it.unisa.c10.beehAIve.persistence.entities.DateAndSensorID;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
-import it.unisa.c10.beehAIve.persistence.entities.Sensor;
 import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -34,7 +29,6 @@ La seguente classe deve supportare le seguenti operazioni:
 2. Caricare la misurazione dell'arnia al database.
 3. Passare la misurazione alla classe AnomalyController.
  */
-
 @Service
 public class SimulateSensorService {
 
@@ -49,68 +43,73 @@ public class SimulateSensorService {
     this.anomalyService = anomalyService;
   }
 
-  public Measurement simulateMeasurements() {
+  public void simulateMeasurements() {
 
     //La prima misurazione partirà SEMPRE alle 12 con valori ottimi
 
-    // Prende tutte le arnie del Sistema TODO chiamata mock
-    ArrayList<Hive> allHives = hiveDAO.findAll();
+    // Prendiamo tutte le Arnie
+    List<Hive> allHives = hiveDAO.findAll();
 
     for (Hive h : allHives) {
-
+      // Crea la nuova misurazione
       Measurement newMeasurement = new Measurement();
 
-      Measurement lastMeasurement = measurementDAO.getLast(h); //TODO Mock method to get last Measurement in a hive
+      List<Measurement> measurements = measurementDAO.findByHiveId(h.getId());
+      Measurement lastMeasurement = measurements.get(measurements.size()-1); //TODO Mock method to get last Measurement in a hive
 
       // Imposta la nuova data
-      LocalDateTime newDate = lastMeasurement.getDateAndSensorID().getDate().plusHours(1);
-      // Prende l'ID del sensore
-      int sensorID = lastMeasurement.getDateAndSensorID().getSensorID();
+      LocalDateTime newDate = lastMeasurement.getMeasurementDate().plusHours(1);
+      newMeasurement.setMeasurementDate(newDate);
 
-      // Produce la chiave della Misurazione
-      DateAndSensorID newId = new DateAndSensorID(newDate, sensorID);
+      // Prende l'ID del sensore
+      int newSensorID = lastMeasurement.getSensorId();
+      newMeasurement.setSensorId(newSensorID);
+
+      // Prende l'ID dell'Arnia
+      int newHiveID = lastMeasurement.getHiveId();
+      newMeasurement.setHiveId(newHiveID);
 
       // Prende l'ora per fare i calcoli della temperatura
       int hour = newDate.getHour();
-
       // Generiamo la nuova temperatura ambientale
       double lastAmbientTemp = lastMeasurement.getAmbientTemperature();
       double newAmbientTemp = simulateAmbientTemp(lastAmbientTemp, hour);
+      newMeasurement.setAmbientTemperature(newAmbientTemp);
 
       // Generiamo la nuova temperatura dell'arnia
       double lastHiveTemp = lastMeasurement.getTemperature();
       double newHiveTemp = simulateHiveTemp(lastHiveTemp);
+      newMeasurement.setTemperature(newHiveTemp);
 
       // Generiamo la nuova umidità ambientale
       double lastAmbientHumidity = lastMeasurement.getAmbientHumidity();
       double newAmbientHumidity = simulateHumidity(lastAmbientHumidity);
+      newMeasurement.setAmbientHumidity(newAmbientHumidity);
 
       // Generiamo la nuova umidità dell'arnia
       double lastHiveHumidity = lastMeasurement.getHumidity();
       double newHiveHumidity = simulateHumidity(lastHiveHumidity);
+      newMeasurement.setHumidity(newHiveHumidity);
 
       // Generiamo un nuovo spettrogramma casuale associato alla misurazione
       String newSpectrogram = simulateSpectrogram();
+      newMeasurement.setSpectrogram(newSpectrogram);
 
       // Controlliamo se la regina è presente attraverso l'utilizzo della CNN
       boolean newPresentQueen = anomalyService.predictQueenPresence(newSpectrogram);
+      newMeasurement.setQueenPresent(newPresentQueen);
 
       // Generiamo il nuovo peso dell'arnia
       double lastWeight = lastMeasurement.getWeight();
       double newWeight = simulateWeight(lastWeight);
+      newMeasurement.setWeight(newWeight);
 
-      //Crea l'oggetto misurazione TODO
-
-      // Manda al database la misurazione TODO mock
-      measurementDAO.sendMeasurement();
+      measurementDAO.save(newMeasurement);
 
       // Manda al controllo anomalie la misurazione
       // TODO
 
     }
-
-
-    return null;
   }
 
   private double simulateAmbientTemp(double temperature, int hour) {
@@ -200,6 +199,8 @@ public class SimulateSensorService {
     return humidity;
 
   }
+
+  //TODO check if it works on all computers
   private String simulateSpectrogram () {
     // Prende uno spettrogramma casuale dalla cartella
 

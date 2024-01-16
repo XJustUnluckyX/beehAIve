@@ -37,7 +37,7 @@ public class Anomaly {
   }
 
   public void setResolved(boolean resolved) {
-    resolved = resolved;
+    this.resolved = resolved;
   }
 
   public LocalDate getDetectionDate() {

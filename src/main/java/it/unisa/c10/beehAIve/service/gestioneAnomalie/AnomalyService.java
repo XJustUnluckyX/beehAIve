@@ -67,7 +67,7 @@ public class AnomalyService {
   }
 
   public Anomaly checkQueenPresence(Measurement measurement) {
-    if (!measurement.isPresentQueen()) {
+    if (!measurement.isQueenPresent()) {
       //Create Anomaly
     } else {
       return null;
@@ -84,7 +84,7 @@ public class AnomalyService {
   }
 
   public Anomaly predictCCDPresence (Measurement measurement) {
-    boolean CCD = adapter.predictCCD(measurement.getTemperature(), measurement.getAmbientTemperature(), measurement.getHumidity(), measurement.getAmbientHumidity(), measurement.isPresentQueen());
+    boolean CCD = adapter.predictCCD(measurement.getTemperature(), measurement.getAmbientTemperature(), measurement.getHumidity(), measurement.getAmbientHumidity(), measurement.isQueenPresent());
     if (CCD) {
       //Create Anomaly
     } else {
