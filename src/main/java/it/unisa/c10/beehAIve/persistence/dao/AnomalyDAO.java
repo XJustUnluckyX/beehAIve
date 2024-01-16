@@ -2,7 +2,6 @@ package it.unisa.c10.beehAIve.persistence.dao;
 
 import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -36,7 +35,6 @@ public interface AnomalyDAO extends JpaRepository<Anomaly, Integer> {
 
   List<Anomaly> findByDetectionDateBetweenAndHiveIdAndResolvedFalse(LocalDate date1, LocalDate date2, int hiveId);
 
-  @Query("SELECT COUNT(*) FROM Anomaly, Hive WHERE Anomaly.hiveId = Hive.id AND Hive.beekeeperEmail = :beekeeperEmail")
   int countByBeekeeperEmail(String beekeeperEmail);
 
   int countByHiveId(int hiveId);
@@ -45,8 +43,6 @@ public interface AnomalyDAO extends JpaRepository<Anomaly, Integer> {
 
   int countByHiveIdAndSensorId(int hiveId, int sensorId);
 
-  @Query("SELECT COUNT(*) FROM Anomaly, Hive WHERE Anomaly.hiveId = Hive.id AND Hive.beekeeperEmail = :beekeeperEmail" +
-      " AND isResolved = false")
   int countByBeekeeperEmailAndResolvedFalse(String beekeeperEmail);
 
   int countByHiveIdAndResolvedTrue(int hiveId);

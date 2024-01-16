@@ -76,7 +76,7 @@ CREATE TABLE Operation (
 );
 
 CREATE TABLE Measurement (
-    sensor_ID int not null auto_increment,
+    sensor_ID int not null,
     measurement_date datetime not null,
     weight double not null,
     spectrogram char(30) not null,

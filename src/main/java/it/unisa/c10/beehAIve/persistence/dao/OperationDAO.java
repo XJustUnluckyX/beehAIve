@@ -1,7 +1,6 @@
 package it.unisa.c10.beehAIve.persistence.dao;
 
 import it.unisa.c10.beehAIve.persistence.entities.Operation;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

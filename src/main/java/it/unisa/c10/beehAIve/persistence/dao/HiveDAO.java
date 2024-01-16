@@ -31,7 +31,7 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
   @Query("SELECT nickname, hiveType, creationDate, beekeeperEmail, beeSpecies " +
              "FROM Hive " +
                  "WHERE nickname = :nickname " +
-                     "AND hiveType = :type " +
+                     "AND hiveType = :hiveType " +
                          "AND (creationDate BETWEEN :date1 AND :date2) " +
                              "AND beekeeperEmail = :beekeeperEmail " +
                                  "AND beeSpecies = :beeSpecies")
