@@ -16,18 +16,25 @@
                 <span>Login</span>
             </div>
             <div class="input_box">
-                <input type="text" th:id="user" class="input-field" th:placeholder="Name" required>
-                <label th:for="user" class="label">Name</label>
+                <input type="text" th:id="email" class="input-field" placeholder="Email" required>
+                <label th:for="email" class="label">Email</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="user1" class="input-field" th:placeholder="Surname" required>
-                <label th:for="user1" class="label">Surname</label>
+                <input type="text" th:id="user" class="input-field" placeholder="First Name" required>
+                <label th:for="user" class="label">First Name</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="user2" class="input-field" th:placeholder="Username" required>
-                <label th:for="user2" class="label">Username</label>
+                <input type="text" th:id="user1" class="input-field" placeholder="Last Name" required>
+                <label th:for="user1" class="label">Last Name</label>
             </div>
-
+            <div class="input_box">
+                <input type="text" th:id="comp_name" class="input-field" placeholder="Company Name">
+                <label th:for="comp_name" class="label">Company Name</label>
+            </div>
+            <div class="input_box">
+                <input type="text" th:id="piva" class="input-field" placeholder="Company PIVA">
+                <label th:for="piva" class="label">Company PIVA</label>
+            </div>
             <div class="input_box">
                 <input type="password" th:id="pass" class="input-field" placeholder="Password" required>
                 <label th:for="pass" class="label">Password</label>

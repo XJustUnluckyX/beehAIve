@@ -2,13 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../static/css/hive/dashboard.css" type="text/css">
+    <link th:href="@{/css/hive/dashboard.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
 </head>
 <body>
 
     <div th:insert="fragments/header :: navbar"></div>
+
+    <section class="gradient-custom" style="height: 94vh">
+        <div class="container-fluid h-100" >
+            <div class="row p-5">
+
+                <!--            Barra di ricerca-->
+                <div class="col-fluid">
+                    <div class="card-body py-3">
+                        <div class="input-group">
+                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid mh-100">
+                        <div class="row justify-content-start custom-row my-5 ">
+
+                            <!--                    Template per le arnie-->
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8 pb-4" >
+                                <div class="card" style="background-color: #FFF0B3;">
+                                    <div class="card-body d-flex flex-column ">
+                                        <div class="row pb-3">
+                                            <div class="col-10 text-center align-self-center h-100">
+                                                Hive Name
+                                            </div>
+                                            <div class="col-2">
+                                                <img class="img-fluid mx-auto" th:src="@{/assets/home_icon.png}">
+                                            </div>
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="col-10 text-center align-self-center h-100"></div>
+                                            <div class="col-2">
+                                                <img class="img-fluid mx-auto" th:src="@{/assets/home_icon.png}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="custom-space"></div>
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                    Template per le arnie-->
+
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8 pb-4">
+                                <div class="card bg-transparent" style="border: none;">
+
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="row">
+                                            <div class="hexagon-space d-flex">
+                                                <div class="hexagon-wrapper">
+                                                    <div class="hexagon">
+                                                        <a href="#"> + </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>
