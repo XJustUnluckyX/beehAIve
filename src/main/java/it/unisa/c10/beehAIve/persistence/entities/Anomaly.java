@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Anomaly {
   @Id
   private int id;
-  private String name;
+  private String anomalyName;
   private boolean resolved;
   private LocalDate detectionDate;
   private int sensorId;
@@ -24,12 +24,12 @@ public class Anomaly {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getAnomalyName() {
+    return anomalyName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setAnomalyName(String name) {
+    this.anomalyName = name;
   }
 
   public boolean isResolved() {

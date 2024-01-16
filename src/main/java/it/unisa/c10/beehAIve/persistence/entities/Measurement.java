@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Measurement {
@@ -11,7 +12,7 @@ public class Measurement {
   private int id;
   private int sensorId;
   private int hiveId;
-  private LocalDate measurementDate;
+  private LocalDateTime measurementDate;
   private double weight;
   private String spectrogram;
   private double temperature;
@@ -44,11 +45,11 @@ public class Measurement {
     this.hiveId = hiveId;
   }
 
-  public LocalDate getMeasurementDate() {
+  public LocalDateTime getMeasurementDate() {
     return measurementDate;
   }
 
-  public void setMeasurementDate(LocalDate date) {
+  public void setMeasurementDate(LocalDateTime date) {
     this.measurementDate = date;
   }
 
