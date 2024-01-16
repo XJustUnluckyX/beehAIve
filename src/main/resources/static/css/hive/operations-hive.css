@@ -1,0 +1,16 @@
+.custom-page{
+    width: 90% !important;
+    height: 100% !important;
+}
+.custom-calendar{
+    height: 40vh !important;
+}
+.custom-log{
+    height: 45vh !important;
+}
+
+@media only screen and (max-width: 768px){
+    .custom-calendar{
+        height: 60vh !important;
+    }
+}
