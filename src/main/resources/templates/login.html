@@ -16,32 +16,36 @@
                 <span>Login</span>
             </div>
 
-            <div class="input_box">
-                <input type="text" th:id="user" class="input-field" th:placeholder="Username" required>
-                <label th:for="user" class="label">Username</label>
-                <i class="bx bx-user icon"></i>
-            </div>
+            <form th:action="@{/login}" method="post">
 
-            <div class="input_box">
-                <input type="password" th:id="pass" class="input-field" th:placeholder="Password" required>
-                <label th:for="pass" class="label">Password</label>
-                <i class="bx bx-lock-alt icon"></i>
-            </div>
-
-            <div class="remember-forgot">
-                <div class="remember-me">
-                    <input type="checkbox" th:id="remember">
-                    <label th:for="remember">Remember me</label>
+                <div class="input_box">
+                    <input type="email" th:id="email" class="input-field" th:placeholder="email" name="email" required>
+                    <label th:for="email" class="label">email</label>
+                    <i class="bx bx-user icon"></i>
                 </div>
 
-                <div class="forgot">
-                    <a href="#">Forgot password?</a>
+                <div class="input_box">
+                    <input type="password" th:id="password" class="input-field" th:placeholder="Password" name="password" required>
+                    <label th:for="password" class="label">Password</label>
+                    <i class="bx bx-lock-alt icon"></i>
                 </div>
-            </div>
 
-            <div class="input_box">
-                <input type="submit" class="input-submit" value="Login">
-            </div>
+                <div class="remember-forgot">
+                    <div class="remember-me">
+                        <input type="checkbox" th:id="remember">
+                        <label th:for="remember">Remember me</label>
+                    </div>
+
+                    <div class="forgot">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                </div>
+
+                <div class="input_box">
+                    <input type="submit" class="input-submit" value="Login">
+                </div>
+
+            </form>
 
             <div class="register">
                 <span>Don't have an account? <a href="#">Register</a></span>
