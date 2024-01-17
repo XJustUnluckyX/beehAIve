@@ -55,17 +55,18 @@ public class DashboardService {
     hiveDAO.deleteById(id);
   }
 
-  public List ShowAllHive(){
+  public List<Hive> ShowAllHive(){
     return hiveDAO.findAll();
   }
 
   public List ShowAllHiveByAnomaly(String anomaly){
+    int i;
     Optional<Hive> hive;
     List<Hive> hives = new ArrayList<>();
     List<Integer> HivesId = new ArrayList<>();
-    List<Anomaly> temp = anomalyDAO.findByName(anomaly);
+    List<Anomaly> temp = anomalyDAO.findByAnomalyName(anomaly);
 
-    for (int i = 0; i > temp.size() -1; i++){
+    for (i = 0; i < temp.size(); i++){
 
       HivesId.add(temp.get(i).getHiveId());
       hive = hiveDAO.findById(HivesId.get(i));
@@ -77,13 +78,13 @@ public class DashboardService {
 
   }
 
-  public List ShowAllHiveByOperation(Operation operation){
+  public List ShowAllHiveByOperation(String operation){
     Optional<Hive> hive;
     List<Hive> hives = new ArrayList<>();
     List<Integer> HivesId = new ArrayList<>();
-    List<Operation> temp = operationDAO.findAllByStatus("Not completed");
+    List<Operation> temp = operationDAO.findAllByOperationStatus(operation);
 
-    for (int i = 0; i > temp.size()-1; i++){
+    for (int i = 0; i < temp.size(); i++){
       HivesId.add(temp.get(i).getHiveId());
       hive = hiveDAO.findById(HivesId.get(i));
       hives.add(hive.get());
