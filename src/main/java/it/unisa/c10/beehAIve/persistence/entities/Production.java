@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Production {
   @Id
   private int id;
-  private String product; //we could use enum
+  private String product;
   private double weight;
   private String notes;
   private LocalDate registrationDate;
