@@ -29,6 +29,8 @@ public interface ProductionDAO extends JpaRepository<Production, Integer> {
 
   List<Production> findByBeekeeperEmail(String beekeeperEmail);
 
+  List<Production> findAllByOrderByRegistrationDateAsc();
+
   int countByBeekeeperEmail(String beekeeperEmail);
 
   int countByProduct(String product);

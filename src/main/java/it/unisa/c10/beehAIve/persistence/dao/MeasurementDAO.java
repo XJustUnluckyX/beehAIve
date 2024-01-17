@@ -37,14 +37,14 @@ public interface MeasurementDAO extends JpaRepository<Measurement, Integer> {
   @Query("SELECT m " +
                  "FROM Measurement m " +
                      "WHERE (m.temperature BETWEEN 33 AND 36) " +
-                         "AND (m.humidity BETWEEN 20 AND 30) " +
+                         "AND (m.humidity BETWEEN 19 AND 21) " +
                              "AND (m.weight BETWEEN 25 AND 130)")
   List<Measurement> findGoodMeasurements();
 
   @Query("SELECT m " +
              "FROM Measurement m " +
                  "WHERE (m.temperature BETWEEN 33 AND 36) " +
-                     "AND (m.humidity BETWEEN 20 AND 30) " +
+                     "AND (m.humidity BETWEEN 19 AND 21) " +
                          "AND (m.weight BETWEEN 25 AND 130)" +
                              "AND m.hiveId = :hiveId")
   List<Measurement> findGoodMeasurementsByHiveId(int hiveId);
@@ -52,19 +52,21 @@ public interface MeasurementDAO extends JpaRepository<Measurement, Integer> {
   @Query("SELECT m " +
                  "FROM Measurement m " +
                      "WHERE (m.temperature NOT BETWEEN 33 AND 36) " +
-                         "OR (m.humidity NOT BETWEEN 20 AND 30) " +
+                         "OR (m.humidity NOT BETWEEN 19 AND 21) " +
                              "OR (m.weight NOT BETWEEN 25 AND 130)")
   List<Measurement> findBadMeasurements();
 
   @Query("SELECT m " +
                  "FROM Measurement m " +
                      "WHERE (m.temperature NOT BETWEEN 33 AND 36) " +
-                         "OR (m.humidity NOT BETWEEN 20 AND 30) " +
+                         "OR (m.humidity NOT BETWEEN 19 AND 21) " +
                              "OR (m.weight NOT BETWEEN 25 AND 130) " +
                                  "AND m.hiveId = :hiveId")
   List<Measurement> findBadMeasurementsByHiveId(int hiveId);
 
   List<Measurement> findByHiveIdOrderByMeasurementDateAsc(int hiveId);
+
+  List<Measurement> findFirst48ByHiveIdOrderByMeasurementDateDesc(int hiveId);
 
   Measurement findTopByHiveIdOrderByMeasurementDateDesc(int hiveId);
 
