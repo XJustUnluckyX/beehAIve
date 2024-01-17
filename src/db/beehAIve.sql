@@ -8,8 +8,8 @@ CREATE TABLE Beekeeper (
     passwordhash varchar(100) not null,
     first_name varchar(50) not null,
     last_name varchar(50) not null,
-    company_name varchar(100),
-    company_PIVA varchar(100) unique,
+    company_name varchar(100) not null,
+    company_PIVA varchar(100) unique not null,
     subscribed boolean not null,
     payment_due double not null,
     subscr_expiration_date date
