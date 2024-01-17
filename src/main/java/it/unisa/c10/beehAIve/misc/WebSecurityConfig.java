@@ -14,13 +14,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                  .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
-                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive").permitAll()
-                  .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn").permitAll()
-                  .anyRequest().authenticated()
+                    .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
+                    .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive").permitAll()
+                    .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn").permitAll()
+                    .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login").permitAll()
+                    .loginPage("/login").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 
