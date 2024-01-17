@@ -31,8 +31,8 @@ CREATE TABLE Hive (
     bee_species varchar(50) not null,
 	hive_health int not null,
     uncompleted_operations boolean not null,
-    foreign key (beekeeper_email) references Beekeeper(email),
-    foreign key (bee_species) references Bee(scientific_name)
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE,
+    foreign key (bee_species) references Bee(scientific_name) ON DELETE CASCADE
 );
 
 CREATE TABLE Production (
@@ -43,16 +43,16 @@ CREATE TABLE Production (
     registration_date date not null,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (hive_ID) references Hive(ID),
-    foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Sensor (
     ID int primary key auto_increment,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (hive_ID) references Hive(ID),
-	foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+	foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Anomaly (
@@ -63,9 +63,9 @@ CREATE TABLE Anomaly (
     sensor_ID int not null,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (sensor_ID) references Sensor(ID),
-    foreign key (hive_ID) references Hive(ID),
-    foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (sensor_ID) references Sensor(ID) ON DELETE CASCADE,
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Operation (
@@ -77,8 +77,8 @@ CREATE TABLE Operation (
     notes varchar(300),
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (hive_ID) references Hive(ID),
-    foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Measurement (
@@ -93,8 +93,8 @@ CREATE TABLE Measurement (
     humidity double not null,
     ambient_humidity double not null,
     queen_present boolean not null,
-    foreign key (sensor_ID) references Sensor(ID),
-    foreign key (hive_ID) references Hive(ID)
+    foreign key (sensor_ID) references Sensor(ID) ON DELETE CASCADE,
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE
 );
 
 # Inserimenti - Stato Zero
