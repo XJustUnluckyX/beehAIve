@@ -7,6 +7,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/*
+La seguente classe deve supportare le seguenti operazioni:
+1. Registrare l'apicoltore.
+2. Loggare dentro l'apicoltore.
+3. Loggare fuori l'apicoltore.
+4. Modificare i dati personali dell'apicoltore.
+5. Modificare la password dell'apicoltore.
+ */
+
 @Service
 public class ProfileService {
   private final BeekeeperDAO beekeerperdao;

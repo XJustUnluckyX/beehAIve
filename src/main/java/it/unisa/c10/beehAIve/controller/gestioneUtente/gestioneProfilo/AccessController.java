@@ -162,38 +162,4 @@ public class AccessController {
     return "index";
   }
 
-
-  // Pagina per la modifica dell'utente
-
-
-  @PostMapping("/changeInfo")
-  public String changeInfo(@RequestParam String firstName, @RequestParam String lastName,
-                           HttpSession session) {
-    Object emailObject = session.getAttribute("email");
-    String email = emailObject.toString();
-    profileService.changeInfo(email, firstName, lastName);
-    return "user-page";
-  }
-
-  @PostMapping("/changePassword")
-  public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
-                               @RequestParam String confirmNewPassword, Model model,
-                               HttpSession session){
-    Object emailObject = session.getAttribute("email");
-    String email = emailObject.toString();
-
-    if(!profileService.userExists(email,oldPassword)) {
-      model.addAttribute("error", "old password is incorrect");
-      return "user-page";
-    }
-
-    if(!(newPassword.equals(confirmNewPassword))) {
-      model.addAttribute("error", "the new passwords don't match");
-      return "user-page";
-    }
-
-    profileService.changePassword(email, newPassword);
-    return "user-page";
-  }
-
  }
