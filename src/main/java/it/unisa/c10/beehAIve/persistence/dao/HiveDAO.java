@@ -37,6 +37,16 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
                                  "AND h.beeSpecies = :beeSpecies")
   List<Hive> findByFilters(String nickname, String hiveType, LocalDate date1, LocalDate date2, String beekeeperEmail, String beeSpecies);
 
+  @Query("SELECT DISTINCT h " +
+             "FROM Hive h, Anomaly a " +
+                 "WHERE (h.hiveHealth = 2 OR h.hiveHealth = 3) " +
+                     "AND h.id = a.hiveId " +
+                         "AND a.resolved = false " +
+                             "ORDER BY h.hiveHealth DESC")
+  List<Hive> findByBeekeeperEmailAndAnomaliesUnresolved(String beekeeperEmail);
+
+  List<Hive> findByBeekeeperEmailAndUncompletedOperationsTrue(String beekeeperEmail);
+
   void deleteByBeekeeperEmail(String beekeeperEmail);
 
   int countByBeekeeperEmail(String beekeeperEmail);
