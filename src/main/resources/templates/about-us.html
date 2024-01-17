@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/about-us.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:insert="fragments/header :: navbar"></div>
+
+<section class="ftco-section">
+
+    <div class="container-xxl pt-5">
+        <h2 class="pb-2 border-bottom border-3 border-black" style="font-size: 50px">About Us</h2>
+        <h2 class="pb-2 border-bottom border-3 border-black" style="font-size: 20px">
+            Welcome to BeehAIve, a dedicated team committed to the preservation and monitoring of our invaluable ecosystem. One bee at a time.</h2>
+        <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                    <span class="fa fa-heartbeat"></span>
+                </div>
+                <div>
+                    <h2>Our Mission</h2>
+                    <p>At BeehAIve, our mission is clear: to safeguard and monitor bees, ensuring their sustainability and well-being. We believe that bees play a pivotal role in the natural landscape, pollinating flowers and contributing to biodiversity.</p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                    <span class="fa fa-exchange"></span>
+                </div>
+                <div>
+                    <h2>What Sets Us Apart</h2>
+                    <p>Our unique approach involves a comprehensive strategy for bee conservation. We deploy advanced monitoring tools that ensure the health and well-being of bees while actively working to reduce potential environmental impacts.</p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                    <span class="fa fa-users"></span>
+                </div>
+                <div>
+                    <h2>Our Team</h2>
+                    <p>Meet the passionate individuals behind BeehAIve. Our team comprises experienced professionals in beekeeping, environmental sciences, and technology. Together, we form a dynamic force driving positive change in the bee ecosystem.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-xxl ">
+        <h2 class="pb-2 border-bottom border-3 border-black" style="font-size: 50px">Our Values</h2>
+        <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                    <span class="fa fa-shield"></span>
+                </div>
+                <div>
+                    <h2>Integrity</h2>
+                    <p>We uphold the highest standards of integrity in all our interactions. Trust is at the core of our relationship with our clients and partners.</p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                    <span class="fa fa-envira"></span>
+                </div>
+                <div>
+                    <h2>Environmental Responsibility</h2>
+                    <p>We are dedicated to environmental responsibility by promoting sustainable beekeeping practices that support bee populations and preserve ecosystems.</p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                    <span class="fa fa-cog fa-spin"></span>
+                </div>
+                <div>
+                    <h2>Innovation</h2>
+                    <p>Embracing cutting-edge technologies, we continuously innovate to provide state-of-the-art solutions for bee preservation and monitoring.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-xxl">
+        <h2 class="my-3 border-bottom border-3 border-black" style="font-size: 50px;"><a aria-current="page" href="#" style="text-decoration: none; color: black;">Contact Us</a></h2>
+    </div>
+
+</section>
+
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

@@ -33,4 +33,6 @@ public class RedirectController {
   public String operation (Model model) { return "hive/operations-hive";}
   @GetMapping("/contact-us")
   public String contact (Model model) { return "/contact-us";}
+  @GetMapping("/about-us")
+  public String about (Model model) { return "/about-us";}
 }
