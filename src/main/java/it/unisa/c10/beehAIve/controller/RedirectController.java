@@ -31,4 +31,6 @@ public class RedirectController {
   public String parameter (Model model) { return "hive/parameters-hive";}
   @GetMapping("/operations-hive")
   public String operation (Model model) { return "hive/operations-hive";}
+  @GetMapping("/contact-us")
+  public String contact (Model model) { return "/contact-us";}
 }
