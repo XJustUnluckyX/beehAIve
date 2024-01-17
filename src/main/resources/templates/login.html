@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/login.css}" rel="stylesheet"/>
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
@@ -9,22 +10,24 @@
 </head>
 <body>
 
-    <div th:replace="fragments/header :: navbar"></div>
-    <div class="wrapper">
-        <div class="login_box">
-            <div class="login-header">
-                <span>Login</span>
-            </div>
+<div th:replace="~{fragments/header :: navbar}"></div>
+<div class="wrapper">
+    <div class="login_box">
+        <div class="login-header">
+            <span>Login</span>
+        </div>
+
+        <form th:action="@{/login}" method="post">
 
             <div class="input_box">
-                <input type="text" th:id="user" class="input-field" th:placeholder="Username" required>
-                <label th:for="user" class="label">Username</label>
+                <input type="email" th:id="email" class="input-field" th:placeholder="email" name="email" required>
+                <label th:for="email" class="label">Email</label>
                 <i class="bx bx-user icon"></i>
             </div>
 
             <div class="input_box">
-                <input type="password" th:id="pass" class="input-field" th:placeholder="Password" required>
-                <label th:for="pass" class="label">Password</label>
+                <input type="password" th:id="password" class="input-field" th:placeholder="Password" name="password" required>
+                <label th:for="password" class="label">Password</label>
                 <i class="bx bx-lock-alt icon"></i>
             </div>
 
@@ -43,13 +46,14 @@
                 <input type="submit" class="input-submit" value="Login">
             </div>
 
-            <div class="register">
-                <span>Don't have an account? <a href="#">Register</a></span>
-            </div>
+        </form>
+
+        <div class="register">
+            <span>Don't have an account? <a href="#">Register</a></span>
         </div>
     </div>
+</div>
 
 
-    <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>
-</html>
