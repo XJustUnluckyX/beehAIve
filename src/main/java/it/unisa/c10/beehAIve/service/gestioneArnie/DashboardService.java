@@ -1,5 +1,6 @@
 package it.unisa.c10.beehAIve.service.gestioneArnie;
 
+import it.unisa.c10.beehAIve.persistence.dao.AnomalyDAO;
 import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.dao.OperationDAO;
 import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
@@ -27,11 +28,13 @@ public class DashboardService {
 
   private HiveDAO hiveDAO;
   private OperationDAO operationDAO;
+  private AnomalyDAO anomalyDAO;
 
   @Autowired
-  DashboardService(HiveDAO hiveDao, OperationDAO operationDAO){
+  public DashboardService(HiveDAO hiveDao, OperationDAO operationDAO,AnomalyDAO anomalyDAO){
     this.hiveDAO = hiveDao;
     this.operationDAO = operationDAO;
+    this.anomalyDAO = anomalyDAO;
   }
 
   public void creationhive(Hive hive){
@@ -56,18 +59,32 @@ public class DashboardService {
     return hiveDAO.findAll();
   }
 
-  public List ShowAllHiveByAnomaly(Anomaly anomaly){
-    return null;
+  public List ShowAllHiveByAnomaly(String anomaly){
+    Optional<Hive> hive;
+    List<Hive> hives = new ArrayList<>();
+    List<Integer> HivesId = new ArrayList<>();
+    List<Anomaly> temp = anomalyDAO.findByName(anomaly);
+
+    for (int i = 0; i > temp.size() -1; i++){
+
+      HivesId.add(temp.get(i).getHiveId());
+      hive = hiveDAO.findById(HivesId.get(i));
+      hives.add(hive.get());
+
+    }
+
+    return hives;
+
   }
 
   public List ShowAllHiveByOperation(Operation operation){
     Optional<Hive> hive;
     List<Hive> hives = new ArrayList<>();
     List<Integer> HivesId = new ArrayList<>();
-    List<Operation> temp = operationDAO.findAllByStatus("not completed");
+    List<Operation> temp = operationDAO.findAllByStatus("Not completed");
 
     for (int i = 0; i > temp.size()-1; i++){
-      HivesId.add(temp.get(i).getId());
+      HivesId.add(temp.get(i).getHiveId());
       hive = hiveDAO.findById(HivesId.get(i));
       hives.add(hive.get());
     }
@@ -76,7 +93,10 @@ public class DashboardService {
 
   }
 
-  //inserire come input la chiave primaria delle arnie
-  public void ShowHive(String nickname){}
+  public Hive ShowHive(int HiveId){
+
+    return hiveDAO.findById(HiveId).get();
+
+  }
 
 }
