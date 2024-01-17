@@ -16,7 +16,7 @@
                 <span>Login</span>
             </div>
 
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/login-form}" method="post">
 
                 <div class="input_box">
                     <input type="email" th:id="email" class="input-field" th:placeholder="email" name="email" required>
@@ -28,6 +28,10 @@
                     <input type="password" th:id="password" class="input-field" th:placeholder="Password" name="password" required>
                     <label th:for="password" class="label">Password</label>
                     <i class="bx bx-lock-alt icon"></i>
+                </div>
+
+                <div class="input_box">
+                    <p th:text="${error}"></p>
                 </div>
 
                 <div class="remember-forgot">
