@@ -19,9 +19,9 @@ public class SimulateSensorController {
     this.sensorService = sensorService;
   }
 
-  @Scheduled(cron = "*/10 * * * * *")
-  public void testMethod() {
-    System.out.println("Initialized subroutine");
+  // (cron = 0 0 * * * *) significa ogni ora di ogni giorno alle x:00
+  @Scheduled(cron = "0 0 * * * *")
+  public void initializeSensors() {
     sensorService.simulateMeasurements();
   }
 

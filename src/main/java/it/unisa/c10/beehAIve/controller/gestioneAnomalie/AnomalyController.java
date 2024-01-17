@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class AnomalyController {
 
-  // TODO: Change this after Flask Test
+  // TODO: Do we need this?
 
 
 }

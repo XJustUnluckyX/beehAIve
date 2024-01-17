@@ -15,7 +15,10 @@ f = open("ML\\Naive_Bayes.pickle", "rb")
 ccd_model = pickle.load(f)
 f.close()
 
-# # Modalità d'uso 1, SENZA CNN
+# Prendiamo il dataset per prendere spettrogrammi casuali
+cnn_dataset = pd.read_csv("..\\dataset\\CNN_dataset_cleaned.csv")
+
+# Utilizza il modello per predire la presenza di CCD
 @app.route("/predict_ccd",methods=["POST"])
 def predict_CCD_no_CNN():
     if request.method == "POST":
@@ -66,6 +69,12 @@ def useCNN():
 
         # Restituiamo la previsione
         return jsonify(int(predicted_queen[0]))
+
+# Prende uno spettrogramma casuale
+@app.route("/get_spectrogram", methods=["POST"])
+def getRandomSpectrogram():
+    if request.method == "POST":
+        return jsonify(cnn_dataset.sample(1).iloc[0]["file name"])
 
 
 if __name__ == "__main__":

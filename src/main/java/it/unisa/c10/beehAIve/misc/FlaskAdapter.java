@@ -24,10 +24,7 @@ public class FlaskAdapter {
       // Istanzia la connessione sull'ip
       URL url = new URL("http://127.0.0.1:5000/use_cnn");
       // Formattiamo in formato JSON
-      // 3 in queen presence è un valore mock solo per far apparire il valore nel dictionary di python
-      // si è deciso un numero diverso da 0 e 1 così da evitare discrepanze
       String[] inputData = {"{\"file name\" : \"" + fileName + "\"}"};
-      System.out.println(inputData[0]);
       for (String input : inputData) {
         // Scriviamo il nostro file JSON sulla connessione
         byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
@@ -132,19 +129,16 @@ public class FlaskAdapter {
     return result;
   }
 
-  // Questo metodo si connette al server Flask passando per la CNN (Driver FIA)
-  public Prediction predictWithCNN (double apparentHiveTemp, double apparentWeatherTemp) {
-    Prediction prediction = null;
+  // Questo metodo prende uno spettrogramma a caso dal dataset
+  public String getRandomSpectrogram () {
     HttpURLConnection connection = null;
     DataOutputStream outputStream = null;
+    String result = "";
     try {
-      URL url = new URL("http://127.0.0.1:5000/ccd");
       // Istanzia la connessione sull'ip
-      double apparentTempDiff = apparentHiveTemp - apparentWeatherTemp;
+      URL url = new URL("http://127.0.0.1:5000/get_spectrogram");
       // Formattiamo in formato JSON
-      // 3 in queen presence è un valore mock solo per far apparire il valore nel dictionary di python
-      // si è deciso un numero diverso da 0 e 1 così da evitare discrepanze
-      String[] inputData = {"{\"queen presence\" : 3, \"apparent hive temp\" : " + apparentHiveTemp + ", \"apparent temp diff\" : " + apparentTempDiff + "}"};
+      String[] inputData = {"{\"nothing\" : \"nothing\"}"};
       for (String input : inputData) {
         // Scriviamo il nostro file JSON sulla connessione
         byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
@@ -164,11 +158,10 @@ public class FlaskAdapter {
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        // Leggiamo il nostro output e convertiamolo in JSon
+        // Leggiamo il nostro output
         String output;
         while ((output = bufferedReader.readLine()) != null) {
-          Gson gson = new Gson();
-          prediction = gson.fromJson(output, Prediction.class);
+          result = output;
         }
         connection.disconnect();
       }
@@ -180,59 +173,8 @@ public class FlaskAdapter {
       if (connection != null)
         connection.disconnect();
     }
-
-    return prediction;
-  }
-
-  // Questo metodo si connette al server Flask senza passare per la CNN (Driver FIA)
-  public Prediction predictWithoutCNN(double apparentHiveTemp, double apparentWeatherTemp, int queenPresence) {
-    Prediction prediction = null;
-    HttpURLConnection connection = null;
-    DataOutputStream outputStream = null;
-    try {
-      // Istanzia la connessione sull'ip
-      URL url = new URL("http://127.0.0.1:5000/ccd_no_cnn");
-      // Calcola la differenza di temperatura, che è una feature
-      double apparentTempDiff = apparentHiveTemp - apparentWeatherTemp;
-      // Formattiamo in formato JSON
-      String[] inputData = {"{\"queen presence\" : " + queenPresence + ", \"apparent hive temp\" : " + apparentHiveTemp + ", \"apparent temp diff\" : " + apparentTempDiff + "}"};
-      for (String input : inputData) {
-        // Scriviamo il nostro file JSON sulla connessione
-        byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("charset", "utf-8");
-        connection.setRequestProperty("Content-Length", Integer.toString(input.length()));
-        outputStream = new DataOutputStream(connection.getOutputStream());
-        outputStream.write(postDataToSend);
-        outputStream.flush();
-
-        if (connection.getResponseCode() != 200) {
-          throw new RuntimeException("HTTP Error Code: " + connection.getResponseCode());
-        }
-
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        // Leggiamo il nostro output e convertiamolo in JSon
-        String output;
-        while ((output = bufferedReader.readLine()) != null) {
-          Gson gson = new Gson();
-          prediction = gson.fromJson(output, Prediction.class);
-        }
-        connection.disconnect();
-      }
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } finally {
-      if (connection != null)
-        connection.disconnect();
-    }
-
-    return prediction;
+    result = result.substring( 1, result.length() - 1 );
+    return result;
   }
 
 }

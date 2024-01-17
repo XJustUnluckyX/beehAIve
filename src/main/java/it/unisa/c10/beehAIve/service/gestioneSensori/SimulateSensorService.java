@@ -8,20 +8,11 @@ import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
-
-/*
-  private double weight;
-*/
-
-/*
-* Codice Humidex
-* double vaporTension = 6.112 * Math.pow(10, ((7.5 * hiveTemp)/(237.7 + hiveTemp))) * (hiveHumidity / 100.0);
-* double apparentTemp = hiveTemp + (5.0/9.0 * (vaporTension - 10));
-* */
+import java.util.Locale;
 
 /*
 La seguente classe deve supportare le seguenti operazioni:
@@ -45,7 +36,7 @@ public class SimulateSensorService {
 
   public void simulateMeasurements() {
 
-    //La prima misurazione partirà SEMPRE alle 12 con valori ottimi
+    // TODO La prima misurazione partirà SEMPRE alle 12 con valori ottimi e viene istanziata quando si crea un'arnia
 
     // Prendiamo tutte le Arnie
     List<Hive> allHives = hiveDAO.findAll();
@@ -54,8 +45,8 @@ public class SimulateSensorService {
       // Crea la nuova misurazione
       Measurement newMeasurement = new Measurement();
 
-      List<Measurement> measurements = measurementDAO.findByHiveId(h.getId());
-      Measurement lastMeasurement = measurements.get(measurements.size()-1); //TODO Mock method to get last Measurement in a hive
+      // Prende l'ultima misurazione dell'arnia
+      Measurement lastMeasurement = measurementDAO.findTopByHiveIdOrderByMeasurementDateDesc(h.getId());
 
       // Imposta la nuova data
       LocalDateTime newDate = lastMeasurement.getMeasurementDate().plusHours(1);
@@ -92,7 +83,7 @@ public class SimulateSensorService {
       newMeasurement.setHumidity(newHiveHumidity);
 
       // Generiamo un nuovo spettrogramma casuale associato alla misurazione
-      String newSpectrogram = simulateSpectrogram();
+      String newSpectrogram = anomalyService.getRandomSpectrogram();
       newMeasurement.setSpectrogram(newSpectrogram);
 
       // Controlliamo se la regina è presente attraverso l'utilizzo della CNN
@@ -104,10 +95,11 @@ public class SimulateSensorService {
       double newWeight = simulateWeight(lastWeight);
       newMeasurement.setWeight(newWeight);
 
+      // Invia la misurazione al database
       measurementDAO.save(newMeasurement);
 
-      // Manda al controllo anomalie la misurazione
-      // TODO
+      // Manda al controllo anomalie la misurazione per diagnosticare eventuali problemi
+      anomalyService.checkAnomalies(newMeasurement);
 
     }
   }
@@ -138,11 +130,11 @@ public class SimulateSensorService {
       temperature += Math.round(randomTemp * 100.0) / 100.0;
     }
 
-    return temperature;
+    return formatNumber(temperature);
   }
   private double simulateHiveTemp(double temperature) {
     if (temperature < 32) { //Anomalia, temperatura troppo bassa
-      if (Math.random() > 0.80) { //80% di probabilità di sistemare la temperatura
+      if (Math.random() > 0.20) { //80% di probabilità di sistemare la temperatura
         double randomIncrement = 0.5 + (Math.random() * 1); // Numero tra 0.5 e 1.5
         temperature += Math.round(randomIncrement * 100.0) / 100.0;
       } else { //20% di probabilità di peggiorarla ulteriormente
@@ -150,7 +142,7 @@ public class SimulateSensorService {
         temperature += Math.round(randomDecrement * 100.0) / 100.0;
       }
     } else if (temperature > 37) { //Anomalia, temperatura troppo alta
-      if (Math.random() > 0.80) { //80% di probabilità di sistemare la temperatura
+      if (Math.random() > 0.20) { //80% di probabilità di sistemare la temperatura
         double randomDecrement = -1.5 + (Math.random() * 1); // Numero tra -1.5 e -0.5
         temperature += Math.round(randomDecrement * 100.0) / 100.0;
       } else { //20% di probabilità di peggiorarla ulteriormente
@@ -166,12 +158,12 @@ public class SimulateSensorService {
         temperature += Math.round(randomDecrement * 100.0) / 100.0;
       }
     }
-    return temperature;
+    return formatNumber(temperature);
   }
   private double simulateHumidity(double humidity) {
     // Generiamo la nuova umidità (Tendiamo sempre verso 20)
     if (humidity < 18) {
-      if (Math.random() > 0.80) { //80% di probabilità di sistemare l'umidità
+      if (Math.random() > 0.20) { //80% di probabilità di sistemare l'umidità
         double randomIncrement = 0.5 + (Math.random() * 1); // Numero tra 0.5 e 1.5
         humidity += Math.round(randomIncrement * 100.0) / 100.0;
       } else { //20% di probabilità di peggiorarla ulteriormente
@@ -179,7 +171,7 @@ public class SimulateSensorService {
         humidity += Math.round(randomDecrement * 100.0) / 100.0;
       }
     } else if (humidity > 22) {
-      if (Math.random() > 0.80) { //80% di probabilità di sistemare l'umidità
+      if (Math.random() > 0.20) { //80% di probabilità di sistemare l'umidità
         double randomDecrement = -1.5 + (Math.random() * 1); // Numero tra -1.5 e -0.5
         humidity += Math.round(randomDecrement * 100.0) / 100.0;
       } else { //20% di probabilità di peggiorarla ulteriormente
@@ -196,27 +188,12 @@ public class SimulateSensorService {
       }
     }
 
-    return humidity;
+    return formatNumber(humidity);
 
-  }
-
-  //TODO check if it works on all computers
-  private String simulateSpectrogram () {
-    // Prende uno spettrogramma casuale dalla cartella
-
-    File dir = new File("src\\ai\\resources\\spectrograms\\");
-
-    File[] spectrogramsList = dir.listFiles();
-
-    Random rand = new Random();
-
-    File spectrogram = spectrogramsList[rand.nextInt(spectrogramsList.length)];
-
-    return spectrogram.getName();
   }
   private double simulateWeight(double weight) {
     if (weight < 25) { //Anomalia, peso troppo basso
-      if (Math.random() > 0.80) { //80% di probabilità di sistemare il peso
+      if (Math.random() > 0.20) { //80% di probabilità di sistemare il peso
         double randomIncrement = 10 + (Math.random() * 20); // Numero tra 10 e 30
         weight += Math.round(randomIncrement * 100.0) / 100.0;
       } else { //20% di probabilità di peggiorarlo ulteriormente
@@ -224,7 +201,7 @@ public class SimulateSensorService {
         weight += Math.round(randomDecrement * 100.0) / 100.0;
       }
     } else if (weight > 135) { //Anomalia, peso troppo alta
-      if (Math.random() > 0.80) { //80% di probabilità di sistemare il peso
+      if (Math.random() > 0.20) { //80% di probabilità di sistemare il peso
         double randomDecrement = -30 + (Math.random() * 20); // Numero tra -30 e -10
         weight += Math.round(randomDecrement * 100.0) / 100.0;
       } else { //20% di probabilità di peggiorarlo ulteriormente
@@ -240,7 +217,15 @@ public class SimulateSensorService {
         weight += Math.round(randomDecrement * 100.0) / 100.0;
       }
     }
-    return weight;
+    return formatNumber(weight);
+  }
+  private double formatNumber (double number) {
+    DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+    otherSymbols.setDecimalSeparator('.');
+    otherSymbols.setGroupingSeparator(',');
+    double result = Double.parseDouble(new DecimalFormat("0.00", otherSymbols).format(number));
+    return result;
   }
 
 }
+

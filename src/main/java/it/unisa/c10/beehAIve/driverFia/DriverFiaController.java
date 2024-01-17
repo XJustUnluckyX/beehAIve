@@ -34,7 +34,8 @@ public class DriverFiaController {
   @GetMapping("/predict_with_cnn")
   @ResponseBody
   public String cddPredictionWithCNN(@RequestParam String hiveTemp, @RequestParam String ambTemp) {
-    Prediction p = driverFiaService.predictWithCNN(Double.parseDouble(hiveTemp),Double.parseDouble(ambTemp));
+//    Prediction p = driverFiaService.predictWithCNN(Double.parseDouble(hiveTemp),Double.parseDouble(ambTemp));
+    String p = "mock";
     Gson gson = new Gson();
     String json = gson.toJson(p);
     return json;
@@ -44,7 +45,8 @@ public class DriverFiaController {
   @GetMapping("/predict_without_cnn")
   @ResponseBody
   public String cddPredictionWithoutCNN(@RequestParam String hiveTemp, @RequestParam String ambTemp, @RequestParam String queenPresence) {
-    Prediction p = driverFiaService.predictWithoutCNN(Double.parseDouble(hiveTemp), Double.parseDouble(ambTemp), Integer.parseInt(queenPresence));
+//    Prediction p = driverFiaService.predictWithoutCNN(Double.parseDouble(hiveTemp), Double.parseDouble(ambTemp), Integer.parseInt(queenPresence));
+    String p = "mock";
     Gson gson = new Gson();
     String json = gson.toJson(p);
     return json;
