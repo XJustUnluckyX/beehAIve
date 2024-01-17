@@ -1,44 +1,39 @@
 package it.unisa.c10.beehAIve.service.gestioneUtente;
 
 import it.unisa.c10.beehAIve.persistence.dao.BeekeeperDAO;
-import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
-import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/*
- * La seguente classe supporta le seguenti operazioni:
- * 1. Sottoscrivere un beekeeper a un abbonamento.
- * 2. Modificare il piano di abbonamento di un beekeeper (mensile, trimestrale, annuale).
- * 3. Controllare che l'abbonamento di un beekeeper sia scaduto o meno.
- * 4. Annullare l'abbonamento di un beekeeper.
- * 5. Aggiornare il prezzo dell'abbonamento di un beekeeper.
- */
+import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Payer;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentExecution;
+import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Transaction;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.PayPalRESTException;
 
 @Service
 public class SubscriptionService {
+  @Autowired
+  private APIContext apiContext; // per PayPal
   private final BeekeeperDAO beekeeperDAO;
-  private final HiveDAO hiveDAO;
-  private final double monthlyPricePerHive;
-  private final double quarterlyPricePerHive;
-  private final double annualPricePerHive;
 
   @Autowired
-  public SubscriptionService(BeekeeperDAO beekeeperDAO, HiveDAO hiveDAO) {
+  public SubscriptionService(BeekeeperDAO beekeeperDAO) {
     this.beekeeperDAO = beekeeperDAO;
-    this.hiveDAO = hiveDAO;
-    this.monthlyPricePerHive = 5;
-    this.quarterlyPricePerHive = 4.5;
-    this.annualPricePerHive = 4;
   }
 
-  // Metodo privato per ricercare il beekeeper nel database, così da evitare ripetizioni nel codice
-  private Beekeeper getBeekeeper(String beekeeperEmail) {
+  // Metodo per ricercare il beekeeper nel database, così da evitare ripetizioni nel codice
+  public Beekeeper getBeekeeper(String beekeeperEmail) {
     // Ricerca del beekeeper nel database
     Optional<Beekeeper> optionalBeekeeper = beekeeperDAO.findById(beekeeperEmail);
 
@@ -50,78 +45,102 @@ public class SubscriptionService {
     }
   }
 
-  public void modifySubscription(String beekeeperEmail, int subscriptionPlan) {
+  public double calculatePayment(String subscriptionType) {
+    if (subscriptionType.equals("small")) { // Prezzo dell'abbonamento "Small"
+      return 50;
+    } else if (subscriptionType.equals("medium")) { // Prezzo dell'abbonamento "Medium"
+      return 350;
+    } else { // Prezzo dell'abbonamento "Large"
+      return 1050;
+    }
+  }
+
+  public void modifySubscription(String beekeeperEmail, String subscriptionType) {
     Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
-    // Ricerca e conteggio di tutte le arnie appartenenti al beekeeper nel database
-    List<Hive> beekeeperHives = hiveDAO.findByBeekeeperEmail(beekeeperEmail);
-    int hivesCount = beekeeperHives.size();
 
     // Sottoscrizione a un nuovo abbonamento
-    // ...roba di PayPal/Stripe
     beekeeper.setSubscribed(true);
-    if (subscriptionPlan == 1) { // Sottoscrizione ad abbonamento mensile
-      beekeeper.setPaymentDue(hivesCount * monthlyPricePerHive); // Prezzo
-      beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(1)); // Scadenza
-    } else if (subscriptionPlan == 2) { // Sottoscrizione ad abbonamento trimestrale
-      beekeeper.setPaymentDue(hivesCount * quarterlyPricePerHive); // Prezzo
-      beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(3)); // Scadenza
-    } else { // Sottoscrizione ad abbonamento annuale
-      beekeeper.setPaymentDue(hivesCount * annualPricePerHive); // Prezzo
-      beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(12)); // Scadenza
-    }
+    // Calcolo dell'importo pagato
+    beekeeper.setPaymentDue(calculatePayment(subscriptionType));
+    // Un mese alla scadenza a partire dalla data odierna
+    beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(1));
 
     // Salvataggio delle modifiche nel database
     beekeeperDAO.save(beekeeper);
-  }
-
-  public boolean isSubscriptionExpired(String beekeeperEmail) {
-    Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
-
-    // Si restituisce 'true' se la data di scadenza precede la data odierna, 'false' altrimenti
-    return beekeeper.getSubscrExpirationDate().isBefore(LocalDate.now());
   }
 
   public void cancelSubscription(String beekeeperEmail) {
     Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
 
-    // Controllo sull'esistenza di un abbonamento attivo
-    if (!beekeeper.isSubscribed()) {
-      throw new IllegalStateException
-          ("Cannot cancel beekeeper's subscription because it is not subscribed to any plan.");
+    if (beekeeper.isSubscribed()) { // Controllo sull'esistenza di un abbonamento attivo
+      // Cancellazione dell'abbonamento dal database
+      beekeeper.setSubscribed(false);
+      beekeeper.setPaymentDue(0);
+      beekeeper.setSubscrExpirationDate(null);
+      // Salvataggio delle modifiche nel database
+      beekeeperDAO.save(beekeeper);
     }
-
-    // Cancellazione dell'abbonamento
-    // ...roba di PayPal/Stripe (?)
-    beekeeper.setSubscribed(false);
-    beekeeper.setPaymentDue(0);
-    beekeeper.setSubscrExpirationDate(null);
-
-    // Salvataggio delle modifiche nel database
-    beekeeperDAO.save(beekeeper);
   }
 
-  public void updatePrice(String beekeeperEmail, int subscriptionPlan) {
+  public boolean isSubscriptionExpired(String beekeeperEmail) {
     Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
-    // Ricerca e conteggio di tutte le arnie appartenenti al beekeeper nel database
-    List<Hive> beekeeperHives = hiveDAO.findByBeekeeperEmail(beekeeperEmail);
-    int hivesCount = beekeeperHives.size();
 
-    // Controllo sull'esistenza di un abbonamento attivo
-    if (!beekeeper.isSubscribed()) {
-      throw new IllegalStateException
-          ("Cannot update beekeeper's subscription price because it is not subscribed to any plan.");
+    // Restituisce 'true' se la data odierna supera la data di scadenza, 'false' altrimenti
+    return beekeeper.getSubscrExpirationDate().isBefore(LocalDate.now());
+  }
+
+  public void cancelExpiredSubscription() {
+    List<Beekeeper> beekeepers = beekeeperDAO.findAll();
+
+    for (Beekeeper b : beekeepers) {
+      // Se l'abbonamento risulta scaduto...
+      if (b.getSubscrExpirationDate() != null && isSubscriptionExpired(b.getEmail())) {
+        // Cancellazione dell'abbonamento dal database
+        b.setSubscribed(false);
+        b.setPaymentDue(0);
+        b.setSubscrExpirationDate(null);
+        beekeeperDAO.save(b);
+      }
     }
+  }
 
-    // Aggiornamento del prezzo
-    if (subscriptionPlan == 1) { // Se il beekeeper ha un abbonamento mensile...
-      beekeeper.setPaymentDue(hivesCount * monthlyPricePerHive);
-    } else if (subscriptionPlan == 2) { // Se il beekeeper ha un abbonamento trimestrale...
-      beekeeper.setPaymentDue(hivesCount * quarterlyPricePerHive);
-    } else { // Se il beekeeper ha un abbonamento annuale...
-      beekeeper.setPaymentDue(hivesCount * annualPricePerHive);
-    }
+  //--------------------------------------Metodi di PayPal------------------------------------------
 
-    // Salvataggio delle modifiche nel database
-    beekeeperDAO.save(beekeeper);
+  public Payment createPayment(Double total, String currency, String method, String intent,
+                               String description, String cancelUrl, String successUrl)
+      throws PayPalRESTException {
+    Amount amount = new Amount();
+    amount.setCurrency(currency);
+    total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    amount.setTotal(String.format("%.2f", total));
+
+    Transaction transaction = new Transaction();
+    transaction.setDescription(description);
+    transaction.setAmount(amount);
+
+    List<Transaction> transactions = new ArrayList<>();
+    transactions.add(transaction);
+
+    Payer payer = new Payer();
+    payer.setPaymentMethod(method.toString());
+
+    Payment payment = new Payment();
+    payment.setIntent(intent.toString());
+    payment.setPayer(payer);
+    payment.setTransactions(transactions);
+    RedirectUrls redirectUrls = new RedirectUrls();
+    redirectUrls.setCancelUrl(cancelUrl);
+    redirectUrls.setReturnUrl(successUrl);
+    payment.setRedirectUrls(redirectUrls);
+
+    return payment.create(apiContext);
+  }
+
+  public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
+    Payment payment = new Payment();
+    payment.setId(paymentId);
+    PaymentExecution paymentExecute = new PaymentExecution();
+    paymentExecute.setPayerId(payerId);
+    return payment.execute(apiContext, paymentExecute);
   }
 }
