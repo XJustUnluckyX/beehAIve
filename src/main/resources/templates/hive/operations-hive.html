@@ -18,7 +18,36 @@
 <div th:insert="fragments/hives-header :: modify_hive"></div>
 <div th:insert="fragments/hives-header :: remove_hive"></div>
 
+<div class="container-fluid text-center my-5 custom-page">
+    <div class="row custom-calendar mb-3 justify-content-center">
+        <div class="col-md-9 bg-secondary d-flex justify-content-center">
+            <img class="img-fluid" src="../../static/assets/sad_bee.png" alt="Sad Bee Image">
+        </div>
+        <div class="col-md-3 bg-light d-flex flex-column justify-content-evenly align-items-center">
+            <button type="button" class="btn btn-primary m-2"> Add Operation</button>
+            <button type="button" class="btn btn-primary m-2"> Modify Operation</button>
+            <button type="button" class="btn btn-primary m-2"> Remove Operation</button>
+        </div>
+    </div>
 
+    <div class="row custom-log bg-success">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover bg-primary">
+                <thead>
+                <th>#</th>
+                <th>Operation Type</th>
+                <th>Operation Date</th>
+                <th>Operation Result</th>
+                </thead>
+                <tbody>
+                <!--                        Ciclo thymeleaf-->
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 

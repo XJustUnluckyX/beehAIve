@@ -29,4 +29,6 @@ public class RedirectController {
   public String state (Model model) { return "hive/state-hive";}
   @GetMapping("/parameters-hive")
   public String parameter (Model model) { return "hive/parameters-hive";}
+  @GetMapping("/operations-hive")
+  public String operation (Model model) { return "hive/operations-hive";}
 }
