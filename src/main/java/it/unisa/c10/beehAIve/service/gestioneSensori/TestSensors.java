@@ -20,7 +20,7 @@ public class TestSensors {
     this.measurementDAO = measurementDAO;
   }
 
-  @GetMapping("/mimmo")
+  @GetMapping("/testSensor")
   public String test() {
     List<Measurement> measurements = measurementDAO.findByHiveId(1);
 

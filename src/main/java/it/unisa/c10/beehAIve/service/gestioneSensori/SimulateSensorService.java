@@ -210,10 +210,10 @@ public class SimulateSensorService {
       }
     } else { //Peso in range
       if (Math.random() > 0.50) { //50% di probabilità di aumentarlo
-        double randomIncrement = 10 + (Math.random() * 20); // Numero tra 10 e 30
+        double randomIncrement = 10 + (Math.random() * 10); // Numero tra 10 e 20
         weight += Math.round(randomIncrement * 100.0) / 100.0;
       } else { //50% di probabilità di diminuirlo
-        double randomDecrement = -30 + (Math.random() * 20); // Numero tra -30 e -10
+        double randomDecrement = -20 + (Math.random() * 10); // Numero tra -20 e -10
         weight += Math.round(randomDecrement * 100.0) / 100.0;
       }
     }
@@ -223,8 +223,7 @@ public class SimulateSensorService {
     DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
     otherSymbols.setDecimalSeparator('.');
     otherSymbols.setGroupingSeparator(',');
-    double result = Double.parseDouble(new DecimalFormat("0.00", otherSymbols).format(number));
-    return result;
+    return Double.parseDouble(new DecimalFormat("0.00", otherSymbols).format(number));
   }
 
 }
