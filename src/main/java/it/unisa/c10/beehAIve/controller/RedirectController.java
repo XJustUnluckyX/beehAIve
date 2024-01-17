@@ -11,9 +11,9 @@ public class RedirectController {
   public String home (Model model) {
     return "index";
   }
-  @GetMapping("/login")
+  @GetMapping("/login-page")
   public String login (Model model) {
-    return "login";
+    return "login-page";
   }
   @GetMapping("/registration-page")
   public String register (Model model) {
@@ -35,4 +35,6 @@ public class RedirectController {
   public String contact (Model model) { return "/contact-us";}
   @GetMapping("/about-us")
   public String about (Model model) { return "/about-us";}
+  @GetMapping("/sensor-spec")
+  public String sensor (Model model) { return "/sensor-spec";}
 }

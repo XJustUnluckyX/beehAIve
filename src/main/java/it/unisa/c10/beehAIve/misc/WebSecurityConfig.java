@@ -15,11 +15,11 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                   .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
-                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us").permitAll()
+                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
                   .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login").permitAll()
+                        .loginPage("/login-page").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 
