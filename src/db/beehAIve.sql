@@ -10,7 +10,7 @@ CREATE TABLE Beekeeper (
     last_name varchar(50) not null,
     company_name varchar(100),
     company_PIVA varchar(100) unique,
-    isSubscribed boolean not null,
+    subscribed boolean not null,
     payment_due double not null,
     subscr_expiration_date date
 );
@@ -48,18 +48,22 @@ CREATE TABLE Production (
 CREATE TABLE Sensor (
     ID int primary key auto_increment,
     hive_ID int not null,
-    foreign key (hive_ID) references Hive(ID)
+    beekeeper_email varchar(50) not null,
+    foreign key (hive_ID) references Hive(ID),
+	foreign key (beekeeper_email) references Beekeeper(email)
 );
 
 CREATE TABLE Anomaly (
     ID int primary key auto_increment,
     anomaly_name varchar(100) not null,
-    isResolved boolean not null,
-    detection_date date not null,
+    resolved boolean not null,
+    detection_date datetime not null,
     sensor_ID int not null,
     hive_ID int not null,
+    beekeeper_email varchar(50) not null,
     foreign key (sensor_ID) references Sensor(ID),
-    foreign key (hive_ID) references Hive(ID)
+    foreign key (hive_ID) references Hive(ID),
+    foreign key (beekeeper_email) references Beekeeper(email)
 );
 
 CREATE TABLE Operation (
@@ -76,7 +80,9 @@ CREATE TABLE Operation (
 );
 
 CREATE TABLE Measurement (
+	ID int primary key auto_increment,
     sensor_ID int not null,
+    hive_ID int not null,
     measurement_date datetime not null,
     weight double not null,
     spectrogram char(30) not null,
@@ -84,14 +90,14 @@ CREATE TABLE Measurement (
     ambient_temperature double not null,
     humidity double not null,
     ambient_humidity double not null,
-    isQueenPresent boolean not null,
-    primary key (sensor_ID, measurement_date),
-    foreign key (sensor_ID) references Sensor(ID)
+    queen_present boolean not null,
+    foreign key (sensor_ID) references Sensor(ID),
+    foreign key (hive_ID) references Hive(ID)
 );
 
 # Inserimenti - Stato Zero
-INSERT INTO Beekeeper (email, passwordhash, first_name, last_name, company_name, company_PIVA, isSubscribed, payment_due, subscr_expiration_date) VALUES
-('n.gallotta@gmail.com',SHA2('Password-123',256),'Nicolò','Gallotta','The London Bee Company','GBLBC123456789',1,599,'2027-01-14'),
+INSERT INTO Beekeeper (email, passwordhash, first_name, last_name, company_name, company_PIVA, subscribed, payment_due, subscr_expiration_date) VALUES
+('n.gallotta@gmail.com',SHA2('Password-123',256),'NicolÃ²','Gallotta','The London Bee Company','GBLBC123456789',1,599,'2027-01-14'),
 ('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','Bee Raw','USBR123456789',1,599,'2027-01-14'),
 ('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','Rowse Honey','GBRH123456789',1,599,'2027-01-14'),
 ('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,599,'2027-01-14');
@@ -122,36 +128,38 @@ INSERT INTO Production (product, weight, notes, registration_date, hive_ID, beek
 ('Honey',2,'Favorable weather.','2027-01-14',7,'f.festa@gmail.com'),
 ('Honey',2.5,'Bees were happy today.','2027-01-14',10,'a.depasquale@gmail.com');
 
-INSERT INTO Sensor (hive_ID) VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6),
-(7),
-(8),
-(9),
-(10),
-(11),
-(12);
+INSERT INTO Sensor (hive_ID, beekeeper_email) VALUES
+(1,'n.gallotta@gmail.com'),
+(2,'n.gallotta@gmail.com'),
+(3,'n.gallotta@gmail.com'),
+(4,'s.valente@gmail.com'),
+(5,'s.valente@gmail.com'),
+(6,'s.valente@gmail.com'),
+(7,'f.festa@gmail.com'),
+(8,'f.festa@gmail.com'),
+(9,'f.festa@gmail.com'),
+(10,'a.depasquale@gmail.com'),
+(11,'a.depasquale@gmail.com'),
+(12,'a.depasquale@gmail.com');
 
-INSERT INTO Anomaly (anomaly_name, isResolved, detection_date, sensor_ID, hive_ID) VALUES
-('Temperature Out of Range',1,'2027-01-14',1,1);
+INSERT INTO Anomaly (anomaly_name, resolved, detection_date, sensor_ID, hive_ID, beekeeper_email) VALUES
+('Temperature Out of Range',1,'2027-01-14 09:00:00',1,1,'n.gallotta@gmail.com'),
+('Humidity Out of Range',0,'2027-01-16 17:00:00',1,1,'n.gallotta@gmail.com');
 
 INSERT INTO Operation (operation_name, operation_type, operation_status, operation_date, notes, hive_ID, beekeeper_email) VALUES
 ('Temperature Adjustment','Transfer','Completed','2027-01-15','Adjusted hive temperature by providing additional insulation during cold weather.',1,'n.gallotta@gmail.com');
 
-INSERT INTO Measurement (sensor_ID, measurement_date, weight, spectrogram, temperature, ambient_temperature, humidity, ambient_humidity, isQueenPresent) VALUES
-(1,'2027-01-14 19:35:00', 40, '2027_01_14_19_35_00_spect.png', 35, 20, 20, 40, 1),
-(2,'2027-01-14 19:36:00', 75, '2027_01_14_19_36_00_spect.png', 34, 20, 20, 40, 1),
-(3,'2027-01-14 19:37:00', 110, '2027_01_14_19_37_00_spect.png', 35.5, 20, 20, 40, 1),
-(4,'2027-01-14 19:35:00', 45, '2027_01_14_19_35_00_spect.png', 35.8, 17, 20, 80, 1),
-(5,'2027-01-14 19:36:00', 90, '2027_01_14_19_36_00_spect.png', 33.2, 17, 20, 80, 1),
-(6,'2027-01-14 19:37:00', 125, '2027_01_14_19_37_00_spect.png', 36, 23, 20, 80, 1),
-(7,'2027-01-14 19:35:00', 50, '2027_01_14_19_35_00_spect.png', 34.7, 24, 20, 50, 1),
-(8,'2027-01-14 19:36:00', 85, '2027_01_14_19_36_00_spect.png', 35.5, 24, 20, 50, 1),
-(9,'2027-01-14 19:37:00', 120, '2027_01_14_19_37_00_spect.png', 33.8, 24, 20, 50, 1),
-(10,'2027-01-14 19:35:00', 55, '2027_01_14_19_35_00_spect.png', 35, 14, 20, 60, 1),
-(11,'2027-01-14 19:36:00', 95, '2027_01_14_19_36_00_spect.png', 34.2, 14, 20, 60, 1),
-(12,'2027-01-14 19:37:00', 130, '2027_01_14_19_37_00_spect.png', 35.8, 14, 20, 60, 1);
+INSERT INTO Measurement (sensor_ID, hive_ID, measurement_date, weight, spectrogram, temperature, ambient_temperature, humidity, ambient_humidity, queen_present) VALUES
+(1,1,'2027-01-14 19:35:00', 40, '2027_01_14_19_35_00_spect.png', 35, 20, 20, 40, 1),
+(1,1,'2027-01-14 19:36:00', 39, '2027_01_14_19_35_00_spect.png', 35, 20, 20, 40, 1),
+(2,2,'2027-01-14 19:36:00', 75, '2027_01_14_19_36_00_spect.png', 34, 20, 20, 40, 1),
+(3,3,'2027-01-14 19:37:00', 110, '2027_01_14_19_37_00_spect.png', 35.5, 20, 20, 40, 1),
+(4,4,'2027-01-14 19:35:00', 45, '2027_01_14_19_35_00_spect.png', 35.8, 17, 20, 80, 1),
+(5,5,'2027-01-14 19:36:00', 90, '2027_01_14_19_36_00_spect.png', 33.2, 17, 20, 80, 1),
+(6,6,'2027-01-14 19:37:00', 125, '2027_01_14_19_37_00_spect.png', 36, 23, 20, 80, 1),
+(7,7,'2027-01-14 19:35:00', 50, '2027_01_14_19_35_00_spect.png', 34.7, 24, 20, 50, 1),
+(8,8,'2027-01-14 19:36:00', 85, '2027_01_14_19_36_00_spect.png', 35.5, 24, 20, 50, 1),
+(9,9,'2027-01-14 19:37:00', 120, '2027_01_14_19_37_00_spect.png', 33.8, 24, 20, 50, 1),
+(10,10,'2027-01-14 19:35:00', 55, '2027_01_14_19_35_00_spect.png', 35, 14, 20, 60, 1),
+(11,11,'2027-01-15 19:36:00', 95, '2027_01_14_19_36_00_spect.png', 34.2, 14, 20, 60, 1),
+(12,12,'2027-01-15 19:37:00', 130, '2027_01_14_19_37_00_spect.png', 35.8, 14, 20, 60, 1);

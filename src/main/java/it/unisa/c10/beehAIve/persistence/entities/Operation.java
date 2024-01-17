@@ -9,10 +9,10 @@ import java.time.LocalDate;
 public class Operation {
   @Id
   private int id;
-  private String name;
-  private String type;
-  private String status;
-  private LocalDate date;
+  private String operationName;
+  private String operationType;
+  private String operationStatus;
+  private LocalDate operationDate;
   private String notes;
   private int hiveId;
   private String beekeeperEmail;
@@ -25,36 +25,36 @@ public class Operation {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getOperationName() {
+    return operationName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setOperationName(String name) {
+    this.operationName = name;
   }
 
-  public String getType() {
-    return type;
+  public String getOperationType() {
+    return operationType;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setOperationType(String type) {
+    this.operationType = type;
   }
 
-  public String getStatus() {
-    return status;
+  public String getOperationStatus() {
+    return operationStatus;
   }
 
-  public void setStatus(String status) {
-    this.status = status;
+  public void setOperationStatus(String status) {
+    this.operationStatus = status;
   }
 
-  public LocalDate getDate() {
-    return date;
+  public LocalDate getOperationDate() {
+    return operationDate;
   }
 
-  public void setDate(LocalDate date) {
-    this.date = date;
+  public void setOperationDate(LocalDate date) {
+    this.operationDate = date;
   }
 
   public String getNotes() {

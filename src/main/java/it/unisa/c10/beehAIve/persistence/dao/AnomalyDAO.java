@@ -4,7 +4,7 @@ import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,7 +17,7 @@ public interface AnomalyDAO extends JpaRepository<Anomaly, Integer> {
 
   // deleteById
 
-  List<Anomaly> findByName(String name);
+  List<Anomaly> findByAnomalyName(String anomalyName);
 
   List<Anomaly> findByResolvedTrue();
 
@@ -27,13 +27,13 @@ public interface AnomalyDAO extends JpaRepository<Anomaly, Integer> {
 
   List<Anomaly> findByHiveIdAndResolvedFalse(int hiveId);
 
-  List<Anomaly> findByDetectionDateBetween(LocalDate date1, LocalDate date2);
+  List<Anomaly> findByDetectionDateBetween(LocalDateTime date1, LocalDateTime date2);
 
-  List<Anomaly> findByDetectionDateBetweenAndHiveId(LocalDate date1, LocalDate date2, int hiveId);
+  List<Anomaly> findByDetectionDateBetweenAndHiveId(LocalDateTime date1, LocalDateTime date2, int hiveId);
 
-  List<Anomaly> findByDetectionDateBetweenAndHiveIdAndResolvedTrue(LocalDate date1, LocalDate date2, int hiveId);
+  List<Anomaly> findByDetectionDateBetweenAndHiveIdAndResolvedTrue(LocalDateTime date1, LocalDateTime date2, int hiveId);
 
-  List<Anomaly> findByDetectionDateBetweenAndHiveIdAndResolvedFalse(LocalDate date1, LocalDate date2, int hiveId);
+  List<Anomaly> findByDetectionDateBetweenAndHiveIdAndResolvedFalse(LocalDateTime date1, LocalDateTime date2, int hiveId);
 
   int countByBeekeeperEmail(String beekeeperEmail);
 
