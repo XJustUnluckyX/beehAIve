@@ -8,8 +8,8 @@ CREATE TABLE Beekeeper (
     passwordhash varchar(100) not null,
     first_name varchar(50) not null,
     last_name varchar(50) not null,
-    company_name varchar(100),
-    company_PIVA varchar(100) unique,
+    company_name varchar(100) not null,
+    company_PIVA varchar(100) unique not null,
     subscribed boolean not null,
     payment_due double not null,
     subscr_expiration_date date
@@ -29,8 +29,10 @@ CREATE TABLE Hive (
     creation_date date not null,
     beekeeper_email varchar(50) not null,
     bee_species varchar(50) not null,
-    foreign key (beekeeper_email) references Beekeeper(email),
-    foreign key (bee_species) references Bee(scientific_name)
+	hive_health int not null,
+    uncompleted_operations boolean not null,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE,
+    foreign key (bee_species) references Bee(scientific_name) ON DELETE CASCADE
 );
 
 CREATE TABLE Production (
@@ -41,16 +43,16 @@ CREATE TABLE Production (
     registration_date date not null,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (hive_ID) references Hive(ID),
-    foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Sensor (
     ID int primary key auto_increment,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (hive_ID) references Hive(ID),
-	foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+	foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Anomaly (
@@ -61,9 +63,9 @@ CREATE TABLE Anomaly (
     sensor_ID int not null,
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (sensor_ID) references Sensor(ID),
-    foreign key (hive_ID) references Hive(ID),
-    foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (sensor_ID) references Sensor(ID) ON DELETE CASCADE,
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Operation (
@@ -75,8 +77,8 @@ CREATE TABLE Operation (
     notes varchar(300),
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
-    foreign key (hive_ID) references Hive(ID),
-    foreign key (beekeeper_email) references Beekeeper(email)
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE,
+    foreign key (beekeeper_email) references Beekeeper(email) ON DELETE CASCADE
 );
 
 CREATE TABLE Measurement (
@@ -91,8 +93,8 @@ CREATE TABLE Measurement (
     humidity double not null,
     ambient_humidity double not null,
     queen_present boolean not null,
-    foreign key (sensor_ID) references Sensor(ID),
-    foreign key (hive_ID) references Hive(ID)
+    foreign key (sensor_ID) references Sensor(ID) ON DELETE CASCADE,
+    foreign key (hive_ID) references Hive(ID) ON DELETE CASCADE
 );
 
 # Inserimenti - Stato Zero
@@ -108,19 +110,19 @@ INSERT INTO Bee (scientific_name, common_name, bee_description, photo) VALUES
 ('Apis dorsata','Giant honeybee','Known for their size and open hives, larger than Apis mellifera. They are primarily found in certain regions of Asia.','giant_honeybee.png'),
 ('Apis florea','Dwarf honeybee','Among the smallest bee species. Mainly found in Asia and Africa.','dwarf_honeybee.png');
 
-INSERT INTO Hive (nickname, hive_type, creation_date, beekeeper_email, bee_species) VALUES
-('Tokyo','Langstroth','2027-01-14','n.gallotta@gmail.com','Apis millifera'),
-('Berlino','Warre','2027-01-14','n.gallotta@gmail.com','Apis millifera'),
-('Lisbona','Top-Bar','2027-01-14','n.gallotta@gmail.com','Apis millifera'),
-('Arnia-1','Langstroth','2027-01-14','s.valente@gmail.com','Apis millifera'),
-('Arnia-2','Warre','2027-01-14','s.valente@gmail.com','Apis millifera'),
-('Arnia-3','Top-Bar','2027-01-14','s.valente@gmail.com','Apis millifera'),
-('Aldo','Langstroth','2027-01-14','f.festa@gmail.com','Apis millifera'),
-('Giovanni','Warre','2027-01-14','f.festa@gmail.com','Apis millifera'),
-('Giacomo','Top-Bar','2027-01-14','f.festa@gmail.com','Apis millifera'),
-('Dredge','Langstroth','2027-01-14','a.depasquale@gmail.com','Apis millifera'),
-('Hillbilly','Warre','2027-01-14','a.depasquale@gmail.com','Apis millifera'),
-('Trapper','Top-Bar','2027-01-14','a.depasquale@gmail.com','Apis millifera');
+INSERT INTO Hive (nickname, hive_type, creation_date, beekeeper_email, bee_species, hive_health, uncompleted_operations) VALUES
+('Tokyo','Langstroth','2027-01-14','n.gallotta@gmail.com','Apis millifera', 2, false),
+('Berlino','Warre','2027-01-14','n.gallotta@gmail.com','Apis millifera', 1, false),
+('Lisbona','Top-Bar','2027-01-14','n.gallotta@gmail.com','Apis millifera', 1, false),
+('Arnia-1','Langstroth','2027-01-14','s.valente@gmail.com','Apis millifera', 1, false),
+('Arnia-2','Warre','2027-01-14','s.valente@gmail.com','Apis millifera', 1, false),
+('Arnia-3','Top-Bar','2027-01-14','s.valente@gmail.com','Apis millifera', 1, false),
+('Aldo','Langstroth','2027-01-14','f.festa@gmail.com','Apis millifera', 1, false),
+('Giovanni','Warre','2027-01-14','f.festa@gmail.com','Apis millifera', 1, false),
+('Giacomo','Top-Bar','2027-01-14','f.festa@gmail.com','Apis millifera', 1, false),
+('Dredge','Langstroth','2027-01-14','a.depasquale@gmail.com','Apis millifera', 1, false),
+('Hillbilly','Warre','2027-01-14','a.depasquale@gmail.com','Apis millifera', 1, false),
+('Trapper','Top-Bar','2027-01-14','a.depasquale@gmail.com','Apis millifera', 1, false);
 
 INSERT INTO Production (product, weight, notes, registration_date, hive_ID, beekeeper_email) VALUES
 ('Honey',1,'First harvest of the season.','2027-01-14',1,'n.gallotta@gmail.com'),
