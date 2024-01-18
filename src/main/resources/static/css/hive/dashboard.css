@@ -1,3 +1,7 @@
+body {
+    overflow: auto !important;
+}
+
 .custom-row {
     height: 30vh;
 }

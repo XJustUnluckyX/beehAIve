@@ -30,20 +30,8 @@ public class DashboardService {
     this.measurementDAO = measurementDAO;
   }
 
-  public void createHive(String nickname, String hiveType, String beekeeperEmail,
-                         String beeSpecies){
-
-    // TODO Spostare questo controllo (32 - 41) in DashboardController
-    SubscriptionService subscriptionService = new SubscriptionService(beekeeperDAO);
-    int hivesCount = getBeekeeperHivesCount(beekeeperEmail);
-    double payment = subscriptionService.getBeekeeper(beekeeperEmail).getPaymentDue();
-
-    if ((payment == 50 && hivesCount >= 15)
-     || (payment == 350 && hivesCount >= 100)
-     || (payment == 1050 && hivesCount >= 300)) {
-      throw new RuntimeException("Could not create hive: Reached maximum number of hives.");
-    }
-
+  public void createHive(String beekeeperEmail, String nickname, String hiveType, String beeSpecies){
+    // Creazione dell'arnia e salvataggio nel database
     Hive hive = new Hive();
     hive.setNickname(nickname);
     hive.setHiveType(hiveType);
@@ -54,16 +42,20 @@ public class DashboardService {
     hive.setUncompletedOperations(false);
     hiveDAO.save(hive);
 
-    int newHiveId = hiveDAO.findTopByBeekeeperEmailOrderByIdDesc(beekeeperEmail).getId();
+    // Recupero dell'ID dell'arnia appena creata
+    int createdHiveId = hiveDAO.findTopByBeekeeperEmailOrderByIdDesc(beekeeperEmail).getId();
 
+    // Creazione del sensore relativo all'arnia appena creata e salvataggio nel database
     Sensor sensor = new Sensor();
-    sensor.setHiveId(newHiveId);
+    sensor.setHiveId(createdHiveId);
     sensor.setBeekeeperEmail(beekeeperEmail);
     sensorDAO.save(sensor);
 
+    // Creazione della prima misurazione relativa all'arnia appena creata e salvataggio nel database
+    // A scopo di simulazione, la prima misurazione registrata è sempre ottima
     Measurement measurement = new Measurement();
-    measurement.setSensorId(newHiveId);
-    measurement.setHiveId(newHiveId);
+    measurement.setSensorId(createdHiveId);
+    measurement.setHiveId(createdHiveId);
     measurement.setMeasurementDate(LocalDate.now().atTime(12, 0));
     measurement.setWeight(80);
     measurement.setSpectrogram("bzzz");
