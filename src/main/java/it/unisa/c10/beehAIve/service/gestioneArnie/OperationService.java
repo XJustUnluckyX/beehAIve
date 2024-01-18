@@ -73,11 +73,12 @@ public class OperationService {
   }
 
   // Modificare di un intervento pianificato
-  public void modifyScheduledOperation(String operationName, String operationType, String operationStatus,
+  public void modifyScheduledOperation(int id, String operationName, String operationType, String operationStatus,
                                            LocalDateTime operationDate, String notes, int hiveId, String beekeeperEmail) {
     // Creazione dell'intervento
     Operation operation = this.createOperation(operationName, operationType, operationStatus, operationDate, notes,
       hiveId, beekeeperEmail);
+    operation.setId(id);
 
     // Aggiornamento nel DB
     operationDAO.save(operation);
