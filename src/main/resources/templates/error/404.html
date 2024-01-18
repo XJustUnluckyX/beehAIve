@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/errors/error404.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Title</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/header :: navbar}"></div>
+
+<section class="align-items-center custom-page d-flex justify-content-center">
+    <div class="container-xxl  custom-error d-flex justify-content-center align-items-center">
+        <div class="row custom-border">
+            <div class="col-md-4 col-12 justify-content-center d-flex">
+                <img class="img-fluid" th:src="@{assets/Bee_Mad.png}">
+            </div>
+            <div class="col-md-8 col-12 d-flex flex-column justify-content-center text-center align-items-center">
+                <h1>404</h1>
+                <h2>Oops! Page Not Be Found</h2>
+                <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
+                <a href="/beehAIve_war/" class="btn btn-warning w-50">Back to homepage</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
