@@ -9,11 +9,21 @@
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        .custom-container{
-            height: auto;
-            border: 2px solid black !important;
-            border-radius: 30px !important;
-            backdrop-filter: blur(6px) !important;
+        .custom-page{
+            width: 90% !important;
+            height: 100% !important;
+        }
+        .custom-calendar{
+            height: 75vh !important;
+        }
+        .custom-log{
+            height: 45vh !important;
+        }
+
+        @media only screen and (max-width: 768px){
+            .custom-calendar{
+                height: 70vh !important;
+            }
         }
     </style>
 </head>
@@ -206,117 +216,84 @@
 </div>
 
 <section>
-    <div class="container my-5 custom-container">
+    <div class="container-fluid text-center my-5 custom-page">
 
-        <div class="row py-3 justify-content-center text-center">
-            <div class="col-sm-5">
-                <div class="text">
-                    <h3>First Name</h3>
-                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+            <div class="row custom-calendar mb-3 justify-content-center">
+                <div class="col bg-secondary d-flex justify-content-center">
+<!--                    Calendario-->
+                </div>
+            </div>
+            <div class="row mb-3 justify-content-center align-items-center">
+
+                <div class="col d-flex flex-column justify-content-between align-items-center">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#add_operation"> <h2>Add Operation</h2> </button>  <!--add_operation-->
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#log_operation"> <h2>Log Operation</h2> </button>
                 </div>
 
             </div>
-            <div class="col-sm-5">
-                <div class="text">
-                    <h3>Last Name</h3>
-                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>                </div>
-            </div>
-        </div>
 
-        <div class="row py-3 justify-content-center text-center align-items-center">
-            <div class="col-sm-5 ">
-                <div class="text ">
-                    <h3>Password</h3>
-                    <button type="button" class="btn align-items-center" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh" data-bs-toggle="modal" data-bs-target="#modify_password"> <h5>Modify Password</h5> </button>
-                </div>
-            </div>
-        </div>
 
-        <div class="row py-3 justify-content-center text-center">
-            <div class="col-sm-5">
-                <div class="text">
-                    <h3>Company Name</h3>
-                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
-                </div>
-
-            </div>
-            <div class="col-sm-5">
-                <div class="text">
-                    <h3>Company Piva</h3>
-                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row py-1 justify-content-center text-center">
-            <div class="col-sm-5">
-                <div class="text">
-                    <h3>Subscription Type</h3>
-                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
-                </div>
-
-            </div>
-            <div class="col-sm-5">
-                <div class="text">
-                    <h3>Expiration Date</h3>
-                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row py-3 justify-content-end text-end">
-            <div class="col">
-                <div class="text">
-                    <button type="button" class="btn" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh" data-bs-toggle="modal" data-bs-target="#modify_information"> <h5>Modify</h5> </button>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
-
-<div class="modal fade" id="modify_password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_passwordLabel" aria-hidden="true">
+<!--Modal per l'aggiunta di un operation-->
+<div class="modal fade" id="add_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_operationLabel" aria-hidden="true" th:fragment="remove_hive">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-transparent">
 
             <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="modify_passwordLabel">Modify User Information</h5>
+                <h5 class="modal-title" id="add_operationLabel">Add Operation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body custom-background">
-                <!--                Form per la modifica dell'arnia-->
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12 col-lg-9 col-xl-8">
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form>
+                                <form th:action="@{/add_operation-form}" method="get">
 
-                                    <!--                            Nome utente-->
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <h5 class="form-label" for="firstNameUse">First Name:</h5>
-                                                <input type="text" id="firstNameUser" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <h5 class="form-label" for="operationName">Operation Name:</h5>
+                                                <input type="text" id="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                            Cognome utente-->
+
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <h5 class="form-label" for="LastNameUsere">Last Name:</h5>
-                                                <input type="text" id="LastNameUser" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <h5 class="form-label" for="operationDate">Operation Date:</h5>
+                                                <input class="w-100" type="date" id="operationDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                            Nome Compagnia-->
+
                                     <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="CompanyNameUser">Company Name:</h5>
-                                                <input type="text" id="CompanyNameUser" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                            </div>
+                                        <div class="col-12 mb-4">
+                                            <h5 class="form-label" for="operationType">Operation Type:</h5>
+                                            <select class="select form-control-lg hive_selector">
+                                                <option value="1" disabled selected>Choose option</option>
+                                                <option value="2">Medical Inspection</option>
+                                                <option value="3">Medical Treatment</option>
+                                                <option value="2">Check Population</option>
+                                                <option value="3">Extraction</option>
+                                                <option value="2">Vet Visit</option>
+                                                <option value="3">Feeding</option>
+                                                <option value="2">Transfer</option>
+                                                <option value="3">Maintenance</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h5 for="noteOperation">Example textarea</h5>
+                                            <textarea class="form-control" id="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
 
@@ -329,45 +306,92 @@
 
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm Changes</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
             </div>
 
         </div>
     </div>
 </div>
-<div class="modal fade" id="modify_information" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_informationLabel" aria-hidden="true">
+
+<!--Model per la gestione del log-->
+<div class="modal fade" id="log_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="log_operationLabel" aria-hidden="true" th:fragment="remove_hive">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-transparent">
 
             <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="modify_informationLabel">Modify User Information</h5>
+                <h5 class="modal-title" id="log_operationLabel">Add Operation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body custom-background">
-                <!--                Form per la modifica dell'arnia-->
+                <!--                Aggiungere il log-->
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Model per la modifica dell'operazione-->
+<div class="modal fade" id="modify_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_operationLabel" aria-hidden="true" th:fragment="remove_hive">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="modify_operationLabel">Add Operation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12 col-lg-9 col-xl-8">
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form>
+                                <form th:action="@{/add_operation-form}" method="get">
 
-                                    <!--                            Nome utente-->
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <h5 class="form-label" for="NewPassword">New Password:</h5>
-                                                <input type="password" id="NewPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <h5 class="form-label" for="modifyName">Operation Name:</h5>
+                                                <input type="password" id="modifyName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                            Cognome utente-->
+
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <h5 class="form-label" for="ConfirmNewPassword">Confirm New Password:</h5>
-                                                <input type="password" id="ConfirmNewPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <h5 class="form-label" for="modifyDate">Operation Date:</h5>
+                                                <input class="w-100" type="date" id="modifyDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 mb-4">
+                                            <h5 class="form-label" for="modifyType">Operation Type:</h5>
+                                            <select class="select form-control-lg hive_selector">
+                                                <option value="1" disabled selected>Choose option</option>
+                                                <option value="2">Medical Inspection</option>
+                                                <option value="3">Medical Treatment</option>
+                                                <option value="2">Check Population</option>
+                                                <option value="3">Extraction</option>
+                                                <option value="2">Vet Visit</option>
+                                                <option value="3">Feeding</option>
+                                                <option value="2">Transfer</option>
+                                                <option value="3">Maintenance</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h5 for="modifyNote">Note:</h5>
+                                            <textarea class="form-control" id="modifyNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
 
@@ -380,12 +404,126 @@
 
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm Changes</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
             </div>
 
         </div>
     </div>
 </div>
+
+<!--Modal per le specifiche dell'operazione-->
+<div class="modal fade" id="spec_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="spec_operationLabel" aria-hidden="true" th:fragment="remove_hive">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="spec_operationLabel">Add Operation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12 col-lg-9 col-xl-8">
+                        <div class="card-body">
+                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                                <form th:action="@{/add_operation-form}" method="get">
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="specName">Operation Name:</h5>
+                                                <input type="password" id="specName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="spechDate">Operation Date:</h5>
+                                                <input class="w-100"  type="date" id="spechDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 mb-4">
+                                            <h5 class="form-label" for="specType">Operation Type:</h5>
+                                            <select class="select form-control-lg hive_selector">
+                                                <option value="1" disabled selected>Choose option</option>
+                                                <option value="2">Medical Inspection</option>
+                                                <option value="3">Medical Treatment</option>
+                                                <option value="2">Check Population</option>
+                                                <option value="3">Extraction</option>
+                                                <option value="2">Vet Visit</option>
+                                                <option value="3">Feeding</option>
+                                                <option value="2">Transfer</option>
+                                                <option value="3">Maintenance</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h5 for="specNote">Note:</h5>
+                                            <textarea class="form-control" id="specnNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                        </div>
+                                    </div>
+
+<!--                                Tasto per il check di una operazione conclusa?-->
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Modal per la rimozione dell'operazione-->
+<div class="modal fade" id="remove_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="remove_operationLabel" aria-hidden="true" th:fragment="remove_hive">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="remove_operationLabel">Remove Hive</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-9 d-flex align-items-center">
+                            <h4>
+                                You are about to early terminate the scheduled operation. <br>
+                                Are you sure you want to continue?
+                            </h4>
+                        </div>
+                        <div class="col-3 d-flex align-items-center">
+                            <img class="img-fluid" th:src="@{/assets/sad_bee.png}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Remove</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
