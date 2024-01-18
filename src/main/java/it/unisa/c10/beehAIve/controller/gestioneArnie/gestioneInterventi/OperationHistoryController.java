@@ -17,7 +17,7 @@ public class OperationHistoryController {
   private OperationService operationService;
   @Autowired
   public OperationHistoryController(OperationService operationService) {
-    this.operationService = operationService; //TODO change to serice
+    this.operationService = operationService;
   }
   @GetMapping("/get_hive_operation_history")
   @ResponseBody
