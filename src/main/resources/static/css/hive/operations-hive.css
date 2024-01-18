@@ -3,7 +3,7 @@
     height: 100% !important;
 }
 .custom-calendar{
-    height: 60vh !important;
+    height: 75vh !important;
     padding-bottom: 20px !important;
     background-color: #fff0b3 !important;
 }
@@ -23,6 +23,6 @@
 
 @media only screen and (max-width: 768px){
     .custom-calendar{
-        height: 60vh !important;
+        height: 70vh !important;
     }
 }
