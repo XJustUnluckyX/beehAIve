@@ -19,4 +19,16 @@ public class RedirectController {
   public String dashboard (Model model) { return "hive/dashboard";}
   @GetMapping("/state-hive")
   public String state (Model model) { return "hive/state-hive";}
+  @GetMapping("/parameters-hive")
+  public String parameter (Model model) { return "hive/parameters-hive";}
+  @GetMapping("/operations-hive")
+  public String operation (Model model) { return "hive/operations-hive";}
+  @GetMapping("/contact-us")
+  public String contact (Model model) { return "/contact-us";}
+  @GetMapping("/about-us")
+  public String about (Model model) { return "/about-us";}
+  @GetMapping("/sensor-spec")
+  public String sensor (Model model) { return "/sensor-spec";}
+  @GetMapping("/user-page")
+  public String user (Model model) { return "/user-page";}
 }

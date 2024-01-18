@@ -2,14 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../static/css/hive/parameters-hive.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/hive/parameters-hive.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/hive/hive-template.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{js/hive-template.js}" type="text/javascript"></script>
+    <script th:src="@{js/jquery.js}" type="text/javascript"></script>
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
 </head>
 <body>
 
-<div th:insert="fragments/hives-header :: hive_navbar"></div>
-<div th:insert="fragments/hives-header :: offcanvas"></div>
+<div th:insert="~{fragments/hives-header :: hive_navbar}"></div>
+<div th:insert="~{fragments/hives-header :: offcanvas}"></div>
+<div th:insert="~{fragments/hives-header :: modify_hive}"></div>
+<div th:insert="~{fragments/hives-header :: remove_hive}"></div>
+
+<section class="gradient-custom h-100" >
+    <div class="container-fluid py-4 custom-base" >
+        <div class="container-fluid py-3 d-flex flex-column custom-border h-100">
+
+            <div class="row mx-3 custom-stat justify-content-evenly">
+
+                <!--                Prima colonna con regina e temperatura arnia-->
+                <div class="col-sm-5 my-4 custom-coloumn d-flex flex-column justify-content-center">
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-7 col">
+                            <h2>Queen Presence:</h2>
+                        </div>
+                        <div class="col-md-5 col">
+                            <h4> Present/Not Present </h4>
+                        </div>
+                    </div>
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-8 ">
+                            <h2>Hive Temperature:</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <h4> 666° </h4>
+                        </div>
+                    </div>
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-8">
+                            <h2>Ambient Temperature: </h2>
+                        </div>
+                        <div class="col-md-4 ">
+                            <h4> 666° </h4> <!--Aggiungere di seguito, nello stesso div la temperatura dell'ambiente-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--                Seconda colonna con peso e umidità-->
+                <div class="col-sm-5 my-4 custom-coloumn d-flex flex-column justify-content-center">
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-8 col">
+                            <h2>Current Weight:</h2>
+                        </div>
+                        <div class="col-md-4 col">
+                            <h4> 666kg </h4>
+                        </div>
+                    </div>
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-8 ">
+                            <h2>Hive Humidity:</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <h4> 666° </h4>
+                        </div>
+                    </div>
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-8">
+                            <h2>Ambient Temperature: </h2>
+                        </div>
+                        <div class="col-md-4">
+                            <h4> 666° </h4> <!--Aggiungere di seguito, nello stesso div la temperatura dell'ambiente-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--                Pulsante per la stampa delle info-->
+                <div class="row align-items-center">
+                    <div class="col my-2 d-flex justify-content-center">
+                        <a class="custom-button" href="#"> Generate Report </a>
+                    </div>
+                </div>
+
+                <!--            Grafico-->
+                <div class="row mx-3 my-4 pb-3 custom-border">
+                    <div class="col-sm-8 custom-graph">
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 

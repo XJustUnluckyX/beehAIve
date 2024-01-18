@@ -20,7 +20,7 @@
     width: 46%;
     height: 80%;
     margin: auto;
-    background: linear-gradient(-180deg, #ffb600, #FFC754FC);
+    background: linear-gradient(-180deg,  #dcc000fc, #ffe817);
     display: flex;
     align-content: center;
     justify-content: center;
@@ -64,4 +64,10 @@
 .hexagon:hover:after {
     border-radius: 50px;
     transition: 0.5s;
+}
+
+.btn-outline-primary {
+    background-color: #ffb800 !important;
+    border: 2px solid white!important;
+    color: white;
 }

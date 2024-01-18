@@ -4,22 +4,10 @@
     box-sizing: border-box;
 }
 
-body{
-    background: #FFE086;
-}
-
 :root {
-    --primary-color: #dc9e32;
+    --primary-color: #FFF0B3;
     --second-color: #000000;
     --black-color: #000000;
-}
-
-body {
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
 }
 
 a {
@@ -33,13 +21,13 @@ a {
     justify-content: center;
     align-items: center;
     min-height: 89vh;
-    background-color: #FFE087;
+
 }
 
 .login_box {
     position: relative;
     width: 450px;
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(5px);
     border: 2px solid var(--primary-color);
     border-radius: 15px;
     padding: 4.5em 2.5em 2em 2.5em;
@@ -55,7 +43,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary-color);
+    background-color: #FFF0B3;
     width: 140px;
     height: 70px;
     border-radius: 0 0 20px 20px;
@@ -87,7 +75,7 @@ a {
     height: 30px;
     border-top-left-radius: 50%;
     background: transparent;
-    box-shadow: -15px 0 0 0 var(--primary-color); /* Removed space before --primary-color */
+    box-shadow: -15px 0 0 0 #FFF0B3; /* Removed space before --primary-color */
 }
 
 .input_box {
