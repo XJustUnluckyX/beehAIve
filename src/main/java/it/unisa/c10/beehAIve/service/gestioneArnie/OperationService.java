@@ -134,6 +134,11 @@ public class OperationService {
     return operationDAO.findAllByOrderByOperationDateAsc();
   }
 
+  public List<Operation> viewHiveOperations(int hiveId) {
+    return operationDAO.findAllByHiveId(hiveId);
+  }
+
+
   // Impostare di un intervento come "effettuato"
   public void markOperationAsComplete(int id) {
     // Ottenimento dell'intervento come oggetto Optional
@@ -172,4 +177,26 @@ public class OperationService {
     // Ottenimento della lista poi restituita
     return productionDAO.findAllByOrderByRegistrationDateAsc();
   }
+
+  public String convertOperationToCalendar(List<Operation> operations) {
+
+    String result="[";
+
+    for (Operation op : operations) {
+
+      result += "{\"title\" : \"" + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
+
+    }
+
+    result+="]";
+
+    StringBuilder sb = new StringBuilder(result);
+    sb.deleteCharAt(result.length()-2);
+    result = sb.toString();
+
+
+    return result;
+
+  }
+
 }

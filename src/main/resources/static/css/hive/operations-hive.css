@@ -3,10 +3,17 @@
     height: 100% !important;
 }
 .custom-calendar{
-    height: 40vh !important;
+    height: 60vh !important;
+    padding-bottom: 20px !important;
+    background-color: #fff0b3 !important;
 }
 .custom-log{
     height: 45vh !important;
+}
+
+#calendar a {
+    color: black !important;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 768px){

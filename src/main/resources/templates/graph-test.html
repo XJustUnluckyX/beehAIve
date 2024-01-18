@@ -15,12 +15,9 @@
     <a href="/beehAIve_war/create_report" id="generateReport"> Generate Report </a>
 
     <script>
-
         $(document).ready(function () {
-
             let chart;
             let result;
-
             $.ajax({
                 type: "GET",
                 url: "produce_graph",
@@ -80,24 +77,15 @@
                     chart.container('graph');
 
                     chart.draw();
-
                 }
-
             })
 
             $("#generateReport").click(function() {
-
                 //TODO change HiveName
                 let filename = "HiveName_Sensor_Measurements_" + result[0][0] + "_" + result[result.length -1][0]
                 chart.saveAsPdf({"filename": filename});
-
             })
-
-
         })
-
-
-
     </script>
 
 </body>
