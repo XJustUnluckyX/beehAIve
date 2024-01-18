@@ -9,6 +9,7 @@
     <script th:src="@{js/hive-template.js}" type="text/javascript"></script>
     <script th:src="@{js/jquery.js}" type="text/javascript"></script>
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{js/index.global.min.js}" rel="text/javascript"></script>
     <title>Title</title>
 </head>
 <body>
@@ -19,23 +20,12 @@
 <div th:insert="~{fragments/hives-header :: remove_hive}"></div>
 
 <section>
-    <div class="container-fluid text-center my-5 custom-page">
+    <div class="container-fluid text-center my-2 custom-page">
 
-        <div class="row custom-calendar mb-3 justify-content-center">
-            <div class="col bg-secondary d-flex justify-content-center">
+        <div class="row mb-3 justify-content-center">
+            <div class="custom-calendar col d-flex justify-content-center" id="calendar">
                 <!--                    Calendario-->
             </div>
-
-
-<div class="container-fluid text-center my-5 custom-page">
-    <div class="row custom-calendar mb-3 justify-content-center">
-        <div class="col-md-9 bg-secondary d-flex justify-content-center"> <!-- Calendario -->
-            <div id="calendar" class="container-fluid custom-calendar fc fc-media-screen fc-direction-ltr fc-theme-standard"> </div>
-        </div>
-        <div class="col-md-3 bg-light d-flex flex-column justify-content-evenly align-items-center">
-            <button type="button" class="btn btn-primary m-2"> Add Operation</button>
-            <button type="button" class="btn btn-primary m-2"> Modify Operation</button>
-            <button type="button" class="btn btn-primary m-2"> Remove Operation</button>
         </div>
         <div class="row mb-3 justify-content-center align-items-center">
 
@@ -342,7 +332,6 @@
 
         </div>
     </div>
-
 </div>
 
 
@@ -351,10 +340,6 @@
 <script>
 
     $(document).ready(function () {
-
-        /*
-        * event: {title: nome, start: data, allDay: false}
-        * */
 
         $.ajax({
             type: "GET",
@@ -369,14 +354,14 @@
                         hour: '2-digit',
                         minute: '2-digit',
                         hour12: false
-                    }
+                    },
+                    height: "auto",
+                    eventColor: "#805711"
                 });
 
                 calendar.render();
-
             }
         })
-
 
     })
 

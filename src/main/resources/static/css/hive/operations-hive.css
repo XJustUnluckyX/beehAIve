@@ -1,15 +1,28 @@
+* {
+    --fc-border-color: transparent !important;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
 .custom-page{
-    width: 90% !important;
+    width: 95% !important;
     height: 100% !important;
 }
 .custom-calendar{
-    height: 75vh !important;
-    padding-bottom: 20px !important;
-    background-color: #fff0b3 !important;
+    height: auto !important;
+    backdrop-filter: blur(8px) !important;
+    overflow:auto;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-bottom:10px !important;
+
 }
 .custom-log{
     height: 45vh !important;
 }
+
 
 #calendar a {
     color: black !important;
@@ -21,8 +34,14 @@
     white-space: normal;
 }
 
-@media only screen and (max-width: 768px){
-    .custom-calendar{
-        height: 70vh !important;
-    }
+td {
+    border: 2px solid black !important;
+    background-color: #fff0b3bb;
+}
+
+th {
+    border-top: 2px solid black !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+    font-size: 20px;
 }
