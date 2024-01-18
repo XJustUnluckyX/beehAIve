@@ -14,18 +14,26 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                  .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
-                  .requestMatchers("/registration-page", "/subscription-page").permitAll()
+                  .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**", "/create_report").permitAll()
+                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/graph-test", "/generate_report_test").permitAll()
+                  .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn", "/mimmo", "/produce_graph").permitAll()
                   .requestMatchers("/creation-hive", "/dashboard", "/state-hive").permitAll()
                   .requestMatchers("/driver_fia","/predict_with_cnn","/predict_without_cnn").permitAll()
                   .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
+                  .requestMatchers("/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
                   .anyRequest().authenticated()
-                ) // TODO chiedere ad Andrea la riga di codice
+                )
                 .formLogin((form) -> form
                         .loginPage("/login").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 
+//        http.csrf().disable(); Abilità le POST request
+
         return http.build();
     }
+
+
+
+
 }

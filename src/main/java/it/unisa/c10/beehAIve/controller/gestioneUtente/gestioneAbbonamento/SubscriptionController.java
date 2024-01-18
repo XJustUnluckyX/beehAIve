@@ -1,5 +1,6 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneAbbonamento;
 
+
 import org.springframework.stereotype.Controller;
 import it.unisa.c10.beehAIve.service.gestioneUtente.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 
 import java.util.Locale;
-
+// Gestisce tutte le operazioni che hanno a che fare con la sottoscrizione dell'abbonamento (Sottoscrizione effettiva,
+// modifica del piano???, cancellazione, rinnovo, ecc)
+// Questa cosa va ben vista, perchè dipende dall'API di PayPal
 @Controller
 public class SubscriptionController {
   @Autowired

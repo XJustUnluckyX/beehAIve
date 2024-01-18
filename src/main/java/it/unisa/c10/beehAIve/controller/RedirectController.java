@@ -1,27 +1,24 @@
 package it.unisa.c10.beehAIve.controller;
 
-import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class RedirectController {
-  private DashboardService dashboardService;
-  @Autowired
-  public RedirectController(DashboardService dashboardService) {
-    this.dashboardService = dashboardService;
-  }
 
   @GetMapping("")
   public String home (Model model) {
     return "index";
   }
-  @GetMapping("/login")
-  public String login (Model model) { return "login";}
+  @GetMapping("/login-page")
+  public String login (Model model) {
+    return "login-page";
+  }
   @GetMapping("/registration-page")
-  public String register (Model model) { return "registration-page";}
+  public String register (Model model) {
+    return "registration-page";
+  }
   @GetMapping("/subscription-page")
   public String subscription (Model model) { return "subscription-page";}
   @GetMapping("/creation-hive")
@@ -30,6 +27,14 @@ public class RedirectController {
   public String dashboard (Model model) { return "hive/dashboard";}
   @GetMapping("/state-hive")
   public String state (Model model) { return "hive/state-hive";}
-  @GetMapping("/subscription-test")
-  public String subscriptionTest (Model model) { return "subscription-test";}
+  @GetMapping("/parameters-hive")
+  public String parameter (Model model) { return "hive/parameters-hive";}
+  @GetMapping("/operations-hive")
+  public String operation (Model model) { return "hive/operations-hive";}
+  @GetMapping("/contact-us")
+  public String contact (Model model) { return "/contact-us";}
+  @GetMapping("/about-us")
+  public String about (Model model) { return "/about-us";}
+  @GetMapping("/sensor-spec")
+  public String sensor (Model model) { return "/sensor-spec";}
 }
