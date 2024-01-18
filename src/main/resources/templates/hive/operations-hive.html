@@ -13,10 +13,10 @@
 </head>
 <body>
 
-<div th:insert="fragments/hives-header :: hive_navbar"></div>
-<div th:insert="fragments/hives-header :: offcanvas"></div>
-<div th:insert="fragments/hives-header :: modify_hive"></div>
-<div th:insert="fragments/hives-header :: remove_hive"></div>
+<div th:insert="~{fragments/hives-header :: hive_navbar}"></div>
+<div th:insert="~{fragments/hives-header :: offcanvas}"></div>
+<div th:insert="~{fragments/hives-header :: modify_hive}"></div>
+<div th:insert="~{fragments/hives-header :: remove_hive}"></div>
 
 <div class="container-fluid text-center my-5 custom-page">
     <div class="row custom-calendar mb-3 justify-content-center">

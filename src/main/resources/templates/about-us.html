@@ -11,11 +11,11 @@
 </head>
 <body>
 
-<div th:insert="fragments/header :: navbar"></div>
+<div th:insert="~{fragments/header :: navbar}"></div>
 
 <section class="ftco-section">
 
-    <div class="container-xxl pt-5">
+    <div class="container-xxl pt-5 custom-container">
         <h2 class="pb-2 border-bottom border-3 border-black" style="font-size: 50px">About Us</h2>
         <h2 class="pb-2 border-bottom border-3 border-black" style="font-size: 20px">
             Welcome to BeehAIve, a dedicated team committed to the preservation and monitoring of our invaluable ecosystem. One bee at a time.</h2>
@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="container-xxl ">
+    <div class="container-xxl custom-container">
         <h2 class="pb-2 border-bottom border-3 border-black" style="font-size: 50px">Our Values</h2>
         <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
 
@@ -78,7 +78,7 @@
 
             <div class="col d-flex align-items-start">
                 <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
-                    <span class="fa fa-cog fa-spin"></span>
+                    <span class="fa fa-cog"></span>
                 </div>
                 <div>
                     <h2>Innovation</h2>
@@ -87,10 +87,6 @@
             </div>
         </div>
     </div>
-    <div class="container-xxl">
-        <h2 class="my-3 border-bottom border-3 border-black" style="font-size: 50px;"><a aria-current="page" href="#" style="text-decoration: none; color: black;">Contact Us</a></h2>
-    </div>
-
 </section>
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>

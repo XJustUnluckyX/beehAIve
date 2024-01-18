@@ -1,3 +1,10 @@
+*{
+    overflow-y: auto ;
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+
 .dbox .icon{
     width: 70px !important;
     height: 70px !important;
@@ -12,4 +19,12 @@
 .custom-border{
     border: 2px solid black !important;
     border-radius: 30px !important;
+}
+.row{
+    margin: auto !important;
+}
+.custom-blur{
+    backdrop-filter: blur(7px);
+    border: 2px solid black;
+    border-radius: 20px
 }

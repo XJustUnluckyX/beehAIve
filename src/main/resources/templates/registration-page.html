@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<div th:replace="fragments/header :: navbar"></div>
+<div th:replace="~{fragments/header :: navbar}"></div>
 <div class="wrapper">
     <div class="login_box">
         <div class="login-header">
@@ -31,11 +31,11 @@
                 <label th:for="user1" class="label">Last Name</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="companyName" class="input-field" name="companyName" placeholder="Company Name">
+                <input type="text" th:id="companyName" class="input-field" name="companyName" placeholder="Company Name" required>
                 <label th:for="comp_name" class="label">Company Name</label>
             </div>
             <div class="input_box">
-                <input type="text" th:id="companyPiva" class="input-field" name="companyPiva" placeholder="Company PIVA">
+                <input type="text" th:id="companyPiva" class="input-field" name="companyPiva" placeholder="Company PIVA" required>
                 <label th:for="piva" class="label">Company PIVA</label>
             </div>
             <div class="input_box">

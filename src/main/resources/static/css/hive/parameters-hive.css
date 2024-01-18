@@ -1,3 +1,10 @@
+*{
+    overflow-y: auto;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+
 .custom-base{
     height: 90vh !important;
     width: 90% !important;
@@ -15,11 +22,20 @@
 .custom-border{
     border: 2px solid black !important;
     border-radius: 30px !important;
+    backdrop-filter: blur(8px) !important;
 }
 .custom-temper{
     font-size: 4vw !important;
 }
-
+.custom-button{
+    background-color: #FFF0B3;
+    color: black;
+    font-weight: bold;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
 
 @media only screen and (max-width: 576px){
     .custom-stat{

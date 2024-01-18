@@ -1,7 +1,7 @@
 .hive_card{
     border-radius: 30px !important;
     border: 1px solid black !important;
-    background-color: #f7c339 !important;
+    background-color: #ffb800 !important;
 }
 
 .hive_selector{
@@ -9,12 +9,8 @@
     border: 1px solid black !important;
     background-color: #FFF0B3 !important;
 }
-.custom-background{
-    background: #FFF0B3 !important;
-}
-
-body{
-    background: #FFE087 !important;
+.custom-background {
+    background-color: #FFF0B3 !important;
 }
 
 .form-check-input:checked{

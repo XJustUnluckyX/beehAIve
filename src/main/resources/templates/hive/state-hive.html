@@ -13,14 +13,14 @@
 </head>
 <body>
 
-<div th:insert="fragments/hives-header :: hive_navbar"></div>
-<div th:insert="fragments/hives-header :: offcanvas"></div>
-<div th:insert="fragments/hives-header :: modify_hive"></div>
-<div th:insert="fragments/hives-header :: remove_hive"></div>
+<div th:insert="~{fragments/hives-header :: hive_navbar}"></div>
+<div th:insert="~{fragments/hives-header :: offcanvas}"></div>
+<div th:insert="~{fragments/hives-header :: modify_hive}"></div>
+<div th:insert="~{fragments/hives-header :: remove_hive}"></div>
 
 <div class="gradient-custom h-100">
     <div class="container-fluid py-4 custom-base" >
-        <div class="row py-3 bg-warning d-flex justify-content-center custom-border">
+        <div class="row py-3 d-flex justify-content-center custom-border">
 
             <div class="row">
                 <div class="col-md-3 my-2">
@@ -94,25 +94,6 @@
                 </div>
             </div>
 
-            <div class="row ">
-                <div class="col-md-3 my-2">
-                    <h5>Production: </h5>
-                </div>
-                <div class="col">
-                    <div class="input-group">
-                        <input type="search" class="form-control rounded custom-border" placeholder="Insert" aria-label="Insert" aria-describedby="insert-addon"/>
-                        <button type="button" class="btn btn-outline-primary custom-border" data-mdb-ripple-init> Sumbit </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-1 d-none d-lg-block"></div>
-                <div class="col bg-success custom-graph custom-border">
-
-                </div>
-                <div class="col-1 d-none d-lg-block"></div>
-            </div>
 
         </div>
     </div>
