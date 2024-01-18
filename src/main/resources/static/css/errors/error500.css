@@ -19,11 +19,12 @@ a{
     font-size: 20px;
 }
 .custom-border{
+    width: 90vw !important;
     border: 2px solid black !important;
     border-radius: 30px;
     background: #FFE087;
     overflow-y:hidden !important;
-    padding: 30px;
+
 }
 
 @media only screen and (max-width: 976px){
