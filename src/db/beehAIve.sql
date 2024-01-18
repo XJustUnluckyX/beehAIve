@@ -73,7 +73,7 @@ CREATE TABLE Operation (
     operation_name varchar(70) not null,
     operation_type varchar(50) not null,
     operation_status varchar(30) not null,
-    operation_date date not null,
+    operation_date datetime not null,
     notes varchar(300),
     hive_ID int not null,
     beekeeper_email varchar(50) not null,
@@ -149,7 +149,7 @@ INSERT INTO Sensor (hive_ID, beekeeper_email) VALUES
 # ('Humidity Out of Range',0,'2024-01-16 17:00:00',1,1,'n.gallotta@gmail.com');
 
 INSERT INTO Operation (operation_name, operation_type, operation_status, operation_date, notes, hive_ID, beekeeper_email) VALUES
-('Temperature Adjustment','Transfer','Completed','2024-01-15','Adjusted hive temperature by providing additional insulation during cold weather.',1,'n.gallotta@gmail.com');
+('Temperature Adjustment','Transfer','Completed','2024-01-15 09:00:00','Adjusted hive temperature by providing additional insulation during cold weather.',1,'n.gallotta@gmail.com');
 
 INSERT INTO Measurement (sensor_ID, hive_ID, measurement_date, weight, spectrogram, temperature, ambient_temperature, humidity, ambient_humidity, queen_present) VALUES
 (1,1,'2024-01-14 12:00:00', 80.32, '2027_01_14_19_35_00_spect.png', 34.3, 23.47, 20.42, 20.67, 1),

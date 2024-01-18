@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class OperationService {
 
   // Creazione dell'oggetto Operation
   private Operation createOperation(String operationName, String operationType, String operationStatus,
-                                    LocalDate operationDate, String notes, int hiveId, String beekeeperEmail) {
+                                    LocalDateTime operationDate, String notes, int hiveId, String beekeeperEmail) {
     // Creazione dell'intervento
     Operation operation = new Operation();
     operation.setOperationName(operationName);
@@ -58,8 +59,8 @@ public class OperationService {
   }
 
   // Pianificare di un intervento
-  public void scheduleOperation(String operationName, String operationType, String operationStatus,
-                                    LocalDate operationDate, String notes, int hiveId, String beekeeperEmail) {
+  public void planningOperation(String operationName, String operationType, String operationStatus,
+                                    LocalDateTime operationDate, String notes, int hiveId, String beekeeperEmail) {
     // Creazione dell'intervento
     Operation operation = this.createOperation(operationName, operationType, operationStatus, operationDate, notes,
         hiveId, beekeeperEmail);
@@ -73,7 +74,7 @@ public class OperationService {
 
   // Modificare di un intervento pianificato
   public void modifyScheduledOperation(String operationName, String operationType, String operationStatus,
-                                           LocalDate operationDate, String notes, int hiveId, String beekeeperEmail) {
+                                           LocalDateTime operationDate, String notes, int hiveId, String beekeeperEmail) {
     // Creazione dell'intervento
     Operation operation = this.createOperation(operationName, operationType, operationStatus, operationDate, notes,
       hiveId, beekeeperEmail);
