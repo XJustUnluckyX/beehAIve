@@ -11,6 +11,14 @@ public class RedirectController {
   public String home (Model model) {
     return "index";
   }
+//  @GetMapping("/login-page")
+//  public String login (Model model) {
+//    return "login-page";
+//  }
+//  @GetMapping("/registration-page")
+//  public String register (Model model) {
+//    return "registration-page";
+//  }
   @GetMapping("/subscription-page")
   public String subscription (Model model) { return "subscription-page";}
   @GetMapping("/creation-hive")
@@ -29,6 +37,10 @@ public class RedirectController {
   public String about (Model model) { return "/about-us";}
   @GetMapping("/sensor-spec")
   public String sensor (Model model) { return "/sensor-spec";}
+
+  @GetMapping("/subscription-test")
+  public String subscriptionTest(Model model) {return "subscription-test";}
+
   @GetMapping("/user-page")
   public String user (Model model) { return "/user-page";}
 }

@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div th:replace="fragments/header :: navbar"></div>
+    <div th:replace="~{fragments/header :: navbar}"></div>
     <div class="wrapper">
         <div class="login_box">
             <div class="login-header">
@@ -64,6 +64,8 @@
                 </div>
 
             </form>
+
+        </form>
 
             <div class="register">
                 <span>Already have an account? <a href="#">Login</a></span>

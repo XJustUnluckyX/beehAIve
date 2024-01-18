@@ -17,7 +17,7 @@ public class Beekeeper {
   private String companyName;
   @Column(unique=true)
   private String companyPiva;
-  private boolean isSubscribed;
+  private boolean subscribed;
   private double paymentDue;
   private LocalDate subscrExpirationDate;
 
@@ -90,11 +90,11 @@ public class Beekeeper {
   }
 
   public boolean isSubscribed() {
-    return isSubscribed;
+    return subscribed;
   }
 
   public void setSubscribed(boolean subscribed) {
-    isSubscribed = subscribed;
+    this.subscribed = subscribed;
   }
 
   public double getPaymentDue() {

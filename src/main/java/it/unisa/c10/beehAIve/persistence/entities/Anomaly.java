@@ -3,17 +3,18 @@ package it.unisa.c10.beehAIve.persistence.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Anomaly {
   @Id
   private int id;
-  private String name;
-  private boolean isResolved;
-  private LocalDate detectionDate;
+  private String anomalyName;
+  private boolean resolved;
+  private LocalDateTime detectionDate;
   private int sensorId;
   private int hiveId;
+  private String beekeeperEmail;
 
   public int getId() {
     return id;
@@ -23,27 +24,27 @@ public class Anomaly {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getAnomalyName() {
+    return anomalyName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setAnomalyName(String name) {
+    this.anomalyName = name;
   }
 
   public boolean isResolved() {
-    return isResolved;
+    return resolved;
   }
 
   public void setResolved(boolean resolved) {
-    isResolved = resolved;
+    this.resolved = resolved;
   }
 
-  public LocalDate getDate() {
+  public LocalDateTime getDetectionDate() {
     return detectionDate;
   }
 
-  public void setDate(LocalDate detectionDate) {
+  public void setDetectionDate(LocalDateTime detectionDate) {
     this.detectionDate = detectionDate;
   }
 
@@ -61,5 +62,13 @@ public class Anomaly {
 
   public void setHiveId(int hiveID) {
     this.hiveId = hiveID;
+  }
+
+  public String getBeekeeperEmail() {
+    return beekeeperEmail;
+  }
+
+  public void setBeekeeperEmail(String beekeeperEmail) {
+    this.beekeeperEmail = beekeeperEmail;
   }
 }

@@ -1,26 +1,64 @@
 package it.unisa.c10.beehAIve.persistence.entities;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Measurement {
-  @EmbeddedId
-  private DateAndSensorID dateAndSensorID;
+  @Id
+  private int id;
+  private int sensorId;
+  private int hiveId;
+  private LocalDateTime measurementDate;
   private double weight;
-  private double spectrogram;
+  private String spectrogram;
   private double temperature;
   private double ambientTemperature;
   private double humidity;
   private double ambientHumidity;
-  private boolean isQueenPresent;
+  private boolean queenPresent;
 
-  public DateAndSensorID getDateAndSensorID() {
-    return dateAndSensorID;
+  public int getId() {
+    return id;
   }
 
-  public void setDateAndSensorID(DateAndSensorID dateAndSensorID) {
-    this.dateAndSensorID = dateAndSensorID;
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getSensorId() {
+    return sensorId;
+  }
+
+  public void setSensorId(int sensorId) {
+    this.sensorId = sensorId;
+  }
+
+  public int getHiveId() {
+    return hiveId;
+  }
+
+  public void setHiveId(int hiveId) {
+    this.hiveId = hiveId;
+  }
+
+  public LocalDateTime getMeasurementDate() {
+    return measurementDate;
+  }
+
+  public void setMeasurementDate(LocalDateTime date) {
+    this.measurementDate = date;
+  }
+
+  public boolean isQueenPresent() {
+    return queenPresent;
+  }
+
+  public void setQueenPresent(boolean queenPresent) {
+    this.queenPresent = queenPresent;
   }
 
   public double getWeight() {
@@ -31,11 +69,11 @@ public class Measurement {
     this.weight = weight;
   }
 
-  public double getSpectrogram() {
+  public String getSpectrogram() {
     return spectrogram;
   }
 
-  public void setSpectrogram(double spectrogram) {
+  public void setSpectrogram(String spectrogram) {
     this.spectrogram = spectrogram;
   }
 
@@ -71,11 +109,5 @@ public class Measurement {
     this.ambientHumidity = ambientHumidity;
   }
 
-  public boolean getIsQueenPresent() {
-    return isQueenPresent;
-  }
 
-  public void setIsQueenPresent(boolean isQueenPresent) {
-    this.isQueenPresent = isQueenPresent;
-  }
 }

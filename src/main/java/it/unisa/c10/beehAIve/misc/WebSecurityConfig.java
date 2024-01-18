@@ -10,23 +10,28 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http
-                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                    .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
-                    .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec", "/user-page").permitAll()
-                    .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn").permitAll()
-                    .requestMatchers("/login-form","changeInfo","changePassword").permitAll()
-                    .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login").permitAll()
-                )
-                .logout(LogoutConfigurer::permitAll);
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    http
+        .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+            .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**", "/create_report").permitAll()
+            .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/graph-test", "/generate_report_test").permitAll()
+            .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn", "/mimmo", "/produce_graph").permitAll()
+            .requestMatchers("/creation-hive", "/dashboard", "/state-hive").permitAll()
+            .requestMatchers("/driver_fia","/predict_with_cnn","/predict_without_cnn").permitAll()
+            .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
+            .requestMatchers("/dashboard", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin((form) -> form
+            .loginPage("/login-page").permitAll()
+        )
+        .logout(LogoutConfigurer::permitAll);
 
-        return http.build();
-    }
+//        http.csrf().disable(); Abilità le POST request
+
+    return http.build();
+  }
 
 
 

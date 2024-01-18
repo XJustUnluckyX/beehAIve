@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 public class Bee {
   @Id
   private String scientificName;
-  private String common_name;
-  private String description;
+  private String commonName;
+  private String beeDescription;
   private String photo;
 
   public String getScientificName() {
@@ -19,20 +19,20 @@ public class Bee {
     this.scientificName = scientificName;
   }
 
-  public String getCommon_name() {
-    return common_name;
+  public String getCommonName() {
+    return commonName;
   }
 
-  public void setCommon_name(String common_name) {
-    this.common_name = common_name;
+  public void setCommonName(String commonName) {
+    this.commonName = commonName;
   }
 
-  public String getDescription() {
-    return description;
+  public String getBeeDescription() {
+    return beeDescription;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setBeeDescription(String description) {
+    this.beeDescription = description;
   }
 
   public String getPhoto() {

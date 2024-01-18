@@ -22,20 +22,36 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
 
   List<Hive> findByHiveTypeAndBeekeeperEmail(String type, String beekeeperEmail);
 
-  List<Hive> findByCreationDateBetween(LocalDate date1, LocalDate date2);
+  List<Hive> findByCreationDateBetweenAndBeekeeperEmail(LocalDate date1, LocalDate date2,
+                                                        String beekeeperEmail);
 
   List<Hive> findByBeekeeperEmail(String beekeeperEmail);
 
   List<Hive> findByBeeSpeciesAndBeekeeperEmail(String beeSpecies, String beekeeperEmail);
 
-  @Query("SELECT nickname, hiveType, creationDate, beekeeperEmail, beeSpecies " +
-             "FROM Hive " +
-                 "WHERE nickname = :nickname " +
-                     "AND hiveType = :type " +
-                         "AND (creationDate BETWEEN :date1 AND :date2) " +
-                             "AND beekeeperEmail = :beekeeperEmail " +
-                                 "AND beeSpecies = :beeSpecies")
-  List<Hive> findByFilters(String nickname, String hiveType, LocalDate date1, LocalDate date2, String beekeeperEmail, String beeSpecies);
+  @Query("SELECT h " +
+             "FROM Hive h " +
+                 "WHERE h.nickname = :nickname " +
+                     "AND h.hiveType = :hiveType " +
+                         "AND (h.creationDate BETWEEN :date1 AND :date2) " +
+                             "AND h.beekeeperEmail = :beekeeperEmail " +
+                                 "AND h.beeSpecies = :beeSpecies")
+  List<Hive> findByFilters(String nickname, String hiveType, LocalDate date1, LocalDate date2,
+                           String beekeeperEmail, String beeSpecies);
+
+  @Query("SELECT DISTINCT h " +
+             "FROM Hive h, Anomaly a " +
+                 "WHERE (h.hiveHealth = 2 OR h.hiveHealth = 3) " +
+                     "AND h.id = a.hiveId " +
+                         "AND a.resolved = false " +
+                             "ORDER BY h.hiveHealth DESC")
+  List<Hive> findByBeekeeperEmailAndAnomaliesUnresolved(String beekeeperEmail);
+
+  List<Hive> findByBeekeeperEmailAndUncompletedOperationsTrue(String beekeeperEmail);
+
+  Hive findTopByBeekeeperEmailOrderByIdDesc(String beekeeperEmail);
 
   void deleteByBeekeeperEmail(String beekeeperEmail);
+
+  int countByBeekeeperEmail(String beekeeperEmail);
 }
