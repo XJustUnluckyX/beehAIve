@@ -76,6 +76,7 @@ public class SubscriptionController {
       }
     } catch (PayPalRESTException e) {
       e.printStackTrace();
+      return "redirect:/error500";
     }
     return "redirect:/";
   }
