@@ -11,14 +11,14 @@ public class RedirectController {
   public String home (Model model) {
     return "index";
   }
-  @GetMapping("/login-page")
-  public String login (Model model) {
-    return "login-page";
-  }
-  @GetMapping("/registration-page")
-  public String register (Model model) {
-    return "registration-page";
-  }
+//  @GetMapping("/login-page")
+//  public String login (Model model) {
+//    return "login-page";
+//  }
+//  @GetMapping("/registration-page")
+//  public String register (Model model) {
+//    return "registration-page";
+//  }
   @GetMapping("/subscription-page")
   public String subscription (Model model) { return "subscription-page";}
   @GetMapping("/creation-hive")
