@@ -64,17 +64,6 @@ public class SubscriptionController {
     }
   }
 
-  @GetMapping("/dashboard")
-  public String showAllHives(Model model, HttpSession session) {
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    List<Hive> hives = dashboardService.getBeekeeperHives(beekeeper.getEmail());
-
-    System.out.println("NUMERO ARNIE: " + hives.size());
-
-    model.addAttribute("hives", hives);
-    return "hive/dashboard";
-  }
-
   //--------------------------------------Metodi di PayPal------------------------------------------
 
   @GetMapping("/pay")
