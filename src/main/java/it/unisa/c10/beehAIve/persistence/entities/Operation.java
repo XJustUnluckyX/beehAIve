@@ -2,8 +2,7 @@ package it.unisa.c10.beehAIve.persistence.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Operation {
@@ -12,7 +11,7 @@ public class Operation {
   private String operationName;
   private String operationType;
   private String operationStatus;
-  private LocalDate operationDate;
+  private LocalDateTime operationDate;
   private String notes;
   private int hiveId;
   private String beekeeperEmail;
@@ -49,11 +48,11 @@ public class Operation {
     this.operationStatus = status;
   }
 
-  public LocalDate getOperationDate() {
+  public LocalDateTime getOperationDate() {
     return operationDate;
   }
 
-  public void setOperationDate(LocalDate date) {
+  public void setOperationDate(LocalDateTime date) {
     this.operationDate = date;
   }
 
