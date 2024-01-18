@@ -66,7 +66,7 @@ public interface MeasurementDAO extends JpaRepository<Measurement, Integer> {
 
   List<Measurement> findByHiveIdOrderByMeasurementDateAsc(int hiveId);
 
-  List<Measurement> findFirst48ByHiveIdOrderByMeasurementDateDesc(int hiveId);
+  List<Measurement> findFirst49ByHiveIdOrderByMeasurementDateDesc(int hiveId);
 
   Measurement findTopByHiveIdOrderByMeasurementDateDesc(int hiveId);
 

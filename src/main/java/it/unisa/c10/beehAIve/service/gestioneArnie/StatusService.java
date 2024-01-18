@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -56,8 +57,12 @@ public class StatusService {
   }
 
   public List<ArrayList<Object>> getGraphData (int hiveId) {
+
     // Prendiamo le ultime 48 misurazioni
-    List<Measurement> measurements = measurementDAO.findByHiveIdOrderByMeasurementDateAsc(hiveId); //TODO Change
+    List<Measurement> measurements = measurementDAO.findFirst49ByHiveIdOrderByMeasurementDateDesc(hiveId);
+
+    // Invertiamo la lista per rendere il grafico leggibile
+    Collections.reverse(measurements);
 
     List<ArrayList<Object>> result = new ArrayList<>();
 

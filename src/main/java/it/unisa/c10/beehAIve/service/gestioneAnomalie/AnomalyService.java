@@ -6,6 +6,7 @@ import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
+import it.unisa.c10.beehAIve.service.gestioneArnie.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,13 @@ public class AnomalyService {
   private FlaskAdapter adapter = new FlaskAdapter();
   private AnomalyDAO anomalyDAO;
   private HiveDAO hiveDAO;
+  private StatusService statusService;
 
   @Autowired
-  public AnomalyService(AnomalyDAO anomalyDAO, HiveDAO hiveDAO) {
+  public AnomalyService(AnomalyDAO anomalyDAO, HiveDAO hiveDAO, StatusService statusService) {
     this.anomalyDAO = anomalyDAO;
     this.hiveDAO = hiveDAO;
+    this.statusService = statusService;
   }
 
   public void checkAnomalies (Measurement measurement) {
@@ -65,7 +68,8 @@ public class AnomalyService {
     for (Anomaly a : anomalies)
       anomalyDAO.save(a);
 
-    // TODO usare StatusService per impostare le notifiche
+    for (Anomaly a : anomalies)
+      statusService.notifyAnomaly(a);
 
   }
 
