@@ -23,7 +23,6 @@ public class WebSecurityConfig {
                   .requestMatchers("/user-page","/get_hive_operation_history").permitAll()
                   .requestMatchers("/user-page", "/error404", "/error500").permitAll()
                   .anyRequest().authenticated()
-
                 )
                 .formLogin((form) -> form
                         .loginPage("/login-page").permitAll()
