@@ -70,7 +70,12 @@
                 let result = JSON.parse(resp);
                 let calendar = new FullCalendar.Calendar($("#calendar")[0], {
                     events: result,
-                    initialView: "dayGridMonth"
+                    initialView: 'dayGridMonth',
+                    eventTimeFormat: {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    }
                 });
 
                 calendar.render();
