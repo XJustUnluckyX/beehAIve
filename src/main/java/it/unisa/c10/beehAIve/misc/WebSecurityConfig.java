@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                 )
                 .logout(LogoutConfigurer::permitAll);
 
-        http.csrf().disable();
+//        http.csrf().disable(); Abilità le POST request
 
         return http.build();
     }

@@ -36,8 +36,6 @@ public class SimulateSensorService {
 
   public void simulateMeasurements() {
 
-    // TODO La prima misurazione partirà SEMPRE alle 12 con valori ottimi e viene istanziata quando si crea un'arnia
-
     // Prendiamo tutte le Arnie
     List<Hive> allHives = hiveDAO.findAll();
 
