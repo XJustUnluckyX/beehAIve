@@ -147,7 +147,6 @@ public class AccessController {
   public String login(@RequestParam String email, @RequestParam String password, Model model,
                       HttpSession session) {
     if (!(profileService.userExists(email, password))){
-      System.out.println("SEX");
       model.addAttribute("error", "Email or Password are incorrect");
       return "login-page";
     } else {
