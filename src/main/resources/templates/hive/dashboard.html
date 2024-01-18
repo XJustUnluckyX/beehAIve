@@ -36,13 +36,28 @@
                                                 <!-- Nome dell'alveare -->
                                             </div>
                                             <div class="col-2">
-                                                <img class="img-fluid mx-auto" th:src="@{/assets/home_icon.png}">
+                                                <!-- Check for 'stable' status -->
+                                                <div th:if="${hive.getHiveHealth() == 1}">
+                                                    <img class="img-fluid mx-auto" th:src="@{/assets/Stable.png}" alt="Stable"/>
+                                                </div>
+
+                                                <!-- Check for 'warning' status -->
+                                                <div th:if="${hive.getHiveHealth() == 2}">
+                                                    <img class="img-fluid mx-auto" th:src="@{/assets/Warning.png}" alt="Warning"/>
+                                                </div>
+
+                                                <!-- Check for 'danger' status -->
+                                                <div th:if="${hive.getHiveHealth() == 3}">
+                                                    <img class="img-fluid mx-auto" th:src="@{/assets/Danger.png}" alt="Danger+"/>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row pb-3">
                                             <div class="col-10 text-center align-self-center h-100"></div>
                                             <div class="col-2">
-                                                <img class="img-fluid mx-auto" th:src="@{/assets/home_icon.png}">
+                                                <div th:if="@{hive.isUncompletedOperations()}">
+                                                    <img class="img-fluid mx-auto" th:src="@{/assets/Operation.png}" alt="Operation"/>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">

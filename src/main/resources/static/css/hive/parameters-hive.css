@@ -1,9 +1,9 @@
 .custom-border{
     overflow-y: auto;
 }
-::-webkit-scrollbar{
-    display: none;
-}
+    ::-webkit-scrollbar{
+        display: none;
+    }
 
 .custom-base{
     height: 90vh !important;

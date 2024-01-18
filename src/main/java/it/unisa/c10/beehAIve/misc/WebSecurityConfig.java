@@ -21,6 +21,7 @@ public class WebSecurityConfig {
                   .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
                   .requestMatchers("/dashboard", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
                   .requestMatchers("/user-page","/get_hive_operation_history").permitAll()
+                  .requestMatchers("/user-page", "/error404", "/error500").permitAll()
                   .anyRequest().authenticated()
 
                 )

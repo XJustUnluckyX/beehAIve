@@ -39,7 +39,10 @@ public class RedirectController {
   public String sensor (Model model) { return "/sensor-spec";}
   @GetMapping("/user-page")
   public String user (Model model) { return "/user-page";}
-
+  @GetMapping("/error404")
+  public String er404 (Model model) { return "error/404";}
+  @GetMapping("/error500")
+  public String er500 (Model model) { return "error/500";}
   @GetMapping("/subscription-test")
   public String subscriptionTest(Model model) {return "subscription-test";}
 
