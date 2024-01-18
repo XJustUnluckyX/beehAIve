@@ -1,0 +1,18 @@
+.custom-base{
+    height: 90vh !important;
+    width:70% !important;
+}
+.custom-graph{
+    height: 40vh !important;
+    width: 80% !important;
+}
+.custom-border{
+    border: 2px solid black !important;
+    border-radius: 30px;
+}
+
+@media only screen and (max-width: 1280px){
+    .custom-base{
+        width: 90% !important;
+    }
+}

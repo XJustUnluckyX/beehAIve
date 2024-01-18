@@ -17,6 +17,9 @@ public class WebSecurityConfig {
                   .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**", "/create_report").permitAll()
                   .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/graph-test", "/generate_report_test").permitAll()
                   .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn", "/mimmo", "/produce_graph").permitAll()
+                  .requestMatchers("/creation-hive", "/dashboard", "/state-hive").permitAll()
+                  .requestMatchers("/driver_fia","/predict_with_cnn","/predict_without_cnn").permitAll()
+                  .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
                   .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
