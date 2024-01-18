@@ -37,6 +37,8 @@ public class RedirectController {
   public String about (Model model) { return "/about-us";}
   @GetMapping("/sensor-spec")
   public String sensor (Model model) { return "/sensor-spec";}
+  @GetMapping("/user-page")
+  public String user (Model model) { return "/user-page";}
 
   @GetMapping("/subscription-test")
   public String subscriptionTest(Model model) {return "subscription-test";}

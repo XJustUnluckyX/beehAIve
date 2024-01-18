@@ -21,14 +21,15 @@ public class WebSecurityConfig {
                   .requestMatchers("/driver_fia","/predict_with_cnn","/predict_without_cnn").permitAll()
                   .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
                   .requestMatchers("/dashboard", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
+                  .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
+                  .requestMatchers("/user-page").permitAll()
                   .anyRequest().authenticated()
+
                 )
                 .formLogin((form) -> form
                         .loginPage("/login-page").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
-
-//        http.csrf().disable(); Abilità le POST request
 
         return http.build();
     }
