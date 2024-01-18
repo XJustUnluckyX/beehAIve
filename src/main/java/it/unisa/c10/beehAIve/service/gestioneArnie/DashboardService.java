@@ -1,54 +1,21 @@
 package it.unisa.c10.beehAIve.service.gestioneArnie;
 
-import it.unisa.c10.beehAIve.persistence.dao.AnomalyDAO;
 import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
-import it.unisa.c10.beehAIve.persistence.dao.OperationDAO;
-import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
-import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
-import it.unisa.c10.beehAIve.persistence.entities.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-/*
-La seguente classe deve supportare le seguenti operazioni:
-1. Creare un'arnia.
-2. Modificare un'arnia.
-3. Eliminare un'arnia.
-4. Visualizzare tutte le arnie dell'apicoltore.
-5. Visualizzare tutte le arnie dell'apicoltore in base a determinati filtri (Interventi e Anomalie).
-6. Ricavare una determinata arnia dal database.
- */
 
 @Service
 public class DashboardService {
   private final HiveDAO hiveDAO;
-  private final OperationDAO operationDAO;
-  private final AnomalyDAO anomalyDAO;
 
   @Autowired
-  public DashboardService(HiveDAO hiveDAO, OperationDAO operationDAO,AnomalyDAO anomalyDAO){
+  public DashboardService(HiveDAO hiveDAO){
     this.hiveDAO = hiveDAO;
-    this.operationDAO = operationDAO;
-    this.anomalyDAO = anomalyDAO;
-  }
-
-  // Metodo per ricercare l'arnia nel database, così da evitare ripetizioni nel codice
-  public Hive getHive(int hiveId) {
-    // Ricerca dell'arnia nel database
-    Optional<Hive> optionalHive = hiveDAO.findById(hiveId);
-
-    // Controllo sull'esistenza dell'arnia nel database
-    if (optionalHive.isPresent()) {
-      return optionalHive.get();
-    } else {
-      throw new NullPointerException("Hive not found for ID: " + hiveId);
-    }
   }
 
   public void createHive(int hiveId, String nickname, String hiveType, String beekeeperEmail,
@@ -75,55 +42,54 @@ public class DashboardService {
     hiveDAO.save(hive);
   }
 
-  public void deleteHive(int id){
-    hiveDAO.deleteById(id);
+  public Hive getHive(int hiveId) {
+    // Ricerca dell'arnia nel database
+    Optional<Hive> optionalHive = hiveDAO.findById(hiveId);
+
+    // Controllo sull'esistenza dell'arnia nel database
+    if (optionalHive.isPresent()) {
+      return optionalHive.get();
+    } else {
+      throw new NullPointerException("Hive not found for ID: " + hiveId);
+    }
   }
 
-  public List<Hive> getAllHivesByBeekeeper(String beekeeperEmail){
+  public List<Hive> getBeekeeperHives(String beekeeperEmail){
     return hiveDAO.findByBeekeeperEmail(beekeeperEmail);
   }
 
-  public List<Hive> getAllHivesByBeekeeperAndNickname(String beekeeperEmail, String nickname) {
+  public List<Hive> getBeekeeperHivesByNickname(String beekeeperEmail, String nickname) {
     return hiveDAO.findByNicknameContainingAndBeekeeperEmail(nickname, beekeeperEmail);
   }
 
-  public List<Hive> getAllHivesByBeekeeperAndDateRange(String beekeeperEmail,
+  public List<Hive> getBeekeeperHivesByHiveType(String beekeeperEmail, String hiveType) {
+    return hiveDAO.findByHiveTypeAndBeekeeperEmail(hiveType, beekeeperEmail);
+  }
+
+  public List<Hive> getBeekeeperHivesByDateRange(String beekeeperEmail,
                                                        LocalDate date1, LocalDate date2) {
-    return hiveDAO.findByCreationDateBetween(date1,date2);
+    return hiveDAO.findByCreationDateBetweenAndBeekeeperEmail(date1, date2, beekeeperEmail);
   }
 
-  public List<Hive> getHivesByAnomalies(String anomaly){
-    int i;
-    Optional<Hive> hive;
-    List<Hive> hives = new ArrayList<>();
-    List<Integer> HivesId = new ArrayList<>();
-    List<Anomaly> temp = anomalyDAO.findByAnomalyName(anomaly);
-
-    for (i = 0; i < temp.size(); i++){
-
-      HivesId.add(temp.get(i).getHiveId());
-      hive = hiveDAO.findById(HivesId.get(i));
-      hives.add(hive.get());
-
-    }
-
-    return hives;
-
+  public List<Hive> getBeekeeperHivesByBeeSpecies(String beekeeperEmail, String beeSpecies) {
+    return hiveDAO.findByBeeSpeciesAndBeekeeperEmail(beeSpecies, beekeeperEmail);
   }
 
-  public List ShowAllHiveByOperation(String operation){
-    Optional<Hive> hive;
-    List<Hive> hives = new ArrayList<>();
-    List<Integer> HivesId = new ArrayList<>();
-    List<Operation> temp = operationDAO.findAllByOperationStatus(operation);
+  public List<Hive> getBeekeeperHivesWithAnomalies(String beekeeperEmail){
+    return hiveDAO.findByBeekeeperEmailAndAnomaliesUnresolved(beekeeperEmail);
+  }
 
-    for (int i = 0; i < temp.size(); i++){
-      HivesId.add(temp.get(i).getHiveId());
-      hive = hiveDAO.findById(HivesId.get(i));
-      hives.add(hive.get());
-    }
+  public List<Hive> getBeekeeperHivesWithScheduledOperations(String beekeeperEmail) {
+    return hiveDAO.findByBeekeeperEmailAndUncompletedOperationsTrue(beekeeperEmail);
+  }
 
-    return hives;
+  public List<Hive> getBeekeeperHivesByAllFilters(String nickname, String hiveType,
+                                                  LocalDate date1, LocalDate date2,
+                                                  String beekeeperEmail, String beeSpecies) {
+    return hiveDAO.findByFilters(nickname, hiveType, date1, date2, beekeeperEmail, beeSpecies);
+  }
 
+  public void deleteHive(int id){
+    hiveDAO.deleteById(id);
   }
 }
