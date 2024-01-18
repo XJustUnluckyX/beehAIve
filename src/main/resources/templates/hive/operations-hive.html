@@ -95,7 +95,7 @@
 
                                     <div class="row">
                                         <div class="form-group">
-                                            <h5 for="noteOperation">Example textarea</h5>
+                                            <h5 for="noteOperation">Note:</h5>
                                             <textarea class="form-control" id="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
@@ -154,7 +154,7 @@
                     <div class="col-12 col-lg-9 col-xl-8">
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form th:action="@{/add_operation-form}" method="get">
+                                <form th:action="@{/modify-operation-form}" method="get">
 
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
@@ -229,7 +229,7 @@
                     <div class="col-12 col-lg-9 col-xl-8">
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form th:action="@{/add_operation-form}" method="get">
+                                <form th:action="@{/visualize-operation-form}" method="get">
 
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
@@ -284,7 +284,10 @@
 
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
+                <form th:action="@{/visualize-operation-form}" method="get">
+                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </form>
             </div>
 
         </div>
@@ -320,7 +323,10 @@
 
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Remove</button>
+                <form th:action="@{/cancel-operation-form}" method="get">
+                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">
+                    <button type="button" class="btn btn-primary">Remove</button>
+                </form>
             </div>
 
         </div>
