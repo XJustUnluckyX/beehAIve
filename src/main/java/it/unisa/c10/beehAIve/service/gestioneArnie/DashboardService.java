@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class DashboardService {
+  private SubscriptionService subscriptionService;
   private final HiveDAO hiveDAO;
   private final BeekeeperDAO beekeeperDAO;
   private final SensorDAO sensorDAO;
@@ -35,9 +35,8 @@ public class DashboardService {
 
     // TODO Spostare questo controllo (32 - 41) in DashboardController
     SubscriptionService subscriptionService = new SubscriptionService(beekeeperDAO);
-    Beekeeper beekeeper = subscriptionService.getBeekeeper(beekeeperEmail);
-    int hivesCount = getBeekeeperHives(beekeeperEmail).size();
-    double payment = beekeeper.getPaymentDue();
+    int hivesCount = getBeekeeperHivesCount(beekeeperEmail);
+    double payment = subscriptionService.getBeekeeper(beekeeperEmail).getPaymentDue();
 
     if ((payment == 50 && hivesCount >= 15)
      || (payment == 350 && hivesCount >= 100)
@@ -131,6 +130,10 @@ public class DashboardService {
                                                   LocalDate date1, LocalDate date2,
                                                   String beekeeperEmail, String beeSpecies) {
     return hiveDAO.findByFilters(nickname, hiveType, date1, date2, beekeeperEmail, beeSpecies);
+  }
+
+  public int getBeekeeperHivesCount(String beekeeperEmail) {
+    return hiveDAO.countByBeekeeperEmail(beekeeperEmail);
   }
 
   public void deleteHive(int id){

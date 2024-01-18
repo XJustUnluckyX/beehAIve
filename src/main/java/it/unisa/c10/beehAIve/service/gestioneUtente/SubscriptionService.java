@@ -32,7 +32,6 @@ public class SubscriptionService {
     this.beekeeperDAO = beekeeperDAO;
   }
 
-  // Metodo per ricercare il beekeeper nel database, così da evitare ripetizioni nel codice
   public Beekeeper getBeekeeper(String beekeeperEmail) {
     // Ricerca del beekeeper nel database
     Optional<Beekeeper> optionalBeekeeper = beekeeperDAO.findById(beekeeperEmail);
@@ -72,14 +71,12 @@ public class SubscriptionService {
   public void cancelSubscription(String beekeeperEmail) {
     Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
 
-    if (beekeeper.isSubscribed()) { // Controllo sull'esistenza di un abbonamento attivo
-      // Cancellazione dell'abbonamento dal database
-      beekeeper.setSubscribed(false);
-      beekeeper.setPaymentDue(0);
-      beekeeper.setSubscrExpirationDate(null);
-      // Salvataggio delle modifiche nel database
-      beekeeperDAO.save(beekeeper);
-    }
+    // Cancellazione dell'abbonamento dal database
+    beekeeper.setSubscribed(false);
+    beekeeper.setPaymentDue(0);
+    beekeeper.setSubscrExpirationDate(null);
+    // Salvataggio delle modifiche nel database
+    beekeeperDAO.save(beekeeper);
   }
 
   public boolean isSubscriptionExpired(String beekeeperEmail) {
@@ -89,7 +86,7 @@ public class SubscriptionService {
     return beekeeper.getSubscrExpirationDate().isBefore(LocalDate.now());
   }
 
-  public void cancelExpiredSubscription() {
+  public void cancelAllExpiredSubscriptions() {
     List<Beekeeper> beekeepers = beekeeperDAO.findAll();
 
     for (Beekeeper b : beekeepers) {

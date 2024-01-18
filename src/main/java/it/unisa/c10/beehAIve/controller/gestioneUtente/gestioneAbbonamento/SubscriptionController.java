@@ -1,24 +1,30 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneAbbonamento;
 
 
+import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
+import it.unisa.c10.beehAIve.persistence.entities.Hive;
+import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
+import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import it.unisa.c10.beehAIve.service.gestioneUtente.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 
+import java.util.List;
 import java.util.Locale;
-// Gestisce tutte le operazioni che hanno a che fare con la sottoscrizione dell'abbonamento (Sottoscrizione effettiva,
-// modifica del piano???, cancellazione, rinnovo, ecc)
-// Questa cosa va ben vista, perchè dipende dall'API di PayPal
+
 @Controller
+@SessionAttributes("beekeeper")
 public class SubscriptionController {
   @Autowired
   private SubscriptionService subscriptionService;
+  @Autowired
+  private DashboardService dashboardService;
 
   // Per PayPal
   private String payerEmail;
@@ -26,44 +32,87 @@ public class SubscriptionController {
   public static final String PAYPAL_SUCCESS_URL = "pay/success";
   public static final String PAYPAL_CANCEL_URL = "pay/cancel";
 
-  // ... (spazio per i metodi "normali")
+  public boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
+    double beekeeperPaymentDue = subscriptionService.calculatePayment(subscriptionType);
+
+    /* Si restituisce 'false' nei seguenti casi:
+     * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
+     * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
+     * - L'apicoltore vuole passare dall'abbonamento "Large" a "Medium" e possiede più di 100 arnie
+     */
+    if (((beekeeperPaymentDue == 350 && subscriptionType.equals("small"))
+        && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
+     || ((beekeeperPaymentDue == 1050 && subscriptionType.equals("small"))
+        && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
+     || ((beekeeperPaymentDue == 1050 && subscriptionType.equals("medium"))
+        && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 100)){
+      return false;
+    }
+
+    // Si restituisce 'true' se non si presenta nessuno dei casi precedenti perché il limite massimo
+    // di arnie è rispettato oppure perché beekeeperPaymentDue == null (l'apicoltore non ha alcun
+    // abbonamento)
+    return true;
+  }
+
+  public void cancelExpiredSubscription(String beekeeperEmail) {
+    Beekeeper beekeeper = subscriptionService.getBeekeeper(beekeeperEmail);
+
+    // Controllo sull'esistenza di un abbonamento attivo ed eventuale scadenza
+    if(beekeeper.isSubscribed() && subscriptionService.isSubscriptionExpired(beekeeperEmail)) {
+      subscriptionService.cancelSubscription(beekeeperEmail); // Cancellazione dell'abbonamento
+    }
+  }
 
   //--------------------------------------Metodi di PayPal------------------------------------------
 
   @GetMapping("/pay")
-  public String payment(@RequestParam String beekeeperEmail, @RequestParam String subscriptionType) {
+  public String payment(@RequestParam String subscriptionType, HttpSession session, Model model) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Salvataggio dei valori da utilizzare successivamente nel metodo successPay()
+    this.payerEmail = beekeeper.getEmail();
+    this.subscriptionType = subscriptionType;
+    // Calcolo dell'importo in base alla tipologia di abbonamento
+    double price = subscriptionService.calculatePayment(subscriptionType);
+
+    // Controllo sull'abbonamento corrente, così da impedire che l'apicoltore passi a un
+    // abbonamento di taglia inferiore nel caso in cui il numero attuale delle sue arnie ne supera
+    // il limite massimo
+    if(!canModifySubscription(payerEmail, subscriptionType)) {
+      model.addAttribute("error",
+          "Your current hive count exceeds the maximum limit for this subscription.");
+      return "user-page";
+    }
+
+    // Imposta il separatore decimale come punto invece che virgola (necessario per PayPal)
+    Locale.setDefault(Locale.US);
+
     try {
-      // Salvataggio dei valori da utilizzare successivamente nel metodo successPay()
-      this.payerEmail = subscriptionService.getBeekeeper(beekeeperEmail).getEmail();
-      this.subscriptionType = subscriptionType;
-      // Calcolo dell'importo in base alla tipologia di abbonamento
-      double price = subscriptionService.calculatePayment(subscriptionType);
-
-      // Imposta il separatore decimale come punto invece che virgola (necessario per PayPal)
-      Locale.setDefault(Locale.US);
-
+      /* Creazione di un nuovo pagamento, composto da:
+       * - VALUTA: Euro
+       * - METODO DI PAGAMENTO: PayPal
+       * - FINALITÀ: Pagamento immediato
+       * - URL di cancellazione pagamento
+       * - URL di pagamento effettuato
+       */
       Payment payment = subscriptionService.createPayment(
           price, "EUR", "paypal", "sale", "",
           "http://localhost:8080/beehAIve_war/" + PAYPAL_CANCEL_URL,
           "http://localhost:8080/beehAIve_war/" + PAYPAL_SUCCESS_URL);
+
       for (Links link : payment.getLinks()) {
+        // Reindirizzamento all'URL di approvazione del pagamento di PayPal
         if (link.getRel().equals("approval_url")) {
-          return "redirect:" + link.getHref();
+          return link.getHref();
         }
       }
-
     } catch (PayPalRESTException e) {
       e.printStackTrace();
     }
-    return "redirect:/";
+    return "index";
   }
 
-  @GetMapping(value = PAYPAL_CANCEL_URL)
-  public String cancelPay() {
-    return "payments/payment-cancelled";
-  }
-
-  @GetMapping(value = PAYPAL_SUCCESS_URL)
+  @GetMapping(PAYPAL_SUCCESS_URL)
   public String successPay(@RequestParam("paymentId") String paymentId,
                            @RequestParam("PayerID") String payerId) {
 
@@ -76,7 +125,13 @@ public class SubscriptionController {
       }
     } catch (PayPalRESTException e) {
       e.printStackTrace();
+      return "errors/error500";
     }
-    return "redirect:/";
+    return "index";
+  }
+
+  @GetMapping(PAYPAL_CANCEL_URL)
+  public String cancelPay() {
+    return "payments/payment-cancelled";
   }
 }
