@@ -1,0 +1,6 @@
+.custom-container{
+    height: auto !important;
+    border: 2px solid black !important;
+    border-radius: 30px !important;
+    backdrop-filter: blur(6px) !important;
+}

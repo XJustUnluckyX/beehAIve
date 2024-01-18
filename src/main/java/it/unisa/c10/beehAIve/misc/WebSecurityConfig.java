@@ -15,7 +15,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                   .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
-                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
+                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec", "/user-page").permitAll()
                   .anyRequest().authenticated()
 
                 )
