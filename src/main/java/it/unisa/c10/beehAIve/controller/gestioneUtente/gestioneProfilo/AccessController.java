@@ -1,16 +1,31 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
+import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+
 @Controller
-@SessionAttributes("email")
+@SessionAttributes("beekeeper")
 public class AccessController {
-  private ProfileService profileService;
+  final private ProfileService profileService;
+  final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
   @Autowired
   public AccessController(ProfileService profileService) {
     this.profileService = profileService;
@@ -20,8 +35,8 @@ public class AccessController {
   //Pagina di Registrazione
 
 
-  @GetMapping("registration-page")
-  public String showRegistrationForm(Model model) {
+  @GetMapping("registration")
+  public String showRegistrationForm() {
     return "registration-page";
   }
 
@@ -55,11 +70,11 @@ public class AccessController {
     return companyPiva.matches(companyPivaRegex);
   }
 
-  @PostMapping("/registration-page")
+  @PostMapping("/registration-form")
   public String registration(@RequestParam String email, @RequestParam String firstName,
                              @RequestParam String lastName, @RequestParam String companyName,
                              @RequestParam String companyPiva, @RequestParam String password,
-                             @RequestParam String confirmPassword, Model model, HttpSession session) {
+                             @RequestParam String confirmPassword, Model model) {
 
     // Controlli sul formato dei parametri
 
@@ -135,9 +150,13 @@ public class AccessController {
   // Pagina di login
 
 
-  @GetMapping("/login-page")
-  public String showLoginForm(Model model) {
-    return "login-page";
+  @GetMapping("/login")
+  public String showLoginForm(HttpSession session) {
+    if (session.getAttribute("beekeeper") == null) {
+      return "login-page";
+    } else {
+      return "index";
+    }
   }
 
   @PostMapping("/login-form")
@@ -147,7 +166,10 @@ public class AccessController {
       model.addAttribute("error", "Email or Password are incorrect");
       return "login-page";
     } else {
-      session.setAttribute("email", email);
+      Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
+      if (beekeeper.isPresent()) {
+        session.setAttribute("beekeeper", beekeeper.get());
+      }
       return "index";
     }
   }
@@ -157,9 +179,9 @@ public class AccessController {
 
 
   @GetMapping("/logout")
-  public String logout(HttpSession session) {
-    session.removeAttribute("email");
-    return "index";
+  public String logout(HttpSession session){
+    session.invalidate();
+    return "login";
   }
 
  }

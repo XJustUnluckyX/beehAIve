@@ -11,11 +11,11 @@ public class RedirectController {
   public String home (Model model) {
     return "index";
   }
-//  @GetMapping("/login-page")
+//  @GetMapping("/login")
 //  public String login (Model model) {
 //    return "login-page";
 //  }
-//  @GetMapping("/registration-page")
+//  @GetMapping("/registration")
 //  public String register (Model model) {
 //    return "registration-page";
 //  }
@@ -43,4 +43,9 @@ public class RedirectController {
 
   @GetMapping("/user-page")
   public String user (Model model) { return "/user-page";}
+
+  @GetMapping("/home")
+  public String homePage (Model model) {
+    return "/index";
+  }
 }
