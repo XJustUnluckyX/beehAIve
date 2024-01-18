@@ -29,10 +29,10 @@ import java.util.List;
 
 /*
 La seguente classe deve supportare le seguenti operazioni:
-1. Creare il grafico della temperatura dell'arnia nel tempo. x
-2. Creare il grafico del peso dell'arnia nel tempo. x
-3. Creare il grafico dell'umidità dell'arnia nel tempo. x
-4. Creare il grafico della presenza della regina nel tempo. x
+1. Creare il grafico della temperatura dell'arnia nel tempo.
+2. Creare il grafico del peso dell'arnia nel tempo.
+3. Creare il grafico dell'umidità dell'arnia nel tempo.
+4. Creare il grafico della presenza della regina nel tempo.
 5. Inviare una notifica in caso di anomalia.
 6. Impostare un'anomalia come "risolta".
 7. Eliminare un'anomalia.
@@ -88,14 +88,80 @@ public class StatusService {
   }
 
   public void notifyAnomaly (Anomaly anomaly) {
+    Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
 
+    // Se l'arnia è in salute in base all'anomalia cambiamo lo stato
+    if (hive.getHiveHealth() == 1) {
+      if (anomaly.getAnomalyName().equals("Possible CCD"))
+        hive.setHiveHealth(3);
+      else
+        hive.setHiveHealth(2);
+    }
+
+    // Se l'arnia è in pericolo medio aggiorniamo solo se l'anomalia è grave
+    if (hive.getHiveHealth() == 2)
+      if (anomaly.getAnomalyName().equals("Possible CCD"))
+        hive.setHiveHealth(3);
+
+    hiveDAO.save(hive);
   }
 
   public void resolveAnomaly (int anomalyId) {
 
+    // Prendiamo l'anomalia dal database
+    Anomaly anomaly = anomalyDAO.findById(anomalyId).get();
+
+    // Impostiamola a risolta
+    anomaly.setResolved(true);
+
+    // Salviamo nel database l'anomalia sistemata
+    anomalyDAO.save(anomaly);
+
+    // Prendiamo l'arnia per controllare se va cambiato lo stato di salute
+    Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
+
+    // Operazione per il nuovo stato di salute
+    hive.setHiveHealth(getNewHealthStatus(hive.getId()));
+
+    // Salviamo l'arnia nel DB
+    hiveDAO.save(hive);
+
   }
 
-  public void removeAnomaly (int anomalyId) {
+  public void deleteAnomaly (int anomalyId) {
+
+    // Prendiamo l'anomalia dal database per ricavarne l'arnia dopo
+    Anomaly anomaly = anomalyDAO.findById(anomalyId).get();
+
+    // Eliminiamo l'arnia dal database
+    anomalyDAO.deleteById(anomalyId);
+
+    // Prendiamo l'arnia per controllare se va cambiato lo stato di salute
+    Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
+
+    // Operazione per il nuovo stato di salute
+    hive.setHiveHealth(getNewHealthStatus(hive.getId()));
+
+    // Salviamo l'arnia nel DB
+    hiveDAO.save(hive);
+
+  }
+
+  private int getNewHealthStatus (int hiveId) {
+
+    List<Anomaly> anomalies = anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
+
+    // Se non ci sono anomalie l'arnia è in salute
+    if (anomalies.isEmpty())
+      return 1;
+
+    // Controlla se ci sono anomalie di Possibile CCD
+    for (Anomaly a : anomalies)
+      if (a.getAnomalyName().equals("Possible CCD"))
+        return 3;
+
+    // Le uniche anomalie rimaste sono di gravità media
+    return 2;
 
   }
 
@@ -228,9 +294,6 @@ public class StatusService {
     document.close();
 
   }
-
-
-
 
 
 }
