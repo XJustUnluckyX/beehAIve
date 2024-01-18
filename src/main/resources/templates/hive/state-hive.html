@@ -2,14 +2,119 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../static/css/hive/state-hive.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/hive/state-hive.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{js/jquery.js}" type="text/javascript"></script>
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
 </head>
 <body>
 
-    <div th:insert="fragments/hives-header :: hive_navbar"></div>
+<div th:insert="fragments/hives-header :: hive_navbar"></div>
+<div th:insert="fragments/hives-header :: offcanvas"></div>
 
-    <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+<div class="gradient-custom h-100">
+    <div class="container-fluid py-4 custom-base" >
+        <div class="row py-3 bg-warning d-flex justify-content-center custom-border">
+
+            <div class="row">
+                <div class="col-md-3 my-2">
+                    <h5>Hive Name: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Type: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Species: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive State: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Name: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Sensor State: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Hive Data Creation: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3  my-2">
+                    <h5>Lastest Update: </h5>
+                </div>
+                <div class="col my-2">
+                    <div class="col"></div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-3 my-2">
+                    <h5>Production: </h5>
+                </div>
+                <div class="col">
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded custom-border" placeholder="Insert" aria-label="Insert" aria-describedby="insert-addon"/>
+                        <button type="button" class="btn btn-outline-primary custom-border" data-mdb-ripple-init> Sumbit </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1 d-none d-lg-block"></div>
+                <div class="col bg-success custom-graph custom-border">
+
+                </div>
+                <div class="col-1 d-none d-lg-block"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+
 </body>
 </html>

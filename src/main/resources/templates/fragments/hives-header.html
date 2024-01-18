@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #FFF0B3; color: black;" th:fragment="hive_navbar">
+<nav class="navbar navbar-expand-lg"  style="background-color: #FFF0B3; color: black; border-bottom: 2px solid black ;" th:fragment="hive_navbar">
     <div class="container-fluid">
         <button class="btn d-block d-lg-none d-xl-none" type="button"  data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
             Hive menu
@@ -47,28 +47,28 @@
         <button class="btn d-none d-lg-block" type="button"  data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
             Hive menu
         </button>
+
     </div>
 </nav>
 
-    <div class="offcanvas offcanvas-start" style="background-color: #ffb800" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
-        <div class="offcanvas-header">
-            <h3 class="offcanvas-title" id="staticBackdropLabel">Hive navigation menu</h3>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<div class="offcanvas offcanvas-start" style="background-color: #ffb800" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" th:fragment="offcanvas">
+    <div class="offcanvas-header">
+        <h3 class="offcanvas-title" id="staticBackdropLabel">Hive navigation menu</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container mx-auto my-4">
+            <img class="img-fluid max w-50" th:src="@{/assets/logo_icon.png}" alt="Logo" id="logo">
         </div>
-        <div class="offcanvas-body">
-            <div class="container mx-auto my-4">
-                <img class="img-fluid max w-50" src="../../static/assets/logo_icon.png" alt="Logo" id="logo">
-            </div>
-            <div>
-                <h2><a class="nav-link" style="padding: 10px" href="#"> Statistics </a></h2>
-                <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>
-                <h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>
-                <h2><a class="nav-link" style="padding: 10px" href="#"> Modify Hive </a></h2>
-                <h2><a class="nav-link" style="padding: 10px" href="#"> Remove Hive </a></h2>
-            </div>
+        <div>
+            <h2><a class="nav-link" style="padding: 10px" href="#"> Statistics </a></h2>
+            <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>
+            <h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>
+            <h2><a class="nav-link" style="padding: 10px" href="#"> Modify Hive </a></h2>
+            <h2><a class="nav-link" style="padding: 10px" href="#"> Remove Hive </a></h2>
         </div>
     </div>
-
+</div>
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>
