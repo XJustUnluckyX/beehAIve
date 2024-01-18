@@ -1,29 +1,35 @@
 package it.unisa.c10.beehAIve.controller;
 
+import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class RedirectController {
+  private DashboardService dashboardService;
+  @Autowired
+  public RedirectController(DashboardService dashboardService) {
+    this.dashboardService = dashboardService;
+  }
 
   @GetMapping("")
   public String home (Model model) {
     return "index";
   }
   @GetMapping("/login")
-  public String login (Model model) {
-    return "login";
-  }
+  public String login (Model model) { return "login";}
   @GetMapping("/registration-page")
-  public String register (Model model) {
-    return "registration-page";
-  }
+  public String register (Model model) { return "registration-page";}
   @GetMapping("/subscription-page")
   public String subscription (Model model) { return "subscription-page";}
   @GetMapping("/creation-hive")
   public String creation (Model model) { return "hive/creation-hive";}
+  @GetMapping("/dashboard")
+  public String dashboard (Model model) { return "hive/dashboard";}
+  @GetMapping("/state-hive")
+  public String state (Model model) { return "hive/state-hive";}
   @GetMapping("/subscription-test")
   public String subscriptionTest (Model model) { return "subscription-test";}
-
 }

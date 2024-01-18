@@ -15,11 +15,12 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                   .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
-                  .requestMatchers("/registration-page", "/subscription-page", "/creation-hive").permitAll()
-                  .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn",
-                      "/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
+                  .requestMatchers("/registration-page", "/subscription-page").permitAll()
+                  .requestMatchers("/creation-hive", "/dashboard", "/state-hive").permitAll()
+                  .requestMatchers("/driver_fia","/predict_with_cnn","/predict_without_cnn").permitAll()
+                  .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
                   .anyRequest().authenticated()
-                )
+                ) // TODO chiedere ad Andrea la riga di codice
                 .formLogin((form) -> form
                         .loginPage("/login").permitAll()
                 )

@@ -49,6 +49,8 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
 
   List<Hive> findByBeekeeperEmailAndUncompletedOperationsTrue(String beekeeperEmail);
 
+  Hive findTopByBeekeeperEmailOrderByIdDesc(String beekeeperEmail);
+
   void deleteByBeekeeperEmail(String beekeeperEmail);
 
   int countByBeekeeperEmail(String beekeeperEmail);
