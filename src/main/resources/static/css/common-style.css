@@ -2,12 +2,14 @@
     font-family: Helvetica;
 }
 
-html{
-    background: #FFE087;
-}
 body{
+    width: 100% !important;
+    height: 100% !important;
     overflow: hidden;
-    background: transparent !important;
+    background: url("../assets/pattern.svg") !important;
+    background-repeat: repeat !important;
+    background-size: 100px 140px !important;
+    background-position: center;
 }
 
 .nav-item
@@ -49,10 +51,4 @@ body{
 .nav-item:hover::after {
     top: 50%;
     opacity: 1;
-}
-
-@media only screen and (max-width: 900px){
-    body{
-        overflow-y: auto;
-    }
 }

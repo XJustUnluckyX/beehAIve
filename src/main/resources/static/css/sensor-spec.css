@@ -1,0 +1,7 @@
+.custom-border{
+    border: 2px solid black !important;
+    border-radius: 30px !important;
+}
+.custom-text{
+    font-size: 20px!important;
+}

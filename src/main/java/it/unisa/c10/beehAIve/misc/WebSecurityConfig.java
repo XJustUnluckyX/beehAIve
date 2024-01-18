@@ -20,6 +20,7 @@ public class WebSecurityConfig {
                   .requestMatchers("/creation-hive", "/dashboard", "/state-hive").permitAll()
                   .requestMatchers("/driver_fia","/predict_with_cnn","/predict_without_cnn").permitAll()
                   .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
+                  .requestMatchers("/dashboard", "/state-hive", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
                   .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

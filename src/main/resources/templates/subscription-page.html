@@ -2,40 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/subscription-page.css}" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/subscription-page.css}" rel="stylesheet"  type="text/css">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
-    <style>
-        body{
-            background: #FFE087;
-        }
-        .vertical-line {
-            border-left: 2px solid #000; /* Colore e spessore della linea sinistra */
-            border-right: 2px solid #000; /* Colore e spessore della linea destra */
-            height: 100%; /* Altezza del div */
-        }
-        /* Regola personalizzata per l'altezza della riga */
-        .custom-row {
-            height: 30vh; /* Imposta l'altezza desiderata */
-        }
-        /* Regola personalizzata per l'altezza delle card */
-        .custom-card {
-            height: 45vh;
-            border-width: 3px; /* Imposta lo spessore del bordo */
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* Aggiungi sfumatura al bordo */
-        }
-        /* Stile opzionale per il contenuto delle colonne */
-        .custom-price {
-            border: 1px solid black;
-            width: 75%;
-            align-self: center;
-        }
-    </style>
+
     <title>Title</title>
 </head>
 <body>
 
-    <div th:insert="fragments/header :: navbar"></div>
+    <div th:insert="~{fragments/header :: navbar}"></div>
     <div class="container-lg text-center my-5">
         <div class="row justify-content-between custom-row">
             <div class="col col-1 ">  </div>
@@ -58,7 +34,7 @@
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                         <h3 class="card-text custom-price w-80">Price/Month</h3>
                         <hr> <!-- Linea orizzontale -->
-                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                        <a href="#" class="btn btn-warning mt-auto">Go somewhere</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +48,7 @@
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                         <h3 class="card-text custom-price w-80">Price/Month</h3>
                         <hr> <!-- Linea orizzontale -->
-                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                        <a href="#" class="btn btn-warning mt-auto">Go somewhere</a>
                     </div>
                 </div>
             </div>
@@ -86,7 +62,7 @@
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                         <h3 class="card-text custom-price w-80">Price/Month</h3>
                         <hr> <!-- Linea orizzontale -->
-                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                        <a href="#" class="btn btn-warning mt-auto">Go somewhere</a>
                     </div>
                 </div>
             </div>
