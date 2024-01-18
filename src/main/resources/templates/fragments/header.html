@@ -21,9 +21,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">
-                        Log-in
-                    </a>
+                    <!--                        Add if-->
+                    <div th:unless="${session.beekeeper != null}">
+                        <a class="nav-link active" aria-current="page" href="#"> Log-in </a>
+                    </div>
+                    <div th:if="${session.beekeeper != null}">
+                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
+                    </div>
+
                 </li>
                 <li th:if="${session.beekeeper != null}" class="nav-item">
 
