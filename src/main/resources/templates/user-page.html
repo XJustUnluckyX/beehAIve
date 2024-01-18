@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/user-page.css}" rel="stylesheet"/>
+    <link th:href="@{/css/hive/hive-template.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<section>
+    <div class="container my-5 custom-container">
+
+        <div class="row py-3 justify-content-center text-center">
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>First Name</h3>
+                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                </div>
+
+            </div>
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>Last Name</h3>
+                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>                </div>
+            </div>
+        </div>
+
+        <div class="row py-3 justify-content-center text-center align-items-center">
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>Password</h3>
+                    <button type="button" class="btn align-items-center" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh" data-bs-toggle="modal" data-bs-target="#modify_password"> <h5>Modify Password</h5> </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-3 justify-content-center text-center">
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>Company Name</h3>
+                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                </div>
+
+            </div>
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>Company Piva</h3>
+                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-1 justify-content-center text-center">
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>Subscription Type</h3>
+                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                </div>
+
+            </div>
+            <div class="col-sm-5">
+                <div class="text">
+                    <h3>Expiration Date</h3>
+                    <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-3 justify-content-end text-end align-items-center">
+            <div class="col">
+                <div class="text">
+                    <button type="button" class="btn align-items-center" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh" data-bs-toggle="modal" data-bs-target="#modify_information"> <h5>Modify</h5> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modify_information" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_informationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="modify_informationLabel">Modify User Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <!--                Form per la modifica dell'arnia-->
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12 col-lg-9 col-xl-8">
+                        <div class="card-body">
+                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                                <form>
+
+                                    <!--                            Nome utente-->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="firstNameUse">First Name:</h5>
+                                                <input type="text" id="firstNameUser" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                            Cognome utente-->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="LastNameUsere">Last Name:</h5>
+                                                <input type="text" id="LastNameUser" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                            Nome Compagnia-->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="CompanyNameUser">Company Name:</h5>
+                                                <input type="text" id="CompanyNameUser" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Confirm Changes</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modify_password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_passwordLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="modify_passwordLabel">Modify User Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <!--                Form per la modifica dell'utente-->
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12 col-lg-9 col-xl-8">
+                        <div class="card-body">
+                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                                <form>
+
+                                    <!--                            Nome utente-->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="NewPassword">New Password:</h5>
+                                                <input type="password" id="NewPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                            Cognome utente-->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <h5 class="form-label" for="ConfirmNewPassword">Confirm New Password:</h5>
+                                                <input type="password" id="ConfirmNewPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Confirm Changes</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
