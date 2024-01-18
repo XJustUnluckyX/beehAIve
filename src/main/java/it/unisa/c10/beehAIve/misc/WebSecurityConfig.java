@@ -1,11 +1,16 @@
 package it.unisa.c10.beehAIve.misc;
 
+import jakarta.servlet.http.Cookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +26,8 @@ public class WebSecurityConfig {
                   .requestMatchers("/subscription-test","/pay","/pay/success","/pay/cancel").permitAll()
                   .requestMatchers("/dashboard", "/parameters-hive", "/operations-hive", "/contact-us", "/about-us", "/sensor-spec").permitAll()
                   .requestMatchers("/user-page","/get_hive_operation_history").permitAll()
+                  .requestMatchers("/login-form", "login", "login-page","/registration-form",
+                    "/user-page", "/logout","/home").permitAll()
                   .requestMatchers("/user-page", "/error404", "/error500").permitAll()
                   .anyRequest().authenticated()
                 )
@@ -28,6 +35,8 @@ public class WebSecurityConfig {
                         .loginPage("/login-page").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
+
+//        http.csrf().disable(); Abilità le POST request
 
         return http.build();
     }

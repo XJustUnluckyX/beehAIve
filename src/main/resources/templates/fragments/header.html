@@ -25,6 +25,12 @@
                         Log-in
                     </a>
                 </li>
+                <li th:if="${session.beekeeper != null}" class="nav-item">
+
+                    <a th:href="@{/logout}" class="nav-link active">Logout</a>
+
+
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         Subscription

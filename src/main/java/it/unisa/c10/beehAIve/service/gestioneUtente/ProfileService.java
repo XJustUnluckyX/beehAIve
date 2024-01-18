@@ -71,4 +71,8 @@ public class ProfileService {
       beekeerperdao.save(beekeeper);
     }
   }
+
+  public Optional<Beekeeper> findBeekeeper(String email) {
+    return beekeerperdao.findById(email);
+  }
 }
