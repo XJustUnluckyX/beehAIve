@@ -15,35 +15,34 @@
             <div class="login-header">
                 <span>Login</span>
             </div>
-            <form th:action="@{/registration-page}" th:object="${user}"
-                  method="post">
+            <form th:action="@{/registration-page}" method="post">
                 <div class="input_box">
                     <input type="email" th:id="email" class="input-field" placeholder="Email" name="email" required>
                     <label th:for="email" class="label">Email</label>
                 </div>
                 <div class="input_box">
                     <input type="text" th:id="firstName" class="input-field" placeholder="First Name" name="firstName" required>
-                    <label th:for="user" class="label">First Name</label>
+                    <label th:for="firstName" class="label">First Name</label>
                 </div>
                 <div class="input_box">
                     <input type="text" th:id="lastName" class="input-field" placeholder="Last Name" name="lastName" required>
-                    <label th:for="user1" class="label">Last Name</label>
+                    <label th:for="lastName" class="label">Last Name</label>
                 </div>
                 <div class="input_box">
                     <input type="text" th:id="companyName" class="input-field" name="companyName" placeholder="Company Name">
-                    <label th:for="comp_name" class="label">Company Name</label>
+                    <label th:for="companyName" class="label">Company Name</label>
                 </div>
                 <div class="input_box">
                     <input type="text" th:id="companyPiva" class="input-field" name="companyPiva" placeholder="Company PIVA">
-                    <label th:for="piva" class="label">Company PIVA</label>
+                    <label th:for="companyPiva" class="label">Company PIVA</label>
                 </div>
                 <div class="input_box">
                     <input type="password" th:id="passwordhash" class="input-field" name="password" placeholder="Password" required>
-                    <label th:for="pass" class="label">Password</label>
+                    <label th:for="passwordHash" class="label">Password</label>
                 </div>
                 <div class="input_box">
                     <input type="password" th:id="confirmPassword" class="input-field" name="confirmPassword" placeholder="Confirm Password" required>
-                    <label th:for="pass1" class="label">Confirm Password</label>
+                    <label th:for="confirmPassword" class="label">Confirm Password</label>
                 </div>
 
                 <div class="input_box">

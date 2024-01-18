@@ -143,7 +143,7 @@ public class AccessController {
   @PostMapping("/login-form")
   public String login(@RequestParam String email, @RequestParam String password, Model model,
                       HttpSession session) {
-    if (!(profileService.userExists(email, password))){
+    if (!(profileService.userExists(email, password))) {
       model.addAttribute("error", "Email or Password are incorrect");
       return "login-page";
     } else {

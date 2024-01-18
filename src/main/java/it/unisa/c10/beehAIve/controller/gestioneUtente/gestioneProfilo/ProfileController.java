@@ -32,7 +32,7 @@ public class ProfileController {
   @PostMapping("/changePassword")
   public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
                                @RequestParam String confirmNewPassword, Model model,
-                               HttpSession session){
+                               HttpSession session) {
     Object emailObject = session.getAttribute("email");
     String email = emailObject.toString();
 
