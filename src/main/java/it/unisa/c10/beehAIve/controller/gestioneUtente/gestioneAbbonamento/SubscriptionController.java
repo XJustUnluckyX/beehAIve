@@ -1,22 +1,21 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneAbbonamento;
 
 
-import it.unisa.c10.beehAIve.persistence.dao.BeekeeperDAO;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
+import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import it.unisa.c10.beehAIve.service.gestioneUtente.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -63,6 +62,17 @@ public class SubscriptionController {
     if(beekeeper.isSubscribed() && subscriptionService.isSubscriptionExpired(beekeeperEmail)) {
       subscriptionService.cancelSubscription(beekeeperEmail); // Cancellazione dell'abbonamento
     }
+  }
+
+  @GetMapping("/dashboard")
+  public String showAllHives(Model model, HttpSession session) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    List<Hive> hives = dashboardService.getBeekeeperHives(beekeeper.getEmail());
+
+    System.out.println("NUMERO ARNIE: " + hives.size());
+
+    model.addAttribute("hives", hives);
+    return "hive/dashboard";
   }
 
   //--------------------------------------Metodi di PayPal------------------------------------------

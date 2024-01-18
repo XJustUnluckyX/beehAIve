@@ -1,5 +1,6 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
+import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
-@SessionAttributes("email")
+@SessionAttributes("beekeeper")
 public class AccessController {
   private ProfileService profileService;
   @Autowired
@@ -144,10 +147,14 @@ public class AccessController {
   public String login(@RequestParam String email, @RequestParam String password, Model model,
                       HttpSession session) {
     if (!(profileService.userExists(email, password))){
+      System.out.println("SEX");
       model.addAttribute("error", "Email or Password are incorrect");
       return "login-page";
     } else {
-      session.setAttribute("email", email);
+      Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
+      if (beekeeper.isPresent()) {
+        session.setAttribute("beekeeper", beekeeper.get());
+      }
       return "index";
     }
   }
