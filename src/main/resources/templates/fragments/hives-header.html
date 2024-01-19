@@ -18,29 +18,36 @@
         <button class="btn d-block d-lg-none d-xl-none" type="button"  data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
             Hive menu
         </button>
-        <a class="navbar-brand" href="#"> BeehAIve </a>
-        <button class="navbar-toggler" type="button"  data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand" th:href="@{/}"> BeehAIve </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">
-                        Log-in
+                    <!--                        Add if-->
+                    <div th:unless="${session.beekeeper != null}">
+                        <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
+                    </div>
+                    <div th:if="${session.beekeeper != null}">
+                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" th:href=""> <span th:text="${session.beekeeper['companyName']}"></span> </a>
+                    </div>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/subscription-page}">
+                        Subscription
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/about-us}">
                         About Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/contact-us}">
                         Contact Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/sensor-spec}">
                         Info
                     </a>
                 </li>

@@ -14,49 +14,36 @@
 
 <nav class="navbar navbar-expand-lg"  style="background-color: #FFF0B3; color: black; border-bottom: 2px solid black ;" th:fragment="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"> BeehAIve </a>
-        <button class="navbar-toggler" type="button"  data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand" th:href="@{/}"> BeehAIve </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <!--                        Add if-->
                     <div th:unless="${session.beekeeper != null}">
-                        <a class="nav-link active" aria-current="page" href="#"> Log-in </a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
                     </div>
                     <div th:if="${session.beekeeper != null}">
                         <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
                     </div>
 
                 </li>
-                <li th:if="${session.beekeeper != null}" class="nav-item">
-
-                    <a th:href="@{/logout}" class="nav-link active">Logout</a>
-
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/subscription-page}">
                         Subscription
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/about-us}">
                         About Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/contact-us}">
                         Contact Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Info
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" th:href="@{/sensor-spec}">
                         Info
                     </a>
                 </li>
