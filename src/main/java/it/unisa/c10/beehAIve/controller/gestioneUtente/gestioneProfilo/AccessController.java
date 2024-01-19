@@ -9,14 +9,22 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
@@ -162,6 +170,7 @@ public class AccessController {
   @PostMapping("/login-form")
   public String login(@RequestParam String email, @RequestParam String password, Model model,
                       HttpSession session) {
+    System.out.println("Entered Controller");
     if (!(profileService.userExists(email, password))) {
       model.addAttribute("error", "Email or Password are incorrect");
       return "login-page";
@@ -170,14 +179,27 @@ public class AccessController {
       if (beekeeper.isPresent()) {
         session.setAttribute("beekeeper", beekeeper.get());
       }
+
+      // Generiamo lo user per Spring Security
+      List<GrantedAuthority> authorities = new ArrayList<>();
+      authorities.add(new SimpleGrantedAuthority("USER"));
+      UserDetails user = new org.springframework.security.core.userdetails.User(email,beekeeper.get().getPasswordhash(),authorities);
+
+      // Generiamo la chiave di autenticazione
+      Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
+      // Prendiamo il security context e aggiungiamo l'autenticazione
+      SecurityContext sc = SecurityContextHolder.getContext();
+      sc.setAuthentication(authentication);
+
+      // Inseriamo l'autenticazione alla sessione
+      session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,sc);
+
       return "index";
     }
   }
 
-
   // Pulsante di logout
-
-
   @GetMapping("/logout")
   public String logout(HttpSession session){
     session.invalidate();

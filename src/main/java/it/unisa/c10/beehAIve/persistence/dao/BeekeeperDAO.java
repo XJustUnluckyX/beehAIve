@@ -17,6 +17,7 @@ public interface BeekeeperDAO extends JpaRepository<Beekeeper, String> {
 
   // deleteById()
 
+  Beekeeper findByEmail(String email);
   List<Beekeeper> findByEmailAndPasswordhash(String email, String passwordhash);
 
   List<Beekeeper> findByFirstName(String firstName);

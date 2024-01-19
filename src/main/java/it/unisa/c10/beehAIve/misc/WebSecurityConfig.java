@@ -11,11 +11,12 @@ import org.springframework.security.web.authentication.logout.CookieClearingLogo
 import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Bean
+    /* @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
@@ -39,9 +40,28 @@ public class WebSecurityConfig {
 //        http.csrf().disable(); Abilità le POST request
 
         return http.build();
-    }
+    } */
 
-
+  @Bean
+  public SecurityFilterChain filterSecurity(HttpSecurity http) throws Exception {
+    http
+      .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+        .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
+        .requestMatchers("/login-form").permitAll())
+      .authorizeHttpRequests((authorize) ->
+        authorize.anyRequest().authenticated()
+      ).formLogin(
+        form -> form
+          .loginPage("/login")
+          .defaultSuccessUrl("/")
+          .permitAll()
+      ).logout(
+        logout -> logout
+          .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+          .permitAll()
+      );
+    return http.build();
+  }
 
 
 }

@@ -17,6 +17,10 @@
             <span>Login</span>
         </div>
 
+        <div th:if="${param.logout}">
+            <div>You have been logged out.</div>
+        </div>
+
         <form th:action="@{/login-form}" method="post">
 
             <div class="input_box">

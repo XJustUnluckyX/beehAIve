@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 /*
 La seguente classe deve supportare le seguenti operazioni:
 1. Registrare l'apicoltore.
@@ -18,11 +19,11 @@ La seguente classe deve supportare le seguenti operazioni:
 
 @Service
 public class ProfileService {
-  private final BeekeeperDAO beekeerperdao;
+  private final BeekeeperDAO beekeerperDAO;
 
   @Autowired
   public ProfileService(BeekeeperDAO beekeerperdao) {
-    this.beekeerperdao = beekeerperdao;
+    this.beekeerperDAO = beekeerperdao;
   }
 
   public Beekeeper registration(String email, String password, String firstName, String lastName,
@@ -34,45 +35,47 @@ public class ProfileService {
     beekeeper.setLastName(lastName);
     beekeeper.setCompanyName(companyName);
     beekeeper.setCompanyPiva(companyPiva);
-    return beekeerperdao.save(beekeeper);
+    return beekeerperDAO.save(beekeeper);
   }
 
   public boolean emailExists(String email) {
-    return (beekeerperdao.findById(email)).isPresent();
+    return (beekeerperDAO.findById(email)).isPresent();
   }
 
   public boolean pivaExists(String piva) {
-    return !(beekeerperdao.findByCompanyPiva(piva).isEmpty());
+    return !(beekeerperDAO.findByCompanyPiva(piva).isEmpty());
   }
 
   public boolean userExists(String email, String password) {
     Beekeeper beekeeper = new Beekeeper();
     beekeeper.setPasswordhash(password);
-    return !(beekeerperdao.findByEmailAndPasswordhash(email,beekeeper.getPasswordhash()).isEmpty());
+    return !(beekeerperDAO.findByEmailAndPasswordhash(email,beekeeper.getPasswordhash()).isEmpty());
   }
 
   public void changeInfo(String email, String firstName, String lastName) {
-    Optional<Beekeeper> beekeeperOptional = beekeerperdao.findById(email);
+    Optional<Beekeeper> beekeeperOptional = beekeerperDAO.findById(email);
     Beekeeper beekeeper;
     if (beekeeperOptional.isPresent()) {
       beekeeper = beekeeperOptional.get();
       beekeeper.setFirstName(firstName);
       beekeeper.setLastName(lastName);
-      beekeerperdao.save(beekeeper);
+      beekeerperDAO.save(beekeeper);
     }
   }
 
   public void changePassword(String email, String password) {
-    Optional<Beekeeper> beekeeperOptional = beekeerperdao.findById(email);
+    Optional<Beekeeper> beekeeperOptional = beekeerperDAO.findById(email);
     Beekeeper beekeeper;
     if (beekeeperOptional.isPresent()) {
       beekeeper = beekeeperOptional.get();
       beekeeper.setPasswordhash(password);
-      beekeerperdao.save(beekeeper);
+      beekeerperDAO.save(beekeeper);
     }
   }
 
   public Optional<Beekeeper> findBeekeeper(String email) {
-    return beekeerperdao.findById(email);
+    return beekeerperDAO.findById(email);
   }
+
 }
+
