@@ -6,6 +6,10 @@
     display: none;
 }
 
+body {
+    overflow: auto !important;
+}
+
 .custom-page{
     width: 95% !important;
     height: 100% !important;

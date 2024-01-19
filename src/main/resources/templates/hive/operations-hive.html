@@ -222,14 +222,14 @@
                                             <h5 class="form-label" for="modifyType">Operation Type:</h5>
                                             <select class="select form-control-lg hive_selector" name="operationType" id="modifyType">
                                                 <option value="1" disabled selected>Choose option</option>
-                                                <option value="Medical Inspection" id="Medical Inspection">Medical Inspection</option>
-                                                <option value="Medical Treatment" id="Medical Treatment">Medical Treatment</option>
-                                                <option value="Check Population" id="Check Population">Check Population</option>
-                                                <option value="Extraction" id="Extraction">Extraction</option>
-                                                <option value="Vet Visit" id="Vet Visit">Vet Visit</option>
-                                                <option value="Feeding" id="Feeding">Feeding</option>
-                                                <option value="Transfer" id="Transfer">Transfer</option>
-                                                <option value="Maintenance" id="Maintenance">Maintenance</option>
+                                                <option value="Medical Inspection">Medical Inspection</option>
+                                                <option value="Medical Treatment">Medical Treatment</option>
+                                                <option value="Check Population">Check Population</option>
+                                                <option value="Extraction">Extraction</option>
+                                                <option value="Vet Visit">Vet Visit</option>
+                                                <option value="Feeding">Feeding</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Maintenance">Maintenance</option>
                                             </select>
                                         </div>
                                     </div>
@@ -289,7 +289,8 @@
                         hour12: false
                     },
                     height: "auto",
-                    eventColor: "#805711"
+                    eventColor: "#805711",
+                    defaultTimedEventDuration: '00:01:00'
                 });
 
                 calendar.render();

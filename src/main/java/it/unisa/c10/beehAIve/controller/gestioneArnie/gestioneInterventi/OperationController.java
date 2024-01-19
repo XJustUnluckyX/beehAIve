@@ -94,6 +94,7 @@ public class OperationController {
     return hive.getBeekeeperEmail().equals(beekeeperEmail);
   }
 
+  // TODO controllo che l'arnia sia dell'apicoltore
   // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
   @GetMapping("/show_operations")
   public String redirectToOperationPanel(@RequestParam String hiveId, Model model) {
@@ -190,11 +191,19 @@ public class OperationController {
       return "error/500";
     }
 
+    // Aggiungiamo le operazioni da svolgere
+    List<Operation> toComplete = operationService.getHiveUncompletedOperations(hiveId1);
+    model.addAttribute("toComplete", toComplete);
+
+    // Aggiungiamo le operazioni passate
+    List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
+    model.addAttribute("completed", completed);
+
     // Salvataggio nel DB dell'operazione usando il service (se i controlli sono andati a buon fine)
     operationService.planningOperation(operationName, operationType, "Not completed", operationDate1,
           noteOperation, hiveId1, hive.getBeekeeperEmail());
 
-    return "hive/operations-hive";
+    return "redirect:/show_operations?hiveId=" + hiveId;
   }
 
   // Modifica Intervento
