@@ -2,8 +2,8 @@
     --fc-border-color: transparent !important;
 }
 
-::-webkit-scrollbar{
-    display: none;
+.modal{
+    overflow: hidden !important;
 }
 
 body {
@@ -23,10 +23,15 @@ body {
     margin-bottom:10px !important;
 
 }
+
+.custom-background{
+    height: 70vh;
+    overflow: auto !important;
+}
+
 .custom-log{
     height: 45vh !important;
 }
-
 
 #calendar a {
     color: black !important;
@@ -49,3 +54,17 @@ th {
     border-right: 2px solid black !important;
     font-size: 20px;
 }
+
+h4{
+    font-size: 20px !important;
+}
+
+li{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+h3{
+    font-size: 35px !important;
+}
+
