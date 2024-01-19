@@ -26,10 +26,10 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <!--                        Add if-->
-                    <div th:unless="${session.beekeeper != null}">
+                    <div th:unless="${session.beekeeper['email'] != null}">
                         <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
                     </div>
-                    <div th:if="${session.beekeeper != null}">
+                    <div th:if="${session.beekeeper['email'] != null}">
                         <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
                     </div>
 

@@ -41,7 +41,7 @@ public class RedirectController {
   public String subscriptionTest(Model model) {return "subscription-test";}
 
   @GetMapping("/user-page")
-  public String user (Model model, HttpSession session) {
+  public String user (Model model) {
     return "/user-page";
   }
 

@@ -24,7 +24,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 @Controller
-@SessionAttributes("beekeeper")
 public class OperationController {
   private OperationService operationService;
   private DashboardService dashboardService;

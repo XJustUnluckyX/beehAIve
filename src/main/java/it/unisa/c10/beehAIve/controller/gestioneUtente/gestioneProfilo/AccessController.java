@@ -196,7 +196,6 @@ public class AccessController {
   @PostMapping("/login-form")
   public String login(@RequestParam String email, @RequestParam String password, Model model,
                       HttpSession session) {
-    System.out.println("Entered Controller");
     if (!(profileService.userExists(email, password))) {
       model.addAttribute("error", "Email or password are incorrect.");
       return "login-page";
