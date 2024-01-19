@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Controller
 @SessionAttributes("beekeeper")
@@ -31,29 +33,6 @@ public class OperationController {
   public OperationController(OperationService operationService, DashboardService dashboardService) {
     this.operationService = operationService;
     this.dashboardService = dashboardService;
-  }
-
-  // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
-  @GetMapping("/redirect-form")
-  public String redirectToOperationPanel(@RequestParam String hiveId, Model model) {
-    // Controllo sull'id dell'arnia
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
-
-    // Ricavo dell'arnia dall'id ottenuto
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    return "hive/operations-hive";
-  }
-
-  // Visualizzazione del form
-  @GetMapping("/operations-hive")
-  public String showPlanningOperationForm(Model model){
-    return "hive/operations-hive";
   }
 
   // Regex sul nome dell'intervento
@@ -74,19 +53,24 @@ public class OperationController {
     return operationStatus.equals("Completed") || operationStatus.equals("Not Completed");
   }
 
-  // Conversione della data dell'intervento
-  private LocalDateTime formatDate(String operationDateString) {
-    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+  // Unione della stringa data e ora
+  private LocalDateTime formatDate(String dayString, String hourString) {
+    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // Conversione da stringa in data con il formato "yyyy-MM-dd'T'HH:mm"
-    LocalDateTime tempOperationDate = LocalDateTime.parse(operationDateString, formatter1);
-    // Conversione da data in stringa con il formato "yyyy-MM-dd HH:mm:ss" la data appena ottenuta
-    String correctDate = tempOperationDate.format(formatter2);
-    // Conversione da stringa in data con il formato "yyyy-MM-dd HH:mm:ss"
-    LocalDateTime operationDate1 = LocalDateTime.parse(correctDate, formatter2);
+    // Controllo del giorno
+    LocalDate day = LocalDate.parse(dayString, formatter1);
 
-    return operationDate1;
+    // Controllo dell'ora
+    /*if(!hourString.matches("^(?:[01]\\d|2[0-3]):[0-5]\\d$")) {
+      throw new RuntimeException();
+    }*/
+
+    // Unione e conversione a LocalDateTime
+    String operationDateString = dayString + " " + hourString;
+    LocalDateTime operationDate = LocalDateTime.parse(operationDateString, formatter2);
+
+    return operationDate;
   }
 
   // Controllo sulla validità della data dell'intervento
@@ -109,17 +93,40 @@ public class OperationController {
     return hive.getBeekeeperEmail().equals(beekeeperEmail);
   }
 
+  // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
+  @GetMapping("/redirect-form")
+  public String redirectToOperationPanel(@RequestParam String hiveId, Model model) {
+    // Controllo sull'id dell'arnia
+    int hiveId1;
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "error/500";
+    }
+    hiveId1 = Integer.parseInt(hiveId);
+
+    // Ricavo dell'arnia dall'id ottenuto
+    Hive hive = dashboardService.getHive(hiveId1);
+    model.addAttribute("hive", hive);
+
+    return "hive/operations-hive";
+  }
+
+  // Visualizzazione del form
+  @GetMapping("/operations-hive")
+  public String showPlanningOperationForm(Model model){
+    return "hive/operations-hive";
+  }
 
   // Pianificazione Intervento
   @GetMapping("/add_operation-form")
   public String planningOperation(@RequestParam String operationName, @RequestParam String operationDate,
-                                  @RequestParam String operationType, @RequestParam String noteOperation,
-                                  @RequestParam String hiveId, Model model, HttpSession session) {
+                                  @RequestParam String operationHour, @RequestParam String operationType,
+                                  @RequestParam String noteOperation, @RequestParam String hiveId,
+                                  Model model, HttpSession session) {
 
     // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
     int hiveId1;
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     hiveId1 = Integer.parseInt(hiveId);
     Hive hive = dashboardService.getHive(hiveId1);
@@ -150,7 +157,7 @@ public class OperationController {
     // Lo status dell'operazione sarà di default "Not complete" quando pianificato, non necessita di controlli
 
     // Conversione sul formato e controllo sulla correttezza della data dell'operazione
-    LocalDateTime operationDate1 = formatDate(operationDate);
+    LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
     if(!isValidDate(operationDate1)) {
       model.addAttribute("error", "Invalid operation date.");
       return "hive/operations-hive";
@@ -171,7 +178,7 @@ public class OperationController {
 
     // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
     if(!isConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "errors/error500";
+      return "error/500";
     }
 
     // Salvataggio nel DB dell'operazione usando il service (se i controlli sono andati a buon fine)
@@ -185,12 +192,13 @@ public class OperationController {
   @GetMapping("/modify-operation-form")
   public String modifyOperation(@RequestParam String operationId, @RequestParam String operationName,
                                 @RequestParam String operationType, @RequestParam String operationStatus,
-                                @RequestParam String operationDate, @RequestParam String operationNotes,
-                                @RequestParam String hiveId, Model model, HttpSession session) {
+                                @RequestParam String operationDate, @RequestParam String operationHour,
+                                @RequestParam String operationNotes, @RequestParam String hiveId,
+                                Model model, HttpSession session) {
     // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
     int hiveId1;
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     hiveId1 = Integer.parseInt(hiveId);
     Hive hive = dashboardService.getHive(hiveId1);
@@ -225,7 +233,7 @@ public class OperationController {
     }
 
     // Conversione sul formato e controllo sulla correttezza della data dell'operazione
-    LocalDateTime operationDate1 = formatDate(operationDate);
+    LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
     if(!isValidDate(operationDate1)) {
       model.addAttribute("error", "Invalid operation date.");
       return "hive/operations-hive";
@@ -247,7 +255,7 @@ public class OperationController {
     // Controllo sull'id dell'operazione
     int operationId1;
     if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     operationId1 = Integer.parseInt(hiveId);
 
@@ -264,7 +272,7 @@ public class OperationController {
     // Controllo sull'id dell'operazione
     int id1;
     if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     id1 = Integer.parseInt(id);
 
@@ -281,7 +289,7 @@ public class OperationController {
     // Controllo sull'id dell'operazione
     int id1;
     if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     id1 = Integer.parseInt(id);
 
@@ -298,7 +306,7 @@ public class OperationController {
     // Controllo sull'id dell'operazione
     int id1;
     if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     id1 = Integer.parseInt(id);
 
