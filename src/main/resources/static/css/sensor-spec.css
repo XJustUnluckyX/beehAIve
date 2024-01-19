@@ -1,7 +1,15 @@
+section{
+    overflow: auto !important;
+    height: 94vh;}
 .custom-border{
+
     border: 2px solid black !important;
     border-radius: 30px !important;
 }
 .custom-text{
     font-size: 20px!important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
 }

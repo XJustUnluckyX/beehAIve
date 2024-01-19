@@ -2,13 +2,8 @@ package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,24 +11,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 @Controller
 @SessionAttributes("beekeeper")
 public class AccessController {
   final private ProfileService profileService;
-  final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
   @Autowired
   public AccessController(ProfileService profileService) {
     this.profileService = profileService;
@@ -44,36 +34,40 @@ public class AccessController {
 
 
   @GetMapping("registration")
-  public String showRegistrationForm() {
-    return "registration-page";
+  public String showRegistrationForm(HttpSession session) {
+    if (session.getAttribute("beekeeper") == null) {
+      return "registration-page";
+    } else {
+      return "index";
+    }
   }
 
-  private boolean regexEmail (String email) {
+  protected boolean regexEmail (String email) {
     String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     return email.matches(emailRegex);
   }
 
-  private boolean regexPassword (String password) {
+  protected boolean regexPassword (String password) {
     String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&])[A-Za-z\\d@.$!%*?&]{8,}$";
     return password.matches(passwordRegex);
   }
 
-  private boolean regexFirstName (String firstName) {
+  protected boolean regexFirstName (String firstName) {
     String firstNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
     return firstName.matches(firstNameRegex);
   }
 
-  private boolean regexLastName (String lastName) {
+  protected boolean regexLastName (String lastName) {
     String lastNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
     return lastName.matches(lastNameRegex);
   }
 
-  private boolean regexCompanyName (String companyName) {
+  protected boolean regexCompanyName (String companyName) {
     String companyRegex = "^[a-zA-Z0-9\\s.'\",&()-]+$";
     return companyName.matches(companyRegex);
   }
 
-  private boolean regexCompanyPiva (String companyPiva) {
+  protected boolean regexCompanyPiva (String companyPiva) {
     String companyPivaRegex = "^[\\d-]{9,}$";
     return companyPiva.matches(companyPivaRegex);
   }
@@ -92,31 +86,70 @@ public class AccessController {
       return "registration-page";
     }
 
+    // Controllo sulla lunghezza della mail
+    if (email.length() > 50) {
+      model.addAttribute("error", "Email address too long");
+      return "registration-page";
+    }
+
     // Controllo sul formato del nome
     if (!regexFirstName(firstName)) {
-      model.addAttribute("error", "First Name cannot contain special." +
-          "symbols except for ' and -.");
+      model.addAttribute("error", "First Name cannot contain special " +
+          "symbols except for ' and - .");
+      return "registration-page";
+    }
+
+    // Controllo sulla lunghezza del nome
+    if (firstName.length() < 2) {
+      model.addAttribute("error", "First name too short.");
+      return "registration-page";
+    } else if (firstName.length() > 15) {
+      model.addAttribute("error", "First name too long.");
       return "registration-page";
     }
 
     // Controllo sul formato del cognome
     if (!regexLastName(lastName)) {
-      model.addAttribute("error", "Last Name cannot contain special " +
-          "symbols except for ' and -.");
+      model.addAttribute("error", "Last name cannot contain special " +
+          "symbols except for ' and - .");
+      return "registration-page";
+    }
+
+    // Controllo sulla lunghezza del cognome
+    if (lastName.length() < 2) {
+      model.addAttribute("error", "Last name too short.");
+      return "registration-page";
+    } else if (lastName.length() > 15) {
+      model.addAttribute("error", "Last name too long.");
       return "registration-page";
     }
 
     // Controllo sul formato del nome della compagnia
     if (!regexCompanyName(companyName)) {
-      model.addAttribute("error", "Company Name cannot contain special " +
-          "symbols except for ' and -.");
+      model.addAttribute("error", "Company name cannot contain special " +
+          "symbols except for ' and - .");
+      return "registration-page";
+    }
+
+    // Controllo sulla lunghezza del nome della compagnia
+    if (companyName.length() < 2) {
+      model.addAttribute("error", "Company name too short.");
+      return "registration-page";
+    } else if (companyName.length() > 100) {
+      model.addAttribute("error", "Company name too long.");
       return "registration-page";
     }
 
     // Controllo sul formato della P.IVA
     if (!regexCompanyPiva(companyPiva)) {
-      model.addAttribute("error", "The P.IVA number must contain 9 or more " +
+      model.addAttribute("error", "The PIVA number must contain 9 or more " +
           "digits.");
+      return "registration-page";
+    }
+
+    // Controllo sulla lunghezza della P.IVA
+    if (companyPiva.length() > 20) {
+      model.addAttribute("error", "PIVA too long");
       return "registration-page";
     }
 
@@ -144,7 +177,7 @@ public class AccessController {
 
     // Controllo che la P.IVA non sia già registrata
     if (profileService.pivaExists(companyPiva)) {
-      model.addAttribute("error", "Piva already exists");
+      model.addAttribute("error", "PIVA already exists.");
       return "registration-page";
     }
 
@@ -172,7 +205,7 @@ public class AccessController {
                       HttpSession session) {
     System.out.println("Entered Controller");
     if (!(profileService.userExists(email, password))) {
-      model.addAttribute("error", "Email or Password are incorrect");
+      model.addAttribute("error", "Email or password are incorrect.");
       return "login-page";
     } else {
       Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
@@ -198,15 +231,4 @@ public class AccessController {
       return "index";
     }
   }
-
-
-  // Pulsante di logout
-
-
-  @GetMapping("/logout")
-  public String logout(HttpSession session){
-    session.invalidate();
-    return "login";
-  }
-
  }

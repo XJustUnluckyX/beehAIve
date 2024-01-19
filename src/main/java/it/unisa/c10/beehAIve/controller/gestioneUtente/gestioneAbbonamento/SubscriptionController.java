@@ -103,7 +103,7 @@ public class SubscriptionController {
       for (Links link : payment.getLinks()) {
         // Reindirizzamento all'URL di approvazione del pagamento di PayPal
         if (link.getRel().equals("approval_url")) {
-          return link.getHref();
+          return "redirect:" + link.getHref();
         }
       }
     } catch (PayPalRESTException e) {

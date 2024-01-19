@@ -26,3 +26,8 @@ p{
 .col-sm-6{
     backdrop-filter: blur(6px)
 }
+
+.custom-section{
+    overflow: auto !important;
+    height: 94vh;
+}

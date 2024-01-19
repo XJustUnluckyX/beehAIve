@@ -14,7 +14,7 @@
     <div class="wrapper">
         <div class="login_box">
             <div class="login-header">
-                <span>Login</span>
+                <span>Register</span>
             </div>
             <form th:action="@{/registration-form}" method="post">
                 <div class="input_box">
@@ -68,7 +68,7 @@
         </form>
 
             <div class="register">
-                <span>Already have an account? <a href="#">Login</a></span>
+                <span>Already have an account? <a th:href="@{/login}">Login</a></span>
             </div>
         </div>
     </div>
