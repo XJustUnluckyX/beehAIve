@@ -1,10 +1,7 @@
-*{
-    overflow-y: auto;
+.ftco-section{
+    height: 94vh !important;
+    overflow: auto !important;
 }
-body::-webkit-scrollbar{
-    display: none
-}
-
 .icon-square{
     display: inline-flex !important;
     align-items: center !important;

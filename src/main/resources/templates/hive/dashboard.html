@@ -57,6 +57,9 @@
                                         <div class="row pb-3">
                                             <div class="col-10 text-center align-self-center h-100"></div>
                                             <div class="col-2">
+                                                <div th:if="${hive.isUncompletedOperations() == false}">
+                                                    <img class="img-fluid mx-auto">
+                                                </div>
                                                 <div th:if="${hive.isUncompletedOperations()}">
                                                     <img class="img-fluid mx-auto" th:src="@{/assets/Operation.png}" alt="Operation"/>
                                                 </div>

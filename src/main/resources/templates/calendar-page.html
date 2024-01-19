@@ -29,93 +29,15 @@
         </div>
         <div class="row mb-3 justify-content-center align-items-center">
 
-            <div class="col d-flex flex-column justify-content-between align-items-center">
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#add_operation"> <h2>Add Operation</h2> </button>  <!--add_operation-->
-            </div>
-            <div class="col">
+            <div class="col d-flex flex-column align-items-center">
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#log_operation"> <h2>Log Operation</h2> </button>
             </div>
 
         </div>
 
-
     </div>
 </section>
 
-<!--Modal per l'aggiunta di un operation-->
-<div class="modal fade" id="add_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_operationLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="add_operationLabel">Add Operation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form th:action="@{/add_operation-form}" method="get">
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="operationName">Operation Name:</h5>
-                                                <input type="text" id="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="operationDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="operationDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <h5 class="form-label" for="operationType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
-                                                <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <h5 for="noteOperation">Note:</h5>
-                                            <textarea class="form-control" id="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <!--Model per la gestione del log-->
 <div class="modal fade" id="log_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="log_operationLabel" aria-hidden="true" th:fragment="remove_hive">
