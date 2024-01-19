@@ -285,7 +285,7 @@
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form th:action="@{/visualize-operation-form}" method="get">
-                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">
+                    <input type="hidden" name="hiveId" id="hiveId" th:value="${hive.getId()}">
                     <button type="button" class="btn btn-primary">Confirm</button>
                 </form>
             </div>
@@ -324,7 +324,7 @@
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form th:action="@{/cancel-operation-form}" method="get">
-                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">
+                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
                     <button type="button" class="btn btn-primary">Remove</button>
                 </form>
             </div>
