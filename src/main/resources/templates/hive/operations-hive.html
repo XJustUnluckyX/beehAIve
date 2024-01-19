@@ -18,6 +18,7 @@
 <div th:insert="~{fragments/hives-header :: offcanvas}"></div>
 <div th:insert="~{fragments/hives-header :: modify_hive}"></div>
 <div th:insert="~{fragments/hives-header :: remove_hive}"></div>
+<div th:insert="~{fragments/hives-header :: anomaly}"></div>
 
 <section>
     <div class="container-fluid text-center my-2 custom-page">
@@ -99,16 +100,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="row">
+                                        <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
             </div>
 
         </div>
@@ -121,12 +124,28 @@
         <div class="modal-content bg-transparent">
 
             <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="log_operationLabel">Add Operation</h5>
+                <h5 class="modal-title" id="log_operationLabel">Log Operation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body custom-background">
-                <!--                Aggiungere il log-->
+                <div class="container">
+                    <div class="row">
+                        <h3> Imminent Operations</h3>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-sm-6 ">
+                            <h5> Mimmo </h5>
+                        </div>
+                        <div class="col-sm-4 w-50 text-end">
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Log SPec</h4> </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3> Past Operations</h3>
+                    </div>
+
+                </div>
             </div>
 
             <div class="modal-footer bg-warning">
@@ -144,7 +163,7 @@
         <div class="modal-content bg-transparent">
 
             <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="modify_operationLabel">Add Operation</h5>
+                <h5 class="modal-title" id="modify_operationLabel">Operation Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -154,6 +173,13 @@
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
                                 <form th:action="@{/modify-operation-form}" method="get">
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5> Status: <span> </span> </h5>
+                                        </div>
+
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
@@ -197,6 +223,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
+                                        <div class="col-sm-4 p-2">
+                                            <button class="btn btn-primary"> CIao </button>
+                                        </div>
+                                        <div class="col-sm-4 p-2">
+                                            <button class="btn btn-primary"> Addio </button>
+                                        </div>
+                                        <div class="col-sm-4 p-2">
+                                            <button class="btn btn-primary"> Arrivederci </button>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>
@@ -212,126 +250,6 @@
         </div>
     </div>
 </div>
-
-<!--Modal per le specifiche dell'operazione-->
-<div class="modal fade" id="spec_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="spec_operationLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="spec_operationLabel">Add Operation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form th:action="@{/visualize-operation-form}" method="get">
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="specName">Operation Name:</h5>
-                                                <input type="password" id="specName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="spechDate">Operation Date:</h5>
-                                                <input class="w-100"  type="date" id="spechDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <h5 class="form-label" for="specType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
-                                                <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <h5 for="specNote">Note:</h5>
-                                            <textarea class="form-control" id="specnNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
-                                        </div>
-                                    </div>
-
-                                    <!--                                Tasto per il check di una operazione conclusa?-->
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form th:action="@{/visualize-operation-form}" method="get">
-                    <input type="hidden" name="hiveId" id="hiveId" th:value="${hive.getId()}">
-                    <button type="button" class="btn btn-primary">Confirm</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!--Modal per la rimozione dell'operazione-->
-<div class="modal fade" id="remove_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="remove_operationLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="remove_operationLabel">Remove Hive</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-9 d-flex align-items-center">
-                            <h4>
-                                You are about to early terminate the scheduled operation. <br>
-                                Are you sure you want to continue?
-                            </h4>
-                        </div>
-                        <div class="col-3 d-flex align-items-center">
-                            <img class="img-fluid" th:src="@{/assets/sad_bee.png}">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form th:action="@{/cancel-operation-form}" method="get">
-                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                    <button type="button" class="btn btn-primary">Remove</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 

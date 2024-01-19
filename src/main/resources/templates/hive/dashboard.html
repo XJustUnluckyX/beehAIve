@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/hive/dashboard.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
@@ -44,13 +45,10 @@
                             <div th:each="hive : ${hives}"
                                  class="col-xl-3 col-lg-4 col-md-6 col-sm-8 pb-4">
                                 <div class="card" style="background-color: #FFF0B3;">
-                                    <div class="card-body d-flex flex-column">
+                                    <div class="card-body d-flex flex-column custom-hive">
                                         <div class="row pb-3">
-                                            <div
-                                                    class="col-10 text-center align-self-center h-100" th:text="${hive.getNickname()}">
-                                                    <span th:text="${hive.getNickname()}"></span>
-                                            </div>
-                                            <div class="col-2">
+
+                                            <div class="col-3">
                                                 <!-- Check for 'stable' status -->
                                                 <div th:if="${hive.getHiveHealth() == 1}">
                                                     <img class="img-fluid mx-auto" th:src="@{/assets/Stable.png}" alt="Stable"/>
@@ -69,9 +67,9 @@
                                         </div>
                                         <div class="row pb-3">
                                             <div class="col-10 text-center align-self-center h-100"></div>
-                                            <div class="col-2">
+                                            <div class="col-3">
                                                 <div th:if="${hive.isUncompletedOperations() == false}">
-                                                    <img class="img-fluid mx-auto">
+                                                    <img class="img-fluid mx-auto" th:src="@{/assets/Vuoto.png}" alt="Opration">
                                                 </div>
                                                 <div th:if="${hive.isUncompletedOperations()}">
                                                     <img class="img-fluid mx-auto" th:src="@{/assets/Operation.png}" alt="Operation"/>
@@ -79,7 +77,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="custom-space"></div>
+                                            <div class="custom-space">
+                                                <div class="col text-center custom-name" th:text="${hive.getNickname()}">
+                                                    <span th:text="${hive.getNickname()}"></span>
+                                                </div>
+                                            </div>
                                             <div class="col-12 d-flex justify-content-center">
                                                 <form th:action="@{/state-hive}" method="get">
                                                     <input type="hidden" name="hiveId" th:value="${hive.getId()}">
