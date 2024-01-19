@@ -190,6 +190,9 @@
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
                                 <form th:action="@{/modify-operation-form}" method="get">
+                                    <input type="hidden" id="modifyOperationId" name="operationId">
+                                    <input type="hidden" id="modifyStatus" name="operationStatus">
+                                    <input type="hidden" id="hiveId" name="hiveId" th:value="${hive.getId()}">
 
                                     <div class="row">
                                         <div class="col">
@@ -197,7 +200,6 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" id="hiveId" name="hiveId" th:value="${hive.getId()}">
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
@@ -236,22 +238,39 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <h5 for="modifyNote">Note:</h5>
-                                            <textarea class="form-control" id="modifyNote" name="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                            <textarea class="form-control" id="modifyNote" name="operationNotes" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
 
                                     <div class="row pt-4 d-flex justify-content-evenly text-center">
                                         <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> CIao </button>
+                                            <input class="btn btn-lg" type="submit" value="Save" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        </div>
+                                        <!--<div class="col-sm-4 p-2">
+                                            <button class="btn btn-primary"> Cancel </button>
                                         </div>
                                         <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Addio </button>
-                                        </div>
+                                            <button class="btn btn-primary"> Mark as </button>
+                                        </div>-->
+                                    </div>
+                                </form>
+                                <form th:action="@{/cancel-operation-form}" method="get">
+                                    <input type="hidden" id="cancelOperationId" name="operationId">
+                                    <input type="hidden" id="cancelOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
                                         <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Arrivederci </button>
+                                            <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
                                     </div>
-
+                                </form>
+                                <form th:action="@{/change-operation-status-form}" method="get">
+                                    <input type="hidden" id="changeStatusOperationId" name="operationId">
+                                    <input type="hidden" id="changeStatusOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
+                                        <div class="col-sm-4 p-2">
+                                            <input class="btn btn-lg" type="submit" value="Change status" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -308,11 +327,19 @@
                     let result = JSON.parse(resp);
 
                     $("#status").text(result["status"]);
+                    $("#modifyStatus").val(result["status"]);
                     $("#modifyName").val(result["name"]);
                     $("#modifyDate").val(result["date"]);
                     $("#modifyHour").val(result["hour"]);
                     $("#modifyType").val(result["type"]);
                     $("#modifyNote").text(result["notes"]);
+                    $("#modifyOperationId").val(result["id"]);
+
+                    $("#cancelOperationId").val(result["id"]);
+                    $("#cancelOpHiveId").val(result["hiveId"]);
+
+                    $("#changeStatusOperationId").val(result["id"]);
+                    $("#changeStatusOpHiveId").val(result["hiveId"]);
 
                 }
             })

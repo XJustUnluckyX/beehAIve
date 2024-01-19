@@ -6,6 +6,7 @@ package it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneInterventi;
 // come Modifica o cambiare lo stato (Eseguito o meno)
 // Inoltre gestisce le notifiche sugli interventi imminenti
 
+import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Operation;
@@ -51,7 +52,7 @@ public class OperationController {
 
   // Controllo del formato dello status dell'intervento
   private boolean formatStatus(String operationStatus) {
-    return operationStatus.equals("Completed") || operationStatus.equals("Not Completed");
+    return operationStatus.equals("Completed") || operationStatus.equals("Not completed");
   }
 
   // Unione della stringa data e ora
@@ -96,7 +97,7 @@ public class OperationController {
 
   // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
   @GetMapping("/show_operations")
-  public String redirectToOperationPanel(@RequestParam String hiveId, Model model) {
+  public String redirectToOperationPanel(@RequestParam String hiveId, Model model, HttpSession session) {
     // Controllo sull'id dell'arnia
     int hiveId1;
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
@@ -115,6 +116,12 @@ public class OperationController {
     // Aggiungiamo le operazioni passate
     List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
     model.addAttribute("completed", completed);
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    if(!isConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      return "error/500";
+    }
 
     return "hive/operations-hive";
   }
@@ -237,6 +244,7 @@ public class OperationController {
 
     // Controllo sullo status
     if(!formatStatus(operationStatus)) {
+      System.out.println("status arnia aaaaa: " + operationStatus);
       model.addAttribute("error", "Invalid operation status.");
       return "hive/operations-hive";
     }
@@ -261,6 +269,11 @@ public class OperationController {
     // Assegnazione del beekeeper conservato nella sessione (servirà per l'email)
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    if(!isConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      return "error/500";
+    }
+
     // Controllo sull'id dell'operazione
     int operationId1;
     if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
@@ -277,14 +290,28 @@ public class OperationController {
 
   // Annullamento Intervento
   @GetMapping("/cancel-operation-form")
-  public String cancelOperation(@RequestParam String id) {
+  public String cancelOperation(@RequestParam String operationId, @RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo sull'id dell'operazione
     int id1;
-    if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
+    if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
       return "error/500";
     }
-    id1 = Integer.parseInt(id);
+    id1 = Integer.parseInt(operationId);
 
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    int hiveId1;
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "error/500";
+    }
+    hiveId1 = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(hiveId1);
+    model.addAttribute("hive", hive);
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    if(!isConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      return "error/500";
+    }
 
     // Eliminazione nel DB dell'operazione usando il service (se il controllo è andato a buon fine)
     operationService.cancelScheduledOperation(id1);
@@ -294,13 +321,28 @@ public class OperationController {
 
   // Visualizzazione Intervento
   @GetMapping("/visualize-operation-form")
-  public String visualizeOperation(@RequestParam String id, Model model) {
+  public String visualizeOperation(@RequestParam String id, @RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo sull'id dell'operazione
     int id1;
     if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
       return "error/500";
     }
     id1 = Integer.parseInt(id);
+
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    int hiveId1;
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "error/500";
+    }
+    hiveId1 = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(hiveId1);
+    model.addAttribute("hive", hive);
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    if(!isConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      return "error/500";
+    }
 
     // Ottengo dal DB l'oggetto Operation con tutte le sue informazioni
     Operation operation = operationService.retrieveOperationFromDB(id1);
@@ -310,15 +352,29 @@ public class OperationController {
   }
 
   // Impostazione Intervento come completato
-  @GetMapping("/mark-complete-operation-form")
-  public String markAsCompleteOperation(@RequestParam String id) {
+  @GetMapping("/change-operation-status-form")
+  public String changeOperationStatus(@RequestParam String operationId, @RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo sull'id dell'operazione
     int id1;
-    if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
+    if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
       return "error/500";
     }
-    id1 = Integer.parseInt(id);
+    id1 = Integer.parseInt(operationId);
 
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    int hiveId1;
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "error/500";
+    }
+    hiveId1 = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(hiveId1);
+    model.addAttribute("hive", hive);
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    if(!isConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      return "error/500";
+    }
     // Segno l'operazione come "Complete" cioè completata
     operationService.changeOperationStatus(id1);
 

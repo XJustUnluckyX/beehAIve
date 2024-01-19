@@ -157,14 +157,14 @@ public class OperationService {
     // Ottenimento di Operation se l'oggetto Optional restituito non è null
     if(optionalOperation.isPresent()) {
       Operation operation = optionalOperation.get();
-
       // Modifica dello status (viene invertito)
       if(operation.getOperationStatus().equals("Completed")){
         operation.setOperationStatus("Not completed");
       }
-      else if(operation.getOperationStatus().equals("Not Completed")) {
+      else if(operation.getOperationStatus().equals("Not completed")) {
         operation.setOperationStatus("Completed");
       }
+
 
       // Aggiornamento nel DB
       operationDAO.save(operation);
@@ -231,7 +231,9 @@ public class OperationService {
     result += "\"date\" : \"" + dateTokens[0] + "\", ";
     result += "\"hour\" : \"" + dateTokens[1] + "\", ";
     result += "\"type\" : \"" + op.getOperationType() + "\", ";
-    result += "\"notes\" : \"" + op.getNotes() + "\"";
+    result += "\"notes\" : \"" + op.getNotes() + "\", ";
+    result += "\"hiveId\" : \"" + op.getHiveId() + "\", ";
+    result += "\"id\" : \"" + op.getId() + "\"";
 
     result += "}";
 
