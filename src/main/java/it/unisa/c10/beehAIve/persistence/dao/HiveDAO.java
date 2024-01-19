@@ -54,4 +54,10 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
   void deleteByBeekeeperEmail(String beekeeperEmail);
 
   int countByBeekeeperEmail(String beekeeperEmail);
+
+  @Query("SELECT h.nickname " +
+            "FROM Hive h " +
+                "WHERE h.id = :id")
+  String findByIdSelectNickname(int id);
+
 }

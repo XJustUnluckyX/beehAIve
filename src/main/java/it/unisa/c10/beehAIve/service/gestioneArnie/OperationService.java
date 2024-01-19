@@ -136,10 +136,21 @@ public class OperationService {
     return operationDAO.findAllByOrderByOperationDateAsc();
   }
 
+  public List<Operation> getHiveUncompletedOperations (int hiveId) {
+    return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateAsc("Not completed", hiveId);
+  }
+
+  public List<Operation> getHiveCompletedOperations (int hiveId) {
+    return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateDesc("Completed", hiveId);
+  }
+
   public List<Operation> viewHiveOperations(int hiveId) {
     return operationDAO.findAllByHiveId(hiveId);
   }
 
+  public List<Operation> viewAllBeekeeperOperations (String beekeeperEmail) {
+    return operationDAO.findAllByBeekeeperEmail(beekeeperEmail);
+  }
 
   // Impostare di un intervento come "effettuato"
   public void markOperationAsComplete(int id) {
@@ -182,20 +193,45 @@ public class OperationService {
 
   public String convertOperationToCalendar(List<Operation> operations) {
 
+    if (operations.isEmpty())
+      return "[]";
+
     String result="[";
 
     for (Operation op : operations) {
 
-      result += "{\"title\" : \"" + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
-
+      String hiveName = hiveDAO.findByIdSelectNickname(op.getHiveId());
+      result += "{\"title\" : \"(" + hiveName + ") " + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
     }
 
     result+="]";
 
+    // Rimuove l'ultima virgola dalla stringa per evitare errori di parsing JSON
     StringBuilder sb = new StringBuilder(result);
     sb.deleteCharAt(result.length()-2);
     result = sb.toString();
 
+    return result;
+
+  }
+
+  public String convertOperationToString (Operation op) {
+
+    String date = op.getOperationDate().toString();
+    String[] dateTokens = date.split("T");
+
+    String result = "{ ";
+
+    result += "\"status\" : \"" + op.getOperationStatus() + "\", ";
+    result += "\"name\" : \"" + op.getOperationName() + "\", ";
+    result += "\"date\" : \"" + dateTokens[0] + "\", ";
+    result += "\"hour\" : \"" + dateTokens[1] + "\", ";
+    result += "\"type\" : \"" + op.getOperationType() + "\", ";
+    result += "\"notes\" : \"" + op.getNotes() + "\"";
+
+    result += "}";
+
+    System.out.println(result);
 
     return result;
 
