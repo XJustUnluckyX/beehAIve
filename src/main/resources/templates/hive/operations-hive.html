@@ -56,12 +56,12 @@
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
                                 <form th:action="@{/add_operation-form}" method="get">
-
+                                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationName">Operation Name:</h5>
-                                                <input type="text" id="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="operationName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="operationDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100" type="datetime-local" step="1" id="operationDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
@@ -78,16 +78,16 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <h5 class="form-label" for="operationType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
+                                            <select class="select form-control-lg hive_selector" name="operationType">
                                                 <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
+                                                <option value="Medical Inspection">Medical Inspection</option>
+                                                <option value="Medical Treatment">Medical Treatment</option>
+                                                <option value="Check Population">Check Population</option>
+                                                <option value="Extraction">Extraction</option>
+                                                <option value="Vet Visit">Vet Visit</option>
+                                                <option value="Feeding">Feeding</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Maintenance">Maintenance</option>
                                             </select>
                                         </div>
                                     </div>
@@ -95,22 +95,21 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <h5 for="noteOperation">Note:</h5>
-                                            <textarea class="form-control" id="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                            <textarea class="form-control" id="noteOperation" name="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
-
+                                    <div class="row">
+                                        <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-
         </div>
     </div>
 </div>
@@ -124,7 +123,7 @@
                 <h5 class="modal-title" id="log_operationLabel">Add Operation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
+            <p th:text="${error}"></p>
             <div class="modal-body custom-background">
                 <!--                Aggiungere il log-->
             </div>
@@ -154,12 +153,13 @@
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
                                 <form th:action="@{/modify-operation-form}" method="get">
-
+                                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
+                                    <!-- servono anche l'operationId e lo status dell'operation passati come hidden-->
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyName">Operation Name:</h5>
-                                                <input type="password" id="modifyName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="password" id="modifyName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +168,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="modifyDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100" type="date" id="modifyDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
@@ -176,27 +176,25 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <h5 class="form-label" for="modifyType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
+                                            <select class="select form-control-lg hive_selector" name="operationType">
                                                 <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
+                                                <option value="Medical Inspection">Medical Inspection</option>
+                                                <option value="Medical Treatment">Medical Treatment</option>
+                                                <option value="Check Population">Check Population</option>
+                                                <option value="Extraction">Extraction</option>
+                                                <option value="Vet Visit">Vet Visit</option>
+                                                <option value="Feeding">Feeding</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Maintenance">Maintenance</option>
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="form-group">
                                             <h5 for="modifyNote">Note:</h5>
-                                            <textarea class="form-control" id="modifyNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                            <textarea class="form-control" id="modifyNote" name="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
