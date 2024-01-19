@@ -15,14 +15,27 @@
         <div class="container-fluid h-100" >
             <div class="row p-5">
 
-                <!--            Barra di ricerca-->
-                <div class="col-fluid">
-                    <div class="card-body py-3">
-                        <div class="input-group">
-                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-                        </div>
+            <!--            Barra di ricerca-->
+            <div class="col-fluid">
+                <div class="card-body py-3">
+                    <div class="input-group">
+                        <form th:action="@{/show-by-filters}" method="get"> <!-- TODO: Aggiungere un pulsante "Clear" per deselezionare tutti i filtri -->
+                            <input type="search" name="nickname" class="form-control rounded" placeholder="Search..." aria-label="Search" aria-describedby="search-addon">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="filterType" th:id="scheduledOperations"
+                                       value="scheduledOperations" onclick="deselectRadio('scheduledOperations')" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                <label class="form-check-label" th:for="scheduledOperations">Interventi schedulati</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="filterType" th:id="healthStatus"
+                                       value="healthStatus" onclick="deselectRadio('healthStatus')" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                <label class="form-check-label" th:for="healthStatus">Salute non ottima</label>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>Search</button>
+                            <button type="reset" class="btn btn-outline-primary" data-mdb-ripple-init>Clear</button>
+                        </form>
                     </div>
+                </div>
 
                     <div class="container-fluid mh-100">
                         <div class="row justify-content-start custom-row my-5 ">

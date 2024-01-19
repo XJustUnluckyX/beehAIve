@@ -126,7 +126,7 @@ public class HiveController {
       return "hive/creation-hive";
     }
     if (isNicknameLenghtTooLong(nickname)) {
-      model.addAttribute("error","Nickname length too long.");
+      model.addAttribute("error","Nickname too long.");
       return "hive/creation-hive";
     }
 
@@ -153,6 +153,24 @@ public class HiveController {
 
     // Redirect alla dashboard aggiornata
     return "hive/dashboard";
+  }
+
+  @GetMapping("/state-hive")
+  public String showHive(@RequestParam String hiveId, Model model) {
+    // Controllo della validità dell'ID dell'arnia
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "errors/error500";
+    }
+
+    // Ottenimento dell'arnia
+    int intHiveId = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(intHiveId);
+
+    // Passaggio dell'arnia
+    model.addAttribute("hive", hive);
+
+    // Redirect alla pagina relativa all'arnia
+    return "hive/state-hive";
   }
 
   @GetMapping("/delete-hive")

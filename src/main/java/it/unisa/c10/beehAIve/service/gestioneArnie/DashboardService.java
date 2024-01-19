@@ -5,7 +5,6 @@ import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.dao.MeasurementDAO;
 import it.unisa.c10.beehAIve.persistence.dao.SensorDAO;
 import it.unisa.c10.beehAIve.persistence.entities.*;
-import it.unisa.c10.beehAIve.service.gestioneUtente.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +14,13 @@ import java.util.Optional;
 
 @Service
 public class DashboardService {
-  private SubscriptionService subscriptionService;
   private final HiveDAO hiveDAO;
-  private final BeekeeperDAO beekeeperDAO;
   private final SensorDAO sensorDAO;
   private final MeasurementDAO measurementDAO;
 
   @Autowired
-  public DashboardService(HiveDAO hiveDAO, BeekeeperDAO beekeeperDAO,
-                          SensorDAO sensorDAO, MeasurementDAO measurementDAO){
+  public DashboardService(HiveDAO hiveDAO, SensorDAO sensorDAO, MeasurementDAO measurementDAO){
     this.hiveDAO = hiveDAO;
-    this.beekeeperDAO = beekeeperDAO;
     this.sensorDAO = sensorDAO;
     this.measurementDAO = measurementDAO;
   }
@@ -97,6 +92,26 @@ public class DashboardService {
     return hiveDAO.findByNicknameContainingAndBeekeeperEmail(nickname, beekeeperEmail);
   }
 
+  public List<Hive> getBeekeeperHivesWithScheduledOperations(String beekeeperEmail) {
+    return hiveDAO.findByUncompletedOperationsTrueAndBeekeeperEmail(beekeeperEmail);
+  }
+
+  public List<Hive> getBeekeeperHivesWithHealthIssues(String beekeeperEmail) {
+    return hiveDAO.findByHealthIssuesAndBeekeeperEmail(beekeeperEmail);
+  }
+
+  public List<Hive> getBeekeeperHivesByNicknameAndScheduledOperations(String beekeeperEmail,
+                                                                      String nickname) {
+    return hiveDAO.findByNicknameContainingAndUncompletedOperationsTrueAndBeekeeperEmail(nickname,
+        beekeeperEmail);
+  }
+
+  public List<Hive> getBeekeeperHivesByNicknameAndHealthIssues(String beekeeperEmail,
+                                                               String nickname) {
+    return hiveDAO.findByNicknameContainingAndHealthIssuesAndBeekeeperEmail(nickname,
+        beekeeperEmail);
+  }
+
   public List<Hive> getBeekeeperHivesByHiveType(String beekeeperEmail, String hiveType) {
     return hiveDAO.findByHiveTypeAndBeekeeperEmail(hiveType, beekeeperEmail);
   }
@@ -112,16 +127,6 @@ public class DashboardService {
 
   public List<Hive> getBeekeeperHivesWithAnomalies(String beekeeperEmail){
     return hiveDAO.findByBeekeeperEmailAndAnomaliesUnresolved(beekeeperEmail);
-  }
-
-  public List<Hive> getBeekeeperHivesWithScheduledOperations(String beekeeperEmail) {
-    return hiveDAO.findByBeekeeperEmailAndUncompletedOperationsTrue(beekeeperEmail);
-  }
-
-  public List<Hive> getBeekeeperHivesByAllFilters(String nickname, String hiveType,
-                                                  LocalDate date1, LocalDate date2,
-                                                  String beekeeperEmail, String beeSpecies) {
-    return hiveDAO.findByFilters(nickname, hiveType, date1, date2, beekeeperEmail, beeSpecies);
   }
 
   public int getBeekeeperHivesCount(String beekeeperEmail) {
