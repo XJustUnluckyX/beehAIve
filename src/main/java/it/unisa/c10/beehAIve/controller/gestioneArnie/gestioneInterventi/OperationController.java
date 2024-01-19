@@ -320,7 +320,7 @@ public class OperationController {
     id1 = Integer.parseInt(id);
 
     // Segno l'operazione come "Complete" cioè completata
-    operationService.markOperationAsComplete(id1);
+    operationService.changeOperationStatus(id1);
 
     return "hive/operations-hive";
   }
