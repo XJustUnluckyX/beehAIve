@@ -27,10 +27,10 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Controller
-@SessionAttributes("beekeeper")
 public class OperationController {
   private OperationService operationService;
   private DashboardService dashboardService;
+
   @Autowired
   public OperationController(OperationService operationService, DashboardService dashboardService) {
     this.operationService = operationService;
@@ -253,7 +253,6 @@ public class OperationController {
 
     // Controllo sullo status
     if(!formatStatus(operationStatus)) {
-      System.out.println("status arnia aaaaa: " + operationStatus);
       model.addAttribute("error", "Invalid operation status.");
       return "hive/operations-hive";
     }

@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@SessionAttributes("beekeeper")
 public class DashboardController {
-  @Autowired
-  private DashboardService dashboardService;
+  private final DashboardService dashboardService;
+
+  public DashboardController(DashboardService dashboardService) {
+    this.dashboardService = dashboardService;
+  }
 
   @GetMapping("/dashboard")
   public String showBeekeeperHives(HttpSession session, Model model) {

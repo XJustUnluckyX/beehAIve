@@ -17,10 +17,12 @@ import java.util.List;
 // Gestisce Creazione, Modifica, Cancellazione e Visualizzazione di una singola arnia (CRUD)
 
 @Controller
-@SessionAttributes("beekeeper")
 public class HiveController {
-  @Autowired
-  private DashboardService dashboardService;
+  private final DashboardService dashboardService;
+
+  public HiveController(DashboardService dashboardService) {
+    this.dashboardService = dashboardService;
+  }
 
   private boolean isNicknameFormatInvalid(String nickname) {
     return !nickname.matches("^[a-zA-Z0-9\\s\\-_()’”]+$");

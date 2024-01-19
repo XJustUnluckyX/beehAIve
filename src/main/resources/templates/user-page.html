@@ -20,14 +20,14 @@
             <div class="col-sm-5">
                 <div class="text">
                     <h3>First Name</h3>
-                    <div class="form-control" th:text="${session.firstName}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                    <div class="form-control" th:text="${session.beekeeper['firstName']}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
                 </div>
 
             </div>
             <div class="col-sm-5">
                 <div class="text">
                     <h3>Last Name</h3>
-                    <div class="form-control" th:text="${session.lastName}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                    <div class="form-control" th:text="${session.beekeeper['lastName']}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
                 </div>
             </div>
         </div>
@@ -45,14 +45,14 @@
             <div class="col-sm-5">
                 <div class="text">
                     <h3>Company Name</h3>
-                    <div class="form-control" th:text="${session.companyName}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                    <div class="form-control" th:text="${session.beekeeper['companyName']}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
                 </div>
 
             </div>
             <div class="col-sm-5">
                 <div class="text">
                     <h3>Company Piva</h3>
-                    <div class="form-control" th:text="${session.companyPiva}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                    <div class="form-control" th:text="${session.beekeeper['companyPiva']}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
                 </div>
             </div>
         </div>
@@ -62,10 +62,10 @@
                 <div class="text">
                     <h3>Subscription Type</h3>
                     <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh">
-                        <span th:if="${session.paymentDue}">Small</span>
-                        <span th:if="${session.paymentDue == 350}">Medium</span>
-                        <span th:if="${session.paymentDue == 1050}">Large</span>
-                        <span th:unless="${session.paymentDue == 50 or session.paymentDue == 350 or session.paymentDue == 1050}">Unsubscribed</span>
+                        <span th:if="${session.beekeeper['paymentDue'] == 50}">Small</span>
+                        <span th:if="${session.beekeeper['paymentDue'] == 350}">Medium</span>
+                        <span th:if="${session.beekeeper['paymentDue'] == 1050}">Large</span>
+                        <span th:unless="${session.beekeeper['paymentDue'] == 50 or session.beekeeper['paymentDue'] == 350 or session.beekeeper['paymentDue'] == 1050}">Unsubscribed</span>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@
             <div class="col-sm-5">
                 <div class="text">
                     <h3>Expiration Date</h3>
-                    <div class="form-control" th:text="${session.subscriptionExpirationDate}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
+                    <div class="form-control" th:text="${#temporals.format(session.beekeeper['subscrExpirationDate'],'dd/MM/yyy')}" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh"></div>
                 </div>
             </div>
         </div>
@@ -105,19 +105,19 @@
             </div>
             <form th:action="@{/changeInfo}" method="post">
 
-            <div class="modal-body custom-background">
-                <!--                Form per la modifica dell'utente-->
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                <div class="modal-body custom-background">
+                    <!--                Form per la modifica dell'utente-->
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-12 col-lg-9 col-xl-8">
+                            <div class="card-body">
+                                <div class="card-body my-5 p-4 p-md-5 hive_card">
 
                                     <!--                            Nome utente-->
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="firstNameUse">First Name:</h5>
-                                                <input type="text" id="firstNameUser" name="firstName" th:value="${session.firstName}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="firstNameUser" name="firstName" th:value="${session.beekeeper['firstName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
@@ -126,7 +126,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="LastNameUsere">Last Name:</h5>
-                                                <input type="text" id="LastNameUser" name="lastName" th:value="${session.lastName}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="LastNameUser" name="lastName" th:value="${session.beekeeper['lastName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
@@ -135,21 +135,21 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="companyName">Company Name:</h5>
-                                                <input type="text" id="companyName" name="companyName" th:value="${session.companyName}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="companyName" name="companyName" th:value="${session.beekeeper['companyName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Confirm Changes</button>
-            </div>
+                <div class="modal-footer bg-warning">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm Changes</button>
+                </div>
 
             </form>
         </div>
@@ -165,12 +165,12 @@
             </div>
             <form th:action="@{/changePassword}" method="post">
 
-            <div class="modal-body custom-background">
-                <!--                Form per la modifica della password-->
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                <div class="modal-body custom-background">
+                    <!--                Form per la modifica della password-->
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-12 col-lg-9 col-xl-8">
+                            <div class="card-body">
+                                <div class="card-body my-5 p-4 p-md-5 hive_card">
 
                                     <!--                Vecchia password-->
                                     <div class="row">
@@ -200,23 +200,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Confirm Changes</button>
-            </div>
+                <div class="modal-footer bg-warning">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm Changes</button>
+                </div>
             </form>
 
         </div>
     </div>
 </div>
-
-<p th:text="${session.mimmo}"></p>
 
 <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>
