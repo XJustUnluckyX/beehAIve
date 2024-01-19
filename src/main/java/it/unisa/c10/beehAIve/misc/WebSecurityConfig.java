@@ -20,7 +20,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                  .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**", "/create_report").permitAll()
+                  .requestMatchers("/**","/", "/css/**", "/js/**","/assets/**", "/Boostrap/**", "/create_report").permitAll()
                   .requestMatchers("/registration-page", "/subscription-page", "/creation-hive", "/graph-test", "/generate_report_test").permitAll()
                   .requestMatchers("/driver_fia","/predict_with_cnn", "/predict_without_cnn", "/mimmo", "/produce_graph").permitAll()
                   .requestMatchers("/creation-hive", "/dashboard", "/state-hive").permitAll()

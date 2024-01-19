@@ -52,15 +52,18 @@ public class ProfileService {
     return !(beekeerperDAO.findByEmailAndPasswordhash(email,beekeeper.getPasswordhash()).isEmpty());
   }
 
-  public void changeInfo(String email, String firstName, String lastName) {
+  public Beekeeper changeInfo(String email, String firstName, String lastName, String companyName) {
     Optional<Beekeeper> beekeeperOptional = beekeerperDAO.findById(email);
     Beekeeper beekeeper;
     if (beekeeperOptional.isPresent()) {
       beekeeper = beekeeperOptional.get();
       beekeeper.setFirstName(firstName);
       beekeeper.setLastName(lastName);
+      beekeeper.setCompanyName(companyName);
       beekeerperDAO.save(beekeeper);
+      return beekeeper;
     }
+    return null;
   }
 
   public void changePassword(String email, String password) {

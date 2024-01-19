@@ -24,53 +24,54 @@
         </div>
     </div>
 
-    <div class="container-fluid text-center my-5 ">
-        <div class="row justify-content-around custom-row my-5">
+    <form action="pay" method="get">
+        <div class="container-fluid text-center my-5 ">
+            <div class="row justify-content-around custom-row my-5">
 
-            <!--        Prima carta per la scelta dell'abbonamento-->
-            <div class="col-lg-4 col-md-4">
-                <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-header" style="background-color: #FEB800;">Special title treatment</h5>
-                        <hr> <!-- Linea orizzontale -->
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <h3 class="card-text custom-price w-80">Price/Month</h3>
-                        <hr> <!-- Linea orizzontale -->
-                        <a href="#" class="btn btn-warning mt-auto">Go somewhere</a>
+                <!--        Prima carta per la scelta dell'abbonamento-->
+                <div class="col-lg-4 col-md-4">
+                    <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-header" style="background-color: #FEB800;">Small</h5>
+                            <hr> <!-- Linea orizzontale -->
+                            <p class="card-text">For small company and single beekeeper</p>
+                            <h3 class="card-text custom-price w-80">50€/Month</h3>
+                            <hr> <!-- Linea orizzontale -->
+                            <button type="submit" name="subscriptionType" value="small" class="btn btn-warning mt-auto">Get Started</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--        Seconda carta per la scelta dell'abbonamento-->
+                <div class="col-lg-4 col-md-4">
+                    <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-header" style="background-color: #FEB800;">Medium</h5>
+                            <hr> <!-- Linea orizzontale -->
+                            <p class="card-text">For medium company with various beekeeper</p>
+                            <h3 class="card-text custom-price w-80">350€/Month</h3>
+                            <hr> <!-- Linea orizzontale -->
+                            <button type="submit" name="subscriptionType" value="medium" class="btn btn-warning mt-auto">Get Started</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--        Terza carta per la scelta dell'abbonamento-->
+                <div class="col-lg-4 col-md-4">
+                    <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-header" style="background-color: #FEB800;">Large</h5>
+                            <hr> <!-- Linea orizzontale -->
+                            <p class="card-text">For large company with small dick</p>
+                            <h3 class="card-text custom-price w-80">1050€/Month</h3>
+                            <hr> <!-- Linea orizzontale -->
+                            <button type="submit" name="subscriptionType" value="large" class="btn btn-warning mt-auto">Get Started</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!--        Seconda carta per la scelta dell'abbonamento-->
-            <div class="col-lg-4 col-md-4">
-                <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-header" style="background-color: #FEB800;">Special title treatment</h5>
-                        <hr> <!-- Linea orizzontale -->
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <h3 class="card-text custom-price w-80">Price/Month</h3>
-                        <hr> <!-- Linea orizzontale -->
-                        <a href="#" class="btn btn-warning mt-auto">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-
-            <!--        Terza carta per la scelta dell'abbonamento-->
-            <div class="col-lg-4 col-md-4">
-                <div class="card border-warning custom-card" style="background-color: #FFF0B3;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-header" style="background-color: #FEB800;">Special title treatment</h5>
-                        <hr> <!-- Linea orizzontale -->
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <h3 class="card-text custom-price w-80">Price/Month</h3>
-                        <hr> <!-- Linea orizzontale -->
-                        <a href="#" class="btn btn-warning mt-auto">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
+    </form>
 </section>
 
     <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>

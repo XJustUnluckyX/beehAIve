@@ -34,7 +34,7 @@ public class SubscriptionController {
 
   public boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
     double beekeeperPaymentDue = subscriptionService.calculatePayment(subscriptionType);
-
+    // TODO: Capire quando l'apicoltore può cambiare il proprio abbonamento
     /* Si restituisce 'false' nei seguenti casi:
      * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
@@ -79,6 +79,7 @@ public class SubscriptionController {
     // abbonamento di taglia inferiore nel caso in cui il numero attuale delle sue arnie ne supera
     // il limite massimo
     if(!canModifySubscription(payerEmail, subscriptionType)) {
+      // TODO: Mostrare questo error con un popup
       model.addAttribute("error",
           "Your current hive count exceeds the maximum limit for this subscription.");
       return "user-page";
@@ -103,7 +104,7 @@ public class SubscriptionController {
       for (Links link : payment.getLinks()) {
         // Reindirizzamento all'URL di approvazione del pagamento di PayPal
         if (link.getRel().equals("approval_url")) {
-          return link.getHref();
+          return "redirect:" + link.getHref();
         }
       }
     } catch (PayPalRESTException e) {

@@ -26,7 +26,7 @@
                         <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
                     </div>
                     <div th:if="${session.beekeeper != null}">
-                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
+                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" th:href="@{/user-page}"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
                     </div>
 
                 </li>
