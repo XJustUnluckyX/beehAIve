@@ -191,7 +191,7 @@ public class OperationController {
     }
 
     // Salvataggio nel DB dell'operazione usando il service (se i controlli sono andati a buon fine)
-    operationService.planningOperation(operationName, operationType, "Not complete", operationDate1,
+    operationService.planningOperation(operationName, operationType, "Not completed", operationDate1,
           noteOperation, hiveId1, hive.getBeekeeperEmail());
 
     return "hive/operations-hive";

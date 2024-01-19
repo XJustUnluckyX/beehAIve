@@ -201,17 +201,37 @@ public class OperationService {
     for (Operation op : operations) {
 
       String hiveName = hiveDAO.findByIdSelectNickname(op.getHiveId());
-
       result += "{\"title\" : \"(" + hiveName + ") " + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
-
     }
 
     result+="]";
 
+    // Rimuove l'ultima virgola dalla stringa per evitare errori di parsing JSON
     StringBuilder sb = new StringBuilder(result);
     sb.deleteCharAt(result.length()-2);
     result = sb.toString();
 
+    return result;
+
+  }
+
+  public String convertOperationToString (Operation op) {
+
+    String date = op.getOperationDate().toString();
+    String[] dateTokens = date.split("T");
+
+    String result = "{ ";
+
+    result += "\"status\" : \"" + op.getOperationStatus() + "\", ";
+    result += "\"name\" : \"" + op.getOperationName() + "\", ";
+    result += "\"date\" : \"" + dateTokens[0] + "\", ";
+    result += "\"hour\" : \"" + dateTokens[1] + "\", ";
+    result += "\"type\" : \"" + op.getOperationType() + "\", ";
+    result += "\"notes\" : \"" + op.getNotes() + "\"";
+
+    result += "}";
+
+    System.out.println(result);
 
     return result;
 

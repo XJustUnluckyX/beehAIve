@@ -40,4 +40,13 @@ public class OperationHistoryController {
     return result;
   }
 
+  @GetMapping("/get_operation_information")
+  @ResponseBody
+  public String getOperationInformation(@RequestParam int operationId) {
+    Operation op = operationService.retrieveOperationFromDB(operationId);
+    String result = operationService.convertOperationToString(op);
+    return result;
+  }
+
+
 }
