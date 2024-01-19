@@ -72,13 +72,17 @@
             </div>
         </div>
 
-        <div class="row py-3 justify-content-end text-end align-items-center">
-            <div class="col">
+        <div class="row py-3 align-items-center">
+            <div class="col text-start">
                 <div class="text">
-                    <button type="button" class="btn align-items-center" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh" data-bs-toggle="modal" data-bs-target="#modify_information"> <h5>Modify</h5> </button>
+                    <a th:href="@{/logout}" class="btn align-items-center" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh;"> <h5>Logout</h5> </a>
                 </div>
             </div>
+            <div class="col text-end">
+                <button type="sumbit" class="btn align-items-center" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh;" data-bs-toggle="modal" data-bs-target="#modify_information"> <h5>Modify</h5> </button>
+            </div>
         </div>
+
     </div>
 </section>
 

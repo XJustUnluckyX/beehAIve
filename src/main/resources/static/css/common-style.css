@@ -52,3 +52,13 @@ body{
     top: 50%;
     opacity: 1;
 }
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#000000, #d3ba13fc , #000000);
+    border-radius: 10px;
+}
