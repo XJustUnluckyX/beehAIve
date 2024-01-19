@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 @Controller
 @SessionAttributes("beekeeper")
@@ -94,7 +95,7 @@ public class OperationController {
   }
 
   // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
-  @GetMapping("/redirect-form")
+  @GetMapping("/show_operations")
   public String redirectToOperationPanel(@RequestParam String hiveId, Model model) {
     // Controllo sull'id dell'arnia
     int hiveId1;
@@ -106,6 +107,14 @@ public class OperationController {
     // Ricavo dell'arnia dall'id ottenuto
     Hive hive = dashboardService.getHive(hiveId1);
     model.addAttribute("hive", hive);
+
+    // Aggiungiamo le operazioni da svolgere
+    List<Operation> toComplete = operationService.getHiveUncompletedOperations(hiveId1);
+    model.addAttribute("toComplete", toComplete);
+
+    // Aggiungiamo le operazioni passate
+    List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
+    model.addAttribute("completed", completed);
 
     return "hive/operations-hive";
   }

@@ -136,6 +136,14 @@ public class OperationService {
     return operationDAO.findAllByOrderByOperationDateAsc();
   }
 
+  public List<Operation> getHiveUncompletedOperations (int hiveId) {
+    return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateAsc("Not completed", hiveId);
+  }
+
+  public List<Operation> getHiveCompletedOperations (int hiveId) {
+    return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateDesc("Completed", hiveId);
+  }
+
   public List<Operation> viewHiveOperations(int hiveId) {
     return operationDAO.findAllByHiveId(hiveId);
   }

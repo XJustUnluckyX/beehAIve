@@ -126,7 +126,10 @@
             </div>
             <p th:text="${error}"></p>
             <div class="modal-body custom-background">
-                <!--                Aggiungere il log-->
+                <h3> Imminent Operations </h3>
+                <div th:each="op : ${toComplete}">
+
+                </div>
             </div>
 
             <div class="modal-footer bg-warning">

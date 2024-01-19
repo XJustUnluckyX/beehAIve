@@ -38,6 +38,11 @@ public interface OperationDAO extends JpaRepository<Operation, Integer> {
 
   List<Operation> findAllByOperationStatusAndBeekeeperEmail(String status, String beekeeperEmail);
 
+  List<Operation> findAllByOperationStatusAndHiveIdOrderByOperationDateAsc(String status, int hiveId);
+
+  List<Operation> findAllByOperationStatusAndHiveIdOrderByOperationDateDesc(String status, int hiveId);
+
+
   List<Operation> findAllByOrderByOperationDateAsc();
 
   int countByBeekeeperEmail(String beekeeperEmail);
