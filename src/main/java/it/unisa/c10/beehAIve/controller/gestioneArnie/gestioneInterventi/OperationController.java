@@ -67,7 +67,7 @@ public class OperationController {
     }*/
 
     // Unione e conversione a LocalDateTime
-    String operationDateString = dayString + " " + hourString;
+    String operationDateString = dayString + " " + hourString + ":00";
     LocalDateTime operationDate = LocalDateTime.parse(operationDateString, formatter2);
 
     return operationDate;
