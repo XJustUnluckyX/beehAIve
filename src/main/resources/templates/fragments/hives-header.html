@@ -72,12 +72,12 @@
             <img class="img-fluid max w-50" th:src="@{/assets/logo_icon.png}" alt="Logo" id="logo">
         </div>
         <div>
-            <h2><a class="nav-link" style="padding: 10px" href="#"> Statistics </a></h2>
+            <h2><a class="nav-link" style="padding: 10px" th:href="@{/hive-information-redirect-form(hiveId=${hive.getId()})}"> Statistics </a></h2>
 <!--            <form action="hive-information-redirect-form" method="get">-->
 <!--                <input type="hidden" name="hiveId" th:value="${hive.getId()}">-->
 <!--                <h2><button type="submit" class="btn"><h2>Hive Information</h2></button></h2>-->
 <!--            </form>-->
-            <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>
+            <h2><a class="nav-link" style="padding: 10px" th:href="@{/parameters-redirect-form(hiveId=${hive.getId()})}"> Parameters </a></h2>
 <!--            <form action="parameters-redirect-form" method="get">-->
 <!--                <input type="hidden" name="hiveId" th:value="${hive.getId()}">-->
 <!--                <h2><button type="submit" class="btn"><h2>Parameters</h2></button></h2>-->

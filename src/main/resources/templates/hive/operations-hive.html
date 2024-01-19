@@ -131,31 +131,35 @@
                     <div class="row">
                         <h3> Imminent Operations</h3>
                     </div>
-                    <div th:each="op : ${toComplete}">
-                        <div class="row align-items-center">
-                            <div class="col-sm-6 ">
-                                <h5 th:text="${#strings.replace(op.getOperationDate(),'T',' ')} + ' - ' + ${op.getOperationName()}"></h5>
-                            </div>
-                            <div class="col-sm-4 w-50 text-end">
-                                <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                    <ul>
+                        <div th:each="op : ${toComplete}">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6 ">
+                                    <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
+                                </div>
+                                <div class="col-sm-4 w-50 text-end">
+                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ul>
 
 
                     <div class="row">
                         <h3> Past Operations</h3>
                     </div>
-                    <div th:each="op : ${completed}">
-                        <div class="row align-items-center">
-                            <div class="col-sm-6 ">
-                                <h5 th:text="${#strings.replace(op.getOperationDate(),'T',' ')} + ' - ' + ${op.getOperationName()}"></h5>
-                            </div>
-                            <div class="col-sm-4 w-50 text-end">
-                                <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                    <ul>
+                        <div th:each="op : ${completed}">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6 ">
+                                    <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
+                                </div>
+                                <div class="col-sm-4 w-50 text-end">
+                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ul>
 
                 </div>
 
