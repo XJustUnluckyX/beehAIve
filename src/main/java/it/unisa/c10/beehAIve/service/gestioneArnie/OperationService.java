@@ -140,6 +140,9 @@ public class OperationService {
     return operationDAO.findAllByHiveId(hiveId);
   }
 
+  public List<Operation> viewAllBeekeeperOperations (String beekeeperEmail) {
+    return operationDAO.findAllByBeekeeperEmail(beekeeperEmail);
+  }
 
   // Impostare di un intervento come "effettuato"
   public void markOperationAsComplete(int id) {
@@ -181,6 +184,9 @@ public class OperationService {
   }
 
   public String convertOperationToCalendar(List<Operation> operations) {
+
+    if (operations.isEmpty())
+      return "[]";
 
     String result="[";
 

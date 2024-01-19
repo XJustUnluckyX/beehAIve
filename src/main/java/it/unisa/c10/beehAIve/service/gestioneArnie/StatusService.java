@@ -92,6 +92,7 @@ public class StatusService {
 
   }
 
+  // TODO refactor this to AnomalyService
   public void notifyAnomaly (Anomaly anomaly) {
     Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
 

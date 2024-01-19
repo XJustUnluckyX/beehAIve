@@ -14,10 +14,7 @@
 </head>
 <body>
 
-<div th:insert="~{fragments/hives-header :: hive_navbar}"></div>
-<div th:insert="~{fragments/hives-header :: offcanvas}"></div>
-<div th:insert="~{fragments/hives-header :: modify_hive}"></div>
-<div th:insert="~{fragments/hives-header :: remove_hive}"></div>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
 <section>
     <div class="container-fluid text-center my-2 custom-page">
@@ -208,7 +205,7 @@
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form th:action="@{/visualize-operation-form}" method="get">
-                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">
+<!--                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">-->
                     <button type="button" class="btn btn-primary">Confirm</button>
                 </form>
             </div>
@@ -247,7 +244,7 @@
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form th:action="@{/cancel-operation-form}" method="get">
-                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">
+<!--                    <input type="hidden" name="hiveID" th:value="@{hive.getId()}">-->
                     <button type="button" class="btn btn-primary">Remove</button>
                 </form>
             </div>
@@ -265,8 +262,8 @@
 
         $.ajax({
             type: "GET",
-            url: "get_hive_operation_history",
-            data: {"hiveId": 1}, //TODO change hiveId
+            url: "get_beekeeper_operation_history",
+            data: null,
             success: function(resp) {
                 let result = JSON.parse(resp);
                 let calendar = new FullCalendar.Calendar($("#calendar")[0], {
