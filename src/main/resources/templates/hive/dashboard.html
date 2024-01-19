@@ -29,8 +29,8 @@
                         <div class="row justify-content-start custom-row my-5 ">
 
                             <!--                    Template per le arnie-->
-                            <div th:each="hive : ${hives}"
-                                 class="col-xl-3 col-lg-4 col-md-6 col-sm-8 pb-4">
+                            <div th:each="hive : ${hives}" class="col-xl-3 col-lg-4 col-md-6 col-sm-8 pb-4">
+                                <a th:href="@{/state-hive(hiveId=${hive.getId()})}">
                                 <div class="card" style="background-color: #FFF0B3;">
                                     <div class="card-body d-flex flex-column custom-hive">
                                         <div class="row pb-3">
@@ -76,14 +76,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 d-flex justify-content-center">
-                                                <form th:action="@{/state-hive}" method="get">
-                                                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                                                    <button type="submit" class="btn btn-primary mt-auto">Go somewhere</button>
-                                                </form>
-                                            </div>
-
+                                        </div>
                                     </div>
                                 </div>
+                                </a>
                             </div>
 
                             <!--                    Template per le arnie-->
