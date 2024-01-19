@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class DashboardService {
+  private SubscriptionService subscriptionService;
   private final HiveDAO hiveDAO;
   private final BeekeeperDAO beekeeperDAO;
   private final SensorDAO sensorDAO;
@@ -30,21 +30,8 @@ public class DashboardService {
     this.measurementDAO = measurementDAO;
   }
 
-  public void createHive(String nickname, String hiveType, String beekeeperEmail,
-                         String beeSpecies){
-
-    // TODO Spostare questo controllo (32 - 41) in DashboardController
-    SubscriptionService subscriptionService = new SubscriptionService(beekeeperDAO);
-    Beekeeper beekeeper = subscriptionService.getBeekeeper(beekeeperEmail);
-    int hivesCount = getBeekeeperHives(beekeeperEmail).size();
-    double payment = beekeeper.getPaymentDue();
-
-    if ((payment == 50 && hivesCount >= 15)
-     || (payment == 350 && hivesCount >= 100)
-     || (payment == 1050 && hivesCount >= 300)) {
-      throw new RuntimeException("Could not create hive: Reached maximum number of hives.");
-    }
-
+  public void createHive(String beekeeperEmail, String nickname, String hiveType, String beeSpecies){
+    // Creazione dell'arnia e salvataggio nel database
     Hive hive = new Hive();
     hive.setNickname(nickname);
     hive.setHiveType(hiveType);
@@ -55,16 +42,20 @@ public class DashboardService {
     hive.setUncompletedOperations(false);
     hiveDAO.save(hive);
 
-    int newHiveId = hiveDAO.findTopByBeekeeperEmailOrderByIdDesc(beekeeperEmail).getId();
+    // Recupero dell'ID dell'arnia appena creata
+    int createdHiveId = hiveDAO.findTopByBeekeeperEmailOrderByIdDesc(beekeeperEmail).getId();
 
+    // Creazione del sensore relativo all'arnia appena creata e salvataggio nel database
     Sensor sensor = new Sensor();
-    sensor.setHiveId(newHiveId);
+    sensor.setHiveId(createdHiveId);
     sensor.setBeekeeperEmail(beekeeperEmail);
     sensorDAO.save(sensor);
 
+    // Creazione della prima misurazione relativa all'arnia appena creata e salvataggio nel database
+    // A scopo di simulazione, la prima misurazione registrata è sempre ottima
     Measurement measurement = new Measurement();
-    measurement.setSensorId(newHiveId);
-    measurement.setHiveId(newHiveId);
+    measurement.setSensorId(createdHiveId);
+    measurement.setHiveId(createdHiveId);
     measurement.setMeasurementDate(LocalDate.now().atTime(12, 0));
     measurement.setWeight(80);
     measurement.setSpectrogram("bzzz");
@@ -131,6 +122,10 @@ public class DashboardService {
                                                   LocalDate date1, LocalDate date2,
                                                   String beekeeperEmail, String beeSpecies) {
     return hiveDAO.findByFilters(nickname, hiveType, date1, date2, beekeeperEmail, beeSpecies);
+  }
+
+  public int getBeekeeperHivesCount(String beekeeperEmail) {
+    return hiveDAO.countByBeekeeperEmail(beekeeperEmail);
   }
 
   public void deleteHive(int id){

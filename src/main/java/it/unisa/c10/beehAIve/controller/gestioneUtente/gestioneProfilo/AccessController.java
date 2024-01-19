@@ -199,7 +199,10 @@ public class AccessController {
     }
   }
 
+
   // Pulsante di logout
+
+
   @GetMapping("/logout")
   public String logout(HttpSession session){
     session.invalidate();
