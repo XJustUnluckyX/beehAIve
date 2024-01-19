@@ -1,12 +1,28 @@
-body {
+.gradient-custom{
     overflow: auto !important;
 }
+.custom-hive{
+    background-image: url("../../assets/Hive.png");
+    background-size: cover;
+    background-position: center;
+}
 
+.card{
+    background: transparent !important;
+    border: none !important;
+}
+.custom-name{
+    height: auto !important;
+}
 .custom-row {
     height: 30vh;
 }
 .custom-space{
-    height: 20vh;
+    height: 20vh !important;
+    color: white !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 .hexagon-space{
     height: 20rem;
