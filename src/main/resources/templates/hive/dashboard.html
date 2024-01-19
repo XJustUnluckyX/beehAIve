@@ -30,8 +30,8 @@
 
                             <!--                    Template per le arnie-->
                             <div th:each="hive : ${hives}" class="col-xl-3 col-lg-4 col-md-6 col-sm-8 pb-4">
-                                <a th:href="@{/state-hive(hiveId=${hive.getId()})}">
-                                <div class="card" style="background-color: #FFF0B3;">
+                                <a th:href="@{/state-hive(hiveId=${hive.getId()})}" >
+                                <div class="card zoomable" style="background-color: #FFF0B3;">
                                     <div class="card-body d-flex flex-column custom-hive">
                                         <div class="row pb-3">
 

@@ -15,15 +15,16 @@
 .custom-name{
     height: 40px !important;
     width: 100px;
-    background-color: #FFF0B3 !important;
-    border: 2px solid black!important;
-    color: black;
+    color: #FFB700;
     display: flex;
     justify-content:center;
     align-items: center;
     position: absolute;
     top: 57%;
-
+    font-size: 25px;
+    font-family: monospace;
+    letter-spacing: -2px;
+    font-weight: bold;
 }
 .custom-row {
     height: 30vh;
@@ -101,4 +102,12 @@
     background-color: #ffb800 !important;
     border: 2px solid white!important;
     color: white;
+}
+
+.zoomable {
+    transition: transform 0.3s ease-in-out;
+}
+
+.zoomable:hover {
+    transform: scale(1.2);
 }
