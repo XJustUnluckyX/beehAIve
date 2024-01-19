@@ -72,8 +72,8 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="operationDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                                <input class="w-100" type="time" id="operationHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="date" id="operationDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="time" id="operationHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
+                                        <div class="col-md-12 pt-3 d-flex justify-content-end" style="gap:10px;">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
@@ -133,11 +133,11 @@
                     </div>
                     <ul>
                         <div th:each="op : ${toComplete}">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6 ">
+                            <div class="row pb-2 align-items-center">
+                                <div class="col-md-8 col-sm-6 col-6 ">
                                     <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
                                 </div>
-                                <div class="col-sm-4 w-50 text-end">
+                                <div class="col-md-4 col-sm-6 col-6  text-end">
                                     <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
                                 </div>
                             </div>

@@ -14,14 +14,14 @@
 <div th:replace="~{fragments/header :: navbar}"></div>
 
 <section class="custom-section">
-    <section>
-        <div class="container-xl text-center">
-            <div class="row justify-content-center align-items-center">
-
-                <div class="col text-center ">
-                    <img class="img-fluid max custom-logo" src="/beehAIve_war/assets/logo_icon.png" alt="Logo">
-                </div>
-
+    <section class="custom-front-section">
+        <div class="row py-3 align-items-center text-center d-flex justify-content-center">
+            <div class="col-lg-7 order-lg-1 order-2">
+                <h1 class="fw-bold custom-first-text">The next generation of Beekeeping</h1>
+                <h4 class="custom-second-test"><span> <a th:href="@{/registration-page}" class="custom-link">Create an account</a></span> now and monitor up to <span class="fw-bolder text-decoration-underline">300 hives</span></h4>
+            </div>
+            <div class="col-lg-5 col-md-7 col-sm-7 order-lg-2 order-1">
+                <img class="img-fluid max custom-logo" th:src="@{/assets/logo_icon.png}" alt="Logo">
             </div>
         </div>
     </section>
@@ -35,13 +35,13 @@
                     <h4>We are a team of passionate experts dedicated to the active monitoring of bee colonies and the promotion of awareness regarding the importance of these insects in our daily lives. With multidisciplinary skills and a strong conviction in the need to take action, we work tirelessly to ensure a sustainable future for bees and the entire planet.</h4>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-7 order-lg-2 order-1">
-                    <img class="img-fluid max" src="/beehAIve_war/assets/BeeCompany.png" alt="Logo">
+                    <img class="img-fluid max" th:src="@{/assets/BeeCompany.png}" alt="Logo">
                 </div>
             </div>
 
             <div class="row py-3 align-items-center text-center d-flex justify-content-center">
                 <div class="col-lg-5 col-md-7 col-sm-7 ">
-                    <img class="img-fluid max" src="/beehAIve_war/assets/Statistics.png" alt="Logo">
+                    <img class="img-fluid max" th:src="@{/assets/Statistics.png}" alt="Logo">
                 </div>
                 <div class="col-lg-7 custom-glass">
                     <h1 class="fw-bold custom-text">What we do</h1>
@@ -55,14 +55,13 @@
                     <h4>Our agency is committed to environmental sustainability, promoting eco-friendly practices in monitoring bee colonies. Our vision aims to leave a positive impact, emphasizing a strong connection between the health of bees and that of the planet.</h4>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-7 order-lg-2 order-1">
-                    <img class="img-fluid max-auto" src="/beehAIve_war/assets/EcoCompany.png" alt="Logo">
+                    <img class="img-fluid max-auto" th:src="@{/assets/EcoCompany.png}" alt="Logo">
                 </div>
             </div>
 
         </div>
     </section>
 </section>
-
 
     <script th:src="@{/Boostrap/js/bootstrap.bundle.js}"></script>
 </body>

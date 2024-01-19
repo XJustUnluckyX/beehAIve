@@ -3,8 +3,9 @@
 }
 .custom-hive{
     background-image: url("../../assets/Hive.png");
-    background-size: cover;
+    background-size: 335px 380px;
     background-position: center;
+    background-repeat: no-repeat;
 }
 
 .card{
@@ -12,17 +13,27 @@
     border: none !important;
 }
 .custom-name{
-    height: auto !important;
+    height: 40px !important;
+    width: 100px;
+    background-color: #FFF0B3 !important;
+    border: 2px solid black!important;
+    color: black;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    position: absolute;
+    top: 57%;
+
 }
 .custom-row {
     height: 30vh;
 }
 .custom-space{
-    height: 20vh !important;
+    height: 25vh !important;
     color: white !important;
     display: flex !important;
     justify-content: center !important;
-    align-items: center !important;
+    align-items:center;
 }
 .hexagon-space{
     height: 20rem;
