@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /*
 La seguente classe deve supportare le seguenti operazioni:
@@ -109,6 +110,16 @@ public class StatusService {
         hive.setHiveHealth(3);
 
     hiveDAO.save(hive);
+  }
+
+  public Anomaly showSingleAnomaly(int anomalyId){
+    Optional<Anomaly> optionalAnomaly = anomalyDAO.findById(anomalyId);
+
+    if (optionalAnomaly.isPresent()){
+      return optionalAnomaly.get();
+    }else {
+      throw new NullPointerException("Anomaly not found for ID: " + anomalyId);
+    }
   }
 
   public void resolveAnomaly (int anomalyId) {
