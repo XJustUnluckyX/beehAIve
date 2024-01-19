@@ -192,7 +192,9 @@ public class OperationService {
 
     for (Operation op : operations) {
 
-      result += "{\"title\" : \"" + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
+      String hiveName = hiveDAO.findByIdSelectNickname(op.getHiveId());
+
+      result += "{\"title\" : \"(" + hiveName + ") " + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
 
     }
 

@@ -340,7 +340,7 @@
         $.ajax({
             type: "GET",
             url: "get_hive_operation_history",
-            data: {"hiveId": 1}, //TODO change hiveId
+            data: {"hiveId": $("#hiveId").val()}, //TODO change hiveId
             success: function(resp) {
                 let result = JSON.parse(resp);
                 let calendar = new FullCalendar.Calendar($("#calendar")[0], {
