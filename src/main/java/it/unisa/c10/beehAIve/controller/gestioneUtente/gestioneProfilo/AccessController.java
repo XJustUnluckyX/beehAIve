@@ -210,7 +210,14 @@ public class AccessController {
     } else {
       Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
       if (beekeeper.isPresent()) {
-        session.setAttribute("beekeeper", beekeeper.get());
+        session.setAttribute("beekeeper",beekeeper.get());
+        session.setAttribute("paymentDue",beekeeper.get().getPaymentDue());
+        session.setAttribute("email", beekeeper.get().getEmail());
+        session.setAttribute("companyName", beekeeper.get().getCompanyName());
+        session.setAttribute("firstName", beekeeper.get().getFirstName());
+        session.setAttribute("lastName", beekeeper.get().getLastName());
+        session.setAttribute("companyPiva",beekeeper.get().getCompanyPiva());
+        session.setAttribute("subscriptionExpirationDate",beekeeper.get().getSubscrExpirationDate().toString());
       }
 
       // Generiamo lo user per Spring Security

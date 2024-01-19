@@ -1,5 +1,6 @@
 package it.unisa.c10.beehAIve.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,9 @@ public class RedirectController {
   public String subscriptionTest(Model model) {return "subscription-test";}
 
   @GetMapping("/user-page")
-  public String user (Model model) { return "/user-page";}
+  public String user (Model model, HttpSession session) {
+    return "/user-page";
+  }
 
   @GetMapping("/home")
   public String homePage (Model model) {

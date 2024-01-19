@@ -3,6 +3,7 @@ package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -16,10 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,9 +93,22 @@ public class ProfileController {
       return "user-page";
     }
 
-    profileService.changeInfo(beekeeper.getEmail(), firstName, lastName, companyName);
+    beekeeper = profileService.changeInfo(beekeeper.getEmail(), firstName, lastName, companyName);
 
-    return "redirect:/logout";
+    session.setAttribute("firstName",beekeeper.getFirstName());
+    session.setAttribute("lastName",beekeeper.getLastName());
+    session.setAttribute("companyName",beekeeper.getCompanyName());
+
+    return "user-page";
+  }
+
+  @RequestMapping("/request")
+  public ModelAndView getRequest(@ModelAttribute Beekeeper user, ModelAndView mv, HttpServletRequest request) {
+    mv.addObject("reset_user_email", user.getEmail());
+
+    WebUtils.setSessionAttribute(request, "reset_user_email", user.getEmail());
+    String resetUserEmail = (String) WebUtils.getSessionAttribute(request, "reset_user_email");
+    return mv;
   }
 
   @PostMapping("/changePassword")
