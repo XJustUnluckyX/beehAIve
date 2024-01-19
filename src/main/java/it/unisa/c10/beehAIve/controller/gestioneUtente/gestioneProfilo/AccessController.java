@@ -1,5 +1,6 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
+import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
 import jakarta.servlet.http.HttpSession;
@@ -21,17 +22,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes("beekeeper")
 public class AccessController {
   final private ProfileService profileService;
   @Autowired
   public AccessController(ProfileService profileService) {
     this.profileService = profileService;
   }
-
-
-  //Pagina di Registrazione
-
 
   @GetMapping("registration")
   public String showRegistrationForm(HttpSession session) {
@@ -48,7 +44,8 @@ public class AccessController {
   }
 
   protected boolean regexPassword (String password) {
-    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&])[A-Za-z\\d@.$!%*?&]{8,}$";
+    String passwordRegex =
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&])[A-Za-z\\d@.$!%*?&]{8,}$";
     return password.matches(passwordRegex);
   }
 
@@ -187,10 +184,6 @@ public class AccessController {
     return "login-page";
   }
 
-
-  // Pagina di login
-
-
   @GetMapping("/login")
   public String showLoginForm(HttpSession session) {
     if (session.getAttribute("beekeeper") == null) {
@@ -210,23 +203,18 @@ public class AccessController {
     } else {
       Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
       if (beekeeper.isPresent()) {
-        session.setAttribute("beekeeper",beekeeper.get());
-        session.setAttribute("paymentDue",beekeeper.get().getPaymentDue());
-        session.setAttribute("email", beekeeper.get().getEmail());
-        session.setAttribute("companyName", beekeeper.get().getCompanyName());
-        session.setAttribute("firstName", beekeeper.get().getFirstName());
-        session.setAttribute("lastName", beekeeper.get().getLastName());
-        session.setAttribute("companyPiva",beekeeper.get().getCompanyPiva());
-        session.setAttribute("subscriptionExpirationDate",beekeeper.get().getSubscrExpirationDate().toString());
+        session.setAttribute("beekeeper", beekeeper.get());
       }
 
       // Generiamo lo user per Spring Security
       List<GrantedAuthority> authorities = new ArrayList<>();
       authorities.add(new SimpleGrantedAuthority("USER"));
-      UserDetails user = new org.springframework.security.core.userdetails.User(email,beekeeper.get().getPasswordhash(),authorities);
+      UserDetails user = new org.springframework.security.core.userdetails.User(email, beekeeper
+          .get().getPasswordhash(),authorities);
 
       // Generiamo la chiave di autenticazione
-      Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+      Authentication authentication = new UsernamePasswordAuthenticationToken(user, null,
+          user.getAuthorities());
 
       // Prendiamo il security context e aggiungiamo l'autenticazione
       SecurityContext sc = SecurityContextHolder.getContext();

@@ -18,8 +18,8 @@ import java.util.List;
 // interventi, anomalie
 @Controller
 public class HiveHealthController {
-
   private StatusService statusService;
+
   @Autowired
   public HiveHealthController(StatusService statusService) {
     this.statusService = statusService;
@@ -48,5 +48,4 @@ public class HiveHealthController {
     response.setHeader(header, headerValue);
     statusService.generateReport(1, response);
   }
-
 }

@@ -13,7 +13,6 @@ import java.util.List;
 // Gestisce lo storico degli interventi ed eventuali filtri associati (Interventi completati, futuri, passati, ecc ecc)
 @Controller
 public class OperationHistoryController {
-
   private OperationService operationService;
   @Autowired
   public OperationHistoryController(OperationService operationService) {
@@ -26,5 +25,4 @@ public class OperationHistoryController {
     String result = operationService.convertOperationToCalendar(operations);
     return result;
   }
-
 }

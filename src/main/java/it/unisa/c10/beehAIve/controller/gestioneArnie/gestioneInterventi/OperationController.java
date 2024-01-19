@@ -28,6 +28,7 @@ import java.time.format.DateTimeParseException;
 public class OperationController {
   private OperationService operationService;
   private DashboardService dashboardService;
+
   @Autowired
   public OperationController(OperationService operationService, DashboardService dashboardService) {
     this.operationService = operationService;
@@ -77,7 +78,6 @@ public class OperationController {
     String regex = "^[a-zA-Z0-9\\s\\-_()’”.,?!:]+$";
     return notes.matches(regex);
   }
-
 
   // Pianificazione Intervento
   @GetMapping("/add_operation-form")
