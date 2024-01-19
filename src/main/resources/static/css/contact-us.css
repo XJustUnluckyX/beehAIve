@@ -1,3 +1,8 @@
+ction{
+    height: 94vh !important;
+    overflow: auto !important;
+}
+
 .gradient-custom{
     height: 95vh !important;
     overflow: auto !important;

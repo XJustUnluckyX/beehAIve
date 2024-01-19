@@ -1,3 +1,8 @@
+
+.custom-section{
+    height: 94vh;
+    overflow: auto !important;
+}
 .container{
     text-align: center;
     height: 90vh;
@@ -7,7 +12,6 @@
     justify-content: center;
     background: #FFE087;
 }
-#logo{
-    height: 25rem;
-    align-content: center;
+.custom-logo{
+    width: 70% !important;
 }
