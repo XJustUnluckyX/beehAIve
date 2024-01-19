@@ -19,6 +19,9 @@
             Hive menu
         </button>
         <a class="navbar-brand" th:href="@{/}"> BeehAIve </a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -27,7 +30,7 @@
                         <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
                     </div>
                     <div th:if="${session.beekeeper != null}">
-                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" th:href=""> <span th:text="${session.beekeeper['companyName']}"></span> </a>
+                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
                     </div>
 
                 </li>
@@ -59,7 +62,6 @@
 
     </div>
 </nav>
-
 <div class="offcanvas offcanvas-start" style="background-color: #ffb800" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" th:fragment="offcanvas">
     <div class="offcanvas-header">
         <h3 class="offcanvas-title" id="staticBackdropLabel">Hive navigation menu</h3>
@@ -70,19 +72,28 @@
             <img class="img-fluid max w-50" th:src="@{/assets/logo_icon.png}" alt="Logo" id="logo">
         </div>
         <div>
-            <h2><a class="nav-link" style="padding: 10px" href="#"> Statistics </a></h2>
-            <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>
+            <!--            <h2><a class="nav-link" style="padding: 10px" href="#"> Hive Information </a></h2>-->
+            <form action="hive-information-redirect-form" method="get">
+                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
+                <h2><button type="submit" class="btn"><h2>Hive Information</h2></button></h2>
+            </form>
+            <!--            <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>-->
+            <form action="parameters-redirect-form" method="get">
+                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
+                <h2><button type="submit" class="btn"><h2>Parameters</h2></button></h2>
+            </form>
+
             <!--<h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>-->
             <form action="redirect-form" method="get">
                 <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <button type="submit" class="btn btn-primary">Operation</button>
+                <h2><button type="submit" class="btn"><h2>Operation</h2></button></h2>
             </form>
+            <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#anomaly"> <h2>Anomalies</h2> </button></h2>
             <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modify_hive"> <h2>Modify Hive</h2> </button></h2>
             <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#remove_hive"> <h2>Remove Hive</h2> </button></h2>
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modify_hive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_hiveLabel" aria-hidden="true" th:fragment="modify_hive">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-transparent">
@@ -179,7 +190,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="remove_hive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="remove_hiveLabel" aria-hidden="true" th:fragment="remove_hive">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-transparent">
@@ -210,8 +220,35 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form th:action="@{/delete-hive}" method="get">
                     <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                    <button type="submit" class="btn btn-primary">Remove</button>
+                    <button type="submit" class="btn" style="border: 1px solid black;background-color: #FFF0B3;">Remove</button>
                 </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="anomaly" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="anomalyLabel" aria-hidden="true" th:fragment="anomaly">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="anomalyLabel">Anomalies Log</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body custom-background">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <!--                        Anomalies Log-->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
 
         </div>
