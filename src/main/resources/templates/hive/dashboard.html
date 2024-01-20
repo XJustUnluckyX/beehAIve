@@ -21,7 +21,7 @@
                 <div class="card-body py-3">
                     <div class="input-group">
                         <form th:action="@{/show-by-filters}" method="get">
-                            <input type="search" name="nickname" class="form-control rounded" placeholder="Search..." aria-label="Search" aria-describedby="search-addon">
+                            <input th:value="${param.nickname}" type="search" name="nickname" class="form-control rounded" placeholder="Search..." aria-label="Search" aria-describedby="search-addon">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="filterType" th:id="scheduledOperations"
                                        value="scheduledOperations" onclick="deselectRadio('scheduledOperations')" style="border: 1px solid black;background-color: #FFF0B3;"/>
