@@ -6,13 +6,10 @@
     overflow: hidden !important;
 }
 
-body {
-    overflow: auto !important;
-}
-
 .custom-page{
     width: 95% !important;
     height: 100% !important;
+    overflow: auto !important;
 }
 .custom-calendar{
     height: auto !important;
