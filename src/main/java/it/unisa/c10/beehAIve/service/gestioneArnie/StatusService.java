@@ -222,5 +222,7 @@ public class StatusService {
 
   }
 
-
+  public Measurement getHiveLastMeasurement(int hiveId) {
+    return measurementDAO.findTopByHiveIdOrderByMeasurementDateDesc(hiveId);
+  }
 }
