@@ -106,6 +106,44 @@
 
     //TODO script jQuery che quando premi uno dei bottoni cancella la riga dell'anomalia e metodi jQuery per cancellazione e risoluzione
 
+    $(document).ready(function() {
+
+        $(".deleteAnomaly").click(function() {
+
+            let anomalyId = $(this).val();
+
+            $(this).parent().parent().remove()
+
+            $.ajax({
+                type:"GET",
+                url: "delete_anomaly",
+                data: {"anomalyId": anomalyId},
+                success: function(resp) {
+
+                }
+            })
+        })
+
+
+        $(".resolveAnomaly").click(function() {
+
+            let anomalyId = $(this).val();
+
+            $(this).parent().parent().remove()
+
+            $.ajax({
+                type:"GET",
+                url: "resolve_anomaly",
+                data: {"anomalyId": anomalyId},
+                success: function(resp) {
+
+                }
+            })
+        })
+
+
+    })
+
 
 </script>
 

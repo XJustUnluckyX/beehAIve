@@ -43,7 +43,11 @@ public class AnomalyController {
 
     Anomaly anomaly = anomalyService.getAnomaly(anomalyId);
 
+    System.out.println("anomaly:" + anomaly.getBeekeeperEmail());
+
     String beekeeperEmail = ((Beekeeper) session.getAttribute("beekeeper")).getEmail();
+
+    System.out.println("session:" + beekeeperEmail);
 
     return anomaly.getBeekeeperEmail().equals(beekeeperEmail);
 
@@ -54,8 +58,8 @@ public class AnomalyController {
   @ResponseBody
   public String deleteAnomaly (@RequestParam int anomalyId, HttpSession session) {
 
-    if (checkHiveOwnership(session, anomalyId))
-      throw new RuntimeException();
+    if (!checkHiveOwnership(session, anomalyId))
+      return "failure";
 
     anomalyService.deleteAnomaly(anomalyId);
 
@@ -67,8 +71,8 @@ public class AnomalyController {
   @ResponseBody
   public String resolveAnomaly (@RequestParam int anomalyId, HttpSession session) {
 
-    if (checkHiveOwnership(session, anomalyId))
-      throw new RuntimeException();
+    if (!checkHiveOwnership(session, anomalyId))
+      return "failure";
 
     anomalyService.resolveAnomaly(anomalyId);
 

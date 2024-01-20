@@ -242,10 +242,10 @@
                                             <li th:text="'[' + ${#strings.replace(anomaly.getDetectionDate(),'T',' ')} + '] - ' + ${anomaly.getAnomalyName()}"></li>
                                         </div>
                                         <div class="col-lg-2 col-md-3 col-sm-3 col-6 text-end">
-                                            <button style="border: 1px solid black" class="btn btn-warning" id="deleteAnomaly" th:value="${anomaly.getId()}"> <h4>Delete</h4> </button>
+                                            <button style="border: 1px solid black" class="btn btn-warning deleteAnomaly" th:value="${anomaly.getId()}"> <h4>Delete</h4> </button>
                                         </div>
                                         <div class="col-lg-2 col-md-3 col-sm-3 col-6 text-end">
-                                            <button style="border: 1px solid black" class="btn btn-warning" id="resolveAnomaly" th:value="${anomaly.getId()}"> <h4>Resolve</h4> </button>
+                                            <button style="border: 1px solid black" class="btn btn-warning resolveAnomaly" th:value="${anomaly.getId()}"> <h4>Resolve</h4> </button>
                                         </div>
                                     </div>
                                 </div>
