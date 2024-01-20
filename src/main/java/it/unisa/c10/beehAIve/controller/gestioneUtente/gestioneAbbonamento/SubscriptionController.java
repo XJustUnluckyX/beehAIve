@@ -5,6 +5,7 @@ import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -60,7 +61,7 @@ public class SubscriptionController {
     return true;
   }
 
-  public void cancelExpiredSubscription(String beekeeperEmail) {
+  public void cancelBeekeeperExpiredSubscription(String beekeeperEmail) {
     Beekeeper beekeeper = subscriptionService.getBeekeeper(beekeeperEmail);
 
     // Controllo sull'esistenza di un abbonamento attivo ed eventuale scadenza
@@ -69,11 +70,18 @@ public class SubscriptionController {
     }
   }
 
+  @Scheduled(cron = "0 0 0 * * *")
+  public void cancelAllExpiredSubscription() {
+    subscriptionService.cancelAllExpiredSubscriptions();
+  }
+
   //--------------------------------------Metodi di PayPal------------------------------------------
 
   @GetMapping("/pay")
   public String payment(@RequestParam String subscriptionType, HttpSession session, Model model) {
-    if (!subscriptionType.equals("small") && !subscriptionType.equals("medium") && !subscriptionType.equals("large")) {
+    if (!subscriptionType.equals("small") &&
+        !subscriptionType.equals("medium") &&
+        !subscriptionType.equals("large")) {
       return "error/500";
     }
 
