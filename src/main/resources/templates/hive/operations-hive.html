@@ -56,7 +56,7 @@
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12 col-lg-9 col-xl-8">
                         <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                            <div class="card-body p-md-5 hive_card">
                                 <form th:action="@{/add_operation-form}" method="get">
                                     <input type="hidden" name="hiveId" th:value="${hive.getId()}">
                                     <div class="row">
@@ -138,7 +138,7 @@
                                     <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-6  text-end">
-                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                    <button th:value="${op.getId()}" type="button" class="btn showInfo" style="border: 1px solid black;" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                                     <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
                                 </div>
                                 <div class="col-sm-4 w-50 text-end">
-                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" style="border: 1px solid black;" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
 
             <div class="modal-footer bg-warning">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
+                <button type="button" class="btn" style="border: 1px solid black;background-color: #FFF0B3;">Confirm</button>
             </div>
 
         </div>
@@ -188,7 +188,7 @@
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12 col-lg-9 col-xl-8">
                         <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
+                            <div class="card-body p-4 p-md-5 hive_card">
                                 <form th:action="@{/modify-operation-form}" method="get">
                                     <input type="hidden" id="modifyOperationId" name="operationId">
                                     <input type="hidden" id="modifyStatus" name="operationStatus">
@@ -213,8 +213,8 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" value="2002-04-04" id="modifyDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                                <input class="w-100" type="time" value="10:00" id="modifyHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="date" value="2002-04-04" id="modifyDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="time" value="10:00" id="modifyHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
@@ -243,35 +243,29 @@
                                     </div>
 
                                     <div class="row pt-4 d-flex justify-content-evenly text-center">
-                                        <div class="col-sm-4 p-2">
+                                        <div class="col-sm-3 p-2">
                                             <input class="btn btn-lg" type="submit" value="Save" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
-                                        <!--<div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Cancel </button>
+
+                                        <div class="col-sm-3 p-2">
+                                            <form th:action="@{/cancel-operation-form}" method="get">
+                                                <input type="hidden" id="cancelOperationId" name="operationId">
+                                                <input type="hidden" id="cancelOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                                <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </form>
                                         </div>
-                                        <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Mark as </button>
-                                        </div>-->
+
+                                        <div class="col-sm-5 p-2">
+                                            <form th:action="@{/change-operation-status-form}" method="get">
+                                                <input type="hidden" id="changeStatusOperationId" name="operationId">
+                                                <input type="hidden" id="changeStatusOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                                <input class="btn btn-lg" type="submit" value="Change status" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                            </form>
+                                        </div>
+
                                     </div>
                                 </form>
-                                <form th:action="@{/cancel-operation-form}" method="get">
-                                    <input type="hidden" id="cancelOperationId" name="operationId">
-                                    <input type="hidden" id="cancelOpHiveId" name="hiveId" th:value="${hive.getId()}">
-                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
-                                        <div class="col-sm-4 p-2">
-                                            <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        </div>
-                                    </div>
-                                </form>
-                                <form th:action="@{/change-operation-status-form}" method="get">
-                                    <input type="hidden" id="changeStatusOperationId" name="operationId">
-                                    <input type="hidden" id="changeStatusOpHiveId" name="hiveId" th:value="${hive.getId()}">
-                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
-                                        <div class="col-sm-4 p-2">
-                                            <input class="btn btn-lg" type="submit" value="Change status" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        </div>
-                                    </div>
-                                </form>
+
                             </div>
                         </div>
                     </div>
