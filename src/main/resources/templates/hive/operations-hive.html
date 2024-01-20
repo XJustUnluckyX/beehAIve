@@ -138,7 +138,7 @@
                                     <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-6  text-end">
-                                    <button th:value="${op.getId()}" type="button" class="btn showInfo" style="border: 1px solid black;" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" style="border: 1px solid black;" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
                                 </div>
                             </div>
                         </div>

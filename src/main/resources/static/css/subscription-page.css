@@ -13,15 +13,18 @@ p{
 }
 /* Regola personalizzata per l'altezza delle card */
 .custom-card {
-    height: 45vh!important;
+    height: auto !important;
     border-width: 3px!important; /* Imposta lo spessore del bordo */
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.5)!important; /* Aggiungi sfumatura al bordo */
 }
 /* Stile opzionale per il contenuto delle colonne */
 .custom-price {
+    height: auto !important;
     border: 1px solid black!important;
-    width: 75%!important;
-    align-self: center!important;
+    align-self: center;
+    align-items: center!important;
+    display: flex;
+    justify-content: center;
 }
 
 .col-sm-6{
@@ -31,4 +34,8 @@ p{
 .custom-section{
     overflow: auto !important;
     height: 94vh;
+}
+
+.custom-text{
+    height: 50vh !important;
 }
