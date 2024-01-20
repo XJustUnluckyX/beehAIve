@@ -1,6 +1,5 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
-import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
 import jakarta.servlet.http.HttpSession;
@@ -38,37 +37,6 @@ public class AccessController {
     }
   }
 
-  protected boolean regexEmail (String email) {
-    String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    return email.matches(emailRegex);
-  }
-
-  protected boolean regexPassword (String password) {
-    String passwordRegex =
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&])[A-Za-z\\d@.$!%*?&]{8,}$";
-    return password.matches(passwordRegex);
-  }
-
-  protected boolean regexFirstName (String firstName) {
-    String firstNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
-    return firstName.matches(firstNameRegex);
-  }
-
-  protected boolean regexLastName (String lastName) {
-    String lastNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
-    return lastName.matches(lastNameRegex);
-  }
-
-  protected boolean regexCompanyName (String companyName) {
-    String companyRegex = "^[a-zA-Z0-9\\s.'\",&()-]+$";
-    return companyName.matches(companyRegex);
-  }
-
-  protected boolean regexCompanyPiva (String companyPiva) {
-    String companyPivaRegex = "^[\\d-]{9,}$";
-    return companyPiva.matches(companyPivaRegex);
-  }
-
   @PostMapping("/registration-form")
   public String registration(@RequestParam String email, @RequestParam String firstName,
                              @RequestParam String lastName, @RequestParam String companyName,
@@ -78,7 +46,7 @@ public class AccessController {
     // Controlli sul formato dei parametri
 
     // Controllo sul formato dell'email
-    if (!regexEmail(email)) {
+    if (!profileService.regexEmail(email)) {
       model.addAttribute("error", "Invalid email address.");
       return "registration-page";
     }
@@ -90,9 +58,9 @@ public class AccessController {
     }
 
     // Controllo sul formato del nome
-    if (!regexFirstName(firstName)) {
-      model.addAttribute("error", "First Name cannot contain special " +
-          "symbols except for ' and - .");
+    if (!profileService.regexFirstName(firstName)) {
+      model.addAttribute("error", "First Name must start with capital " +
+          "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
 
@@ -106,9 +74,9 @@ public class AccessController {
     }
 
     // Controllo sul formato del cognome
-    if (!regexLastName(lastName)) {
-      model.addAttribute("error", "Last name cannot contain special " +
-          "symbols except for ' and - .");
+    if (!profileService.regexLastName(lastName)) {
+      model.addAttribute("error", "Last Name must start with capital " +
+          "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
 
@@ -122,9 +90,9 @@ public class AccessController {
     }
 
     // Controllo sul formato del nome della compagnia
-    if (!regexCompanyName(companyName)) {
-      model.addAttribute("error", "Company name cannot contain special " +
-          "symbols except for ' and - .");
+    if (!profileService.regexCompanyName(companyName)) {
+      model.addAttribute("error", "Company Name must start with capital " +
+          "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
 
@@ -138,7 +106,7 @@ public class AccessController {
     }
 
     // Controllo sul formato della P.IVA
-    if (!regexCompanyPiva(companyPiva)) {
+    if (!profileService.regexCompanyPiva(companyPiva)) {
       model.addAttribute("error", "The PIVA number must contain 9 or more " +
           "digits.");
       return "registration-page";
@@ -151,7 +119,7 @@ public class AccessController {
     }
 
     // Controllo sul formato della password
-    if (!regexPassword(password)) {
+    if (!profileService.regexPassword(password)) {
       model.addAttribute("error", "The password must be at least 8 " +
           "characters long and contain at least one uppercase letter, one lowercase letter, one " +
           "digit, and one special character ( @.$!%*?& ).");

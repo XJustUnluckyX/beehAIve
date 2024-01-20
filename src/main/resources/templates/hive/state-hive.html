@@ -25,77 +25,82 @@
 
             <div class="row">
                 <div class="col-md-3 my-2">
-                    <h5>Hive Name: <span th:text="${hive.getNickname()}"></span></h5>
+                    <h5>Hive Name:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div class="col">
+                        <span th:text="${hive.getNickname()}"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-3  my-2">
-                    <h5>Hive Type: </h5>
+                    <h5>Hive Type:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div class="col">
+                        <span th:text="${hive.getHiveType()}"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="row ">
                 <div class="col-md-3  my-2">
-                    <h5>Hive Species: </h5>
+                    <h5>Bee Species:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div class="col">
+                        <span th:text="${hive.getBeeSpecies()}"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="row ">
                 <div class="col-md-3  my-2">
-                    <h5>Hive State: </h5>
+                    <h5>Hive State:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div class="col">
+                        <span th:text="${hive.getHiveHealth()}"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="row ">
                 <div class="col-md-3  my-2">
-                    <h5>Hive Name: </h5>
+                    <h5>Sensor State:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div style="color:green" class="col">
+                        Online
+                    </div>
                 </div>
             </div>
 
             <div class="row ">
                 <div class="col-md-3  my-2">
-                    <h5>Sensor State: </h5>
+                    <h5>Hive Creation Data:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div class="col">
+                        <span th:text="${#temporals.format(hive.getCreationDate(),'dd/MM/yyy')}"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="row ">
                 <div class="col-md-3  my-2">
-                    <h5>Hive Data Creation: </h5>
+                    <h5>Last measurement:</h5>
                 </div>
                 <div class="col my-2">
-                    <div class="col"></div>
+                    <div class="col">
+                        <span th:text="${#temporals.format(lastMeasure,'dd/MM/yyy')}"></span>
+                    </div>
                 </div>
             </div>
 
-            <div class="row ">
-                <div class="col-md-3  my-2">
-                    <h5>Lastest Update: </h5>
-                </div>
-                <div class="col my-2">
-                    <div class="col"></div>
-                </div>
-            </div>
-
-
+            <p th:text="${error}" class="custom-error-model"></p>
         </div>
     </div>
 </div>

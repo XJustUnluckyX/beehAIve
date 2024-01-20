@@ -21,7 +21,7 @@
 <div th:insert="~{fragments/hives-header :: anomaly}"></div>
 
 <section>
-    <p th:text="${error}"></p>
+    <p th:text="${error}" class="custom-error"></p>
     <div class="container-fluid text-center my-2 custom-page">
 
         <div class="row mb-3 justify-content-center">
@@ -174,7 +174,6 @@
     </div>
 </div>
 
-<!--Model per la modifica dell'operazione STIAMO LAVORANDO QUI MONTHEDOG-->
 <div class="modal fade" id="modify_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_operationLabel" aria-hidden="true" th:fragment="remove_hive">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-transparent">

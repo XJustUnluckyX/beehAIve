@@ -15,7 +15,7 @@ a {
     color: var(--second-color);
 }
 body{
-    overflow:hidden;
+    overflow: auto;
 }
 
 .wrapper {
