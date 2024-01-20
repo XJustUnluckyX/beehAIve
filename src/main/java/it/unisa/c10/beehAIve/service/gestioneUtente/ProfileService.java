@@ -27,7 +27,7 @@ public class ProfileService {
   }
 
   public boolean regexEmail (String email) {
-    String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{5,}$";
     return email.matches(emailRegex);
   }
 

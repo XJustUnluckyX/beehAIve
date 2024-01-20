@@ -39,11 +39,6 @@ public class DashboardController {
   public String showHivesByFilters(@RequestParam String nickname,
                                    @RequestParam(required = false)  String filterType,
                                    HttpSession session, Model model) {
-    // Controllo sui valori che può assumere filterType
-    if(!(filterType.equals("scheduledOperations") || filterType.equals("healthStatus"))) {
-      return "error/500";
-    }
-
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
     List<Hive> hives = new ArrayList<>();
@@ -58,6 +53,11 @@ public class DashboardController {
       }
 
     } else {
+
+      // Controllo sui valori che può assumere filterType
+      if(!(filterType.equals("scheduledOperations") || filterType.equals("healthStatus"))) {
+        return "error/500";
+      }
 
       // Visualizzazione delle arnie solo in base a interventi pianificati
       if (nickname.isBlank() && filterType.equals("scheduledOperations")) {
