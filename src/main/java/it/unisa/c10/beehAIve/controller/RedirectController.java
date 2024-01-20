@@ -50,7 +50,7 @@ public class RedirectController {
     return "/index";
   }
 
-  @GetMapping("/calendar-test")
+  @GetMapping("/calendar-planning")
   public String calendarTest (Model model) {
     return "calendar-page";
   }

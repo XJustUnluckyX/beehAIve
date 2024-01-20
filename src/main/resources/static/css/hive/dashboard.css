@@ -112,3 +112,16 @@
 .zoomable:hover {
     transform: scale(1.2);
 }
+
+.input-group{
+    backdrop-filter:blur(4px);
+}
+
+form{
+    width: 100% !important;
+    text-align: center;
+}
+.form-check-input:checked{
+    background-color: #ff7000 !important;
+    border-color: black !important;
+}

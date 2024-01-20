@@ -49,11 +49,6 @@
                         Contact Us
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/sensor-spec}">
-                        Info
-                    </a>
-                </li>
             </ul>
         </div>
         <button class="btn d-none d-lg-block" type="button"  data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
@@ -238,16 +233,19 @@
             <div class="modal-body custom-background">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col d-flex align-items-center">
+                        <div class="col align-items-center">
                             <!--                        Anomalies Log-->
                             <ul>
                                 <div th:each="anomaly : ${anomalies}">
                                     <div class="row align-items-center">
-                                        <div class="col-sm-6 ">
+                                        <div class="col-lg-8 col-md-6 col-sm-6 col-12">
                                             <li th:text="'[' + ${#strings.replace(anomaly.getDetectionDate(),'T',' ')} + '] - ' + ${anomaly.getAnomalyName()}"></li>
                                         </div>
-                                        <div class="col-sm-4 w-50 text-end"> <!-- TODO aggiungere bottoni per gestire anomalie -->
-                                            <button> <h4>Show Info</h4> </button>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-6 text-end">
+                                            <button style="border: 1px solid black" class="btn btn-warning" id="deleteAnomaly" th:value="${anomaly.getId()}"> <h4>Delete</h4> </button>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-6 text-end">
+                                            <button style="border: 1px solid black" class="btn btn-warning" id="resolveAnomaly" th:value="${anomaly.getId()}"> <h4>Resolve</h4> </button>
                                         </div>
                                     </div>
                                 </div>
