@@ -42,28 +42,32 @@ public class AccessController {
                              @RequestParam String lastName, @RequestParam String companyName,
                              @RequestParam String companyPiva, @RequestParam String password,
                              @RequestParam String confirmPassword, Model model) {
-
-    // Controlli sul formato dei parametri
-
     // Controllo sul formato dell'email
     if (!profileService.regexEmail(email)) {
       model.addAttribute("error", "Invalid email address.");
       return "registration-page";
     }
-
-    // Controllo sulla lunghezza della mail
+    // Controllo sulla lunghezza dell'email
+    if (email.length() < 5) {
+      model.addAttribute("error", "Email address too short");
+      return "registration-page";
+    }
     if (email.length() > 50) {
       model.addAttribute("error", "Email address too long");
+      return "registration-page";
+    }
+    // Controllo sull'eventuale esistenza della stessa email nel database
+    if (profileService.emailExists(email)) {
+      model.addAttribute("error", "Email already exists");
       return "registration-page";
     }
 
     // Controllo sul formato del nome
     if (!profileService.regexFirstName(firstName)) {
-      model.addAttribute("error", "First Name must start with capital " +
+      model.addAttribute("error", "First name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
-
     // Controllo sulla lunghezza del nome
     if (firstName.length() < 2) {
       model.addAttribute("error", "First name too short.");
@@ -75,11 +79,10 @@ public class AccessController {
 
     // Controllo sul formato del cognome
     if (!profileService.regexLastName(lastName)) {
-      model.addAttribute("error", "Last Name must start with capital " +
+      model.addAttribute("error", "Last name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
-
     // Controllo sulla lunghezza del cognome
     if (lastName.length() < 2) {
       model.addAttribute("error", "Last name too short.");
@@ -91,11 +94,9 @@ public class AccessController {
 
     // Controllo sul formato del nome della compagnia
     if (!profileService.regexCompanyName(companyName)) {
-      model.addAttribute("error", "Company Name must start with capital " +
-          "letter and cannot contain special symbols except for ' and - .");
+      model.addAttribute("error", "Company cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
-
     // Controllo sulla lunghezza del nome della compagnia
     if (companyName.length() < 2) {
       model.addAttribute("error", "Company name too short.");
@@ -105,16 +106,23 @@ public class AccessController {
       return "registration-page";
     }
 
-    // Controllo sul formato della P.IVA
+    // Controllo sul formato della PIVA
     if (!profileService.regexCompanyPiva(companyPiva)) {
-      model.addAttribute("error", "The PIVA number must contain 9 or more " +
-          "digits.");
+      model.addAttribute("error", "PIVA must contain only digits.");
       return "registration-page";
     }
-
-    // Controllo sulla lunghezza della P.IVA
+    // Controllo sulla lunghezza della PIVA
+    if (companyPiva.length() < 9) {
+      model.addAttribute("error", "PIVA too short.");
+      return "registration-page";
+    }
     if (companyPiva.length() > 20) {
-      model.addAttribute("error", "PIVA too long");
+      model.addAttribute("error", "PIVA too long.");
+      return "registration-page";
+    }
+    // Controllo sull'eventuale esistenza della stessa PIVA nel database
+    if (profileService.pivaExists(companyPiva)) {
+      model.addAttribute("error", "PIVA already exists.");
       return "registration-page";
     }
 
@@ -125,34 +133,22 @@ public class AccessController {
           "digit, and one special character ( @.$!%*?& ).");
       return "registration-page";
     }
-
-    // Controllo sulla lunghezza massima della password
+    // Controllo sulla lunghezza della password
+    if (password.length() < 8) {
+      model.addAttribute("error", "Password too short.");
+      return "registration-page";
+    }
     if (password.length() > 100) {
       model.addAttribute("error", "Password too long.");
       return "registration-page";
     }
-
-    // Controllo che la password sia uguale alla conferma
+    // Controllo sulla corrispondenza delle password
     if (!(password.equals(confirmPassword))) {
       model.addAttribute("error", "Passwords don't match.");
       return "registration-page";
     }
 
-    // Controlli nel database tramite il Service
-
-    // Controllo che la mail non sia già registrata
-    if (profileService.emailExists(email)) {
-      model.addAttribute("error", "Email already exists");
-      return "registration-page";
-    }
-
-    // Controllo che la P.IVA non sia già registrata
-    if (profileService.pivaExists(companyPiva)) {
-      model.addAttribute("error", "PIVA already exists.");
-      return "registration-page";
-    }
-
-    // Se nessun controllo ha generato errore salva il nuovo utente
+    // Salvataggio del nuovo utente nel database
     profileService.registration(email, password, firstName, lastName, companyName, companyPiva);
 
     return "login-page";
@@ -171,7 +167,7 @@ public class AccessController {
   public String login(@RequestParam String email, @RequestParam String password, Model model,
                       HttpSession session) {
     if (!(profileService.userExists(email, password))) {
-      model.addAttribute("error", "Email or password are incorrect.");
+      model.addAttribute("error", "Email or Password are incorrect.");
       return "login-page";
     } else {
       Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
