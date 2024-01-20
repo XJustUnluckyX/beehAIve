@@ -1,33 +1,29 @@
 package it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneStato;
 
 import com.google.gson.Gson;
+import it.unisa.c10.beehAIve.persistence.entities.Hive;
+import it.unisa.c10.beehAIve.persistence.entities.Measurement;
+import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import it.unisa.c10.beehAIve.service.gestioneArnie.StatusService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// Gestisce la visualizzazione dei grafici delle misurazioni di un'Arnia in particolare di
-// Temperatura, umidità, peso, presenza regina
-// E permette di produrre e scaricare un report di salute dell'arnia che include i grafici e lo storico di
-// interventi, anomalie
 @Controller
 public class HiveHealthController {
   private StatusService statusService;
+  private DashboardService dashboardService;
 
   @Autowired
-  public HiveHealthController(StatusService statusService) {
+  public HiveHealthController(StatusService statusService, DashboardService dashboardService) {
     this.statusService = statusService;
-  }
-
-  @GetMapping("/graph-test") //TODO remove
-  public String graphTest () {
-    return "graph-test";
+    this.dashboardService = dashboardService;
   }
 
   // Metodo Ajax per produrre il grafico
@@ -40,12 +36,31 @@ public class HiveHealthController {
     return gson.toJson(measurements);
   }
 
-  @GetMapping("/create_report") //TODO hive id
-  public void generateHealthReport(HttpServletResponse response) throws IOException {
+  @GetMapping("/create_report")
+  public void generateHealthReport(@RequestParam String hiveId, @RequestParam String hiveNickname,
+                                   HttpServletResponse response) throws IOException {
+    // TODO: Controlli
     response.setContentType("application/pdf");
     String header = "Content-Disposition";
-    String headerValue = "attachment; filename=test.pdf"; //TODO change file name
+    String headerValue = "attachment; filename=" + hiveNickname + "_Health_Report.pdf";
     response.setHeader(header, headerValue);
-    statusService.generateReport(1, response);
+    statusService.generateReport(Integer.parseInt(hiveId), response);
+  }
+
+  @GetMapping("/parameters-redirect-form")
+  public String showHiveParameters(@RequestParam String hiveId, Model model) {
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "error/500";
+    }
+    int intHiveId = Integer.parseInt(hiveId);
+
+    Measurement hiveParameters = statusService.getHiveLastMeasurement(intHiveId);
+
+    // TODO: Capire perché è necessario passare l'arnia nel model
+    Hive hive = dashboardService.getHive(intHiveId);
+    model.addAttribute("hive", hive);
+    model.addAttribute("hiveParameters", hiveParameters);
+
+    return "hive/parameters-hive";
   }
 }
