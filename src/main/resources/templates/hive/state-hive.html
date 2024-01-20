@@ -104,8 +104,6 @@
 
 <script>
 
-    //TODO script jQuery che quando premi uno dei bottoni cancella la riga dell'anomalia e metodi jQuery per cancellazione e risoluzione
-
     $(document).ready(function() {
 
         $(".deleteAnomaly").click(function() {
@@ -119,7 +117,8 @@
                 url: "delete_anomaly",
                 data: {"anomalyId": anomalyId},
                 success: function(resp) {
-
+                    if (resp === "failure")
+                        window.location.replace("http://localhost:8080/beehAIve_war/error");
                 }
             })
         })
@@ -136,7 +135,8 @@
                 url: "resolve_anomaly",
                 data: {"anomalyId": anomalyId},
                 success: function(resp) {
-
+                    if (resp === "failure")
+                        window.location.replace("http://localhost:8080/beehAIve_war/error");
                 }
             })
         })

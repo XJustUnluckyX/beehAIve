@@ -30,7 +30,6 @@ import java.util.List;
 @Controller
 public class AnomalyController {
 
-  // TODO: Do we need this?
   private AnomalyService anomalyService;
 
   @Autowired
