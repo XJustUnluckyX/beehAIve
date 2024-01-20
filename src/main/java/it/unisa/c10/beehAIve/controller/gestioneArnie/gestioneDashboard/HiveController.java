@@ -5,6 +5,7 @@ import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
+import it.unisa.c10.beehAIve.service.gestioneArnie.StatusService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,10 +26,14 @@ public class HiveController {
 
   private final AnomalyService anomalyService;
 
+  private final StatusService statusService;
+
   @Autowired
-  public HiveController(DashboardService dashboardService, AnomalyService anomalyService) {
+  public HiveController(DashboardService dashboardService, AnomalyService anomalyService,
+                        StatusService statusService) {
     this.dashboardService = dashboardService;
     this.anomalyService = anomalyService;
+    this.statusService = statusService;
   }
 
   private boolean isNicknameFormatInvalid(String nickname) {
@@ -177,8 +183,12 @@ public class HiveController {
     // Prendiamo tutte le anomalie non risolte dell'arnia
     List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
 
+    // Prediamo la data dell'ultima misurazione dell'arnia
+    LocalDate lastMeasure = LocalDate.from(statusService.getHiveLastMeasurement(intHiveId).getMeasurementDate());
+
     // Passaggio dell'arnia e delle anomalie
     model.addAttribute("hive", hive);
+    model.addAttribute("lastMeasure",lastMeasure);
     model.addAttribute("anomalies", anomalies);
 
     // Redirect alla pagina relativa all'arnia
