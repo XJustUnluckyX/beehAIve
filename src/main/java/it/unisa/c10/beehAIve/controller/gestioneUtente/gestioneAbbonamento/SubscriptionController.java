@@ -74,6 +74,7 @@ public class SubscriptionController {
   @GetMapping("/pay")
   public String payment(@RequestParam String subscriptionType, HttpSession session, Model model) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
     // Salvataggio dei valori da utilizzare successivamente nel metodo successPay()
     this.subscriptionType = subscriptionType;
     // Calcolo dell'importo in base alla tipologia di abbonamento

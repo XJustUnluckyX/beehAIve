@@ -39,7 +39,10 @@ public class DashboardController {
   public String showHivesByFilters(@RequestParam String nickname,
                                    @RequestParam(required = false)  String filterType,
                                    HttpSession session, Model model) {
-    // TODO: Controlli
+    // Controllo sui valori che può assumere filterType
+    if(!(filterType.equals("scheduledOperations") || filterType.equals("healthStatus"))) {
+      return "error/500";
+    }
 
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
