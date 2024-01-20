@@ -23,6 +23,7 @@ public class ProfileController {
   @PostMapping("/changeInfo")
   public String changeInfo(@RequestParam String firstName, @RequestParam String lastName,
                            @RequestParam String companyName, HttpSession session, Model model) {
+
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sul formato del nome

@@ -124,36 +124,36 @@ public class HiveController {
                            HttpSession session, Model model) {
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
     int intHiveId = Integer.parseInt(hiveId);
 
     // Controllo della validità del formato del nickname dell'arnia
     if (isNicknameFormatInvalid(nickname)) {
       model.addAttribute("error","Invalid nickname format.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Controllo della lunghezza del nickname dell'arnia
     if (isNicknameLenghtTooShort(nickname)) {
       model.addAttribute("error","Insufficient nickname length.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
     if (isNicknameLenghtTooLong(nickname)) {
       model.addAttribute("error","Nickname too long.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Controllo della validità del tipo d'arnia
     if(isHiveTypeInvalid(hiveType)) {
       model.addAttribute("error","Invalid hive type.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Controllo della validità della specie d'api dell'arnia
     if(isBeeSpeciesInvalid(beeSpecies)) {
       model.addAttribute("error","Invalid bee species.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Creazione dell'arnia
@@ -166,14 +166,14 @@ public class HiveController {
     model.addAttribute("hives", hives);
 
     // Redirect alla dashboard aggiornata
-    return "hive/dashboard";
+    return "redirect:state-hive?hiveId="+ hiveId;
   }
 
   @GetMapping("/state-hive")
   public String showHive(@RequestParam String hiveId, Model model) {
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
 
     // Ottenimento dell'arnia
