@@ -21,6 +21,7 @@
 <div th:insert="~{fragments/hives-header :: anomaly}"></div>
 
 <section>
+    <p th:text="${error}"></p>
     <div class="container-fluid text-center my-2 custom-page">
 
         <div class="row mb-3 justify-content-center">
@@ -57,12 +58,12 @@
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
                                 <form th:action="@{/add_operation-form}" method="get">
-
+                                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationName">Operation Name:</h5>
-                                                <input type="text" id="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="operationName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +72,8 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="operationDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="date" id="operationDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="time" id="operationHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
@@ -79,16 +81,16 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <h5 class="form-label" for="operationType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
+                                            <select class="select form-control-lg hive_selector" name="operationType">
                                                 <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
+                                                <option value="Medical Inspection">Medical Inspection</option>
+                                                <option value="Medical Treatment">Medical Treatment</option>
+                                                <option value="Check Population">Check Population</option>
+                                                <option value="Extraction">Extraction</option>
+                                                <option value="Vet Visit">Vet Visit</option>
+                                                <option value="Feeding">Feeding</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Maintenance">Maintenance</option>
                                             </select>
                                         </div>
                                     </div>
@@ -96,24 +98,21 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <h5 for="noteOperation">Note:</h5>
-                                            <textarea class="form-control" id="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                            <textarea class="form-control" id="noteOperation" name="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
-
                                     <div class="row">
-                                        <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
+                                        <div class="col-md-12 pt-3 d-flex justify-content-end" style="gap:10px;">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -127,25 +126,43 @@
                 <h5 class="modal-title" id="log_operationLabel">Log Operation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div class="modal-body custom-background">
                 <div class="container">
                     <div class="row">
                         <h3> Imminent Operations</h3>
                     </div>
-                    <div class="row align-items-center">
-                        <div class="col-sm-6 ">
-                            <h5> Mimmo </h5>
+                    <ul>
+                        <div th:each="op : ${toComplete}">
+                            <div class="row pb-2 align-items-center">
+                                <div class="col-md-8 col-sm-6 col-6 ">
+                                    <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-6  text-end">
+                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-4 w-50 text-end">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Log SPec</h4> </button>
-                        </div>
-                    </div>
+                    </ul>
+
+
                     <div class="row">
                         <h3> Past Operations</h3>
                     </div>
+                    <ul>
+                        <div th:each="op : ${completed}">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6 ">
+                                    <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
+                                </div>
+                                <div class="col-sm-4 w-50 text-end">
+                                    <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
 
                 </div>
+
             </div>
 
             <div class="modal-footer bg-warning">
@@ -157,7 +174,7 @@
     </div>
 </div>
 
-<!--Model per la modifica dell'operazione-->
+<!--Model per la modifica dell'operazione STIAMO LAVORANDO QUI MONTHEDOG-->
 <div class="modal fade" id="modify_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_operationLabel" aria-hidden="true" th:fragment="remove_hive">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-transparent">
@@ -173,19 +190,21 @@
                         <div class="card-body">
                             <div class="card-body my-5 p-4 p-md-5 hive_card">
                                 <form th:action="@{/modify-operation-form}" method="get">
+                                    <input type="hidden" id="modifyOperationId" name="operationId">
+                                    <input type="hidden" id="modifyStatus" name="operationStatus">
+                                    <input type="hidden" id="hiveId" name="hiveId" th:value="${hive.getId()}">
 
                                     <div class="row">
                                         <div class="col">
-                                            <h5> Status: <span> </span> </h5>
+                                            <h5> Status: <span id="status"> </span> </h5>
                                         </div>
-
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyName">Operation Name:</h5>
-                                                <input type="password" id="modifyName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="modifyName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +213,8 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="modifyDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100" type="date" value="2002-04-04" id="modifyDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100" type="time" value="10:00" id="modifyHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
                                             </div>
                                         </div>
                                     </div>
@@ -202,39 +222,55 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <h5 class="form-label" for="modifyType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
+                                            <select class="select form-control-lg hive_selector" name="operationType" id="modifyType">
                                                 <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
+                                                <option value="Medical Inspection">Medical Inspection</option>
+                                                <option value="Medical Treatment">Medical Treatment</option>
+                                                <option value="Check Population">Check Population</option>
+                                                <option value="Extraction">Extraction</option>
+                                                <option value="Vet Visit">Vet Visit</option>
+                                                <option value="Feeding">Feeding</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Maintenance">Maintenance</option>
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="form-group">
                                             <h5 for="modifyNote">Note:</h5>
-                                            <textarea class="form-control" id="modifyNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                            <textarea class="form-control" id="modifyNote" name="operationNotes" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
 
                                     <div class="row pt-4 d-flex justify-content-evenly text-center">
                                         <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> CIao </button>
+                                            <input class="btn btn-lg" type="submit" value="Save" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        </div>
+                                        <!--<div class="col-sm-4 p-2">
+                                            <button class="btn btn-primary"> Cancel </button>
                                         </div>
                                         <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Addio </button>
-                                        </div>
+                                            <button class="btn btn-primary"> Mark as </button>
+                                        </div>-->
+                                    </div>
+                                </form>
+                                <form th:action="@{/cancel-operation-form}" method="get">
+                                    <input type="hidden" id="cancelOperationId" name="operationId">
+                                    <input type="hidden" id="cancelOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
                                         <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Arrivederci </button>
+                                            <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
                                     </div>
-
+                                </form>
+                                <form th:action="@{/change-operation-status-form}" method="get">
+                                    <input type="hidden" id="changeStatusOperationId" name="operationId">
+                                    <input type="hidden" id="changeStatusOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
+                                        <div class="col-sm-4 p-2">
+                                            <input class="btn btn-lg" type="submit" value="Change status" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -260,7 +296,7 @@
         $.ajax({
             type: "GET",
             url: "get_hive_operation_history",
-            data: {"hiveId": 1}, //TODO change hiveId
+            data: {"hiveId": $("#hiveId").val()}, //TODO change hiveId
             success: function(resp) {
                 let result = JSON.parse(resp);
                 let calendar = new FullCalendar.Calendar($("#calendar")[0], {
@@ -272,11 +308,44 @@
                         hour12: false
                     },
                     height: "auto",
-                    eventColor: "#805711"
+                    eventColor: "#805711",
+                    defaultTimedEventDuration: '00:01:00'
                 });
 
                 calendar.render();
             }
+        })
+
+
+        $(".showInfo").click(function() {
+
+            $.ajax({
+                method: "GET",
+                url: "get_operation_information",
+                data: {"operationId": $(this).val()},
+                success: function (resp) {
+
+                    let result = JSON.parse(resp);
+
+                    $("#status").text(result["status"]);
+                    $("#modifyStatus").val(result["status"]);
+                    $("#modifyName").val(result["name"]);
+                    $("#modifyDate").val(result["date"]);
+                    $("#modifyHour").val(result["hour"]);
+                    $("#modifyType").val(result["type"]);
+                    $("#modifyNote").text(result["notes"]);
+                    $("#modifyOperationId").val(result["id"]);
+
+                    $("#cancelOperationId").val(result["id"]);
+                    $("#cancelOpHiveId").val(result["hiveId"]);
+
+                    $("#changeStatusOperationId").val(result["id"]);
+                    $("#changeStatusOpHiveId").val(result["hiveId"]);
+
+                }
+            })
+
+
         })
 
     })

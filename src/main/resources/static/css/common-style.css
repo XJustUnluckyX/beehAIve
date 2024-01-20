@@ -5,11 +5,11 @@
 body{
     width: 100% !important;
     height: 100% !important;
-    overflow: hidden;
     background: url("../assets/pattern.svg") !important;
     background-repeat: repeat !important;
     background-size: 100px 140px !important;
     background-position: center;
+    overflow: hidden;
 }
 
 .nav-item

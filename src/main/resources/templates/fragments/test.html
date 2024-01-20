@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
-    <link rel="stylesheet" href="../../static/css/hive/operations-hive.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/index.css" type="text/css">
     <link rel="stylesheet" href="../../static/css/common-style.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/hive/hive-template.css" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -30,10 +29,10 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <!--                        Add if-->
-                    <div th:unless="${session.beekeeper != null}">
+                    <div th:unless="${session.beekeeper['email'] != null}">
                         <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
                     </div>
-                    <div th:if="${session.beekeeper != null}">
+                    <div th:if="${session.beekeeper['email'] != null}">
                         <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
                     </div>
 
@@ -66,547 +65,56 @@
 
     </div>
 </nav>
-<div class="offcanvas offcanvas-start" style="background-color: #ffb800" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel" th:fragment="offcanvas">
-    <div class="offcanvas-header">
-        <h3 class="offcanvas-title" id="staticBackdropLabel">Hive navigation menu</h3>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="container mx-auto my-4">
-            <img class="img-fluid max w-50" th:src="@{/assets/logo_icon.png}" alt="Logo" id="logo">
-        </div>
-        <div>
-            <!--            <h2><a class="nav-link" style="padding: 10px" href="#"> Hive Information </a></h2>-->
-            <form action="hive-information-redirect-form" method="get">
-                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <h2><button type="submit" class="btn"><h2>Hive Information</h2></button></h2>
-            </form>
-            <!--            <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>-->
-            <form action="parameters-redirect-form" method="get">
-                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <h2><button type="submit" class="btn"><h2>Parameters</h2></button></h2>
-            </form>
 
-            <!--<h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>-->
-            <form action="redirect-form" method="get">
-                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <h2><button type="submit" class="btn"><h2>Operation</h2></button></h2>
-            </form>
-            <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#anomaly"> <h2>Anomalies</h2> </button></h2>
-            <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modify_hive"> <h2>Modify Hive</h2> </button></h2>
-            <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#remove_hive"> <h2>Remove Hive</h2> </button></h2>
+<section class="custom-section">
+    <section class="custom-front-section">
+        <div class="row py-3 align-items-center text-center d-flex justify-content-center">
+            <div class="col-lg-7 order-lg-1 order-2">
+                <h1 class="fw-bold custom-first-text">The next generation of Beekeeping</h1>
+                <h4 class="custom-second-test"> <span> <a th:href="@{/registration-page}" class="custom-link">Create an account</a>></span> now and monitor up to <span class="fw-bolder text-decoration-underline">300 hives</span></h4>
+            </div>
+            <div class="col-lg-5 col-md-7 col-sm-7 order-lg-2 order-1">
+                <img class="img-fluid max" src="../../static/assets/logo_icon.png" alt="Logo">
+            </div>
         </div>
-    </div>
-</div>
-<div class="modal fade" id="modify_hive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_hiveLabel" aria-hidden="true" th:fragment="modify_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
+    </section>
 
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="modify_hiveLabel">Modify Hive Information</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <section>
+        <div class="container-xxl">
+
+            <div class="row py-3 align-items-center text-center d-flex justify-content-center">
+                <div class="col-lg-7 order-lg-1 order-2 custom-glass">
+                    <h1 class="fw-bold custom-text">Who are we</h1>
+                    <h4>We are a team of passionate experts dedicated to the active monitoring of bee colonies and the promotion of awareness regarding the importance of these insects in our daily lives. With multidisciplinary skills and a strong conviction in the need to take action, we work tirelessly to ensure a sustainable future for bees and the entire planet.</h4>
+                </div>
+                <div class="col-lg-5 col-md-7 col-sm-7 order-lg-2 order-1">
+                    <img class="img-fluid max" src="../../static/assets/BeeCompany.png" alt="Logo">
+                </div>
             </div>
 
-            <div class="modal-body custom-background">
-                <!--                Form per la modifica dell'arnia-->
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body p-4 p-md-5 hive_card">
+            <div class="row py-3 align-items-center text-center d-flex justify-content-center">
+                <div class="col-lg-5 col-md-7 col-sm-7 ">
+                    <img class="img-fluid max" src="../../static/assets/Statistics.png" alt="Logo">
+                </div>
+                <div class="col-lg-7 custom-glass">
+                    <h1 class="fw-bold custom-text">What we do</h1>
+                    <h4>We use advanced monitoring technologies to gather accurate data on the health of bee colonies, enabling timely interventions to prevent undesirable declines.</h4>
+                </div>
+            </div>
 
-                                <form th:action="@{/modify-hive}" method="get">
-                                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                                    <!--                            Nome dell'arnia-->
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" th:for="hiveName">Hive Name:</h5>
-                                                <input type="text" th:id="hiveName" name="nickname" th:value="${hive.getNickname()}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--                            Tipo dell'arnia-->
-                                    <div class="row">
-                                        <div class="col-12 mb-1">
-                                            <h5 class="form-label select-label">Hive Type:</h5>
-                                        </div>
-                                    </div>
-
-                                    <!--                            Opzioni del tipo d'arnia-->
-                                    <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <select class="select form-control-lg hive_selector" name="hiveType" required>
-                                                <option disabled selected>Choose option</option>
-                                                <option value="Langstroth" th:selected="${hive.getHiveType() == 'Langstroth'}">Langstroth</option>
-                                                <option value="Warre" th:selected="${hive.getHiveType() == 'Warre'}">Warre</option>
-                                                <option value="Top-Bar" th:selected="${hive.getHiveType() == 'Top-Bar'}">Top-Bar</option>
-                                                <option value="Horizontal" th:selected="${hive.getHiveType() == 'Horizontal'}">Horizontal</option>
-                                                <option value="Vertical" th:selected="${hive.getHiveType() == 'Vertical'}">Vertical</option>
-                                                <option value="Bee Skep" th:selected="${hive.getHiveType() == 'Bee Skep'}">Bee Skep</option>
-                                                <option value="WBC" th:selected="${hive.getHiveType() == 'WBC'}">WBC</option>
-                                                <option value="Dadant" th:selected="${hive.getHiveType() == 'Dadant'}">Dadant</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!--                            Checklist con le specie delle api-->
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-8 col-8 mb-4" style="font-weight: bold">
-                                            <h5 class="mb-2 pb-1">Bee Species: </h5>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis millifera'}" th:id="Apismellifera"
-                                                       value="Apis millifera" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                                <label class="form-check-label" th:for="Apismellifera">Apis mellifera (Api miele)</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis cerana'}" th:id="Apiscerana"
-                                                       value="Apis cerana" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                                <label class="form-check-label" th:for="Apiscerana">Apis cerana (Api asiatiche)</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis dorsata'}" th:id="Apisdorsata"
-                                                       value="Apis dorsata" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                                <label class="form-check-label" th:for="Apisdorsata">Apis dorsata (Api giganti)</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis florea'}" th:id="Apisfiorea"
-                                                       value="Apis florea" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                                <label class="form-check-label" th:for="Apisfiorea">Apis florea (Api nane)</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--                            Pulsanti di invio e cancellazione-->
-                                    <div class="row">
-                                        <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row py-3 align-items-center text-center d-flex justify-content-center">
+                <div class="col-lg-7 order-lg-1 order-2 custom-glass">
+                    <h1 class="fw-bold custom-text">Why we do it</h1>
+                    <h4>Our agency is committed to environmental sustainability, promoting eco-friendly practices in monitoring bee colonies. Our vision aims to leave a positive impact, emphasizing a strong connection between the health of bees and that of the planet.</h4>
+                </div>
+                <div class="col-lg-5 col-md-7 col-sm-7 order-lg-2 order-1">
+                    <img class="img-fluid max" src="../../static/assets/EcoCompany.png" alt="Logo">
                 </div>
             </div>
 
         </div>
-    </div>
-</div>
-<div class="modal fade" id="remove_hive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="remove_hiveLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="remove_hiveLabel">Remove Hive</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-9 d-flex align-items-center">
-                            <h4>
-                                You are about to end the existence of this hive from your dashboard. <br>
-                                Are you sure you want to continue the operation?
-                            </h4>
-                        </div>
-                        <div class="col-3 d-flex align-items-center">
-                            <img class="img-fluid" th:src="@{/assets/sad_bee.png}">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form th:action="@{/delete-hive}" method="get">
-                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                    <button type="submit" class="btn" style="border: 1px solid black;background-color: #FFF0B3;">Remove</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="anomaly" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="anomalyLabel" aria-hidden="true" th:fragment="anomaly">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="anomalyLabel">Anomalies Log</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col d-flex align-items-center">
-                            <!--                        Anomalies Log-->
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<section>
-<div class="container-fluid text-center my-2 custom-page">
-
-    <div class="row mb-3 justify-content-center">
-        <div class="custom-calendar col d-flex justify-content-center" id="calendar">
-            <!--                    Calendario-->
-        </div>
-    </div>
-    <div class="row mb-3 justify-content-center align-items-center">
-
-        <div class="col d-flex flex-column justify-content-between align-items-center">
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#add_operation"> <h2>Add Operation</h2> </button>  <!--add_operation-->
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#log_operation"> <h2>Log Operation</h2> </button>
-        </div>
-    </div>
-
-</div>
+    </section>
 </section>
-
-<!--Modal per l'aggiunta di un operation-->
-<div class="modal fade" id="add_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_operationLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="add_operationLabel">Add Operation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form th:action="@{/add_operation-form}" method="get">
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="operationName">Operation Name:</h5>
-                                                <input type="text" id="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="operationDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="operationDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <h5 class="form-label" for="operationType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
-                                                <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <h5 for="noteOperation">Note:</h5>
-                                            <textarea class="form-control" id="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!--Model per la gestione del log-->
-<div class="modal fade" id="log_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="log_operationLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="log_operationLabel">Log Operation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="container">
-                    <div class="row">
-                        <h3> Imminent Operations</h3>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-sm-6 ">
-                            <h5> Mimmo </h5>
-                        </div>
-                        <div class="col-sm-4 w-50 text-end">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Log SPec</h4> </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h3> Past Operations</h3>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!--Model per la modifica dell'operazione-->
-<div class="modal fade" id="modify_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modify_operationLabel" aria-hidden="true" th:fragment="remove_hive">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-transparent">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="modify_operationLabel">Operation Information</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body custom-background">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-12 col-lg-9 col-xl-8">
-                        <div class="card-body">
-                            <div class="card-body my-5 p-4 p-md-5 hive_card">
-                                <form th:action="@{/modify-operation-form}" method="get">
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5> Status: <span> </span> </h5>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="modifyName">Operation Name:</h5>
-                                                <input type="password" id="modifyName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <h5 class="form-label" for="modifyDate">Operation Date:</h5>
-                                                <input class="w-100" type="date" id="modifyDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <h5 class="form-label" for="modifyType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector">
-                                                <option value="1" disabled selected>Choose option</option>
-                                                <option value="2">Medical Inspection</option>
-                                                <option value="3">Medical Treatment</option>
-                                                <option value="2">Check Population</option>
-                                                <option value="3">Extraction</option>
-                                                <option value="2">Vet Visit</option>
-                                                <option value="3">Feeding</option>
-                                                <option value="2">Transfer</option>
-                                                <option value="3">Maintenance</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <h5 for="modifyNote">Note:</h5>
-                                            <textarea class="form-control" id="modifyNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row pt-4 d-flex justify-content-evenly text-center">
-                                        <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> CIao </button>
-                                        </div>
-                                        <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Addio </button>
-                                        </div>
-                                        <div class="col-sm-4 p-2">
-                                            <button class="btn btn-primary"> Arrivederci </button>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!--&lt;!&ndash;Modal per le specifiche dell'operazione&ndash;&gt;-->
-<!--<div class="modal fade" id="spec_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="spec_operationLabel" aria-hidden="true" th:fragment="remove_hive">-->
-<!--    <div class="modal-dialog modal-dialog-centered modal-lg">-->
-<!--        <div class="modal-content bg-transparent">-->
-
-<!--            <div class="modal-header bg-warning">-->
-<!--                <h5 class="modal-title" id="spec_operationLabel">Add Operation</h5>-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--            </div>-->
-
-<!--            <div class="modal-body custom-background">-->
-<!--                <div class="row justify-content-center align-items-center">-->
-<!--                    <div class="col-12 col-lg-9 col-xl-8">-->
-<!--                        <div class="card-body">-->
-<!--                            <div class="card-body my-5 p-4 p-md-5 hive_card">-->
-<!--                                <form th:action="@{/visualize-operation-form}" method="get">-->
-
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-md-12 mb-4">-->
-<!--                                            <div class="form-outline">-->
-<!--                                                <h5 class="form-label" for="specName">Operation Name:</h5>-->
-<!--                                                <input type="password" id="specName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-md-12 mb-4">-->
-<!--                                            <div class="form-outline">-->
-<!--                                                <h5 class="form-label" for="spechDate">Operation Date:</h5>-->
-<!--                                                <input class="w-100"  type="date" id="spechDate" name="startDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-12 mb-4">-->
-<!--                                            <h5 class="form-label" for="specType">Operation Type:</h5>-->
-<!--                                            <select class="select form-control-lg hive_selector">-->
-<!--                                                <option value="1" disabled selected>Choose option</option>-->
-<!--                                                <option value="2">Medical Inspection</option>-->
-<!--                                                <option value="3">Medical Treatment</option>-->
-<!--                                                <option value="2">Check Population</option>-->
-<!--                                                <option value="3">Extraction</option>-->
-<!--                                                <option value="2">Vet Visit</option>-->
-<!--                                                <option value="3">Feeding</option>-->
-<!--                                                <option value="2">Transfer</option>-->
-<!--                                                <option value="3">Maintenance</option>-->
-<!--                                            </select>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="row">-->
-<!--                                        <div class="form-group">-->
-<!--                                            <h5 for="specNote">Note:</h5>-->
-<!--                                            <textarea class="form-control" id="specnNote" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                    &lt;!&ndash;                                Tasto per il check di una operazione conclusa?&ndash;&gt;-->
-
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="modal-footer bg-warning">-->
-<!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                <form th:action="@{/visualize-operation-form}" method="get">-->
-<!--                    <input type="hidden" name="hiveId" id="hiveId" th:value="${hive.getId()}">-->
-<!--                    <button type="button" class="btn btn-primary">Confirm</button>-->
-<!--                </form>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash;Modal per la rimozione dell'operazione&ndash;&gt;-->
-<!--<div class="modal fade" id="remove_operation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="remove_operationLabel" aria-hidden="true" th:fragment="remove_hive">-->
-<!--    <div class="modal-dialog modal-dialog-centered modal-lg">-->
-<!--        <div class="modal-content bg-transparent">-->
-
-<!--            <div class="modal-header bg-warning">-->
-<!--                <h5 class="modal-title" id="remove_operationLabel">Remove Hive</h5>-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--            </div>-->
-
-<!--            <div class="modal-body custom-background">-->
-<!--                <div class="container-fluid">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-9 d-flex align-items-center">-->
-<!--                            <h4>-->
-<!--                                You are about to early terminate the scheduled operation. <br>-->
-<!--                                Are you sure you want to continue?-->
-<!--                            </h4>-->
-<!--                        </div>-->
-<!--                        <div class="col-3 d-flex align-items-center">-->
-<!--                            <img class="img-fluid" th:src="@{/assets/sad_bee.png}">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--            </div>-->
-
-<!--            <div class="modal-footer bg-warning">-->
-<!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                <form th:action="@{/cancel-operation-form}" method="get">-->
-<!--                    <input type="hidden" name="hiveId" th:value="${hive.getId()}">-->
-<!--                    <button type="button" class="btn btn-primary">Remove</button>-->
-<!--                </form>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 

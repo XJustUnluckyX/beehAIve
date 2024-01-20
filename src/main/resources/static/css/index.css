@@ -1,13 +1,47 @@
-.container{
+
+.custom-section{
+    height: 94vh;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+.custom-logo{
+    width: 70% !important;
+}
+
+.custom-glass{
+    backdrop-filter: blur(3px);
+    border: 1px solid black;
+    border-radius: 50px;
+    width: 50% !important;
+}
+.custom-front-section{
     text-align: center;
     height: 90vh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #FFE087;
 }
-#logo{
-    height: 25rem;
-    align-content: center;
+.custom-first-text{
+    font-size: 5vw;
+    text-align: end;
+    text-shadow: 1px 2px black
+}
+.custom-second-test{
+    font-size: 30px !important;
+    text-align: end;
+}
+
+@media only screen and (max-width: 991px){
+    .custom-glass{
+        width: auto !important;
+    }
+    .custom-second-test{
+        text-align: center;
+        font-size: 25px !important;
+    }
+    .custom-first-text{
+        text-align:center;
+        font-size: 70px;
+    }
 }

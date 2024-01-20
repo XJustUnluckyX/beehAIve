@@ -30,13 +30,11 @@ public class AnomalyService {
   private FlaskAdapter adapter = new FlaskAdapter();
   private AnomalyDAO anomalyDAO;
   private HiveDAO hiveDAO;
-  private StatusService statusService;
 
   @Autowired
   public AnomalyService(AnomalyDAO anomalyDAO, HiveDAO hiveDAO, StatusService statusService) {
     this.anomalyDAO = anomalyDAO;
     this.hiveDAO = hiveDAO;
-    this.statusService = statusService;
   }
 
   public void checkAnomalies (Measurement measurement) {
@@ -69,8 +67,94 @@ public class AnomalyService {
       anomalyDAO.save(a);
 
     for (Anomaly a : anomalies)
-      statusService.notifyAnomaly(a);
+      notifyAnomaly(a);
 
+  }
+
+  public void notifyAnomaly (Anomaly anomaly) {
+    Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
+
+    // Se l'arnia è in salute in base all'anomalia cambiamo lo stato
+    if (hive.getHiveHealth() == 1) {
+      if (anomaly.getAnomalyName().equals("Possible CCD"))
+        hive.setHiveHealth(3);
+      else
+        hive.setHiveHealth(2);
+    }
+
+    // Se l'arnia è in pericolo medio aggiorniamo solo se l'anomalia è grave
+    if (hive.getHiveHealth() == 2)
+      if (anomaly.getAnomalyName().equals("Possible CCD"))
+        hive.setHiveHealth(3);
+
+    hiveDAO.save(hive);
+  }
+
+  public void resolveAnomaly (int anomalyId) {
+
+    // Prendiamo l'anomalia dal database
+    Anomaly anomaly = anomalyDAO.findById(anomalyId).get();
+
+    // Impostiamola a risolta
+    anomaly.setResolved(true);
+
+    // Salviamo nel database l'anomalia sistemata
+    anomalyDAO.save(anomaly);
+
+    // Prendiamo l'arnia per controllare se va cambiato lo stato di salute
+    Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
+
+    // Operazione per il nuovo stato di salute
+    hive.setHiveHealth(getNewHealthStatus(hive.getId()));
+
+    // Salviamo l'arnia nel DB
+    hiveDAO.save(hive);
+
+  }
+
+  public void deleteAnomaly (int anomalyId) {
+
+    // Prendiamo l'anomalia dal database per ricavarne l'arnia dopo
+    Anomaly anomaly = anomalyDAO.findById(anomalyId).get();
+
+    // Eliminiamo l'arnia dal database
+    anomalyDAO.deleteById(anomalyId);
+
+    // Prendiamo l'arnia per controllare se va cambiato lo stato di salute
+    Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
+
+    // Operazione per il nuovo stato di salute
+    hive.setHiveHealth(getNewHealthStatus(hive.getId()));
+
+    // Salviamo l'arnia nel DB
+    hiveDAO.save(hive);
+
+  }
+
+  private int getNewHealthStatus (int hiveId) {
+
+    List<Anomaly> anomalies = anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
+
+    // Se non ci sono anomalie l'arnia è in salute
+    if (anomalies.isEmpty())
+      return 1;
+
+    // Controlla se ci sono anomalie di Possibile CCD
+    for (Anomaly a : anomalies)
+      if (a.getAnomalyName().equals("Possible CCD"))
+        return 3;
+
+    // Le uniche anomalie rimaste sono di gravità media
+    return 2;
+
+  }
+
+  public List<Anomaly> getUnresolvedAnomalies (int hiveId) {
+    return anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
+  }
+
+  public Anomaly getAnomaly (int anomalyId) {
+    return anomalyDAO.findById(anomalyId).get();
   }
 
   private Anomaly checkHiveWeight(Measurement measurement, String beekeeperEmail) {

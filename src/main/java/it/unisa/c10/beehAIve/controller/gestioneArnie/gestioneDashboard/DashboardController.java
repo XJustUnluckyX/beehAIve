@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
-//Gestisce la visualizzazione di tutte le arnie di un apicoltore ed eventuali filtri (Anomalie rilevate, interventi pianificati)
-
 @Controller
-@SessionAttributes("beekeeper")
 public class DashboardController {
-  @Autowired
-  private DashboardService dashboardService;
+  private final DashboardService dashboardService;
+
+  public DashboardController(DashboardService dashboardService) {
+    this.dashboardService = dashboardService;
+  }
 
   @GetMapping("/dashboard")
-  public String showAllHives(HttpSession session, Model model) {
+  public String showBeekeeperHives(HttpSession session, Model model) {
     // Ottenimento di tutte le arnie registrate dall'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     List<Hive> hives = dashboardService.getBeekeeperHives(beekeeper.getEmail());
@@ -34,22 +35,55 @@ public class DashboardController {
     return "hive/dashboard";
   }
 
-  @GetMapping("/state-hive")
-  public String showStateHive(@RequestParam String hiveId, Model model) {
-    // Controllo della validità dell'ID dell'arnia
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
+  @GetMapping("/show-by-filters")
+  public String showHivesByFilters(@RequestParam String nickname,
+                                   @RequestParam(required = false)  String filterType,
+                                   HttpSession session, Model model) {
+    // TODO: Controlli
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    String beekeeperEmail = beekeeper.getEmail();
+    List<Hive> hives = new ArrayList<>();
+
+    if (filterType == null) {
+
+      // Se nessun filtro è applicato, si visualizzano tutte le arnie
+      if (nickname.isBlank()) {
+        return showBeekeeperHives(session, model);
+      } else { // Visualizzazione delle arnie solo in base al nickname
+        hives = dashboardService.getBeekeeperHivesByNickname(beekeeperEmail, nickname);
+      }
+
+    } else {
+
+      // Visualizzazione delle arnie solo in base a interventi pianificati
+      if (nickname.isBlank() && filterType.equals("scheduledOperations")) {
+        hives = dashboardService.getBeekeeperHivesWithScheduledOperations(beekeeperEmail);
+      }
+
+      // Visualizzazione delle arnie solo in base a problemi di salute
+      if (nickname.isBlank() && filterType.equals("healthStatus")) {
+        hives = dashboardService.getBeekeeperHivesWithHealthIssues(beekeeperEmail);
+      }
+
+      // Visualizzazione delle arnie in base al nickname e a interventi pianificati
+      if(!nickname.isBlank() && filterType.equals("scheduledOperations")) {
+        hives = dashboardService.getBeekeeperHivesByNicknameAndScheduledOperations(beekeeperEmail,
+            nickname);
+      }
+
+      // Visualizzazione delle arnie in base al nickname e a problemi di salute
+      if(!nickname.isBlank() && filterType.equals("healthStatus")) {
+        hives = dashboardService.getBeekeeperHivesByNicknameAndHealthIssues(beekeeperEmail, nickname);
+      }
+
     }
 
-    // Ottenimento dell'arnia
-    int intHiveId = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(intHiveId);
+    // Passaggio della lista di arnie
+    model.addAttribute("hives", hives);
 
-    // Passaggio dell'arnia
-    model.addAttribute("hive", hive);
-
-    // Redirect alla pagina relativa all'arnia
-    return "hive/state-hive";
+    // Redirect alla dashboard con tutte le arnie ottenute
+    return "hive/dashboard";
   }
 
   @GetMapping("/show-hive-creation")

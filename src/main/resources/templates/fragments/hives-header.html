@@ -30,7 +30,7 @@
                         <a class="nav-link active" aria-current="page" th:href="@{/login}"> Log-in </a>
                     </div>
                     <div th:if="${session.beekeeper != null}">
-                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" href="#"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
+                        <a th:text="${session.beekeeper['companyName']}" class="nav-link active" aria-current="page" th:href="@{/user-page}"> <span th:text="${session.beekeeper['companyName']}"></span> </a>
                     </div>
 
                 </li>
@@ -72,22 +72,21 @@
             <img class="img-fluid max w-50" th:src="@{/assets/logo_icon.png}" alt="Logo" id="logo">
         </div>
         <div>
-            <!--            <h2><a class="nav-link" style="padding: 10px" href="#"> Hive Information </a></h2>-->
-            <form action="hive-information-redirect-form" method="get">
-                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <h2><button type="submit" class="btn"><h2>Hive Information</h2></button></h2>
-            </form>
-            <!--            <h2><a class="nav-link" style="padding: 10px" href="#"> Parameters </a></h2>-->
-            <form action="parameters-redirect-form" method="get">
-                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <h2><button type="submit" class="btn"><h2>Parameters</h2></button></h2>
-            </form>
-
-            <!--<h2><a class="nav-link" style="padding: 10px" href="#"> Operation </a></h2>-->
-            <form action="redirect-form" method="get">
-                <input type="hidden" name="hiveId" th:value="${hive.getId()}">
-                <h2><button type="submit" class="btn"><h2>Operation</h2></button></h2>
-            </form>
+            <h2><a class="nav-link" style="padding: 10px" th:href="@{/hive-information-redirect-form(hiveId=${hive.getId()})}"> Statistics </a></h2>
+<!--            <form action="hive-information-redirect-form" method="get">-->
+<!--                <input type="hidden" name="hiveId" th:value="${hive.getId()}">-->
+<!--                <h2><button type="submit" class="btn"><h2>Hive Information</h2></button></h2>-->
+<!--            </form>-->
+            <h2><a class="nav-link" style="padding: 10px" th:href="@{/parameters-redirect-form(hiveId=${hive.getId()})}"> Parameters </a></h2>
+<!--            <form action="parameters-redirect-form" method="get">-->
+<!--                <input type="hidden" name="hiveId" th:value="${hive.getId()}">-->
+<!--                <h2><button type="submit" class="btn"><h2>Parameters</h2></button></h2>-->
+<!--            </form>-->
+            <h2><a class="nav-link" style="padding: 10px" th:href="@{/show_operations(hiveId=${hive.getId()})}"> Operation </a></h2>
+<!--            <form action="redirect-form" method="get">-->
+<!--                <input type="hidden" name="hiveId" th:value="${hive.getId()}">-->
+<!--                <button type="submit" class="btn btn-primary">Operation</button>-->
+<!--            </form>-->
             <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#anomaly"> <h2>Anomalies</h2> </button></h2>
             <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modify_hive"> <h2>Modify Hive</h2> </button></h2>
             <h2><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#remove_hive"> <h2>Remove Hive</h2> </button></h2>
@@ -241,6 +240,18 @@
                     <div class="row">
                         <div class="col d-flex align-items-center">
                             <!--                        Anomalies Log-->
+                            <ul>
+                                <div th:each="anomaly : ${anomalies}">
+                                    <div class="row align-items-center">
+                                        <div class="col-sm-6 ">
+                                            <li th:text="'[' + ${#strings.replace(anomaly.getDetectionDate(),'T',' ')} + '] - ' + ${anomaly.getAnomalyName()}"></li>
+                                        </div>
+                                        <div class="col-sm-4 w-50 text-end"> <!-- TODO aggiungere bottoni per gestire anomalie -->
+                                            <button> <h4>Show Info</h4> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
                         </div>
                     </div>
                 </div>

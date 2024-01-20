@@ -1,8 +1,10 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
+import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -16,24 +18,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-// Gestisce la modifica dei dati personali, la modifica della password ed eventuali altre operazioni sul Profilo
-// come modificare il metodo di pagamento
-
 @Controller
-@SessionAttributes("beekeeper")
 public class ProfileController {
-
   final private ProfileService profileService;
   final private  AccessController accessController;
+
   @Autowired
   public ProfileController(ProfileService profileService, AccessController accessController) {
     this.profileService = profileService;
@@ -93,9 +90,25 @@ public class ProfileController {
       return "user-page";
     }
 
+    beekeeper.setFirstName(firstName);
+    beekeeper.setLastName(lastName);
+    beekeeper.setCompanyName(companyName);
+
     profileService.changeInfo(beekeeper.getEmail(), firstName, lastName, companyName);
 
-    return "redirect:/logout";
+    session.setAttribute("beekeeper", beekeeper);
+
+    return "user-page";
+  }
+
+  @RequestMapping("/request")
+  public ModelAndView getRequest(@ModelAttribute Beekeeper user, ModelAndView mv,
+                                 HttpServletRequest request) {
+    mv.addObject("reset_user_email", user.getEmail());
+
+    WebUtils.setSessionAttribute(request, "reset_user_email", user.getEmail());
+    String resetUserEmail = (String) WebUtils.getSessionAttribute(request, "reset_user_email");
+    return mv;
   }
 
   @PostMapping("/changePassword")
@@ -103,8 +116,9 @@ public class ProfileController {
                                @RequestParam String confirmNewPassword, Model model,
                                HttpSession session) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    String beekeeperEmail = beekeeper.getEmail();
 
-    if(!profileService.userExists(beekeeper.getEmail(), oldPassword)) {
+    if(!profileService.userExists(beekeeperEmail, oldPassword)) {
       model.addAttribute("error", "Old password is incorrect.");
       return "user-page";
     }
@@ -114,7 +128,7 @@ public class ProfileController {
       return "user-page";
     }
 
-    profileService.changePassword(beekeeper.getEmail(), newPassword);
+    profileService.changePassword(beekeeperEmail, newPassword);
     return "user-page";
   }
 }

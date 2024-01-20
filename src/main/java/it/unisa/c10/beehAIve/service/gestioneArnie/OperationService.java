@@ -27,19 +27,25 @@ public class OperationService {
   }
 
   /*
-  * Modifica dell'attributo "uncompletedOperations" dell'arnia specificata dall'id a false
-  * (non c'è alcun intervento da svolgere su essa)
+  * Modifica dell'attributo "uncompletedOperations" dell'arnia specificata dall'id a true/false
+  * (in base alla presenza di interventi da svolgere su essa)
   * */
   private void controlOperationsOnHive(int hiveId) {
-    // Controllo sulla presenza di altri interventi non completati sull'arnia
+    // Calcolo del numero di interventi non completati sull'arnia
     int opNotComp = operationDAO.countByHiveIdAndOperationsNotCompleted(hiveId);
+
+    // Ottenimento dell'arnia di cui cambiare l'attributo
+    Hive hive = hiveDAO.findById(hiveId).get();
 
     // Modifica l'attributo se non ci sono altri interventi da completare
     if(opNotComp == 0){
-      Hive hive = hiveDAO.findById(hiveId).get();
       hive.setUncompletedOperations(false);
-      hiveDAO.save(hive);
     }
+    else if(opNotComp > 0) {
+      hive.setUncompletedOperations(true);
+    }
+
+    hiveDAO.save(hive);
   }
 
   // Creazione dell'oggetto Operation
@@ -116,17 +122,8 @@ public class OperationService {
 
     // Ottenimento di Operation se l'oggetto Optional non è null
     if(optionalOperation.isPresent()) {
-      Operation operation = optionalOperation.get();
-
-      // Ottenimento dell'arnia dal DB come Optional
-      Optional<Hive> optionalHive = hiveDAO.findById(operation.getHiveId());
       // Modifica dell'attributo "uncompletedOperations" dell'arnia se l'oggetto Optional non è null
-      if(optionalHive.isPresent()) {
-        Hive hive = optionalHive.get();
-        hive.setUncompletedOperations(true);
-        // Aggiornamento dell'arnia nel DB
-        hiveDAO.save(hive);
-      }
+      controlOperationsOnHive(optionalOperation.get().getHiveId());
     }
   }
 
@@ -136,21 +133,39 @@ public class OperationService {
     return operationDAO.findAllByOrderByOperationDateAsc();
   }
 
+  public List<Operation> getHiveUncompletedOperations (int hiveId) {
+    return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateAsc("Not completed", hiveId);
+  }
+
+  public List<Operation> getHiveCompletedOperations (int hiveId) {
+    return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateDesc("Completed", hiveId);
+  }
+
   public List<Operation> viewHiveOperations(int hiveId) {
     return operationDAO.findAllByHiveId(hiveId);
   }
 
+  public List<Operation> viewAllBeekeeperOperations (String beekeeperEmail) {
+    return operationDAO.findAllByBeekeeperEmail(beekeeperEmail);
+  }
 
-  // Impostare di un intervento come "effettuato"
-  public void markOperationAsComplete(int id) {
+  // Impostare di un intervento come "Completed" o "Not completed"
+  public void changeOperationStatus(int id) {
     // Ottenimento dell'intervento come oggetto Optional
     Optional<Operation> optionalOperation = operationDAO.findById(id);
 
     // Ottenimento di Operation se l'oggetto Optional restituito non è null
     if(optionalOperation.isPresent()) {
       Operation operation = optionalOperation.get();
-      // Modifica dello status
-      operation.setOperationStatus("Complete");
+      // Modifica dello status (viene invertito)
+      if(operation.getOperationStatus().equals("Completed")){
+        operation.setOperationStatus("Not completed");
+      }
+      else if(operation.getOperationStatus().equals("Not completed")) {
+        operation.setOperationStatus("Completed");
+      }
+
+
       // Aggiornamento nel DB
       operationDAO.save(operation);
       // Modifica dell'attributo "uncompletedOperations" dell'arnia (se serve)
@@ -182,20 +197,47 @@ public class OperationService {
 
   public String convertOperationToCalendar(List<Operation> operations) {
 
+    if (operations.isEmpty())
+      return "[]";
+
     String result="[";
 
     for (Operation op : operations) {
 
-      result += "{\"title\" : \"" + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
-
+      String hiveName = hiveDAO.findByIdSelectNickname(op.getHiveId());
+      result += "{\"title\" : \"(" + hiveName + ") " + op.getOperationName() +"\", \"start\" : \"" + op.getOperationDate().toString() + "\", \"allDay\": false},";
     }
 
     result+="]";
 
+    // Rimuove l'ultima virgola dalla stringa per evitare errori di parsing JSON
     StringBuilder sb = new StringBuilder(result);
     sb.deleteCharAt(result.length()-2);
     result = sb.toString();
 
+    return result;
+
+  }
+
+  public String convertOperationToString (Operation op) {
+
+    String date = op.getOperationDate().toString();
+    String[] dateTokens = date.split("T");
+
+    String result = "{ ";
+
+    result += "\"status\" : \"" + op.getOperationStatus() + "\", ";
+    result += "\"name\" : \"" + op.getOperationName() + "\", ";
+    result += "\"date\" : \"" + dateTokens[0] + "\", ";
+    result += "\"hour\" : \"" + dateTokens[1] + "\", ";
+    result += "\"type\" : \"" + op.getOperationType() + "\", ";
+    result += "\"notes\" : \"" + op.getNotes() + "\", ";
+    result += "\"hiveId\" : \"" + op.getHiveId() + "\", ";
+    result += "\"id\" : \"" + op.getId() + "\"";
+
+    result += "}";
+
+    System.out.println(result);
 
     return result;
 

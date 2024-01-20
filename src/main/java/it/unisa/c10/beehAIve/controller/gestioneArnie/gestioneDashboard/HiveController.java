@@ -1,7 +1,9 @@
 package it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneDashboard;
 
+import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
+import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,16 @@ import java.util.List;
 // Gestisce Creazione, Modifica, Cancellazione e Visualizzazione di una singola arnia (CRUD)
 
 @Controller
-@SessionAttributes("beekeeper")
 public class HiveController {
+  private final DashboardService dashboardService;
+
+  private final AnomalyService anomalyService;
+
   @Autowired
-  private DashboardService dashboardService;
+  public HiveController(DashboardService dashboardService, AnomalyService anomalyService) {
+    this.dashboardService = dashboardService;
+    this.anomalyService = anomalyService;
+  }
 
   private boolean isNicknameFormatInvalid(String nickname) {
     return !nickname.matches("^[a-zA-Z0-9\\s\\-_()’”]+$");
@@ -126,7 +134,7 @@ public class HiveController {
       return "hive/creation-hive";
     }
     if (isNicknameLenghtTooLong(nickname)) {
-      model.addAttribute("error","Nickname length too long.");
+      model.addAttribute("error","Nickname too long.");
       return "hive/creation-hive";
     }
 
@@ -153,6 +161,28 @@ public class HiveController {
 
     // Redirect alla dashboard aggiornata
     return "hive/dashboard";
+  }
+
+  @GetMapping("/state-hive")
+  public String showHive(@RequestParam String hiveId, Model model) {
+    // Controllo della validità dell'ID dell'arnia
+    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+      return "errors/error500";
+    }
+
+    // Ottenimento dell'arnia
+    int intHiveId = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(intHiveId);
+
+    // Prendiamo tutte le anomalie non risolte dell'arnia
+    List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
+
+    // Passaggio dell'arnia e delle anomalie
+    model.addAttribute("hive", hive);
+    model.addAttribute("anomalies", anomalies);
+
+    // Redirect alla pagina relativa all'arnia
+    return "hive/state-hive";
   }
 
   @GetMapping("/delete-hive")

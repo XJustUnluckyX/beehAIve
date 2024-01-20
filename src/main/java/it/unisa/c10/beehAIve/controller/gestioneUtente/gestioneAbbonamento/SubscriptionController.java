@@ -1,6 +1,7 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneAbbonamento;
 
 
+import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
@@ -19,12 +20,16 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
-@SessionAttributes("beekeeper")
 public class SubscriptionController {
-  @Autowired
+
   private SubscriptionService subscriptionService;
-  @Autowired
   private DashboardService dashboardService;
+
+  @Autowired
+  public SubscriptionController (SubscriptionService subscriptionService, DashboardService dashboardService) {
+    this.subscriptionService = subscriptionService;
+    this.dashboardService = dashboardService;
+  }
 
   // Per PayPal
   private String payerEmail;
@@ -34,7 +39,7 @@ public class SubscriptionController {
 
   public boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
     double beekeeperPaymentDue = subscriptionService.calculatePayment(subscriptionType);
-
+    // TODO: Capire quando l'apicoltore può cambiare il proprio abbonamento
     /* Si restituisce 'false' nei seguenti casi:
      * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
@@ -70,7 +75,6 @@ public class SubscriptionController {
   public String payment(@RequestParam String subscriptionType, HttpSession session, Model model) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     // Salvataggio dei valori da utilizzare successivamente nel metodo successPay()
-    this.payerEmail = beekeeper.getEmail();
     this.subscriptionType = subscriptionType;
     // Calcolo dell'importo in base alla tipologia di abbonamento
     double price = subscriptionService.calculatePayment(subscriptionType);
@@ -78,7 +82,8 @@ public class SubscriptionController {
     // Controllo sull'abbonamento corrente, così da impedire che l'apicoltore passi a un
     // abbonamento di taglia inferiore nel caso in cui il numero attuale delle sue arnie ne supera
     // il limite massimo
-    if(!canModifySubscription(payerEmail, subscriptionType)) {
+    if(!canModifySubscription(beekeeper.getEmail(), subscriptionType)) {
+      // TODO: Mostrare questo error con un popup
       model.addAttribute("error",
           "Your current hive count exceeds the maximum limit for this subscription.");
       return "user-page";
@@ -114,13 +119,19 @@ public class SubscriptionController {
 
   @GetMapping(PAYPAL_SUCCESS_URL)
   public String successPay(@RequestParam("paymentId") String paymentId,
-                           @RequestParam("PayerID") String payerId) {
+                           @RequestParam("PayerID") String payerId, HttpSession session) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     try {
       Payment payment = subscriptionService.executePayment(paymentId, payerId);
       if (payment.getState().equals("approved")) {
         // Modifica delle informazioni relative all'abbonamento dell'acquirente nel database
-        subscriptionService.modifySubscription(payerEmail, subscriptionType);
+        subscriptionService.modifySubscription(beekeeper.getEmail(), subscriptionType);
+
+        // Modifica del beekeeper nella sessione
+        beekeeper.setPaymentDue(subscriptionService.calculatePayment(subscriptionType));
+        session.setAttribute("beekeeper", beekeeper);
+
         return "payments/payment-successful";
       }
     } catch (PayPalRESTException e) {
