@@ -5,6 +5,7 @@ import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
+import it.unisa.c10.beehAIve.service.gestioneArnie.StatusService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,10 +26,14 @@ public class HiveController {
 
   private final AnomalyService anomalyService;
 
+  private final StatusService statusService;
+
   @Autowired
-  public HiveController(DashboardService dashboardService, AnomalyService anomalyService) {
+  public HiveController(DashboardService dashboardService, AnomalyService anomalyService,
+                        StatusService statusService) {
     this.dashboardService = dashboardService;
     this.anomalyService = anomalyService;
+    this.statusService = statusService;
   }
 
   private boolean isNicknameFormatInvalid(String nickname) {
@@ -100,10 +106,10 @@ public class HiveController {
 
     // Controllo del rispetto del limite del numero di arnie in base all'abbonamento
     if ((payment == 50 && hivesCount >= 15)
-      || (payment == 350 && hivesCount >= 100)
-      || (payment == 1050 && hivesCount >= 300)) {
+     || (payment == 350 && hivesCount >= 100)
+     || (payment == 1050 && hivesCount >= 300)) {
       model.addAttribute("error",
-        "You've reached the maximum number of hives!");
+          "You've reached the maximum number of hives!");
       // Redirect alla dashboard con errore
       return "hive/dashboard";
     }
@@ -126,18 +132,24 @@ public class HiveController {
                            HttpSession session, Model model) {
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/error500";
+      return "error/500";
     }
     int intHiveId = Integer.parseInt(hiveId);
+
+    // Controllo della validità del formato del nickname dell'arnia
+    if (isNicknameFormatInvalid(nickname)) {
+      model.addAttribute("error","Invalid nickname format.");
+      return "redirect:state-hive?hiveId="+ hiveId;
+    }
 
     // Controllo della lunghezza del nickname dell'arnia
     if (isNicknameLenghtTooShort(nickname)) {
       model.addAttribute("error","Insufficient nickname length.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
     if (isNicknameLenghtTooLong(nickname)) {
       model.addAttribute("error","Nickname too long.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Controllo della validità del formato del nickname dell'arnia
@@ -149,13 +161,13 @@ public class HiveController {
     // Controllo della validità del tipo d'arnia
     if(isHiveTypeInvalid(hiveType)) {
       model.addAttribute("error","Invalid hive type.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Controllo della validità della specie d'api dell'arnia
     if(isBeeSpeciesInvalid(beeSpecies)) {
       model.addAttribute("error","Invalid bee species.");
-      return "hive/creation-hive";
+      return "redirect:state-hive?hiveId="+ hiveId;
     }
 
     // Controllo sulla coerenza tra l'id dell'arnia da modificare e l'email del Beekeeper
@@ -174,14 +186,14 @@ public class HiveController {
     model.addAttribute("hives", hives);
 
     // Redirect alla dashboard aggiornata
-    return "hive/dashboard";
+    return "redirect:state-hive?hiveId="+ hiveId;
   }
 
   @GetMapping("/state-hive")
   public String showHive(@RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "errors/error500";
+      return "error/500";
     }
 
     // Ottenimento dell'arnia
@@ -197,8 +209,12 @@ public class HiveController {
     // Prendiamo tutte le anomalie non risolte dell'arnia
     List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
 
+    // Prediamo la data dell'ultima misurazione dell'arnia
+    LocalDate lastMeasure = LocalDate.from(statusService.getHiveLastMeasurement(intHiveId).getMeasurementDate());
+
     // Passaggio dell'arnia e delle anomalie
     model.addAttribute("hive", hive);
+    model.addAttribute("lastMeasure",lastMeasure);
     model.addAttribute("anomalies", anomalies);
 
     // Redirect alla pagina relativa all'arnia
@@ -209,7 +225,7 @@ public class HiveController {
   public String deleteHive(@RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/error500";
+      return "error/500";
     }
     int intHiveId = Integer.parseInt(hiveId);
 
