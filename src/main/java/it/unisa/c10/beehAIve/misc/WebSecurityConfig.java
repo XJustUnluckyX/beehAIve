@@ -48,7 +48,7 @@ public class WebSecurityConfig {
       .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
         .requestMatchers("/", "/css/**", "/js/**","/assets/**", "/Boostrap/**").permitAll()
         .requestMatchers("/about-us", "/sensor-spec", "/subscription-page","/contact-us", "/registration").permitAll()
-        .requestMatchers("/login-form").permitAll())
+        .requestMatchers("/login-form","/registration-form").permitAll())
       .authorizeHttpRequests((authorize) ->
         authorize.anyRequest().authenticated()
       ).formLogin(

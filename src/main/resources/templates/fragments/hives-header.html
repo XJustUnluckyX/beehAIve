@@ -240,6 +240,18 @@
                     <div class="row">
                         <div class="col d-flex align-items-center">
                             <!--                        Anomalies Log-->
+                            <ul>
+                                <div th:each="anomaly : ${anomalies}">
+                                    <div class="row align-items-center">
+                                        <div class="col-sm-6 ">
+                                            <li th:text="'[' + ${#strings.replace(anomaly.getDetectionDate(),'T',' ')} + '] - ' + ${anomaly.getAnomalyName()}"></li>
+                                        </div>
+                                        <div class="col-sm-4 w-50 text-end"> <!-- TODO aggiungere bottoni per gestire anomalie -->
+                                            <button> <h4>Show Info</h4> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
                         </div>
                     </div>
                 </div>

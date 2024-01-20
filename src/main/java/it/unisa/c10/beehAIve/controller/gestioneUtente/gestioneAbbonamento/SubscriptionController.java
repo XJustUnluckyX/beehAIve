@@ -21,10 +21,15 @@ import java.util.Locale;
 
 @Controller
 public class SubscriptionController {
-  @Autowired
+
   private SubscriptionService subscriptionService;
-  @Autowired
   private DashboardService dashboardService;
+
+  @Autowired
+  public SubscriptionController (SubscriptionService subscriptionService, DashboardService dashboardService) {
+    this.subscriptionService = subscriptionService;
+    this.dashboardService = dashboardService;
+  }
 
   // Per PayPal
   private String payerEmail;

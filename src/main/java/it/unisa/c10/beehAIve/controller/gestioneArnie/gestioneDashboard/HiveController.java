@@ -1,7 +1,9 @@
 package it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneDashboard;
 
+import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
+import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,12 @@ import java.util.List;
 public class HiveController {
   private final DashboardService dashboardService;
 
-  public HiveController(DashboardService dashboardService) {
+  private final AnomalyService anomalyService;
+
+  @Autowired
+  public HiveController(DashboardService dashboardService, AnomalyService anomalyService) {
     this.dashboardService = dashboardService;
+    this.anomalyService = anomalyService;
   }
 
   private boolean isNicknameFormatInvalid(String nickname) {
@@ -168,8 +174,12 @@ public class HiveController {
     int intHiveId = Integer.parseInt(hiveId);
     Hive hive = dashboardService.getHive(intHiveId);
 
-    // Passaggio dell'arnia
+    // Prendiamo tutte le anomalie non risolte dell'arnia
+    List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
+
+    // Passaggio dell'arnia e delle anomalie
     model.addAttribute("hive", hive);
+    model.addAttribute("anomalies", anomalies);
 
     // Redirect alla pagina relativa all'arnia
     return "hive/state-hive";
