@@ -126,6 +126,12 @@ public class AccessController {
       return "registration-page";
     }
 
+    // Controllo sulla lunghezza massima della password
+    if (password.length() > 100) {
+      model.addAttribute("error", "Password too long.");
+      return "registration-page";
+    }
+
     // Controllo che la password sia uguale alla conferma
     if (!(password.equals(confirmPassword))) {
       model.addAttribute("error", "Passwords don't match.");

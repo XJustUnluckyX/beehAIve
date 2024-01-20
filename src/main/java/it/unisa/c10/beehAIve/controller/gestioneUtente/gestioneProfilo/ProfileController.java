@@ -102,17 +102,35 @@ public class ProfileController {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
 
+    // Verifica dell'identità dell'apicoltore
     if(!profileService.userExists(beekeeperEmail, oldPassword)) {
       model.addAttribute("error", "Old password is incorrect.");
       return "user-page";
     }
 
+    // Controllo del formato della password
+    if (!profileService.regexPassword(newPassword)) {
+      model.addAttribute("error", "The password must be at least 8 " +
+        "characters long and contain at least one uppercase letter, one lowercase letter, one " +
+        "digit, and one special character ( @.$!%*?& ).");
+      return "user-page";
+    }
+
+    // Controllo della lunghezza massima della password
+    if (newPassword.length() > 100) {
+      model.addAttribute("error", "Password too long.");
+      return "user-page";
+    }
+
+    // Controllo della corrispondenza tra le due password
     if(!(newPassword.equals(confirmNewPassword))) {
       model.addAttribute("error", "The new passwords don't match.");
       return "user-page";
     }
 
+    // Cambiamento della password nel database
     profileService.changePassword(beekeeperEmail, newPassword);
+
     return "user-page";
   }
 }
