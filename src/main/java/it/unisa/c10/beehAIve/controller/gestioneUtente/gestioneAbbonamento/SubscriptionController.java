@@ -5,6 +5,7 @@ import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -60,20 +61,32 @@ public class SubscriptionController {
     return true;
   }
 
-  public void cancelExpiredSubscription(String beekeeperEmail) {
+  public void cancelBeekeeperExpiredSubscription(String beekeeperEmail) {
     Beekeeper beekeeper = subscriptionService.getBeekeeper(beekeeperEmail);
 
     // Controllo sull'esistenza di un abbonamento attivo ed eventuale scadenza
-    if(beekeeper.isSubscribed() && subscriptionService.isSubscriptionExpired(beekeeperEmail)) {
+    if (beekeeper.isSubscribed() && subscriptionService.isSubscriptionExpired(beekeeperEmail)) {
       subscriptionService.cancelSubscription(beekeeperEmail); // Cancellazione dell'abbonamento
     }
+  }
+
+  @Scheduled(cron = "0 0 0 * * *")
+  public void cancelAllExpiredSubscription() {
+    subscriptionService.cancelAllExpiredSubscriptions();
   }
 
   //--------------------------------------Metodi di PayPal------------------------------------------
 
   @GetMapping("/pay")
   public String payment(@RequestParam String subscriptionType, HttpSession session, Model model) {
+    if (!subscriptionType.equals("small") &&
+        !subscriptionType.equals("medium") &&
+        !subscriptionType.equals("large")) {
+      return "error/500";
+    }
+
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
     // Salvataggio dei valori da utilizzare successivamente nel metodo successPay()
     this.subscriptionType = subscriptionType;
     // Calcolo dell'importo in base alla tipologia di abbonamento
@@ -82,7 +95,7 @@ public class SubscriptionController {
     // Controllo sull'abbonamento corrente, così da impedire che l'apicoltore passi a un
     // abbonamento di taglia inferiore nel caso in cui il numero attuale delle sue arnie ne supera
     // il limite massimo
-    if(!canModifySubscription(beekeeper.getEmail(), subscriptionType)) {
+    if (!canModifySubscription(beekeeper.getEmail(), subscriptionType)) {
       // TODO: Mostrare questo error con un popup
       model.addAttribute("error",
           "Your current hive count exceeds the maximum limit for this subscription.");
@@ -136,7 +149,7 @@ public class SubscriptionController {
       }
     } catch (PayPalRESTException e) {
       e.printStackTrace();
-      return "errors/error500";
+      return "error/500";
     }
     return "index";
   }

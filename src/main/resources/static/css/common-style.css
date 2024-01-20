@@ -62,3 +62,9 @@ body{
     background: linear-gradient(#000000, #d3ba13fc , #000000);
     border-radius: 10px;
 }
+
+.custom-error-model {
+    color: red;
+    font-weight: bold;
+    font-size: 15px;
+}

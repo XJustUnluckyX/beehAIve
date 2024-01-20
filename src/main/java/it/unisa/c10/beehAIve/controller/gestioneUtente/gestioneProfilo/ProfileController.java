@@ -1,51 +1,35 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
-import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 @Controller
 public class ProfileController {
   final private ProfileService profileService;
-  final private  AccessController accessController;
 
   @Autowired
-  public ProfileController(ProfileService profileService, AccessController accessController) {
+  public ProfileController(ProfileService profileService) {
     this.profileService = profileService;
-    this.accessController = accessController;
   }
 
   @PostMapping("/changeInfo")
   public String changeInfo(@RequestParam String firstName, @RequestParam String lastName,
                            @RequestParam String companyName, HttpSession session, Model model) {
+
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sul formato del nome
-    if (!accessController.regexFirstName(firstName)) {
-      model.addAttribute("error", "First Name cannot contain special " +
-          "symbols except for ' and - .");
+    if (!profileService.regexFirstName(firstName)) {
+      model.addAttribute("error", "First Name must start with capital " +
+          "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
 
@@ -59,9 +43,9 @@ public class ProfileController {
     }
 
     // Controllo sul formato del cognome
-    if (!accessController.regexLastName(lastName)) {
-      model.addAttribute("error", "Last name cannot contain special " +
-          "symbols except for ' and - .");
+    if (!profileService.regexLastName(lastName)) {
+      model.addAttribute("error", "Last Name must start with capital " +
+          "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
 
@@ -75,9 +59,9 @@ public class ProfileController {
     }
 
     // Controllo sul formato del nome della compagnia
-    if (!accessController.regexCompanyName(companyName)) {
-      model.addAttribute("error", "Company name cannot contain special " +
-          "symbols except for ' and - .");
+    if (!profileService.regexCompanyName(companyName)) {
+      model.addAttribute("error", "Company Name must start with capital " +
+          "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
 
@@ -118,17 +102,35 @@ public class ProfileController {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
 
+    // Verifica dell'identità dell'apicoltore
     if(!profileService.userExists(beekeeperEmail, oldPassword)) {
       model.addAttribute("error", "Old password is incorrect.");
       return "user-page";
     }
 
+    // Controllo del formato della password
+    if (!profileService.regexPassword(newPassword)) {
+      model.addAttribute("error", "The password must be at least 8 " +
+        "characters long and contain at least one uppercase letter, one lowercase letter, one " +
+        "digit, and one special character ( @.$!%*?& ).");
+      return "user-page";
+    }
+
+    // Controllo della lunghezza massima della password
+    if (newPassword.length() > 100) {
+      model.addAttribute("error", "Password too long.");
+      return "user-page";
+    }
+
+    // Controllo della corrispondenza tra le due password
     if(!(newPassword.equals(confirmNewPassword))) {
       model.addAttribute("error", "The new passwords don't match.");
       return "user-page";
     }
 
+    // Cambiamento della password nel database
     profileService.changePassword(beekeeperEmail, newPassword);
+
     return "user-page";
   }
 }

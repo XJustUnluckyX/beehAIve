@@ -13,7 +13,8 @@
     <title>Title</title>
 </head>
 <body>
-
+<input type="hidden" id="hiveId" th:value="${hive.getId()}">
+<input type="hidden" id="hiveNickname" th:value="${hive.getNickname()}">
 <div th:insert="~{fragments/hives-header :: hive_navbar}"></div>
 <div th:insert="~{fragments/hives-header :: offcanvas}"></div>
 <div th:insert="~{fragments/hives-header :: modify_hive}"></div>
@@ -33,7 +34,8 @@
                             <h2>Queen Presence:</h2>
                         </div>
                         <div class="col-md-5 col">
-                            <h4> Present/Not Present </h4>
+                            <h4 th:if="${hiveParameters.isQueenPresent() == true}" style="color: limegreen; font-weight: bold">Present</h4>
+                            <h4 th:if="${hiveParameters.isQueenPresent() == false}" style="color: red; font-weight: bold">Not Present</h4>
                         </div>
                     </div>
                     <div class="row align-items-center text-center">
@@ -41,7 +43,7 @@
                             <h2>Hive Temperature:</h2>
                         </div>
                         <div class="col-md-4">
-                            <h4> 666° </h4>
+                            <h4 th:text="${hiveParameters.getTemperature()} + '°C'" style="font-weight: bold"></h4>
                         </div>
                     </div>
                     <div class="row align-items-center text-center">
@@ -49,7 +51,7 @@
                             <h2>Ambient Temperature: </h2>
                         </div>
                         <div class="col-md-4 ">
-                            <h4> 666° </h4> <!--Aggiungere di seguito, nello stesso div la temperatura dell'ambiente-->
+                            <h4 th:text="${hiveParameters.getAmbientTemperature() + '°C'}" style="font-weight: bold"></h4> <!--Aggiungere di seguito, nello stesso div la temperatura dell'ambiente-->
                         </div>
                     </div>
                 </div>
@@ -61,7 +63,7 @@
                             <h2>Current Weight:</h2>
                         </div>
                         <div class="col-md-4 col">
-                            <h4> 666kg </h4>
+                            <h4 th:text="${hiveParameters.getWeight()} + 'kg'" style="font-weight: bold"></h4>
                         </div>
                     </div>
                     <div class="row align-items-center text-center">
@@ -69,15 +71,15 @@
                             <h2>Hive Humidity:</h2>
                         </div>
                         <div class="col-md-4">
-                            <h4> 666° </h4>
+                            <h4 th:text="${hiveParameters.getHumidity()} + '%'" style="font-weight: bold"></h4>
                         </div>
                     </div>
                     <div class="row align-items-center text-center">
                         <div class="col-md-8">
-                            <h2>Ambient Temperature: </h2>
+                            <h2>Ambient Humidity: </h2>
                         </div>
                         <div class="col-md-4">
-                            <h4> 666° </h4> <!--Aggiungere di seguito, nello stesso div la temperatura dell'ambiente-->
+                            <h4 th:text="${hiveParameters.getAmbientHumidity()} + '%'" style="font-weight: bold"></h4>
                         </div>
                     </div>
                 </div>
@@ -85,7 +87,7 @@
                 <!--                Pulsante per la stampa delle info-->
                 <div class="row align-items-center">
                     <div class="col my-2 d-flex justify-content-center">
-                        <a class="custom-button" href="/beehAIve_war/create_report" id="generateReport"> Generate Report </a>
+                        <a class="custom-button" th:href="@{/create_report(hiveId=${hive.getId()}, hiveNickname=${hive.getNickname()})}" id="generateReport"> Generate Report </a>
                     </div>
                 </div>
 
@@ -112,7 +114,7 @@
         $.ajax({
             type: "GET",
             url: "produce_graph",
-            data: {"hiveId": 1}, //TODO change id with current Hive
+            data: {"hiveId": $("#hiveId").val()},
             success: function (resp) {
 
                 result = JSON.parse(resp)
@@ -126,7 +128,7 @@
 
                 chart = anychart.line();
                 chart.animation(true);
-                chart.title("Sensors Measurements");
+                chart.title("Measurements of " + $("#hiveNickname").val());
                 chart.crosshair().enabled(true).yLabel(false).yStroke(null);
 
                 let firstSeries = chart.line(weightData);
@@ -172,8 +174,7 @@
         })
 
         $("#generateReport").click(function() {
-            //TODO change HiveName
-            let filename = "HiveName_Sensor_Measurements_" + result[0][0] + "_" + result[result.length -1][0]
+            let filename = $("#hiveNickname").val() + "_Sensor_Measurements_" + result[0][0] + "_" + result[result.length -1][0]
             chart.saveAsPdf({"filename": filename});
         })
     })
