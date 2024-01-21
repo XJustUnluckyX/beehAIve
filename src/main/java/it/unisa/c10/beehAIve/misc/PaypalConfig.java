@@ -12,17 +12,9 @@ import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
 
 /*
-SANDBOX ACCOUNTS (Payer & Seller)
-
-Payer
------
+SANDBOX ACCOUNT
 Email: sb-8duro29328269@personal.example.com
 Password: Hi*bW4MT
-
-Seller
-------
-Email: sb-bbrm729165879@business.example.com
-Password: 6c7t@Bd+
 */
 
 @Configuration

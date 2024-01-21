@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +40,7 @@ public class SubscriptionController {
   public static final String PAYPAL_CANCEL_URL = "pay/cancel";
 
   public boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
-    double beekeeperPaymentDue = subscriptionService.calculatePayment(subscriptionType);
+    double beekeeperPaymentDue = subscriptionService.getBeekeeper(beekeeperEmail).getPaymentDue();
     /* Si restituisce 'false' nei seguenti casi:
      * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
@@ -77,7 +78,7 @@ public class SubscriptionController {
   //--------------------------------------Metodi di PayPal------------------------------------------
 
   @GetMapping("/pay")
-  public String payment(@RequestParam String subscriptionType, HttpSession session, Model model) {
+  public String payment(@RequestParam String subscriptionType, HttpSession session, RedirectAttributes redirectAttributes) {
     if (!subscriptionType.equals("small") &&
         !subscriptionType.equals("medium") &&
         !subscriptionType.equals("large")) {
@@ -95,10 +96,9 @@ public class SubscriptionController {
     // abbonamento di taglia inferiore nel caso in cui il numero attuale delle sue arnie ne supera
     // il limite massimo
     if (!canModifySubscription(beekeeper.getEmail(), subscriptionType)) {
-      // TODO: Mostrare questo error con un popup
-      model.addAttribute("error",
+      redirectAttributes.addFlashAttribute("error",
           "Your current hive count exceeds the maximum limit for this subscription.");
-      return "user-page";
+      return "redirect:/user-page";
     }
 
     // Imposta il separatore decimale come punto invece che virgola (necessario per PayPal)
