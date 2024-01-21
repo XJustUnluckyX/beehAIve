@@ -64,6 +64,7 @@ public class SubscriptionController {
 
   @GetMapping("/pay")
   public String payment(@RequestParam String subscriptionType, HttpSession session, RedirectAttributes redirectAttributes) {
+    // Controllo sulla validità del piano di abbonamento
     if (!subscriptionType.equals("small") &&
         !subscriptionType.equals("medium") &&
         !subscriptionType.equals("large")) {
@@ -71,6 +72,13 @@ public class SubscriptionController {
     }
 
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Prevenzione di un secondo pagamento per un piano di abbonamento già attivo
+    if ((subscriptionType.equals("small") && beekeeper.getPaymentDue() == 49.99) ||
+        (subscriptionType.equals("medium") && beekeeper.getPaymentDue() == 319.99) ||
+        (subscriptionType.equals("large") && beekeeper.getPaymentDue() == 969.99) ) {
+      throw new RuntimeException();
+    }
 
     // Salvataggio dei valori da utilizzare successivamente nel metodo successPay()
     this.subscriptionType = subscriptionType;

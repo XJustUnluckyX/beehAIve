@@ -104,7 +104,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" th:for="hiveName">Hive Name:</h5>
-                                                <input type="text" th:id="hiveName" name="nickname" th:value="${hive.getNickname()}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" th:id="hiveName" name="nickname" th:value="${hive.getNickname()}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +120,6 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <select class="select form-control-lg hive_selector" name="hiveType" required>
-                                                <option disabled selected>Choose option</option>
                                                 <option value="Langstroth" th:selected="${hive.getHiveType() == 'Langstroth'}">Langstroth</option>
                                                 <option value="Warre" th:selected="${hive.getHiveType() == 'Warre'}">Warre</option>
                                                 <option value="Top-Bar" th:selected="${hive.getHiveType() == 'Top-Bar'}">Top-Bar</option>
@@ -139,22 +138,22 @@
                                             <h5 class="mb-2 pb-1">Bee Species: </h5>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis millifera'}" th:id="Apismellifera"
-                                                       value="Apis millifera" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                       value="Apis millifera" style="border: 1px solid black;background-color: #FFF0B3;" required>
                                                 <label class="form-check-label" th:for="Apismellifera">Apis mellifera (Api miele)</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis cerana'}" th:id="Apiscerana"
-                                                       value="Apis cerana" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                       value="Apis cerana" style="border: 1px solid black;background-color: #FFF0B3;" required>
                                                 <label class="form-check-label" th:for="Apiscerana">Apis cerana (Api asiatiche)</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis dorsata'}" th:id="Apisdorsata"
-                                                       value="Apis dorsata" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                       value="Apis dorsata" style="border: 1px solid black;background-color: #FFF0B3;" required>
                                                 <label class="form-check-label" th:for="Apisdorsata">Apis dorsata (Api giganti)</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="beeSpecies" th:checked="${hive.getBeeSpecies() == 'Apis florea'}" th:id="Apisfiorea"
-                                                       value="Apis florea" style="border: 1px solid black;background-color: #FFF0B3;"/>
+                                                       value="Apis florea" style="border: 1px solid black;background-color: #FFF0B3;" required>
                                                 <label class="form-check-label" th:for="Apisfiorea">Apis florea (Api nane)</label>
                                             </div>
                                         </div>

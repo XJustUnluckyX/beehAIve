@@ -65,7 +65,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationName">Operation Name:</h5>
-                                                <input type="text" id="operationName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="operationName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -74,8 +74,8 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="operationDate">Operation Date:</h5>
-                                                <input class="w-100 mt-2" type="date" id="operationDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                                <input class="w-100 mt-2" type="time" id="operationHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="date" id="operationDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;" required>
+                                                <input class="w-100 mt-2" type="time" id="operationHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -83,8 +83,7 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <h5 class="form-label" for="operationType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector" name="operationType">
-                                                <option value="1" disabled selected>Choose option</option>
+                                            <select class="select form-control-lg hive_selector" name="operationType" required>
                                                 <option value="Medical Inspection">Medical Inspection</option>
                                                 <option value="Medical Treatment">Medical Treatment</option>
                                                 <option value="Check Population">Check Population</option>
@@ -100,7 +99,7 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <h5 for="noteOperation">Note:</h5>
-                                            <textarea class="form-control" id="noteOperation" name="noteOperation" rows="4"style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
+                                            <textarea class="form-control" id="noteOperation" name="noteOperation" rows="4" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"> </textarea>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -201,7 +200,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyName">Operation Name:</h5>
-                                                <input type="text" id="modifyName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="modifyName" name="operationName" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -210,8 +209,8 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="modifyDate">Operation Date:</h5>
-                                                <input class="w-100 mt-2" type="date" value="2002-04-04" id="modifyDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
-                                                <input class="w-100 mt-2" type="time" value="10:00" id="modifyHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;">
+                                                <input class="w-100 mt-2" type="date" value="2002-04-04" id="modifyDate" name="operationDate" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;" required>
+                                                <input class="w-100 mt-2" type="time" value="10:00" id="modifyHour" name="operationHour" step="60" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; padding-left: 10px;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -219,8 +218,7 @@
                                     <div class="row">
                                         <div class="col-12 mb-4">
                                             <h5 class="form-label" for="modifyType">Operation Type:</h5>
-                                            <select class="select form-control-lg hive_selector" name="operationType" id="modifyType">
-                                                <option value="1" disabled selected>Choose option</option>
+                                            <select class="select form-control-lg hive_selector" name="operationType" id="modifyType" required>
                                                 <option value="Medical Inspection">Medical Inspection</option>
                                                 <option value="Medical Treatment">Medical Treatment</option>
                                                 <option value="Check Population">Check Population</option>
