@@ -37,20 +37,7 @@ public class AnomalyController {
     this.anomalyService = anomalyService;
   }
 
-  // Bisogna fare il controllo che l'anomalia sia effettivamente di un'arnia dell'apicoltore
-  private boolean checkHiveOwnership (HttpSession session, int anomalyId) {
 
-    Anomaly anomaly = anomalyService.getAnomaly(anomalyId);
-
-    System.out.println("anomaly:" + anomaly.getBeekeeperEmail());
-
-    String beekeeperEmail = ((Beekeeper) session.getAttribute("beekeeper")).getEmail();
-
-    System.out.println("session:" + beekeeperEmail);
-
-    return anomaly.getBeekeeperEmail().equals(beekeeperEmail);
-
-  }
 
   // Cancella un'anomalia
   @GetMapping("/delete_anomaly")
@@ -76,6 +63,18 @@ public class AnomalyController {
     anomalyService.resolveAnomaly(anomalyId);
 
     return "success";
+  }
+
+
+  // Bisogna fare il controllo che l'anomalia sia effettivamente di un'arnia dell'apicoltore
+  private boolean checkHiveOwnership (HttpSession session, int anomalyId) {
+
+    Anomaly anomaly = anomalyService.getAnomaly(anomalyId);
+
+    String beekeeperEmail = ((Beekeeper) session.getAttribute("beekeeper")).getEmail();
+
+    return anomaly.getBeekeeperEmail().equals(beekeeperEmail);
+
   }
 
 

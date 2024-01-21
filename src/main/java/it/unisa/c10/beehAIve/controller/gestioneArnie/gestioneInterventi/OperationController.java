@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +33,257 @@ public class OperationController {
   public OperationController(OperationService operationService, DashboardService dashboardService) {
     this.operationService = operationService;
     this.dashboardService = dashboardService;
+  }
+
+
+  // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
+  @GetMapping("/show_operations")
+  public String redirectToOperationPanel(@RequestParam String hiveId, Model model, HttpSession session) {
+    // Controllo sull'id dell'arnia
+    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
+      throw new RuntimeException();
+    }
+
+    int hiveId1 = Integer.parseInt(hiveId);
+
+    // Ricavo dell'arnia dall'id ottenuto
+    Hive hive = dashboardService.getHive(hiveId1);
+    model.addAttribute("hive", hive);
+
+    // Aggiungiamo le operazioni da svolgere
+    List<Operation> toComplete = operationService.getHiveUncompletedOperations(hiveId1);
+    model.addAttribute("toComplete", toComplete);
+
+    // Aggiungiamo le operazioni passate
+    List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
+    model.addAttribute("completed", completed);
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    return "hive/operations-hive";
+  }
+
+  // Pianificazione Intervento
+  @GetMapping("/add_operation-form")
+  public String planningOperation(@RequestParam String operationName, @RequestParam String operationDate,
+                                  @RequestParam String operationHour, @RequestParam String operationType,
+                                  @RequestParam String noteOperation, @RequestParam String hiveId,
+                                  HttpSession session, RedirectAttributes redirectAttributes) {
+
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
+      throw new RuntimeException();
+    }
+
+    int hiveId1 = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(hiveId1);
+
+    // Controllo sulla lunghezza del nome dell'intervento
+    if(operationName.length() < 2) {
+      redirectAttributes.addFlashAttribute("error", "Operation name too short.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    if(operationName.length() > 70) {
+      redirectAttributes.addFlashAttribute("error", "Operation name too long.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    // Controllo sul formato del nome dell'intervento
+    if(isFormatNameInvalid(operationName)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation name.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    // Controllo sulla lunghezza e sul formato delle note dell'intervento
+    if(noteOperation.length() > 300) {
+      redirectAttributes.addFlashAttribute("error", "Operation notes too long.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    if(isFormatNotesInvalid(noteOperation)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation notes.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    // Conversione sul formato e controllo sulla correttezza della data dell'intervento
+    LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
+    if(isDateInvalid(operationDate1)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation date.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    // Controllo sul formato del tipo dell'intervento
+    if(isFormatTypeInvalid(operationType)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation type.");
+      return "redirect:/show_operations?hiveId=" + hiveId;
+    }
+
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    // Salvataggio nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
+    operationService.planningOperation(operationName, operationType, "Not completed", operationDate1,
+          noteOperation, hiveId1, hive.getBeekeeperEmail());
+
+    return "redirect:/show_operations?hiveId=" + hiveId;
+  }
+
+  // Modifica Intervento
+  @GetMapping("/modify-operation-form")
+  public String modifyOperation(@RequestParam String operationIdModify, @RequestParam String operationName,
+                                @RequestParam String operationType, @RequestParam String operationStatus,
+                                @RequestParam String operationDate, @RequestParam String operationHour,
+                                @RequestParam String operationNotes, @RequestParam String hiveIdModify,
+                                HttpSession session, RedirectAttributes redirectAttributes) {
+
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    if (!hiveIdModify.matches("^\\d+$") || Integer.parseInt(hiveIdModify) <= 0) {
+      throw new RuntimeException();
+    }
+
+    int hiveId1 = Integer.parseInt(hiveIdModify);
+
+    // Controllo sull'id dell'intervento
+    if (!operationIdModify.matches("^\\d+$") || Integer.parseInt(operationIdModify) <= 0) {
+      throw new RuntimeException();
+    }
+
+    int operationId1 = Integer.parseInt(operationIdModify);
+
+    // Controllo sulla lunghezza e sul formato del nome dell'intervento
+    if(operationName.length() < 2) {
+      redirectAttributes.addFlashAttribute("error", "Operation name too short.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+    if(operationName.length() > 70) {
+      redirectAttributes.addFlashAttribute("error", "Operation name too long.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+    if(isFormatNameInvalid(operationName)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation name.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+
+    // Controllo sulla lunghezza e sul formato delle note dell'intervento
+    if(operationNotes.length() > 300) {
+      redirectAttributes.addFlashAttribute("error", "Operation notes too long.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+    if(isFormatNotesInvalid(operationNotes)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation notes.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+
+    // Conversione sul formato e controllo sulla correttezza della data dell'intervento
+    LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
+    if(isDateInvalid(operationDate1)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation date.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+
+    // Controllo sul formato del tipo dell'intervento
+    if(isFormatTypeInvalid(operationType)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation type.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+
+    // Controllo sullo status
+    if(isFormatStatusInvalid(operationStatus)) {
+      redirectAttributes.addFlashAttribute("error", "Invalid operation status.");
+      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    }
+
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
+    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    // Aggiornamento nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
+    operationService.modifyScheduledOperation(operationId1, operationName, operationType, operationStatus, operationDate1, operationNotes,
+      hiveId1, beekeeper.getEmail());
+
+    return "redirect:/show_operations?hiveId=" + hiveIdModify;
+  }
+
+  // Annullamento Intervento
+  @GetMapping("/cancel-operation-form")
+  public String cancelOperation(@RequestParam String operationIdCancel, @RequestParam String hiveIdCancel, HttpSession session) {
+
+    // Controllo sull'id dell'intervento
+    if (!operationIdCancel.matches("^\\d+$") || Integer.parseInt(operationIdCancel) <= 0) {
+      throw new RuntimeException();
+    }
+    int operationId1 = Integer.parseInt(operationIdCancel);
+
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    if (!hiveIdCancel.matches("^\\d+$") || Integer.parseInt(hiveIdCancel) <= 0) {
+      throw new RuntimeException();
+    }
+    int hiveId1 = Integer.parseInt(hiveIdCancel);
+
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
+    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    // Eliminazione nel DB dell'intervento usando il service (se il controllo è andato a buon fine)
+    operationService.cancelScheduledOperation(operationId1);
+
+    return "redirect:/show_operations?hiveId=" + hiveIdCancel;
+  }
+
+
+  // Impostazione Intervento come completato
+  @GetMapping("/change-operation-status-form")
+  public String changeOperationStatus(@RequestParam String operationIdStatus, @RequestParam String hiveIdStatus, HttpSession session, Model model) {
+    // Controllo sull'id dell'intervento
+    if (!operationIdStatus.matches("^\\d+$") && Integer.parseInt(operationIdStatus) <= 0) {
+      throw new RuntimeException();
+    }
+    int operationId1 = Integer.parseInt(operationIdStatus);
+
+    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
+    if (!hiveIdStatus.matches("^\\d+$") && Integer.parseInt(hiveIdStatus) <= 0) {
+      throw new RuntimeException();
+    }
+    int hiveId1 = Integer.parseInt(hiveIdStatus);
+
+    Hive hive = dashboardService.getHive(hiveId1);
+    model.addAttribute("hive", hive);
+
+    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
+    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    // Cambio lo status dell'intervento
+    operationService.changeOperationStatus(operationId1);
+
+    return "redirect:/show_operations?hiveId=" + hiveIdStatus;
   }
 
   // Regex sul nome dell'intervento
@@ -94,306 +346,5 @@ public class OperationController {
     return !operation.getBeekeeperEmail().equals(beekeeperEmail);
   }
 
-  // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
-  @GetMapping("/show_operations")
-  public String redirectToOperationPanel(@RequestParam String hiveId, Model model, HttpSession session) {
-    // Controllo sull'id dell'arnia
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
 
-    // Ricavo dell'arnia dall'id ottenuto
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    // Aggiungiamo le operazioni da svolgere
-    List<Operation> toComplete = operationService.getHiveUncompletedOperations(hiveId1);
-    model.addAttribute("toComplete", toComplete);
-
-    // Aggiungiamo le operazioni passate
-    List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
-    model.addAttribute("completed", completed);
-
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    return "hive/operations-hive";
-  }
-
-  // Visualizzazione del form
-  @GetMapping("/operations-hive")
-  public String showPlanningOperationForm(Model model){
-    return "hive/operations-hive";
-  }
-
-  // Pianificazione Intervento
-  @GetMapping("/add_operation-form")
-  public String planningOperation(@RequestParam String operationName, @RequestParam String operationDate,
-                                  @RequestParam String operationHour, @RequestParam String operationType,
-                                  @RequestParam String noteOperation, @RequestParam String hiveId,
-                                  Model model, HttpSession session) {
-
-    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    // Controllo sulla lunghezza del nome dell'intervento
-    if(operationName.length() < 2) {
-      model.addAttribute("error", "Operation name too short.");
-      return "hive/operations-hive";
-    }
-    if(operationName.length() > 70) {
-      model.addAttribute("error", "Operation name too long.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sul formato del nome dell'intervento
-    if(isFormatNameInvalid(operationName)) {
-      model.addAttribute("error", "Invalid operation name.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sulla lunghezza e sul formato delle note dell'intervento
-    if(noteOperation.length() > 300) {
-      model.addAttribute("error", "Operation notes too long.");
-      return "hive/operations-hive";
-    }
-    if(isFormatNotesInvalid(noteOperation)) {
-      model.addAttribute("error", "Invalid operation notes.");
-      return "hive/operations-hive";
-    }
-
-    // Conversione sul formato e controllo sulla correttezza della data dell'intervento
-    LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
-    if(isDateInvalid(operationDate1)) {
-      model.addAttribute("error", "Invalid operation date.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sul formato del tipo dell'intervento
-    if(isFormatTypeInvalid(operationType)) {
-      model.addAttribute("error", "Invalid operation type.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    // Aggiunta delle operazioni da svolgere
-    List<Operation> toComplete = operationService.getHiveUncompletedOperations(hiveId1);
-    model.addAttribute("toComplete", toComplete);
-
-    // Aggiunta delle operazioni passate
-    List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
-    model.addAttribute("completed", completed);
-
-    // Salvataggio nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
-    operationService.planningOperation(operationName, operationType, "Not completed", operationDate1,
-          noteOperation, hiveId1, hive.getBeekeeperEmail());
-
-    return "redirect:/show_operations?hiveId=" + hiveId;
-  }
-
-  // Modifica Intervento
-  @GetMapping("/modify-operation-form")
-  public String modifyOperation(@RequestParam String operationId, @RequestParam String operationName,
-                                @RequestParam String operationType, @RequestParam String operationStatus,
-                                @RequestParam String operationDate, @RequestParam String operationHour,
-                                @RequestParam String operationNotes, @RequestParam String hiveId,
-                                Model model, HttpSession session) {
-    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    // Controllo sull'id dell'intervento
-    int operationId1;
-    if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
-      return "error/500";
-    }
-    operationId1 = Integer.parseInt(hiveId);
-
-    // Controllo sulla lunghezza e sul formato del nome dell'intervento
-    if(operationName.length() < 2) {
-      model.addAttribute("error", "Operation name too short.");
-      return "hive/operations-hive";
-    }
-    if(operationName.length() > 70) {
-      model.addAttribute("error", "Operation name too long.");
-      return "hive/operations-hive";
-    }
-    if(isFormatNameInvalid(operationName)) {
-      model.addAttribute("error", "Invalid operation name.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sulla lunghezza e sul formato delle note dell'intervento
-    if(operationNotes.length() > 300) {
-      model.addAttribute("error", "Operation notes too long.");
-      return "hive/operations-hive";
-    }
-    if(isFormatNotesInvalid(operationNotes)) {
-      model.addAttribute("error", "Invalid operation notes.");
-      return "hive/operations-hive";
-    }
-
-    // Conversione sul formato e controllo sulla correttezza della data dell'intervento
-    LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
-    if(isDateInvalid(operationDate1)) {
-      model.addAttribute("error", "Invalid operation date.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sul formato del tipo dell'intervento
-    if(isFormatTypeInvalid(operationType)) {
-      model.addAttribute("error", "Invalid operation type.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sullo status
-    if(isFormatStatusInvalid(operationStatus)) {
-      model.addAttribute("error", "Invalid operation status.");
-      return "hive/operations-hive";
-    }
-
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
-    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    // Aggiornamento nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
-    operationService.modifyScheduledOperation(operationId1, operationName, operationType, operationStatus, operationDate1, operationNotes,
-      hiveId1, beekeeper.getEmail());
-
-    return "hive/operations-hive";
-  }
-
-  // Annullamento Intervento
-  @GetMapping("/cancel-operation-form")
-  public String cancelOperation(@RequestParam String operationId, @RequestParam String hiveId, HttpSession session, Model model) {
-    // Controllo sull'id dell'intervento
-    int operationId1;
-    if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
-      return "error/500";
-    }
-    operationId1 = Integer.parseInt(operationId);
-
-    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
-    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    // Eliminazione nel DB dell'intervento usando il service (se il controllo è andato a buon fine)
-    operationService.cancelScheduledOperation(operationId1);
-
-    return "hive/operations-hive";
-  }
-
-  // Visualizzazione Intervento
-  @GetMapping("/visualize-operation-form")
-  public String visualizeOperation(@RequestParam String id, @RequestParam String hiveId, HttpSession session, Model model) {
-    // Controllo sull'id dell'intervento
-    int operationId1;
-    if (!id.matches("//d+") && Integer.parseInt(id) <= 0) {
-      return "error/500";
-    }
-    operationId1 = Integer.parseInt(id);
-
-    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
-    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    // Ottengo dal DB l'oggetto Operation con tutte le sue informazioni
-    Operation operation = operationService.retrieveOperationFromDB(operationId1);
-    model.addAttribute("operation", operation);
-
-    return "hive/operations-hive";
-  }
-
-  // Impostazione Intervento come completato
-  @GetMapping("/change-operation-status-form")
-  public String changeOperationStatus(@RequestParam String operationId, @RequestParam String hiveId, HttpSession session, Model model) {
-    // Controllo sull'id dell'intervento
-    int operationId1;
-    if (!operationId.matches("//d+") && Integer.parseInt(operationId) <= 0) {
-      return "error/500";
-    }
-    operationId1 = Integer.parseInt(operationId);
-
-    // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
-    int hiveId1;
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
-    }
-    hiveId1 = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(hiveId1);
-    model.addAttribute("hive", hive);
-
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
-    if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
-      return "error/500";
-    }
-
-    // Cambio lo status dell'intervento
-    operationService.changeOperationStatus(operationId1);
-
-    return "hive/operations-hive";
-  }
 }

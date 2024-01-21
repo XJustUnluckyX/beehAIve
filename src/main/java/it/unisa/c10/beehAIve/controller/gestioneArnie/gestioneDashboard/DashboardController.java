@@ -23,31 +23,23 @@ public class DashboardController {
   }
 
   @GetMapping("/dashboard")
-  public String showBeekeeperHives(HttpSession session, Model model) {
-    // Ottenimento di tutte le arnie registrate dall'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    List<Hive> hives = dashboardService.getBeekeeperHives(beekeeper.getEmail());
-
-    // Passaggio della lista di arnie
-    model.addAttribute("hives", hives);
-
-    // Redirect alla dashboard con tutte le arnie ottenute
-    return "hive/dashboard";
-  }
-
-  @GetMapping("/show-by-filters")
-  public String showHivesByFilters(@RequestParam String nickname,
+  public String showHivesByFilters(@RequestParam(required = false) String nickname,
                                    @RequestParam(required = false)  String filterType,
                                    HttpSession session, Model model) {
+
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
     List<Hive> hives = new ArrayList<>();
 
-    if (filterType == null) {
+    if (filterType == null && nickname == null) {
+
+      hives = dashboardService.getBeekeeperHives(beekeeper.getEmail());
+
+    } else if (filterType == null) {
 
       // Se nessun filtro è applicato, si visualizzano tutte le arnie
       if (nickname.isBlank()) {
-        return showBeekeeperHives(session, model);
+        hives = dashboardService.getBeekeeperHives(beekeeper.getEmail());
       } else { // Visualizzazione delle arnie solo in base al nickname
         hives = dashboardService.getBeekeeperHivesByNickname(beekeeperEmail, nickname);
       }
@@ -56,7 +48,7 @@ public class DashboardController {
 
       // Controllo sui valori che può assumere filterType
       if(!(filterType.equals("scheduledOperations") || filterType.equals("healthStatus"))) {
-        return "error/500";
+        throw new RuntimeException();
       }
 
       // Visualizzazione delle arnie solo in base a interventi pianificati

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,31 +37,40 @@ public class HiveHealthController {
     return gson.toJson(measurements);
   }
 
+  // Chiamata Ajax per scaricare il report di salute
   @GetMapping("/create_report")
   public void generateHealthReport(@RequestParam String hiveId, @RequestParam String hiveNickname,
                                    HttpServletResponse response) throws IOException {
-    // TODO: Controlli
+    // TODO: Controlli (Tra cui possessione dell'hive)
+
+    LocalDate today = LocalDate.now();
+
     response.setContentType("application/pdf");
     String header = "Content-Disposition";
-    String headerValue = "attachment; filename=" + hiveNickname + "_Health_Report.pdf";
+    String headerValue = "attachment; filename=" + hiveNickname + "_Health_Report_" + today + ".pdf";
     response.setHeader(header, headerValue);
     statusService.generateReport(Integer.parseInt(hiveId), response);
   }
 
-  @GetMapping("/parameters-redirect-form")
+  @GetMapping("/parameters")
   public String showHiveParameters(@RequestParam String hiveId, Model model) {
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
-      return "error/500";
+
+    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
+      throw new RuntimeException();
     }
     int intHiveId = Integer.parseInt(hiveId);
 
     Measurement hiveParameters = statusService.getHiveLastMeasurement(intHiveId);
 
-    // TODO: Capire perché è necessario passare l'arnia nel model
     Hive hive = dashboardService.getHive(intHiveId);
+
     model.addAttribute("hive", hive);
     model.addAttribute("hiveParameters", hiveParameters);
 
     return "hive/parameters-hive";
   }
+
+
+
+
 }

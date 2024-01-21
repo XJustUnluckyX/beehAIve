@@ -14,7 +14,7 @@ public class SimulateSensorController {
     this.sensorService = sensorService;
   }
 
-  // (cron = 0 0 * * * *) significa ogni ora di ogni giorno alle x:00
+  // (cron = 0 0 * * * *) significa ogni ora di ogni giorno alle xx:00
   // (cron = */10 * * * * *) significa ogni 10 secondi
   @Scheduled(cron = "0 0 * * * *")
   public void initializeSensors() {

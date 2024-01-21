@@ -21,7 +21,9 @@
 <div th:insert="~{fragments/hives-header :: anomaly}"></div>
 
 <section>
-    <p th:text="${error}" class="custom-error"></p>
+    <div class="input_box" style="text-align: center" >
+        <p th:text="${error}" class="custom-error-model" style="font-size: 20px"></p>
+    </div>
     <div class="container-fluid text-center my-2 custom-page">
 
         <div class="row mb-3 justify-content-center">
@@ -35,7 +37,7 @@
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#add_operation"> <h2>Add Operation</h2> </button>  <!--add_operation-->
             </div>
             <div class="col">
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#log_operation"> <h2>Log Operation</h2> </button>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#log_operation"> <h2>Operation Log</h2> </button>
             </div>
         </div>
 
@@ -189,9 +191,9 @@
                         <div class="card-body">
                             <div class="card-body p-4 p-md-5 hive_card">
                                 <form th:action="@{/modify-operation-form}" method="get">
-                                    <input type="hidden" id="modifyOperationId" name="operationId">
+                                    <input type="hidden" id="modifyOperationId" name="operationIdModify">
                                     <input type="hidden" id="modifyStatus" name="operationStatus">
-                                    <input type="hidden" id="hiveId" name="hiveId" th:value="${hive.getId()}">
+                                    <input type="hidden" id="hiveId" name="hiveIdModify" th:value="${hive.getId()}">
 
                                     <div class="row">
                                         <div class="col">
@@ -248,16 +250,16 @@
 
                                         <div class="col-sm-3 p-2">
                                             <form th:action="@{/cancel-operation-form}" method="get">
-                                                <input type="hidden" id="cancelOperationId" name="operationId">
-                                                <input type="hidden" id="cancelOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                                <input type="hidden" id="cancelOperationId" name="operationIdCancel">
+                                                <input type="hidden" id="cancelOpHiveId" name="hiveIdCancel" th:value="${hive.getId()}">
                                                 <input class="btn btn-lg" type="submit" value="Cancel" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                             </form>
                                         </div>
 
                                         <div class="col-sm-5 p-2">
                                             <form th:action="@{/change-operation-status-form}" method="get">
-                                                <input type="hidden" id="changeStatusOperationId" name="operationId">
-                                                <input type="hidden" id="changeStatusOpHiveId" name="hiveId" th:value="${hive.getId()}">
+                                                <input type="hidden" id="changeStatusOperationId" name="operationIdStatus">
+                                                <input type="hidden" id="changeStatusOpHiveId" name="hiveIdStatus" th:value="${hive.getId()}">
                                                 <input class="btn btn-lg" type="submit" value="Change status" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                             </form>
                                         </div>

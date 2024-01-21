@@ -37,7 +37,7 @@ public interface HiveDAO extends JpaRepository<Hive, Integer> {
              "FROM Hive h, Beekeeper b " +
                  "WHERE b.email = :beekeeperEmail " +
                      "AND b.email = h.beekeeperEmail " +
-                         "AND h.nickname LIKE :nickname " +
+                         "AND h.nickname LIKE %:nickname% " +
                              "AND (h.hiveHealth = 2 OR h.hiveHealth = 3) " +
                                  "ORDER BY h.hiveHealth DESC")
   List<Hive> findByNicknameContainingAndHealthIssuesAndBeekeeperEmail(String nickname,

@@ -29,6 +29,10 @@
 
                         <form th:action="@{/create-hive}" method="get">
 
+                            <div class="input_box">
+                                <p th:text="${error}" class="custom-error-model"></p>
+                            </div>
+
                             <!--                            Nome dell'arnia-->
                             <div class="row">
                                 <div class="col-md-12 mb-4">

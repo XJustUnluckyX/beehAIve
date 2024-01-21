@@ -40,7 +40,6 @@ public class SubscriptionController {
 
   public boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
     double beekeeperPaymentDue = subscriptionService.calculatePayment(subscriptionType);
-    // TODO: Capire quando l'apicoltore può cambiare il proprio abbonamento
     /* Si restituisce 'false' nei seguenti casi:
      * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
@@ -82,7 +81,7 @@ public class SubscriptionController {
     if (!subscriptionType.equals("small") &&
         !subscriptionType.equals("medium") &&
         !subscriptionType.equals("large")) {
-      return "error/500";
+      throw new RuntimeException();
     }
 
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
@@ -149,7 +148,7 @@ public class SubscriptionController {
       }
     } catch (PayPalRESTException e) {
       e.printStackTrace();
-      return "error/500";
+      throw new RuntimeException();
     }
     return "index";
   }

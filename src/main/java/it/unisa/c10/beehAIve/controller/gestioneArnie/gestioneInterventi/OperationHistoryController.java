@@ -21,29 +21,30 @@ public class OperationHistoryController {
   public OperationHistoryController(OperationService operationService) {
     this.operationService = operationService;
   }
+
+  // Chiamata ajax per ottenere gli interventi del calendario di una singola arnia
   @GetMapping("/get_hive_operation_history")
   @ResponseBody
   public String getHiveOperationHistory(@RequestParam int hiveId) {
     List<Operation> operations = operationService.viewHiveOperations(hiveId);
-    String result = operationService.convertOperationToCalendar(operations);
-    return result;
+    return operationService.convertOperationToCalendar(operations);
   }
 
+  // Chiamata ajax per ottenere gli interventi del calendario di tutte le arnie di un apicoltore
   @GetMapping("get_beekeeper_operation_history")
   @ResponseBody
   public String getBeekeeperOperationHistory(HttpSession session) {
     Beekeeper user = (Beekeeper) session.getAttribute("beekeeper");
     List<Operation> operations = operationService.viewAllBeekeeperOperations(user.getEmail());
-    String result = operationService.convertOperationToCalendar(operations);
-    return result;
+    return operationService.convertOperationToCalendar(operations);
   }
 
+  // Chiamata Ajax per ottenere le informazioni di un singolo intervento da caricare nella modifica
   @GetMapping("/get_operation_information")
   @ResponseBody
   public String getOperationInformation(@RequestParam int operationId) {
     Operation op = operationService.retrieveOperationFromDB(operationId);
-    String result = operationService.convertOperationToString(op);
-    return result;
+    return operationService.convertOperationToString(op);
   }
 
 

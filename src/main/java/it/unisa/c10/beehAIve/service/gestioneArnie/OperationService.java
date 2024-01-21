@@ -237,8 +237,6 @@ public class OperationService {
 
     result += "}";
 
-    System.out.println(result);
-
     return result;
 
   }

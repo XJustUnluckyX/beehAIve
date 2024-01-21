@@ -62,7 +62,19 @@
                 </div>
                 <div class="col my-2">
                     <div class="col">
-                        <span th:text="${hive.getHiveHealth()}"></span>
+
+                        <div th:if="${hive.getHiveHealth() == 1}">
+                            <span th:text="Healthy" style="color:green"></span>
+                        </div>
+
+                        <div th:if="${hive.getHiveHealth() == 2}">
+                            <span th:text="Warning" style="color:#c06d0e"></span>
+                        </div>
+
+                        <div th:if="${hive.getHiveHealth() == 3}">
+                            <span th:text="Critical" style="color:red"></span>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -95,7 +107,7 @@
                 </div>
                 <div class="col my-2">
                     <div class="col">
-                        <span th:text="${#temporals.format(lastMeasure,'dd/MM/yyy')}"></span>
+                        <span th:text="${#temporals.format(lastMeasure,'dd/MM/yyy')} + ' ' + ${#strings.substring(lastMeasure,11,16)}"></span>
                     </div>
                 </div>
             </div>
