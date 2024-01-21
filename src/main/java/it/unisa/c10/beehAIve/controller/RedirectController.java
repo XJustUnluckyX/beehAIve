@@ -21,6 +21,10 @@ public class RedirectController {
   @GetMapping("/sensor-spec")
   public String sensor (Model model) { return "/sensor-spec";}
 
+  @GetMapping("/user-page")
+  public String user (Model model) {
+    return "/user-page";
+  }
 
 
 }
