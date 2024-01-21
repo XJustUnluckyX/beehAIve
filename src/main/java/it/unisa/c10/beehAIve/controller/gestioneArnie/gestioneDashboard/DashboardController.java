@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,18 @@ public class DashboardController {
   @GetMapping("/dashboard")
   public String showHivesByFilters(@RequestParam(required = false) String nickname,
                                    @RequestParam(required = false)  String filterType,
-                                   HttpSession session, Model model) {
-
+                                   HttpSession session, Model model,
+                                   RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
     List<Hive> hives = new ArrayList<>();
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     if (filterType == null && nickname == null) {
 

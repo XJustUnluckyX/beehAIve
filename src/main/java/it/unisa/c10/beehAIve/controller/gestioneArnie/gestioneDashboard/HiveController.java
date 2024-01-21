@@ -42,6 +42,14 @@ public class HiveController {
   public String createHive(@RequestParam String nickname, @RequestParam String hiveType,
                            @RequestParam String beeSpecies, HttpSession session, RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
+
     String beekeeperEmail = beekeeper.getEmail();
     int hivesCount = dashboardService.getBeekeeperHivesCount(beekeeperEmail);
     double payment = beekeeper.getPaymentDue();
@@ -97,6 +105,14 @@ public class HiveController {
   public String modifyHive(@RequestParam String hiveId, @RequestParam String nickname,
                            @RequestParam String hiveType, @RequestParam String beeSpecies,
                            HttpSession session, RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
@@ -136,7 +152,6 @@ public class HiveController {
     }
 
     // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
@@ -149,20 +164,27 @@ public class HiveController {
   }
 
   @GetMapping("/state-hive")
-  public String showHive(@RequestParam String hiveId, HttpSession session, Model model) {
+  public String showHive(@RequestParam String hiveId, HttpSession session,
+                         RedirectAttributes redirectAttributes, Model model) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
       throw new RuntimeException();
     }
 
-
     // Ottenimento dell'arnia
     int intHiveId = Integer.parseInt(hiveId);
     Hive hive = dashboardService.getHive(intHiveId);
 
     // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
@@ -183,7 +205,16 @@ public class HiveController {
   }
 
   @GetMapping("/delete-hive")
-  public String deleteHive(@RequestParam String hiveId, HttpSession session) {
+  public String deleteHive(@RequestParam String hiveId, RedirectAttributes redirectAttributes,
+                           HttpSession session) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
@@ -192,7 +223,6 @@ public class HiveController {
     int intHiveId = Integer.parseInt(hiveId);
 
     // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
       throw new RuntimeException();
     }

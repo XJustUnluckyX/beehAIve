@@ -39,7 +39,17 @@ public class OperationController {
 
   // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
   @GetMapping("/show_operations")
-  public String redirectToOperationPanel(@RequestParam String hiveId, Model model, HttpSession session) {
+  public String redirectToOperationPanel(@RequestParam String hiveId, Model model,
+                                         HttpSession session, RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
+
     // Controllo sull'id dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
       throw new RuntimeException();
@@ -59,8 +69,6 @@ public class OperationController {
     List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
     model.addAttribute("completed", completed);
 
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
@@ -78,6 +86,14 @@ public class OperationController {
                                   @RequestParam String operationType,
                                   @RequestParam String noteOperation, @RequestParam String hiveId,
                                   HttpSession session, RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
@@ -131,7 +147,6 @@ public class OperationController {
     }
 
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
@@ -150,6 +165,14 @@ public class OperationController {
                                 @RequestParam String operationDate, @RequestParam String operationHour,
                                 @RequestParam String operationNotes, @RequestParam String hiveIdModify,
                                 HttpSession session, RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
     if (!hiveIdModify.matches("^\\d+$") || Integer.parseInt(hiveIdModify) <= 0) {
@@ -213,7 +236,6 @@ public class OperationController {
     }
 
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
@@ -232,7 +254,17 @@ public class OperationController {
 
   // Annullamento Intervento
   @GetMapping("/cancel-operation-form")
-  public String cancelOperation(@RequestParam String operationIdCancel, @RequestParam String hiveIdCancel, HttpSession session) {
+  public String cancelOperation(@RequestParam String operationIdCancel,
+                                @RequestParam String hiveIdCancel, HttpSession session,
+                                RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
 
     // Controllo sull'id dell'intervento
     if (!operationIdCancel.matches("^\\d+$") || Integer.parseInt(operationIdCancel) <= 0) {
@@ -247,7 +279,6 @@ public class OperationController {
     int hiveId1 = Integer.parseInt(hiveIdCancel);
 
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
@@ -265,7 +296,18 @@ public class OperationController {
 
   // Impostazione Intervento come completato
   @GetMapping("/change-operation-status-form")
-  public String changeOperationStatus(@RequestParam String operationIdStatus, @RequestParam String hiveIdStatus, HttpSession session, Model model) {
+  public String changeOperationStatus(@RequestParam String operationIdStatus,
+                                      @RequestParam String hiveIdStatus, HttpSession session,
+                                      Model model, RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+          "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user-page";
+    }
+
     // Controllo sull'id dell'intervento
     if (!operationIdStatus.matches("^\\d+$") && Integer.parseInt(operationIdStatus) <= 0) {
       throw new RuntimeException();
@@ -282,7 +324,6 @@ public class OperationController {
     model.addAttribute("hive", hive);
 
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
