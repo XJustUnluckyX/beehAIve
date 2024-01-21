@@ -20,10 +20,10 @@
                 <h1 class="fw-bold custom-first-text" style="text-shadow: 3px 4px #fffb03;">The next generation of Beekeeping</h1>
 
                 <div th:unless="${session.beekeeper != null}">
-                    <h4 class="custom-second-test" style="text-shadow: 3px 4px #fffb03;"><span> <a th:href="@{/registration}" class="custom-link c-link">Create an account</a></span> now and monitor up to <span class="fw-bolder text-decoration-underline">300 hives</span></h4>
+                    <h4 class="custom-second-test" style="text-shadow: 3px 4px #fffb03;"><span> <a th:href="@{/registration}" class="custom-link c-link" style="text-shadow: 2px 1px #ffe2b8;">Create an account</a></span> now and monitor up to <span class="fw-bolder text-decoration-underline">300 hives</span></h4>
                 </div>
                 <div th:if="${session.beekeeper != null}">
-                    <h4 class="custom-second-test fw-bolder" style="text-shadow: 3px 4px #fffb03;" ><span><h2 style="text-shadow: 2px 3px #fffb03;">Thank you for joining in our journey!</h2></span>We're dedicated to making a difference. Join us in our mission to create a brighter future.</h4>
+                    <h4 class="custom-second-test" style="text-shadow: 3px 4px #fffb03;" ><span><h2 style="text-shadow: 2px 3px #fffb03; font-weight: bolder" >Thank you for joining in our journey!</h2></span>We're dedicated to making a difference. Join us in our mission to create a brighter future.</h4>
                 </div>
 
             </div>
