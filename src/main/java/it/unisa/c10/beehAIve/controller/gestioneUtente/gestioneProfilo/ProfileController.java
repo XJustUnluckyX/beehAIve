@@ -121,6 +121,11 @@ public class ProfileController {
     return "redirect:/user-page";
   }
 
+  @GetMapping("/user-page")
+  public String user (Model model) {
+    return "/user-page";
+  }
+
   private boolean regexPassword (String password) {
     String passwordRegex =
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&_-])[A-Za-z\\d@.$!%*?&_-]+$";
