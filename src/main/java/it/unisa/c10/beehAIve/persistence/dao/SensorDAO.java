@@ -16,7 +16,9 @@ public interface SensorDAO extends JpaRepository<Sensor, Integer> {
 
   // deleteById()
 
-  List<Sensor> findAllByBeekeeperEmail(String BeekeeperEmail);
+  List<Sensor> findAllByBeekeeperEmail(String beekeeperEmail);
+
+  Sensor findTopByBeekeeperEmailOrderByIdDesc(String beekeeperEmail);
 
   int countByBeekeeperEmail(String beekeeperEmail);
 }
