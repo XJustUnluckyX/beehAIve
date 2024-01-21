@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 pt-3 d-flex justify-content-end" style="gap:10px;">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn" data-bs-dismiss="modal"style="border: 1px solid black;background-color: #FFF0B3;">Close</button>
                                             <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
                                     </div>
@@ -152,11 +152,11 @@
                     </div>
                     <ul>
                         <div th:each="op : ${completed}">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6 ">
+                            <div class="row pb-2 align-items-center">
+                                <div class="col-md-8 col-sm-6 col-6 ">
                                     <li th:text="'[' + ${#strings.replace(op.getOperationDate(),'T',' ')} + '] - ' + ${op.getOperationName()}"></li>
                                 </div>
-                                <div class="col-sm-4 w-50 text-end">
+                                <div class="col-md-4 col-sm-6 col-6  text-end">
                                     <button th:value="${op.getId()}" type="button" class="btn btn-warning showInfo" style="border: 1px solid black;" data-bs-toggle="modal" data-bs-target="#modify_operation"> <h4>Show Info</h4> </button>
                                 </div>
                             </div>
@@ -167,10 +167,6 @@
 
             </div>
 
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn" style="border: 1px solid black;background-color: #FFF0B3;">Confirm</button>
-            </div>
 
         </div>
     </div>
@@ -271,11 +267,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
             </div>
 
         </div>
