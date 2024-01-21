@@ -36,38 +36,6 @@ public class HiveController {
     this.statusService = statusService;
   }
 
-  private boolean isNicknameFormatInvalid(String nickname) {
-    return !nickname.matches("^[a-zA-Z0-9\\s\\-_()’”]+$");
-  }
-
-  private boolean isNicknameLenghtTooShort(String nickname) {
-    return nickname.length() < 2;
-  }
-
-  private boolean isNicknameLenghtTooLong(String nickname) {
-    return nickname.length() > 50;
-  }
-
-  private boolean isHiveTypeInvalid(String hiveType) {
-    List<String> validHiveTypes = Arrays.asList("Langstroth", "Warre", "Top-Bar", "Horizontal",
-      "Vertical", "Bee Skep", "WBC", "Dadant");
-    return !validHiveTypes.contains(hiveType);
-  }
-
-  private boolean isBeeSpeciesInvalid(String beeSpecies) {
-    List<String> validBeeSpecies = Arrays.asList("Apis millifera", "Apis cerana", "Apis dorsata",
-      "Apis florea");
-    return !validBeeSpecies.contains(beeSpecies);
-  }
-
-  // Controllo sulla coerenza tra id dell'arnia e beekeeper
-  private boolean isNotConsistentBetweenHiveIdAndBeekeeperEmail(int hiveId, String beekeeperEmail) {
-    // Ottengo l'arnia
-    Hive hive = dashboardService.getHive(hiveId);
-
-    return !hive.getBeekeeperEmail().equals(beekeeperEmail);
-  }
-
   @GetMapping("/create-hive")
   public String createHive(@RequestParam String nickname, @RequestParam String hiveType,
                            @RequestParam String beeSpecies, HttpSession session, Model model) {
@@ -76,38 +44,39 @@ public class HiveController {
     int hivesCount = dashboardService.getBeekeeperHivesCount(beekeeperEmail);
     double payment = beekeeper.getPaymentDue();
 
-    // Controllo della lunghezza del nickname dell'arnia
-    if (isNicknameLenghtTooShort(nickname)) {
-      model.addAttribute("error","Insufficient nickname length.");
-      return "hive/creation-hive";
-    }
-    if (isNicknameLenghtTooLong(nickname)) {
-      model.addAttribute("error","Nickname length too long.");
-      return "hive/creation-hive";
-    }
-
-    // Controllo della validità del formato del nickname dell'arnia
+    // Controllo sulla validità del formato del nickname dell'arnia
     if (isNicknameFormatInvalid(nickname)) {
-      model.addAttribute("error","Invalid nickname format.");
+      model.addAttribute("error","Nickname must contain one or more " +
+          "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
+          "symbols ( -_()'\"");
+      return "hive/creation-hive";
+    }
+    // Controllo sulla lunghezza del nickname dell'arnia
+    if (nickname.length() < 2) {
+      model.addAttribute("error","Nickname too short.");
+      return "hive/creation-hive";
+    }
+    if (nickname.length() > 50) {
+      model.addAttribute("error","Nickname too long.");
       return "hive/creation-hive";
     }
 
-    // Controllo della validità del tipo d'arnia
+    // Controllo sulla validità del tipo d'arnia
     if(isHiveTypeInvalid(hiveType)) {
       model.addAttribute("error","Invalid hive type.");
       return "hive/creation-hive";
     }
 
-    // Controllo della validità della specie d'api dell'arnia
+    // Controllo sulla validità della specie d'api dell'arnia
     if(isBeeSpeciesInvalid(beeSpecies)) {
       model.addAttribute("error","Invalid bee species.");
       return "hive/creation-hive";
     }
 
     // Controllo del rispetto del limite del numero di arnie in base all'abbonamento
-    if ((payment == 50 && hivesCount >= 15)
-     || (payment == 350 && hivesCount >= 100)
-     || (payment == 1050 && hivesCount >= 300)) {
+    if ((payment == 50 && hivesCount >= 15) ||
+        (payment == 350 && hivesCount >= 100) ||
+        (payment == 1050 && hivesCount >= 300)) {
       model.addAttribute("error",
           "You've reached the maximum number of hives!");
       // Redirect alla dashboard con errore
@@ -130,47 +99,42 @@ public class HiveController {
   public String modifyHive(@RequestParam String hiveId, @RequestParam String nickname,
                            @RequestParam String hiveType, @RequestParam String beeSpecies,
                            HttpSession session, Model model) {
-    // Controllo della validità dell'ID dell'arnia
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+    // Controllo sulla validità dell'ID dell'arnia
+    if (!hiveId.matches("^[\\d]+$") && Integer.parseInt(hiveId) <= 0) {
       return "error/500";
     }
     int intHiveId = Integer.parseInt(hiveId);
 
-    // Controllo della validità del formato del nickname dell'arnia
+    // Controllo sulla validità del formato del nickname dell'arnia
     if (isNicknameFormatInvalid(nickname)) {
-      model.addAttribute("error","Invalid nickname format.");
+      model.addAttribute("error","Nickname must contain one or more " +
+          "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
+          "symbols ( -_()'\"");
       return "redirect:state-hive?hiveId="+ hiveId;
     }
-
-    // Controllo della lunghezza del nickname dell'arnia
-    if (isNicknameLenghtTooShort(nickname)) {
-      model.addAttribute("error","Insufficient nickname length.");
+    // Controllo sulla lunghezza del nickname dell'arnia
+    if (nickname.length() < 2) {
+      model.addAttribute("error","Nickname too short.");
       return "redirect:state-hive?hiveId="+ hiveId;
     }
-    if (isNicknameLenghtTooLong(nickname)) {
+    if (nickname.length() > 50) {
       model.addAttribute("error","Nickname too long.");
       return "redirect:state-hive?hiveId="+ hiveId;
     }
 
-    // Controllo della validità del formato del nickname dell'arnia
-    if (isNicknameFormatInvalid(nickname)) {
-      model.addAttribute("error","Invalid nickname format.");
-      return "hive/creation-hive";
-    }
-
-    // Controllo della validità del tipo d'arnia
+    // Controllo sulla validità del tipo d'arnia
     if(isHiveTypeInvalid(hiveType)) {
       model.addAttribute("error","Invalid hive type.");
       return "redirect:state-hive?hiveId="+ hiveId;
     }
 
-    // Controllo della validità della specie d'api dell'arnia
+    // Controllo sulla validità della specie d'api dell'arnia
     if(isBeeSpeciesInvalid(beeSpecies)) {
       model.addAttribute("error","Invalid bee species.");
       return "redirect:state-hive?hiveId="+ hiveId;
     }
 
-    // Controllo sulla coerenza tra l'id dell'arnia da modificare e l'email del Beekeeper
+    // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
       return "error/500";
@@ -192,25 +156,25 @@ public class HiveController {
   @GetMapping("/state-hive")
   public String showHive(@RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo della validità dell'ID dell'arnia
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+    if (!hiveId.matches("^[\\d]+$") && Integer.parseInt(hiveId) <= 0) {
       return "error/500";
     }
 
-    // Ottenimento dell'arnia
     int intHiveId = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(intHiveId);
 
-    // Controllo sulla coerenza tra l'id dell'arnia da modificare e l'email del Beekeeper
+    // Ottenimento dell'arnia
+    Hive hive = dashboardService.getHive(intHiveId);
+    // Ottenimento di tutte le anomalie non risolte dell'arnia
+    List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
+    // Ottenimento della data dell'ultima misurazione dell'arnia
+    LocalDate lastMeasure = LocalDate.from(statusService.getHiveLastMeasurement(intHiveId)
+        .getMeasurementDate());
+
+    // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
       return "error/500";
     }
-
-    // Prendiamo tutte le anomalie non risolte dell'arnia
-    List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
-
-    // Prediamo la data dell'ultima misurazione dell'arnia
-    LocalDate lastMeasure = LocalDate.from(statusService.getHiveLastMeasurement(intHiveId).getMeasurementDate());
 
     // Passaggio dell'arnia e delle anomalie
     model.addAttribute("hive", hive);
@@ -224,18 +188,18 @@ public class HiveController {
   @GetMapping("/delete-hive")
   public String deleteHive(@RequestParam String hiveId, HttpSession session, Model model) {
     // Controllo della validità dell'ID dell'arnia
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+    if (!hiveId.matches("^[\\d]+$") && Integer.parseInt(hiveId) <= 0) {
       return "error/500";
     }
     int intHiveId = Integer.parseInt(hiveId);
 
-    // Controllo sulla coerenza tra l'id dell'arnia da modificare e l'email del Beekeeper
+    // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
       return "error/500";
     }
 
-    // Eliminazione dell'arnia
+    // Eliminazione dell'arnia dal database
     dashboardService.deleteHive(intHiveId);
 
     // Ottenimento di tutte le arnie registrate dall'apicoltore, eccetto quella appena eliminata
@@ -246,5 +210,29 @@ public class HiveController {
 
     // Redirect alla dashboard aggiornata
     return "hive/dashboard";
+  }
+
+  private boolean isNicknameFormatInvalid(String nickname) {
+    return !nickname.matches("^[a-zA-Z0-9\\s\\-_()'\"]+$");
+  }
+
+  private boolean isHiveTypeInvalid(String hiveType) {
+    List<String> validHiveTypes = Arrays.asList("Langstroth", "Warre", "Top-Bar", "Horizontal",
+        "Vertical", "Bee Skep", "WBC", "Dadant");
+    return !validHiveTypes.contains(hiveType);
+  }
+
+  private boolean isBeeSpeciesInvalid(String beeSpecies) {
+    List<String> validBeeSpecies = Arrays.asList("Apis millifera", "Apis cerana", "Apis dorsata",
+        "Apis florea");
+    return !validBeeSpecies.contains(beeSpecies);
+  }
+
+  // Controllo sulla coerenza tra id dell'arnia e beekeeper
+  private boolean isNotConsistentBetweenHiveIdAndBeekeeperEmail(int hiveId, String beekeeperEmail) {
+    // Ottengo l'arnia
+    Hive hive = dashboardService.getHive(hiveId);
+
+    return !hive.getBeekeeperEmail().equals(beekeeperEmail);
   }
 }

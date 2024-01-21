@@ -203,17 +203,17 @@ public class AccessController {
 
   private boolean regexPassword (String password) {
     String passwordRegex =
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&])[A-Za-z\\d@.$!%*?&]{8,}$";
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&_-])[A-Za-z\\d@.$!%*?&_-]+$";
     return password.matches(passwordRegex);
   }
 
   private boolean regexFirstName (String firstName) {
-    String firstNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
+    String firstNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
     return firstName.matches(firstNameRegex);
   }
 
   private boolean regexLastName (String lastName) {
-    String lastNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
+    String lastNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
     return lastName.matches(lastNameRegex);
   }
 
@@ -223,7 +223,7 @@ public class AccessController {
   }
 
   private boolean regexCompanyPiva (String companyPiva) {
-    String companyPivaRegex = "^[\\d-]{9,}$";
+    String companyPivaRegex = "^[\\d-]+$";
     return companyPiva.matches(companyPivaRegex);
   }
  }

@@ -28,7 +28,7 @@ public class ProfileController {
 
     // Controllo sul formato del nome
     if (!regexFirstName(firstName)) {
-      model.addAttribute("error", "First Name must start with capital " +
+      model.addAttribute("error", "First name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
@@ -88,7 +88,7 @@ public class ProfileController {
     mv.addObject("reset_user_email", user.getEmail());
 
     WebUtils.setSessionAttribute(request, "reset_user_email", user.getEmail());
-    String resetUserEmail = (String) WebUtils.getSessionAttribute(request, "reset_user_email");
+    String resetUserEmail = (String) WebUtils.getSessionAttribute(request,"reset_user_email");
     return mv;
   }
 
@@ -120,7 +120,7 @@ public class ProfileController {
 
     // Controllo sulla corrispondenza tra le due password
     if(!(newPassword.equals(confirmNewPassword))) {
-      model.addAttribute("error", "The new passwords don't match.");
+      model.addAttribute("error", "Passwords don't match.");
       return "user-page";
     }
 
@@ -132,17 +132,17 @@ public class ProfileController {
 
   private boolean regexPassword (String password) {
     String passwordRegex =
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&])[A-Za-z\\d@.$!%*?&]{8,}$";
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&_-])[A-Za-z\\d@.$!%*?&_-]+$";
     return password.matches(passwordRegex);
   }
 
   private boolean regexFirstName (String firstName) {
-    String firstNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
+    String firstNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
     return firstName.matches(firstNameRegex);
   }
 
   private boolean regexLastName (String lastName) {
-    String lastNameRegex = "^[A-Z][a-z'-]+(?: [A-Z][a-z'-]+)*$";
+    String lastNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
     return lastName.matches(lastNameRegex);
   }
 

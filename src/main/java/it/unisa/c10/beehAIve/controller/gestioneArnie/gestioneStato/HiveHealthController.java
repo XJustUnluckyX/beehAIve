@@ -49,7 +49,7 @@ public class HiveHealthController {
 
   @GetMapping("/parameters-redirect-form")
   public String showHiveParameters(@RequestParam String hiveId, Model model) {
-    if (!hiveId.matches("//d+") && Integer.parseInt(hiveId) <= 0) {
+    if (!hiveId.matches("^[\\d]+$") && Integer.parseInt(hiveId) <= 0) {
       return "error/500";
     }
     int intHiveId = Integer.parseInt(hiveId);
