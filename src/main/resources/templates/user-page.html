@@ -62,10 +62,10 @@
                 <div class="text">
                     <h3>Subscription Type</h3>
                     <div class="form-control" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3; height: 5vh">
-                        <span th:if="${session.beekeeper['paymentDue'] == 50}">Small</span>
-                        <span th:if="${session.beekeeper['paymentDue'] == 350}">Medium</span>
-                        <span th:if="${session.beekeeper['paymentDue'] == 1050}">Large</span>
-                        <span th:unless="${session.beekeeper['paymentDue'] == 50 or session.beekeeper['paymentDue'] == 350 or session.beekeeper['paymentDue'] == 1050}">Unsubscribed</span>
+                        <span th:if="${session.beekeeper['paymentDue'] == 49.99}">Small</span>
+                        <span th:if="${session.beekeeper['paymentDue'] == 319.99}">Medium</span>
+                        <span th:if="${session.beekeeper['paymentDue'] == 969.99}">Large</span>
+                        <span th:unless="${session.beekeeper['paymentDue'] == 49.99 or session.beekeeper['paymentDue'] == 319.99 or session.beekeeper['paymentDue'] == 969.99}">Unsubscribed</span>
                     </div>
                 </div>
 

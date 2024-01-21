@@ -46,11 +46,11 @@ public class SubscriptionService {
 
   public double calculatePayment(String subscriptionType) {
     if (subscriptionType.equals("small")) { // Prezzo dell'abbonamento "Small"
-      return 50;
+      return 49.99;
     } else if (subscriptionType.equals("medium")) { // Prezzo dell'abbonamento "Medium"
-      return 350;
+      return 319.99;
     } else { // Prezzo dell'abbonamento "Large"
-      return 1050;
+      return 969.99;
     }
   }
 

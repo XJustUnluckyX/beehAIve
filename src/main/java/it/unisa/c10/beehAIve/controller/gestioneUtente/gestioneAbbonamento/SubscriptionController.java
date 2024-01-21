@@ -45,11 +45,11 @@ public class SubscriptionController {
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Medium" e possiede più di 100 arnie
      */
-    if (((beekeeperPaymentDue == 350 && subscriptionType.equals("small"))
+    if (((beekeeperPaymentDue == 49.99 && subscriptionType.equals("small"))
         && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
-     || ((beekeeperPaymentDue == 1050 && subscriptionType.equals("small"))
+     || ((beekeeperPaymentDue == 319.99 && subscriptionType.equals("small"))
         && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
-     || ((beekeeperPaymentDue == 1050 && subscriptionType.equals("medium"))
+     || ((beekeeperPaymentDue == 969.99 && subscriptionType.equals("medium"))
         && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 100)){
       return false;
     }
