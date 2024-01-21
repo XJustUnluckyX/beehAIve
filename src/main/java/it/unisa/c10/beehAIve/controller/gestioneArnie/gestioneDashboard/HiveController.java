@@ -200,12 +200,6 @@ public class HiveController {
     // Eliminazione dell'arnia dal database
     dashboardService.deleteHive(intHiveId);
 
-    // Ottenimento di tutte le arnie registrate dall'apicoltore, eccetto quella appena eliminata
-    List<Hive> hives = dashboardService.getBeekeeperHives(
-      ((Beekeeper) session.getAttribute("beekeeper")).getEmail());
-    // Passaggio della lista di arnie
-    model.addAttribute("hives", hives);
-
     // Redirect alla dashboard aggiornata
     return "redirect:/dashboard";
   }
