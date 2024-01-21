@@ -46,10 +46,12 @@ public class DashboardService {
     sensor.setBeekeeperEmail(beekeeperEmail);
     sensorDAO.save(sensor);
 
+    int createdSensorId = sensorDAO.findTopByBeekeeperEmailOrderByIdDesc(beekeeperEmail).getId();
+
     // Creazione della prima misurazione relativa all'arnia appena creata e salvataggio nel database
     // A scopo di simulazione, la prima misurazione registrata è sempre ottima
     Measurement measurement = new Measurement();
-    measurement.setSensorId(createdHiveId);
+    measurement.setSensorId(createdSensorId);
     measurement.setHiveId(createdHiveId);
     measurement.setMeasurementDate(LocalDate.now().atTime(12, 0));
     measurement.setWeight(80);
