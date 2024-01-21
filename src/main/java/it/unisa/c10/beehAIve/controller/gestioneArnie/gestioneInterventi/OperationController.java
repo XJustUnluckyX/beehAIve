@@ -125,7 +125,7 @@ public class OperationController {
       redirectAttributes.addFlashAttribute("error", "Notes must contain zero or more " +
         "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
         "symbols ( -_()'\",.?!: )");
-      return "hive/operations-hive";
+      return "redirect:/show_operations?hiveId=" + hiveId;
     }
     // Controllo sulla lunghezza delle note dell'intervento
     if(noteOperation.length() > 300) {
@@ -185,7 +185,6 @@ public class OperationController {
     if (!operationIdModify.matches("^\\d+$") || Integer.parseInt(operationIdModify) <= 0) {
       throw new RuntimeException();
     }
-
     int operationId1 = Integer.parseInt(operationIdModify);
 
     // Controllo sulla lunghezza e sul formato del nome dell'intervento
@@ -378,7 +377,7 @@ public class OperationController {
 
   // Regex sulle note dell'intervento
   private boolean isFormatNotesInvalid(String notes) {
-    String regex = "^[a-zA-Z0-9\\s\\-_()'\".,?!:]+$";
+    String regex = "^[a-zA-Z0-9\\s\\-_()'\".,?!:]*$";
     return !notes.matches(regex);
   }
 
