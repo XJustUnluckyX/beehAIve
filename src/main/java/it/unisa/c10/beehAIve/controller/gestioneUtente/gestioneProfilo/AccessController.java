@@ -13,10 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +27,19 @@ public class AccessController {
     this.profileService = profileService;
   }
 
-  @GetMapping("registration")
+  @GetMapping("/registration")
   public String showRegistrationForm(HttpSession session) {
     if (session.getAttribute("beekeeper") == null) {
       return "registration-page";
+    } else {
+      return "redirect:/";
+    }
+  }
+
+  @GetMapping("/login")
+  public String showLoginForm(HttpSession session) {
+    if (session.getAttribute("beekeeper") == null) {
+      return "login-page";
     } else {
       return "redirect:/";
     }
@@ -131,7 +138,7 @@ public class AccessController {
     if (!regexPassword(password)) {
       redirectAttributes.addFlashAttribute("error", "The password must be at least 8 " +
           "characters long and contain at least one uppercase letter, one lowercase letter, one " +
-          "digit, and one special character ( @.$!%*?& ).");
+          "digit, and one special character ( @.$!%*?&_- ).");
       return "redirect:/registration";
     }
     // Controllo sulla lunghezza della password
@@ -153,15 +160,6 @@ public class AccessController {
     profileService.registration(email, password, firstName, lastName, companyName, companyPiva);
 
     return "redirect:/login";
-  }
-
-  @GetMapping("/login")
-  public String showLoginForm(HttpSession session) {
-    if (session.getAttribute("beekeeper") == null) {
-      return "login-page";
-    } else {
-      return "redirect:/";
-    }
   }
 
   @PostMapping("/login-form")

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,13 +20,46 @@ import java.util.List;
 
 @Controller
 public class HiveHealthController {
-  private StatusService statusService;
-  private DashboardService dashboardService;
+  private final StatusService statusService;
+  private final DashboardService dashboardService;
 
   @Autowired
   public HiveHealthController(StatusService statusService, DashboardService dashboardService) {
     this.statusService = statusService;
     this.dashboardService = dashboardService;
+  }
+
+  @GetMapping("/parameters")
+  public String showHiveParameters(@RequestParam String hiveId, HttpSession session, Model model,
+                                   RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+        "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user";
+    }
+
+    // Controllo sulla validità dell'ID dell'arnia
+    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
+      throw new RuntimeException();
+    }
+    int intHiveId = Integer.parseInt(hiveId);
+
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    Measurement hiveParameters = statusService.getHiveLastMeasurement(intHiveId);
+
+    Hive hive = dashboardService.getHive(intHiveId);
+
+    model.addAttribute("hive", hive);
+    model.addAttribute("hiveParameters", hiveParameters);
+
+    return "hive/parameters-hive";
   }
 
   // Metodo Ajax per produrre il grafico
@@ -70,29 +103,7 @@ public class HiveHealthController {
     statusService.generateReport(intHiveId, response);
   }
 
-  @GetMapping("/parameters")
-  public String showHiveParameters(@RequestParam String hiveId, HttpSession session, Model model) {
-    // Controllo sulla validità dell'ID dell'arnia
-    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
-      throw new RuntimeException();
-    }
-    int intHiveId = Integer.parseInt(hiveId);
 
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
-      throw new RuntimeException();
-    }
-
-    Measurement hiveParameters = statusService.getHiveLastMeasurement(intHiveId);
-
-    Hive hive = dashboardService.getHive(intHiveId);
-
-    model.addAttribute("hive", hive);
-    model.addAttribute("hiveParameters", hiveParameters);
-
-    return "hive/parameters-hive";
-  }
 
   private boolean isNotConsistentBetweenHiveIdAndBeekeeperEmail(int hiveId, String beekeeperEmail) {
     // Ottenimento dell'arnia l'arnia

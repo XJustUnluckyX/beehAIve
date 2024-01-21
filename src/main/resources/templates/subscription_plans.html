@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/subscription-page.css}" rel="stylesheet"  type="text/css">
+    <link th:href="@{/css/subscription_plans.css}" rel="stylesheet"  type="text/css">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
 
@@ -51,7 +51,9 @@
                                         <h3><span class="fw-bolder">15 hive slots</span></h3>
                                     </div>
                                 </div>
-                                <button type="submit" name="subscriptionType" value="small" class="btn btn-warning mt-auto">Get Started</button>
+                                <button th:if="${session.beekeeper['paymentDue'] != 49.99}" type="submit" name="subscriptionType" value="small"
+                                        class="btn btn-warning mt-auto">Get Started</button>
+                                <span th:if="${session.beekeeper['paymentDue'] == 49.99}" style="color:#96885c">This plan is currently active.</span>
                             </div>
                         </div>
                     </div>
@@ -89,7 +91,9 @@
                                         <h3><span class="fw-bolder">100 hive slots</span></h3>
                                     </div>
                                 </div>
-                                <button type="submit" name="subscriptionType" value="medium" class="btn btn-warning mt-auto">Get Started</button>
+                                <button th:if="${session.beekeeper['paymentDue'] != 319.99}" type="submit" name="subscriptionType" value="medium"
+                                        class="btn btn-warning mt-auto">Get Started</button>
+                                <span th:if="${session.beekeeper['paymentDue'] == 319.99}" style="color:#96885c">This plan is currently active.</span>
                             </div>
                         </div>
                     </div>
@@ -127,7 +131,9 @@
                                         <h3><span class="fw-bolder">300 hive slots</span></h3>
                                     </div>
                                 </div>
-                                <button type="submit" name="subscriptionType" value="large" class="btn btn-warning mt-auto">Get Started</button>
+                                <button th:if="${session.beekeeper['paymentDue'] != 969.99}" type="submit" name="subscriptionType" value="large"
+                                        class="btn btn-warning mt-auto">Get Started</button>
+                                <span th:if="${session.beekeeper['paymentDue'] == 969.99}" style="color:#96885c">This plan is currently active.</span>
                             </div>
                         </div>
                     </div>

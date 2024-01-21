@@ -2,8 +2,6 @@ package it.unisa.c10.beehAIve.persistence.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

@@ -3,7 +3,6 @@ package it.unisa.c10.beehAIve.persistence.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
 import java.security.MessageDigest;
 import java.time.LocalDate;
 

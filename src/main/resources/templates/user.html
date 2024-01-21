@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/common-style.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/css/user-page.css}" rel="stylesheet"/>
+    <link th:href="@{/css/user.css}" rel="stylesheet"/>
     <link th:href="@{/css/hive/hive-template.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/Boostrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
@@ -117,7 +117,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="firstNameUse">First Name:</h5>
-                                                <input type="text" id="firstNameUser" name="firstName" th:value="${session.beekeeper['firstName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="firstNameUser" name="firstName" th:value="${session.beekeeper['firstName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -126,7 +126,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="LastNameUsere">Last Name:</h5>
-                                                <input type="text" id="LastNameUser" name="lastName" th:value="${session.beekeeper['lastName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="LastNameUser" name="lastName" th:value="${session.beekeeper['lastName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="companyName">Company Name:</h5>
-                                                <input type="text" id="companyName" name="companyName" th:value="${session.beekeeper['companyName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="text" id="companyName" name="companyName" th:value="${session.beekeeper['companyName']}" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +177,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="oldPassword">Old Password:</h5>
-                                                <input type="password" id="oldPassword" name="oldPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="password" id="oldPassword" name="oldPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="newPassword">New Password:</h5>
-                                                <input type="password" id="newPassword" name="newPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="password" id="newPassword" name="newPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +196,7 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <h5 class="form-label" for="confirmNewPassword">Confirm New Password:</h5>
-                                                <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;"/>
+                                                <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="form-control form-control-lg" style="border-radius: 10px;border: 1px solid black;background-color: #FFF0B3;" required>
                                             </div>
                                         </div>
                                     </div>

@@ -1,10 +1,8 @@
 package it.unisa.c10.beehAIve.service.gestioneArnie;
 
-import com.google.gson.Gson;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.draw.LineSeparator;
-import com.mysql.cj.util.Base64Decoder;
 import it.unisa.c10.beehAIve.persistence.dao.AnomalyDAO;
 import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.dao.MeasurementDAO;
@@ -14,31 +12,13 @@ import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
 import it.unisa.c10.beehAIve.persistence.entities.Operation;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-/*
-La seguente classe deve supportare le seguenti operazioni:
-1. Creare il grafico della temperatura dell'arnia nel tempo.
-2. Creare il grafico del peso dell'arnia nel tempo.
-3. Creare il grafico dell'umidità dell'arnia nel tempo.
-4. Creare il grafico della presenza della regina nel tempo.
-5. Inviare una notifica in caso di anomalia.
-6. Impostare un'anomalia come "risolta".
-7. Eliminare un'anomalia.
-8. Generare un report di salute.
- */
 
 @Service
 public class StatusService {
@@ -57,7 +37,6 @@ public class StatusService {
   }
 
   public List<ArrayList<Object>> getGraphData (int hiveId) {
-
     // Prendiamo le ultime 48 misurazioni
     List<Measurement> measurements = measurementDAO.findFirst49ByHiveIdOrderByMeasurementDateDesc(hiveId);
 
@@ -85,7 +64,6 @@ public class StatusService {
 
       // Aggiungiamo la lista al risultato
       result.add(list);
-
     }
 
     return result;
@@ -93,7 +71,6 @@ public class StatusService {
   }
 
   public void generateReport (int hiveId, HttpServletResponse response) throws IOException {
-
     Hive hive = hiveDAO.findById(hiveId).get();
 
     List<Operation> notCompletedOperations = operationDAO.findAllByOperationStatusAndHiveId("Not Completed", hiveId);
@@ -219,10 +196,10 @@ public class StatusService {
     document.add(date);
 
     document.close();
-
   }
 
   public Measurement getHiveLastMeasurement(int hiveId) {
     return measurementDAO.findTopByHiveIdOrderByMeasurementDateDesc(hiveId);
   }
+
 }

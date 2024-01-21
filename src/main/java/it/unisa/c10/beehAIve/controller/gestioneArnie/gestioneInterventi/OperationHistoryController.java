@@ -9,17 +9,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
-// Gestisce lo storico degli interventi ed eventuali filtri associati (Interventi completati, futuri, passati, ecc ecc)
 @Controller
 public class OperationHistoryController {
-  private OperationService operationService;
+  private final OperationService operationService;
   @Autowired
   public OperationHistoryController(OperationService operationService) {
     this.operationService = operationService;
+  }
+
+  @GetMapping("/calendar")
+  public String calendarTest (HttpSession session, RedirectAttributes redirectAttributes) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+        "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user";
+    }
+
+    return "calendar-page";
   }
 
   // Chiamata ajax per ottenere gli interventi del calendario di una singola arnia
@@ -46,8 +58,6 @@ public class OperationHistoryController {
     Operation op = operationService.retrieveOperationFromDB(operationId);
     return operationService.convertOperationToString(op);
   }
-
-
 
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class SimulateSensorController {
-  private SimulateSensorService sensorService;
+  private final SimulateSensorService sensorService;
 
   @Autowired
   public SimulateSensorController (SimulateSensorService sensorService) {
