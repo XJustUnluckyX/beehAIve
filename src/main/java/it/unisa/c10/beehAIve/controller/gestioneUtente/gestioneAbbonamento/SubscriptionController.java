@@ -17,6 +17,7 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -141,7 +142,9 @@ public class SubscriptionController {
         subscriptionService.modifySubscription(beekeeper.getEmail(), subscriptionType);
 
         // Modifica del beekeeper nella sessione
+        beekeeper.setSubscribed(true);
         beekeeper.setPaymentDue(subscriptionService.calculatePayment(subscriptionType));
+        beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(1));
         session.setAttribute("beekeeper", beekeeper);
 
         return "payments/payment-successful";
