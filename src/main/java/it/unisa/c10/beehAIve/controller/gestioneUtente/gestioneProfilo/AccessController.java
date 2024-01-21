@@ -15,6 +15,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class AccessController {
     if (session.getAttribute("beekeeper") == null) {
       return "registration-page";
     } else {
-      return "index";
+      return "redirect:/";
     }
   }
 
@@ -41,117 +42,117 @@ public class AccessController {
   public String registration(@RequestParam String email, @RequestParam String firstName,
                              @RequestParam String lastName, @RequestParam String companyName,
                              @RequestParam String companyPiva, @RequestParam String password,
-                             @RequestParam String confirmPassword, Model model) {
+                             @RequestParam String confirmPassword, RedirectAttributes redirectAttributes) {
     // Controllo sul formato dell'email
     if (!regexEmail(email)) {
-      model.addAttribute("error", "Invalid email address.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Invalid email address.");
+      return "redirect:/registration";
     }
     // Controllo sulla lunghezza dell'email
     if (email.length() < 5) {
-      model.addAttribute("error", "Email address too short");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Email address too short");
+      return "redirect:/registration";
     }
     if (email.length() > 50) {
-      model.addAttribute("error", "Email address too long");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Email address too long");
+      return "redirect:/registration";
     }
     // Controllo sull'eventuale esistenza della stessa email nel database
     if (profileService.emailExists(email)) {
-      model.addAttribute("error", "Email already exists");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Email already exists");
+      return "redirect:/registration";
     }
 
     // Controllo sul formato del nome
     if (!regexFirstName(firstName)) {
-      model.addAttribute("error", "First name must start with capital " +
+      redirectAttributes.addFlashAttribute("error", "First name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
-      return "registration-page";
+      return "redirect:/registration";
     }
     // Controllo sulla lunghezza del nome
     if (firstName.length() < 2) {
-      model.addAttribute("error", "First name too short.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "First name too short.");
+      return "redirect:/registration";
     } else if (firstName.length() > 15) {
-      model.addAttribute("error", "First name too long.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "First name too long.");
+      return "redirect:/registration";
     }
 
     // Controllo sul formato del cognome
     if (!regexLastName(lastName)) {
-      model.addAttribute("error", "Last name must start with capital " +
+      redirectAttributes.addFlashAttribute("error", "Last name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
-      return "registration-page";
+      return "redirect:/registration";
     }
     // Controllo sulla lunghezza del cognome
     if (lastName.length() < 2) {
-      model.addAttribute("error", "Last name too short.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Last name too short.");
+      return "redirect:/registration";
     } else if (lastName.length() > 15) {
-      model.addAttribute("error", "Last name too long.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Last name too long.");
+      return "redirect:/registration";
     }
 
     // Controllo sul formato del nome dell'azienda
     if (!regexCompanyName(companyName)) {
-      model.addAttribute("error", "Company cannot contain special symbols except for ' and - .");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Company cannot contain special symbols except for ' and - .");
+      return "redirect:/registration";
     }
     // Controllo sulla lunghezza del nome dell'azienda
     if (companyName.length() < 2) {
-      model.addAttribute("error", "Company name too short.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Company name too short.");
+      return "redirect:/registration";
     } else if (companyName.length() > 100) {
-      model.addAttribute("error", "Company name too long.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Company name too long.");
+      return "redirect:/registration";
     }
 
     // Controllo sul formato della PIVA
     if (!regexCompanyPiva(companyPiva)) {
-      model.addAttribute("error", "PIVA must contain only digits.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "PIVA must contain only digits.");
+      return "redirect:/registration";
     }
     // Controllo sulla lunghezza della PIVA
     if (companyPiva.length() < 9) {
-      model.addAttribute("error", "PIVA too short.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "PIVA too short.");
+      return "redirect:/registration";
     }
     if (companyPiva.length() > 20) {
-      model.addAttribute("error", "PIVA too long.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "PIVA too long.");
+      return "redirect:/registration";
     }
     // Controllo sull'eventuale esistenza della stessa PIVA nel database
     if (profileService.pivaExists(companyPiva)) {
-      model.addAttribute("error", "PIVA already exists.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "PIVA already exists.");
+      return "redirect:/registration";
     }
 
     // Controllo sul formato della password
     if (!regexPassword(password)) {
-      model.addAttribute("error", "The password must be at least 8 " +
+      redirectAttributes.addFlashAttribute("error", "The password must be at least 8 " +
           "characters long and contain at least one uppercase letter, one lowercase letter, one " +
           "digit, and one special character ( @.$!%*?& ).");
-      return "registration-page";
+      return "redirect:/registration";
     }
     // Controllo sulla lunghezza della password
     if (password.length() < 8) {
-      model.addAttribute("error", "Password too short.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Password too short.");
+      return "redirect:/registration";
     }
     if (password.length() > 100) {
-      model.addAttribute("error", "Password too long.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Password too long.");
+      return "redirect:/registration";
     }
     // Controllo sulla corrispondenza delle password
     if (!password.equals(confirmPassword)) {
-      model.addAttribute("error", "Passwords don't match.");
-      return "registration-page";
+      redirectAttributes.addFlashAttribute("error", "Passwords don't match.");
+      return "redirect:/registration";
     }
 
     // Salvataggio del nuovo utente nel database
     profileService.registration(email, password, firstName, lastName, companyName, companyPiva);
 
-    return "login-page";
+    return "redirect:/login";
   }
 
   @GetMapping("/login")
@@ -159,16 +160,16 @@ public class AccessController {
     if (session.getAttribute("beekeeper") == null) {
       return "login-page";
     } else {
-      return "index";
+      return "redirect:/";
     }
   }
 
   @PostMapping("/login-form")
-  public String login(@RequestParam String email, @RequestParam String password, Model model,
-                      HttpSession session) {
+  public String login(@RequestParam String email, @RequestParam String password,
+                      HttpSession session, RedirectAttributes redirectAttributes) {
     if (!(profileService.userExists(email, password))) {
-      model.addAttribute("error", "Email or Password are incorrect.");
-      return "login-page";
+      redirectAttributes.addFlashAttribute("error", "Email or Password are incorrect.");
+      return "redirect:/login";
     } else {
       Optional<Beekeeper> beekeeper = profileService.findBeekeeper(email);
       if (beekeeper.isPresent()) {
@@ -192,7 +193,7 @@ public class AccessController {
       // Inseriamo l'autenticazione alla sessione
       session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,sc);
 
-      return "index";
+      return "redirect:/";
     }
   }
 

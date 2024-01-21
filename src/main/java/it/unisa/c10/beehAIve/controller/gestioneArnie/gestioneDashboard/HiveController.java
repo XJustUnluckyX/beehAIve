@@ -96,7 +96,7 @@ public class HiveController {
   @GetMapping("/modify-hive")
   public String modifyHive(@RequestParam String hiveId, @RequestParam String nickname,
                            @RequestParam String hiveType, @RequestParam String beeSpecies,
-                           HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+                           HttpSession session, RedirectAttributes redirectAttributes) {
 
     // Controllo della validità dell'ID dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
@@ -145,7 +145,7 @@ public class HiveController {
     dashboardService.modifyHive(intHiveId, nickname, hiveType, beeSpecies);
 
     // Redirect allo stato dell'arnia aggiornato
-    return "redirect:state-hive?hiveId=" + hiveId;
+    return "redirect:/state-hive?hiveId=" + hiveId;
   }
 
   @GetMapping("/state-hive")

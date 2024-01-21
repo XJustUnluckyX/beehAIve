@@ -45,11 +45,6 @@ public class RedirectController {
     return "/user-page";
   }
 
-  @GetMapping("/home")
-  public String homePage (Model model) {
-    return "/index";
-  }
-
   @GetMapping("/calendar-planning")
   public String calendarTest (Model model) {
     return "calendar-page";
