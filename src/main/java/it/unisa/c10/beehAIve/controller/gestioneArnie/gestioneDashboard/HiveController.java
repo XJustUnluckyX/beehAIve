@@ -77,9 +77,9 @@ public class HiveController {
     }
 
     // Controllo del rispetto del limite del numero di arnie in base all'abbonamento
-    if ((payment == 50 && hivesCount >= 15)
-     || (payment == 350 && hivesCount >= 100)
-     || (payment == 1050 && hivesCount >= 300)) {
+    if ((payment == 49.99 && hivesCount >= 15)
+     || (payment == 319.99 && hivesCount >= 100)
+     || (payment == 969.99 && hivesCount >= 300)) {
       redirectAttributes.addFlashAttribute("error",
           "You've reached the maximum number of hives!");
       // Redirect alla dashboard con errore

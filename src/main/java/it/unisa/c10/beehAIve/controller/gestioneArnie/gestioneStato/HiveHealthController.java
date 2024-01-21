@@ -1,11 +1,13 @@
 package it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneStato;
 
 import com.google.gson.Gson;
+import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import it.unisa.c10.beehAIve.service.gestioneArnie.StatusService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,8 +42,24 @@ public class HiveHealthController {
   // Chiamata Ajax per scaricare il report di salute
   @GetMapping("/create_report")
   public void generateHealthReport(@RequestParam String hiveId, @RequestParam String hiveNickname,
-                                   HttpServletResponse response) throws IOException {
-    // TODO: Controlli (Tra cui possessione dell'hive)
+                                   HttpSession session, HttpServletResponse response)
+        throws IOException {
+    // Controllo sulla validità dell'ID dell'arnia
+    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
+      throw new RuntimeException();
+    }
+
+    // Controllo sul formato del nickname
+    if (!hiveNickname.matches("^[a-zA-Z0-9\\s\\-_()'\"]+$")) {
+      throw new RuntimeException();
+    }
+
+    int intHiveId = Integer.parseInt(hiveId);
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
 
     LocalDate today = LocalDate.now();
 
@@ -49,16 +67,22 @@ public class HiveHealthController {
     String header = "Content-Disposition";
     String headerValue = "attachment; filename=" + hiveNickname + "_Health_Report_" + today + ".pdf";
     response.setHeader(header, headerValue);
-    statusService.generateReport(Integer.parseInt(hiveId), response);
+    statusService.generateReport(intHiveId, response);
   }
 
   @GetMapping("/parameters")
-  public String showHiveParameters(@RequestParam String hiveId, Model model) {
-
+  public String showHiveParameters(@RequestParam String hiveId, HttpSession session, Model model) {
+    // Controllo sulla validità dell'ID dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
       throw new RuntimeException();
     }
     int intHiveId = Integer.parseInt(hiveId);
+
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
 
     Measurement hiveParameters = statusService.getHiveLastMeasurement(intHiveId);
 
@@ -70,7 +94,12 @@ public class HiveHealthController {
     return "hive/parameters-hive";
   }
 
+  private boolean isNotConsistentBetweenHiveIdAndBeekeeperEmail(int hiveId, String beekeeperEmail) {
+    // Ottenimento dell'arnia l'arnia
+    Hive hive = dashboardService.getHive(hiveId);
 
-
+    // Confronto tra l'email corrispondente all'arnia e l'email dell'apicoltore
+    return !hive.getBeekeeperEmail().equals(beekeeperEmail);
+  }
 
 }
