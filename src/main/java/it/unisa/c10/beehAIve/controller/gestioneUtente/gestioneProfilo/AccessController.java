@@ -43,7 +43,7 @@ public class AccessController {
                              @RequestParam String companyPiva, @RequestParam String password,
                              @RequestParam String confirmPassword, Model model) {
     // Controllo sul formato dell'email
-    if (!profileService.regexEmail(email)) {
+    if (!regexEmail(email)) {
       model.addAttribute("error", "Invalid email address.");
       return "registration-page";
     }
@@ -63,7 +63,7 @@ public class AccessController {
     }
 
     // Controllo sul formato del nome
-    if (!profileService.regexFirstName(firstName)) {
+    if (!regexFirstName(firstName)) {
       model.addAttribute("error", "First name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
@@ -78,7 +78,7 @@ public class AccessController {
     }
 
     // Controllo sul formato del cognome
-    if (!profileService.regexLastName(lastName)) {
+    if (!regexLastName(lastName)) {
       model.addAttribute("error", "Last name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "registration-page";
@@ -92,12 +92,12 @@ public class AccessController {
       return "registration-page";
     }
 
-    // Controllo sul formato del nome della compagnia
-    if (!profileService.regexCompanyName(companyName)) {
+    // Controllo sul formato del nome dell'azienda
+    if (!regexCompanyName(companyName)) {
       model.addAttribute("error", "Company cannot contain special symbols except for ' and - .");
       return "registration-page";
     }
-    // Controllo sulla lunghezza del nome della compagnia
+    // Controllo sulla lunghezza del nome dell'azienda
     if (companyName.length() < 2) {
       model.addAttribute("error", "Company name too short.");
       return "registration-page";
@@ -107,7 +107,7 @@ public class AccessController {
     }
 
     // Controllo sul formato della PIVA
-    if (!profileService.regexCompanyPiva(companyPiva)) {
+    if (!regexCompanyPiva(companyPiva)) {
       model.addAttribute("error", "PIVA must contain only digits.");
       return "registration-page";
     }
@@ -127,7 +127,7 @@ public class AccessController {
     }
 
     // Controllo sul formato della password
-    if (!profileService.regexPassword(password)) {
+    if (!regexPassword(password)) {
       model.addAttribute("error", "The password must be at least 8 " +
           "characters long and contain at least one uppercase letter, one lowercase letter, one " +
           "digit, and one special character ( @.$!%*?& ).");
@@ -143,7 +143,7 @@ public class AccessController {
       return "registration-page";
     }
     // Controllo sulla corrispondenza delle password
-    if (!(password.equals(confirmPassword))) {
+    if (!password.equals(confirmPassword)) {
       model.addAttribute("error", "Passwords don't match.");
       return "registration-page";
     }
@@ -194,5 +194,36 @@ public class AccessController {
 
       return "index";
     }
+  }
+
+  private boolean regexEmail (String email) {
+    String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    return email.matches(emailRegex);
+  }
+
+  private boolean regexPassword (String password) {
+    String passwordRegex =
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&_-])[A-Za-z\\d@.$!%*?&_-]+$";
+    return password.matches(passwordRegex);
+  }
+
+  private boolean regexFirstName (String firstName) {
+    String firstNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
+    return firstName.matches(firstNameRegex);
+  }
+
+  private boolean regexLastName (String lastName) {
+    String lastNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
+    return lastName.matches(lastNameRegex);
+  }
+
+  private boolean regexCompanyName (String companyName) {
+    String companyRegex = "^[a-zA-Z0-9\\s.'\",&()-]+$";
+    return companyName.matches(companyRegex);
+  }
+
+  private boolean regexCompanyPiva (String companyPiva) {
+    String companyPivaRegex = "^[\\d-]+$";
+    return companyPiva.matches(companyPivaRegex);
   }
  }

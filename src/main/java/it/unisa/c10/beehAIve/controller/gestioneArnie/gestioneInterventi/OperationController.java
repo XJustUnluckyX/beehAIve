@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -46,20 +47,21 @@ public class OperationController {
 
     int hiveId1 = Integer.parseInt(hiveId);
 
-    // Ricavo dell'arnia dall'id ottenuto
+    // Ricavo dell'arnia dall'ID ottenuto
     Hive hive = dashboardService.getHive(hiveId1);
     model.addAttribute("hive", hive);
 
-    // Aggiungiamo le operazioni da svolgere
+    // Aggiunta delle operazioni da svolgere
     List<Operation> toComplete = operationService.getHiveUncompletedOperations(hiveId1);
     model.addAttribute("toComplete", toComplete);
 
-    // Aggiungiamo le operazioni passate
+    // Aggiunta delle operazioni passate
     List<Operation> completed = operationService.getHiveCompletedOperations(hiveId1);
     model.addAttribute("completed", completed);
 
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
@@ -67,10 +69,13 @@ public class OperationController {
     return "hive/operations-hive";
   }
 
+
   // Pianificazione Intervento
   @GetMapping("/add_operation-form")
-  public String planningOperation(@RequestParam String operationName, @RequestParam String operationDate,
-                                  @RequestParam String operationHour, @RequestParam String operationType,
+  public String planningOperation(@RequestParam String operationName,
+                                  @RequestParam String operationDate,
+                                  @RequestParam String operationHour,
+                                  @RequestParam String operationType,
                                   @RequestParam String noteOperation, @RequestParam String hiveId,
                                   HttpSession session, RedirectAttributes redirectAttributes) {
 
@@ -99,39 +104,41 @@ public class OperationController {
       return "redirect:/show_operations?hiveId=" + hiveId;
     }
 
-    // Controllo sulla lunghezza e sul formato delle note dell'intervento
+    // Controllo sul formato delle note dell'intervento
+    if(isFormatNotesInvalid(noteOperation)) {
+      redirectAttributes.addFlashAttribute("error", "Notes must contain zero or more " +
+        "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
+        "symbols ( -_()'\",.?!: )");
+      return "hive/operations-hive";
+    }
+    // Controllo sulla lunghezza delle note dell'intervento
     if(noteOperation.length() > 300) {
       redirectAttributes.addFlashAttribute("error", "Operation notes too long.");
       return "redirect:/show_operations?hiveId=" + hiveId;
     }
 
-    if(isFormatNotesInvalid(noteOperation)) {
-      redirectAttributes.addFlashAttribute("error", "Invalid operation notes.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
-    }
-
-    // Conversione sul formato e controllo sulla correttezza della data dell'intervento
+    // Controllo sul formato della data dell'intervento
     LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
     if(isDateInvalid(operationDate1)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation date.");
       return "redirect:/show_operations?hiveId=" + hiveId;
     }
 
-    // Controllo sul formato del tipo dell'intervento
+    // Controllo sul tipo dell'intervento
     if(isFormatTypeInvalid(operationType)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation type.");
       return "redirect:/show_operations?hiveId=" + hiveId;
     }
 
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
 
     // Salvataggio nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
-    operationService.planningOperation(operationName, operationType, "Not completed", operationDate1,
-          noteOperation, hiveId1, hive.getBeekeeperEmail());
+    operationService.planningOperation(operationName, operationType, "Not completed",
+        operationDate1, noteOperation, hiveId1, hive.getBeekeeperEmail());
 
     return "redirect:/show_operations?hiveId=" + hiveId;
   }
@@ -172,47 +179,51 @@ public class OperationController {
       return "redirect:/show_operations?hiveId=" + hiveIdModify;
     }
 
-    // Controllo sulla lunghezza e sul formato delle note dell'intervento
+    // Controllo sul formato delle note dell'intervento
+    if(isFormatNotesInvalid(operationNotes)) {
+      redirectAttributes.addFlashAttribute("error", "Operation notes must contain zero or " +
+        "more characters, which can be uppercase and lowercase letters, digits, spaces and " +
+        "special symbols ( -_()'\",.?!: )");
+      return "hive/operations-hive";
+    }
+    // Controllo sulla lunghezza delle note dell'intervento
     if(operationNotes.length() > 300) {
       redirectAttributes.addFlashAttribute("error", "Operation notes too long.");
       return "redirect:/show_operations?hiveId=" + hiveIdModify;
     }
-    if(isFormatNotesInvalid(operationNotes)) {
-      redirectAttributes.addFlashAttribute("error", "Invalid operation notes.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
-    }
 
-    // Conversione sul formato e controllo sulla correttezza della data dell'intervento
+
+    // Conversione sul formato della data dell'intervento
     LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
     if(isDateInvalid(operationDate1)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation date.");
       return "redirect:/show_operations?hiveId=" + hiveIdModify;
     }
 
-    // Controllo sul formato del tipo dell'intervento
+    // Controllo sul tipo dell'intervento
     if(isFormatTypeInvalid(operationType)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation type.");
       return "redirect:/show_operations?hiveId=" + hiveIdModify;
     }
 
-    // Controllo sullo status
+    // Controllo sul formato dello stato dell'intervento
     if(isFormatStatusInvalid(operationStatus)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation status.");
       return "redirect:/show_operations?hiveId=" + hiveIdModify;
     }
 
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
 
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'intervento ed email dell'apicoltore
     if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
 
-    // Aggiornamento nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
+    // Salvataggio dell'intervento nel database
     operationService.modifyScheduledOperation(operationId1, operationName, operationType, operationStatus, operationDate1, operationNotes,
       hiveId1, beekeeper.getEmail());
 
@@ -235,17 +246,17 @@ public class OperationController {
     }
     int hiveId1 = Integer.parseInt(hiveIdCancel);
 
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'intervento ed email dell'apicoltore
     if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
 
-    // Eliminazione nel DB dell'intervento usando il service (se il controllo è andato a buon fine)
+    // Eliminazione dell'intervento dal database
     operationService.cancelScheduledOperation(operationId1);
 
     return "redirect:/show_operations?hiveId=" + hiveIdCancel;
@@ -270,17 +281,17 @@ public class OperationController {
     Hive hive = dashboardService.getHive(hiveId1);
     model.addAttribute("hive", hive);
 
-    // Controllo sulla coerenza tra id dell'arnia e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(hiveId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
-    // Controllo sulla coerenza tra id dell'intervento e email del beekeeper
+    // Controllo sulla coerenza tra ID dell'intervento ed email dell'apicoltore
     if(isNotConsistentBetweenOperationIdAndBeekeeperEmail(operationId1, beekeeper.getEmail())) {
       throw new RuntimeException();
     }
 
-    // Cambio lo status dell'intervento
+    // Modifica dello stato dell'intervento
     operationService.changeOperationStatus(operationId1);
 
     return "redirect:/show_operations?hiveId=" + hiveIdStatus;
@@ -288,15 +299,15 @@ public class OperationController {
 
   // Regex sul nome dell'intervento
   private boolean isFormatNameInvalid(String name) {
-    String regex = "^[a-zA-Z0-9\\s\\-_()’”]+$";
+    String regex = "^[a-zA-Z0-9\\s\\-_()'\"]+$";
     return !name.matches(regex);
   }
 
   // Controllo del formato del tipo dell'intervento
   private boolean isFormatTypeInvalid(String type){
-    return !(type.equals("Medical Inspection") || type.equals("Medical Treatment") ||
-      type.equals("Check Population") || type.equals("Extraction") || type.equals("Vet Visit") ||
-      type.equals("Feeding") || type.equals("Transfer") || type.equals("Maintenance"));
+    List<String> validOperationTypes = Arrays.asList("Medical Inspection", "Medical Treatment",
+        "Check Population", "Extraction", "Vet Visit", "Feeding", "Transfer", "Maintenance");
+    return !validOperationTypes.contains(type);
   }
 
   // Controllo del formato dello status dell'intervento
@@ -326,7 +337,7 @@ public class OperationController {
 
   // Regex sulle note dell'intervento
   private boolean isFormatNotesInvalid(String notes) {
-    String regex = "^[a-zA-Z0-9\\s\\-_()’”.,?!:]+$";
+    String regex = "^[a-zA-Z0-9\\s\\-_()'\".,?!:]+$";
     return !notes.matches(regex);
   }
 
@@ -345,6 +356,4 @@ public class OperationController {
 
     return !operation.getBeekeeperEmail().equals(beekeeperEmail);
   }
-
-
 }

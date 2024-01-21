@@ -27,12 +27,11 @@ public class ProfileController {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sul formato del nome
-    if (!profileService.regexFirstName(firstName)) {
-      model.addAttribute("error", "First Name must start with capital " +
+    if (!regexFirstName(firstName)) {
+      model.addAttribute("error", "First name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
-
     // Controllo sulla lunghezza del nome
     if (firstName.length() < 2) {
       model.addAttribute("error", "First name too short.");
@@ -43,12 +42,11 @@ public class ProfileController {
     }
 
     // Controllo sul formato del cognome
-    if (!profileService.regexLastName(lastName)) {
+    if (!regexLastName(lastName)) {
       model.addAttribute("error", "Last Name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
-
     // Controllo sulla lunghezza del cognome
     if (lastName.length() < 2) {
       model.addAttribute("error", "Last name too short.");
@@ -58,14 +56,13 @@ public class ProfileController {
       return "user-page";
     }
 
-    // Controllo sul formato del nome della compagnia
-    if (!profileService.regexCompanyName(companyName)) {
+    // Controllo sul formato del nome dell'azienda
+    if (!regexCompanyName(companyName)) {
       model.addAttribute("error", "Company Name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
       return "user-page";
     }
-
-    // Controllo sulla lunghezza del nome della compagnia
+    // Controllo sulla lunghezza del nome dell'azienda
     if (companyName.length() < 2) {
       model.addAttribute("error", "Company name too short.");
       return "user-page";
@@ -91,7 +88,7 @@ public class ProfileController {
     mv.addObject("reset_user_email", user.getEmail());
 
     WebUtils.setSessionAttribute(request, "reset_user_email", user.getEmail());
-    String resetUserEmail = (String) WebUtils.getSessionAttribute(request, "reset_user_email");
+    String resetUserEmail = (String) WebUtils.getSessionAttribute(request,"reset_user_email");
     return mv;
   }
 
@@ -102,29 +99,28 @@ public class ProfileController {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
 
-    // Verifica dell'identità dell'apicoltore
+    // Verifica sull'identità dell'apicoltore
     if(!profileService.userExists(beekeeperEmail, oldPassword)) {
       model.addAttribute("error", "Old password is incorrect.");
       return "user-page";
     }
 
-    // Controllo del formato della password
-    if (!profileService.regexPassword(newPassword)) {
+    // Controllo sul formato della password
+    if (!regexPassword(newPassword)) {
       model.addAttribute("error", "The password must be at least 8 " +
         "characters long and contain at least one uppercase letter, one lowercase letter, one " +
         "digit, and one special character ( @.$!%*?& ).");
       return "user-page";
     }
-
-    // Controllo della lunghezza massima della password
+    // Controllo sulla lunghezza massima della password
     if (newPassword.length() > 100) {
       model.addAttribute("error", "Password too long.");
       return "user-page";
     }
 
-    // Controllo della corrispondenza tra le due password
+    // Controllo sulla corrispondenza tra le due password
     if(!(newPassword.equals(confirmNewPassword))) {
-      model.addAttribute("error", "The new passwords don't match.");
+      model.addAttribute("error", "Passwords don't match.");
       return "user-page";
     }
 
@@ -133,4 +129,26 @@ public class ProfileController {
 
     return "user-page";
   }
+
+  private boolean regexPassword (String password) {
+    String passwordRegex =
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@.$!%*?&_-])[A-Za-z\\d@.$!%*?&_-]+$";
+    return password.matches(passwordRegex);
+  }
+
+  private boolean regexFirstName (String firstName) {
+    String firstNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
+    return firstName.matches(firstNameRegex);
+  }
+
+  private boolean regexLastName (String lastName) {
+    String lastNameRegex = "^[A-Z][a-z'-]*(?: [A-Z][a-z'-]+)*$";
+    return lastName.matches(lastNameRegex);
+  }
+
+  private boolean regexCompanyName (String companyName) {
+    String companyRegex = "^[a-zA-Z0-9\\s.'\",&()-]+$";
+    return companyName.matches(companyRegex);
+  }
+
 }
