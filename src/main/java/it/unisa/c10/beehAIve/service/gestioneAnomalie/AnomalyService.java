@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /*
 La seguente classe, dopo aver ricevuto l'input dalla classe SimulateSensorService, deve supportare le seguenti operazioni:

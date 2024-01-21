@@ -13,10 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +27,7 @@ public class AccessController {
     this.profileService = profileService;
   }
 
-  @GetMapping("registration")
+  @GetMapping("/registration")
   public String showRegistrationForm(HttpSession session) {
     if (session.getAttribute("beekeeper") == null) {
       return "registration-page";

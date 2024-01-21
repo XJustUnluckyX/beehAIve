@@ -1,32 +1,25 @@
 package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneAbbonamento;
 
-
-import it.unisa.c10.beehAIve.persistence.entities.Bee;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
-import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import it.unisa.c10.beehAIve.service.gestioneUtente.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Locale;
 
 @Controller
 public class SubscriptionController {
 
-  private SubscriptionService subscriptionService;
-  private DashboardService dashboardService;
+  private final SubscriptionService subscriptionService;
+  private final DashboardService dashboardService;
 
   @Autowired
   public SubscriptionController (SubscriptionService subscriptionService, DashboardService dashboardService) {
@@ -40,7 +33,7 @@ public class SubscriptionController {
   public static final String PAYPAL_SUCCESS_URL = "pay/success";
   public static final String PAYPAL_CANCEL_URL = "pay/cancel";
 
-  public boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
+  private boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
     double beekeeperPaymentDue = subscriptionService.getBeekeeper(beekeeperEmail).getPaymentDue();
     /* Si restituisce 'false' nei seguenti casi:
      * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
@@ -60,15 +53,6 @@ public class SubscriptionController {
     // di arnie è rispettato oppure perché beekeeperPaymentDue == null (l'apicoltore non ha alcun
     // abbonamento)
     return true;
-  }
-
-  public void cancelBeekeeperExpiredSubscription(String beekeeperEmail) {
-    Beekeeper beekeeper = subscriptionService.getBeekeeper(beekeeperEmail);
-
-    // Controllo sull'esistenza di un abbonamento attivo ed eventuale scadenza
-    if (beekeeper.isSubscribed() && subscriptionService.isSubscriptionExpired(beekeeperEmail)) {
-      subscriptionService.cancelSubscription(beekeeperEmail); // Cancellazione dell'abbonamento
-    }
   }
 
   @Scheduled(cron = "0 0 0 * * *")
@@ -99,7 +83,7 @@ public class SubscriptionController {
     if (!canModifySubscription(beekeeper.getEmail(), subscriptionType)) {
       redirectAttributes.addFlashAttribute("error",
           "Your current hive count exceeds the maximum limit for this subscription.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Imposta il separatore decimale come punto invece che virgola (necessario per PayPal)

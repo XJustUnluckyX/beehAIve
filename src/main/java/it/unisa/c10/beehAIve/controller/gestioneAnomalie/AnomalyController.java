@@ -2,26 +2,13 @@ package it.unisa.c10.beehAIve.controller.gestioneAnomalie;
 
 import it.unisa.c10.beehAIve.persistence.entities.Anomaly;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
-import it.unisa.c10.beehAIve.persistence.entities.Operation;
 import it.unisa.c10.beehAIve.service.gestioneAnomalie.AnomalyService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 
 // Gestisce la comunicazione con l'adapter per il modello e i vari controlli arbitari sulla misurazione, ovvero
@@ -30,7 +17,7 @@ import java.util.List;
 @Controller
 public class AnomalyController {
 
-  private AnomalyService anomalyService;
+  private final AnomalyService anomalyService;
 
   @Autowired
   public AnomalyController(AnomalyService anomalyService) {

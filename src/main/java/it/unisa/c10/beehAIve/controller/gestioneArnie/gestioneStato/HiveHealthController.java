@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +20,8 @@ import java.util.List;
 
 @Controller
 public class HiveHealthController {
-  private StatusService statusService;
-  private DashboardService dashboardService;
+  private final StatusService statusService;
+  private final DashboardService dashboardService;
 
   @Autowired
   public HiveHealthController(StatusService statusService, DashboardService dashboardService) {
@@ -80,7 +79,7 @@ public class HiveHealthController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sulla validità dell'ID dell'arnia

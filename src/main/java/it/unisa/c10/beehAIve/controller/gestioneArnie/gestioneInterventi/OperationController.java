@@ -27,8 +27,8 @@ import java.util.List;
 
 @Controller
 public class OperationController {
-  private OperationService operationService;
-  private DashboardService dashboardService;
+  private final OperationService operationService;
+  private final DashboardService dashboardService;
 
   @Autowired
   public OperationController(OperationService operationService, DashboardService dashboardService) {
@@ -38,7 +38,7 @@ public class OperationController {
 
 
   // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
-  @GetMapping("/show_operations")
+  @GetMapping("/operations")
   public String redirectToOperationPanel(@RequestParam String hiveId, Model model,
                                          HttpSession session, RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
@@ -47,7 +47,7 @@ public class OperationController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sull'id dell'arnia
@@ -92,7 +92,7 @@ public class OperationController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
@@ -106,18 +106,18 @@ public class OperationController {
     // Controllo sulla lunghezza del nome dell'intervento
     if(operationName.length() < 2) {
       redirectAttributes.addFlashAttribute("error", "Operation name too short.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
 
     if(operationName.length() > 70) {
       redirectAttributes.addFlashAttribute("error", "Operation name too long.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
 
     // Controllo sul formato del nome dell'intervento
     if(isFormatNameInvalid(operationName)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation name.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
 
     // Controllo sul formato delle note dell'intervento
@@ -125,25 +125,25 @@ public class OperationController {
       redirectAttributes.addFlashAttribute("error", "Notes must contain zero or more " +
         "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
         "symbols ( -_()'\",.?!: )");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
     // Controllo sulla lunghezza delle note dell'intervento
     if(noteOperation.length() > 300) {
       redirectAttributes.addFlashAttribute("error", "Operation notes too long.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
 
     // Controllo sul formato della data dell'intervento
     LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
     if(isDateInvalid(operationDate1)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation date.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
 
     // Controllo sul tipo dell'intervento
     if(isFormatTypeInvalid(operationType)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation type.");
-      return "redirect:/show_operations?hiveId=" + hiveId;
+      return "redirect:/operations?hiveId=" + hiveId;
     }
 
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
@@ -155,7 +155,7 @@ public class OperationController {
     operationService.planningOperation(operationName, operationType, "Not completed",
         operationDate1, noteOperation, hiveId1, hive.getBeekeeperEmail());
 
-    return "redirect:/show_operations?hiveId=" + hiveId;
+    return "redirect:/operations?hiveId=" + hiveId;
   }
 
   // Modifica Intervento
@@ -171,7 +171,7 @@ public class OperationController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sull'id dell'arnia, ricavo dell'arnia e inserimento nel model
@@ -190,15 +190,15 @@ public class OperationController {
     // Controllo sulla lunghezza e sul formato del nome dell'intervento
     if(operationName.length() < 2) {
       redirectAttributes.addFlashAttribute("error", "Operation name too short.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
     if(operationName.length() > 70) {
       redirectAttributes.addFlashAttribute("error", "Operation name too long.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
     if(isFormatNameInvalid(operationName)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation name.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
 
     // Controllo sul formato delle note dell'intervento
@@ -211,7 +211,7 @@ public class OperationController {
     // Controllo sulla lunghezza delle note dell'intervento
     if(operationNotes.length() > 300) {
       redirectAttributes.addFlashAttribute("error", "Operation notes too long.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
 
 
@@ -219,19 +219,19 @@ public class OperationController {
     LocalDateTime operationDate1 = formatDate(operationDate, operationHour);
     if(isDateInvalid(operationDate1)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation date.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
 
     // Controllo sul tipo dell'intervento
     if(isFormatTypeInvalid(operationType)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation type.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
 
     // Controllo sul formato dello stato dell'intervento
     if(isFormatStatusInvalid(operationStatus)) {
       redirectAttributes.addFlashAttribute("error", "Invalid operation status.");
-      return "redirect:/show_operations?hiveId=" + hiveIdModify;
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
 
     // Controllo sulla coerenza tra ID dell'arnia ed email dell'apicoltore
@@ -248,7 +248,7 @@ public class OperationController {
     operationService.modifyScheduledOperation(operationId1, operationName, operationType, operationStatus, operationDate1, operationNotes,
       hiveId1, beekeeper.getEmail());
 
-    return "redirect:/show_operations?hiveId=" + hiveIdModify;
+    return "redirect:/operations?hiveId=" + hiveIdModify;
   }
 
   // Annullamento Intervento
@@ -262,7 +262,7 @@ public class OperationController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sull'id dell'intervento
@@ -289,7 +289,7 @@ public class OperationController {
     // Eliminazione dell'intervento dal database
     operationService.cancelScheduledOperation(operationId1);
 
-    return "redirect:/show_operations?hiveId=" + hiveIdCancel;
+    return "redirect:/operations?hiveId=" + hiveIdCancel;
   }
 
 
@@ -304,7 +304,7 @@ public class OperationController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sull'id dell'intervento
@@ -334,7 +334,7 @@ public class OperationController {
     // Modifica dello stato dell'intervento
     operationService.changeOperationStatus(operationId1);
 
-    return "redirect:/show_operations?hiveId=" + hiveIdStatus;
+    return "redirect:/operations?hiveId=" + hiveIdStatus;
   }
 
   // Regex sul nome dell'intervento

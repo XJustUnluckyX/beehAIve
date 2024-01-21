@@ -1,6 +1,5 @@
 package it.unisa.c10.beehAIve.service.gestioneArnie;
 
-import it.unisa.c10.beehAIve.persistence.dao.BeekeeperDAO;
 import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.dao.MeasurementDAO;
 import it.unisa.c10.beehAIve.persistence.dao.SensorDAO;

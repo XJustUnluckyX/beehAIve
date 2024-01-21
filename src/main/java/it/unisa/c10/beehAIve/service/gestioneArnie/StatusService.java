@@ -1,10 +1,8 @@
 package it.unisa.c10.beehAIve.service.gestioneArnie;
 
-import com.google.gson.Gson;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.draw.LineSeparator;
-import com.mysql.cj.util.Base64Decoder;
 import it.unisa.c10.beehAIve.persistence.dao.AnomalyDAO;
 import it.unisa.c10.beehAIve.persistence.dao.HiveDAO;
 import it.unisa.c10.beehAIve.persistence.dao.MeasurementDAO;
@@ -14,14 +12,8 @@ import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Measurement;
 import it.unisa.c10.beehAIve.persistence.entities.Operation;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;

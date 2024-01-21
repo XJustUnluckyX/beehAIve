@@ -1,8 +1,5 @@
 package it.unisa.c10.beehAIve.misc;
 
-import com.google.gson.Gson;
-import it.unisa.c10.beehAIve.driverFia.Prediction;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;

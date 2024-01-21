@@ -4,14 +4,12 @@ import it.unisa.c10.beehAIve.persistence.dao.BeekeeperDAO;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;

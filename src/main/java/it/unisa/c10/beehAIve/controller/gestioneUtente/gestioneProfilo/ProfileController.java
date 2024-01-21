@@ -2,15 +2,12 @@ package it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo;
 
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.service.gestioneUtente.ProfileService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.WebUtils;
 
 @Controller
 public class ProfileController {
@@ -31,45 +28,45 @@ public class ProfileController {
     if (!regexFirstName(firstName)) {
       redirectAttributes.addFlashAttribute("error", "First name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
     // Controllo sulla lunghezza del nome
     if (firstName.length() < 2) {
       redirectAttributes.addFlashAttribute("error", "First name too short.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     } else if (firstName.length() > 15) {
       redirectAttributes.addFlashAttribute("error", "First name too long.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sul formato del cognome
     if (!regexLastName(lastName)) {
       redirectAttributes.addFlashAttribute("error", "Last Name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
     // Controllo sulla lunghezza del cognome
     if (lastName.length() < 2) {
       redirectAttributes.addFlashAttribute("error", "Last name too short.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     } else if (lastName.length() > 15) {
       redirectAttributes.addFlashAttribute("error", "Last name too long.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sul formato del nome dell'azienda
     if (!regexCompanyName(companyName)) {
       redirectAttributes.addFlashAttribute("error", "Company Name must start with capital " +
           "letter and cannot contain special symbols except for ' and - .");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
     // Controllo sulla lunghezza del nome dell'azienda
     if (companyName.length() < 2) {
       redirectAttributes.addFlashAttribute("error", "Company name too short.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     } else if (companyName.length() > 100) {
       redirectAttributes.addFlashAttribute("error", "Company name too long.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     beekeeper.setFirstName(firstName);
@@ -80,7 +77,7 @@ public class ProfileController {
 
     session.setAttribute("beekeeper", beekeeper);
 
-    return "redirect:/user-page";
+    return "redirect:/user";
   }
 
   @PostMapping("/changePassword")
@@ -93,7 +90,7 @@ public class ProfileController {
     // Verifica sull'identità dell'apicoltore
     if(!profileService.userExists(beekeeperEmail, oldPassword)) {
       redirectAttributes.addFlashAttribute("error", "Old password is incorrect.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sul formato della password
@@ -101,29 +98,29 @@ public class ProfileController {
       redirectAttributes.addFlashAttribute("error", "The password must be at least 8 " +
         "characters long and contain at least one uppercase letter, one lowercase letter, one " +
         "digit, and one special character ( @.$!%*?& ).");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
     // Controllo sulla lunghezza massima della password
     if (newPassword.length() > 100) {
       redirectAttributes.addFlashAttribute("error", "Password too long.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo sulla corrispondenza tra le due password
     if(!(newPassword.equals(confirmNewPassword))) {
       redirectAttributes.addFlashAttribute("error", "Passwords don't match.");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Cambiamento della password nel database
     profileService.changePassword(beekeeperEmail, newPassword);
 
-    return "redirect:/user-page";
+    return "redirect:/user";
   }
 
-  @GetMapping("/user-page")
+  @GetMapping("/user")
   public String user (Model model) {
-    return "/user-page";
+    return "user";
   }
 
   private boolean regexPassword (String password) {

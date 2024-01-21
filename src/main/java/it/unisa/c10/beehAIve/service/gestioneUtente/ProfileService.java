@@ -4,7 +4,6 @@ import it.unisa.c10.beehAIve.persistence.dao.BeekeeperDAO;
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 

@@ -4,14 +4,11 @@ import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.service.gestioneArnie.DashboardService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class DashboardController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     if (filterType == null && nickname == null) {
@@ -89,7 +86,7 @@ public class DashboardController {
     return "hive/dashboard";
   }
 
-  @GetMapping("/show-hive-creation")
+  @GetMapping("/new_hive")
   public String showCreationHive() {
     return "hive/creation-hive";
   }

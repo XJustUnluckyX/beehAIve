@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +44,7 @@ public class HiveController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     String beekeeperEmail = beekeeper.getEmail();
@@ -57,11 +54,11 @@ public class HiveController {
     // Controllo della lunghezza del nickname dell'arnia
     if (nickname.length() < 2) {
       redirectAttributes.addFlashAttribute("error","Nickname too short.");
-      return "redirect:/show-hive-creation";
+      return "redirect:/new_hive";
     }
     if (nickname.length() > 50) {
       redirectAttributes.addFlashAttribute("error","Nickname too long.");
-      return "redirect:/show-hive-creation";
+      return "redirect:/new_hive";
     }
 
     // Controllo della validità del formato del nickname dell'arnia
@@ -69,19 +66,19 @@ public class HiveController {
       redirectAttributes.addFlashAttribute("error","Nickname must contain one or more " +
         "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
         "symbols ( -_()'\"");
-      return "redirect:/show-hive-creation";
+      return "redirect:/new_hive";
     }
 
     // Controllo sulla validità del tipo d'arnia
     if(isHiveTypeInvalid(hiveType)) {
       redirectAttributes.addFlashAttribute("error","Invalid hive type.");
-      return "redirect:/show-hive-creation";
+      return "redirect:/new_hive";
     }
 
     // Controllo sulla validità della specie d'api dell'arnia
     if(isBeeSpeciesInvalid(beeSpecies)) {
       redirectAttributes.addFlashAttribute("error","Invalid bee species.");
-      return "redirect:/show-hive-creation";
+      return "redirect:/new_hive";
     }
 
     // Controllo del rispetto del limite del numero di arnie in base all'abbonamento
@@ -91,7 +88,7 @@ public class HiveController {
       redirectAttributes.addFlashAttribute("error",
           "You've reached the maximum number of hives!");
       // Redirect alla dashboard con errore
-      return "redirect:/show-hive-creation";
+      return "redirect:/new_hive";
     }
 
     // Creazione dell'arnia
@@ -111,7 +108,7 @@ public class HiveController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo della validità dell'ID dell'arnia
@@ -124,11 +121,11 @@ public class HiveController {
     // Controllo della lunghezza del nickname dell'arnia
     if (nickname.length() < 2) {
       redirectAttributes.addFlashAttribute("error","Nickname too short.");
-      return "redirect:/state-hive?hiveId="+ hiveId;
+      return "redirect:/hive?hiveId="+ hiveId;
     }
     if (nickname.length() > 50) {
       redirectAttributes.addFlashAttribute("error","Nickname too long.");
-      return "redirect:/state-hive?hiveId="+ hiveId;
+      return "redirect:/hive?hiveId="+ hiveId;
     }
 
     // Controllo della validità del formato del nickname dell'arnia
@@ -136,19 +133,19 @@ public class HiveController {
       redirectAttributes.addFlashAttribute("error","Nickname must contain one or more " +
         "characters, which can be uppercase and lowercase letters, digits, spaces and special" +
         "symbols ( -_()'\"");
-      return "redirect:/state-hive?hiveId="+ hiveId;
+      return "redirect:/hive?hiveId="+ hiveId;
     }
 
     // Controllo sulla validità del tipo d'arnia
     if(isHiveTypeInvalid(hiveType)) {
       redirectAttributes.addFlashAttribute("error","Invalid hive type.");
-      return "redirect:/state-hive?hiveId="+ hiveId;
+      return "redirect:/hive?hiveId="+ hiveId;
     }
 
     // Controllo sulla validità della specie d'api dell'arnia
     if(isBeeSpeciesInvalid(beeSpecies)) {
       redirectAttributes.addFlashAttribute("error","Invalid bee species.");
-      return "redirect:/state-hive?hiveId="+ hiveId;
+      return "redirect:/hive?hiveId="+ hiveId;
     }
 
     // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
@@ -160,10 +157,10 @@ public class HiveController {
     dashboardService.modifyHive(intHiveId, nickname, hiveType, beeSpecies);
 
     // Redirect allo stato dell'arnia aggiornato
-    return "redirect:/state-hive?hiveId=" + hiveId;
+    return "redirect:/hive?hiveId=" + hiveId;
   }
 
-  @GetMapping("/state-hive")
+  @GetMapping("/hive")
   public String showHive(@RequestParam String hiveId, HttpSession session,
                          RedirectAttributes redirectAttributes, Model model) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
@@ -172,7 +169,7 @@ public class HiveController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo della validità dell'ID dell'arnia
@@ -201,7 +198,7 @@ public class HiveController {
     model.addAttribute("anomalies", anomalies);
 
     // Redirect alla pagina relativa all'arnia
-    return "hive/state-hive";
+    return "hive/hive";
   }
 
   @GetMapping("/delete-hive")
@@ -213,7 +210,7 @@ public class HiveController {
     if (!beekeeper.isSubscribed()) {
       redirectAttributes.addFlashAttribute("error",
           "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user-page";
+      return "redirect:/user";
     }
 
     // Controllo della validità dell'ID dell'arnia

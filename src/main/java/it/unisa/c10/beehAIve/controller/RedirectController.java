@@ -10,12 +10,12 @@ public class RedirectController {
   public String home (Model model) {
     return "index";
   }
-  @GetMapping("/subscription-page")
-  public String subscription (Model model) { return "subscription-page";}
-  @GetMapping("/contact-us")
-  public String contact (Model model) { return "/contact-us";}
-  @GetMapping("/about-us")
-  public String about (Model model) { return "/about-us";}
-  @GetMapping("/sensor-spec")
-  public String sensor (Model model) { return "/sensor-spec";}
+  @GetMapping("/subscription_plans")
+  public String subscription (Model model) { return "subscription_plans";}
+  @GetMapping("/contact_us")
+  public String contact (Model model) { return "/contact_us";}
+  @GetMapping("/about_us")
+  public String about (Model model) { return "/about_us";}
+  @GetMapping("/sensors")
+  public String sensor (Model model) { return "/sensors";}
 }
