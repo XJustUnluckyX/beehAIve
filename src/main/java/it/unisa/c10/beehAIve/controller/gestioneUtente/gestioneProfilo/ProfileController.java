@@ -97,7 +97,7 @@ public class ProfileController {
     if (!regexPassword(newPassword)) {
       redirectAttributes.addFlashAttribute("error", "The password must be at least 8 " +
         "characters long and contain at least one uppercase letter, one lowercase letter, one " +
-        "digit, and one special character ( @.$!%*?& ).");
+        "digit, and one special character ( @.$!%*?&_- ).");
       return "redirect:/user";
     }
     // Controllo sulla lunghezza massima della password
