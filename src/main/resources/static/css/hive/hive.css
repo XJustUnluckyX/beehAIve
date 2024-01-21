@@ -14,7 +14,7 @@
 .custom-border{
     border: 2px solid black !important;
     border-radius: 30px;
-    backdrop-filter: blur(7px) !important;
+    backdrop-filter: blur(5px) !important;
     overflow-y:hidden !important;
 }
 .custom-button{

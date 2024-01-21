@@ -16,5 +16,5 @@ span{
     font-size: 30px !important;
 }
 .custom-container{
-    backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(5px) !important;
 }

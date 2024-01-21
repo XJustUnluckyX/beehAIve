@@ -162,7 +162,7 @@
                                     <!--                            Pulsanti di invio e cancellazione-->
                                     <div class="row">
                                         <div class="col-md-12 d-flex justify-content-end" style="gap:10px;">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn" data-bs-dismiss="modal"style="border: 1px solid black;background-color: #FFF0B3;">Close</button>
                                             <input class="btn btn-lg" type="submit" value="Submit" style="border: 1px solid black;background-color: #FFF0B3;"/>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
             </div>
 
             <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn" data-bs-dismiss="modal"style="border: 1px solid black;background-color: #FFF0B3;">Close</button>
                 <form th:action="@{/delete-hive}" method="get">
                     <input type="hidden" name="hiveId" th:value="${hive.getId()}">
                     <button type="submit" class="btn" style="border: 1px solid black;background-color: #FFF0B3;">Remove</button>
@@ -250,7 +250,7 @@
             </div>
 
             <div class="modal-footer bg-warning">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn" data-bs-dismiss="modal"style="border: 1px solid black;background-color: #FFF0B3;">Close</button>
             </div>
 
         </div>
