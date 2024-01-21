@@ -2,7 +2,7 @@ section{
     overflow: auto !important;
     height: 94vh;}
 .custom-border{
-
+    backdrop-filter: blur(5px) !important;
     border: 2px solid black !important;
     border-radius: 30px !important;
 }

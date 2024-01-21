@@ -18,7 +18,7 @@
 .custom-border{
     border: 2px solid black !important;
     border-radius: 30px !important;
-    backdrop-filter: blur(6px) !important;
+    backdrop-filter: blur(5px) !important;
 }
 .custom-temper{
     font-size: 4vw !important;

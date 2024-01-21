@@ -114,7 +114,7 @@
 }
 
 .input-group{
-    backdrop-filter:blur(4px);
+    backdrop-filter:blur(5px);
 }
 
 form{
