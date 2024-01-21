@@ -99,10 +99,10 @@ CREATE TABLE Measurement (
 
 # Inserimenti - Stato Zero
 INSERT INTO Beekeeper (email, passwordhash, first_name, last_name, company_name, company_PIVA, subscribed, payment_due, subscr_expiration_date) VALUES
-('n.gallotta@gmail.com',SHA2('Password-123',256),'NicolÃ²','Gallotta','The London Bee Company','GBLBC123456789',1,599,'2027-01-14'),
-('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','Bee Raw','USBR123456789',1,599,'2027-01-14'),
-('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','Rowse Honey','GBRH123456789',1,599,'2027-01-14'),
-('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,599,'2027-01-14');
+('n.gallotta@gmail.com',SHA2('Password-123',256),'NicolÃ²','Gallotta','The London Bee Company','GBLBC123456789',1,319.99,'2024-02-14'),
+('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','Bee Raw','USBR123456789',1,319.99,'2024-02-14'),
+('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','Rowse Honey','GBRH123456789',1,319.99,'2024-02-14'),
+('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,319.99,'2024-02-14');
 
 INSERT INTO Bee (scientific_name, common_name, bee_description, photo) VALUES
 ('Apis millifera','Honeybee','This is the most common and widely raised species for honey production worldwide. Honeybees are divided into various subspecies.','honeybee.png'),
@@ -143,10 +143,6 @@ INSERT INTO Sensor (hive_ID, beekeeper_email) VALUES
 (10,'a.depasquale@gmail.com'),
 (11,'a.depasquale@gmail.com'),
 (12,'a.depasquale@gmail.com');
-
-# INSERT INTO Anomaly (anomaly_name, resolved, detection_date, sensor_ID, hive_ID, beekeeper_email) VALUES
-# ('Temperature Out of Range',1,'2024-01-15 09:00:00',1,1,'n.gallotta@gmail.com'),
-# ('Humidity Out of Range',0,'2024-01-16 17:00:00',1,1,'n.gallotta@gmail.com');
 
 INSERT INTO Operation (operation_name, operation_type, operation_status, operation_date, notes, hive_ID, beekeeper_email) VALUES
 ('Temperature Adjustment','Transfer','Completed','2024-01-15 09:00:00','Adjusted hive temperature by providing additional insulation during cold weather.',1,'n.gallotta@gmail.com');
