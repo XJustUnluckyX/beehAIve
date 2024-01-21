@@ -13,16 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-La seguente classe, dopo aver ricevuto l'input dalla classe SimulateSensorService, deve supportare le seguenti operazioni:
-1. Controllare se esiste un'anomalia sul peso dell'arnia.
-2. Controllare se esiste un'anomalia sulla temperatura dell'arnia.
-3. Controllare se esiste un'anomalia sull'umidità dell'arnia.
-4. Controllare se la regina è presente, consultando la rete neurale (quest'ultima sarà un microservizio Flask a parte,
-quindi il metodo corrispondente riceverà in input il file audio).
-5. Controllare se l'arnia è a rischio CCD, interfacciandosi con l'Adapter.
- */
-
 @Service
 public class AnomalyService {
 
@@ -130,24 +120,6 @@ public class AnomalyService {
 
   }
 
-  private int getNewHealthStatus (int hiveId) {
-
-    List<Anomaly> anomalies = anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
-
-    // Se non ci sono anomalie l'arnia è in salute
-    if (anomalies.isEmpty())
-      return 1;
-
-    // Controlla se ci sono anomalie di Possibile CCD
-    for (Anomaly a : anomalies)
-      if (a.getAnomalyName().equals("Possible CCD"))
-        return 3;
-
-    // Le uniche anomalie rimaste sono di gravità media
-    return 2;
-
-  }
-
   public List<Anomaly> getUnresolvedAnomalies (int hiveId) {
     return anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
   }
@@ -155,6 +127,15 @@ public class AnomalyService {
   public Anomaly getAnomaly (int anomalyId) {
     return anomalyDAO.findById(anomalyId).get();
   }
+
+  public String getRandomSpectrogram() {
+    return adapter.getRandomSpectrogram();
+  }
+
+  public boolean predictQueenPresence (String spectrogram) {
+    return adapter.predictQueenPresence(spectrogram);
+  }
+
 
   private Anomaly checkHiveWeight(Measurement measurement, String beekeeperEmail) {
 
@@ -255,12 +236,22 @@ public class AnomalyService {
     return anomaly;
   }
 
-  public String getRandomSpectrogram() {
-    return adapter.getRandomSpectrogram();
-  }
+  private int getNewHealthStatus (int hiveId) {
 
-  public boolean predictQueenPresence (String spectrogram) {
-    return adapter.predictQueenPresence(spectrogram);
+    List<Anomaly> anomalies = anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
+
+    // Se non ci sono anomalie l'arnia è in salute
+    if (anomalies.isEmpty())
+      return 1;
+
+    // Controlla se ci sono anomalie di Possibile CCD
+    for (Anomaly a : anomalies)
+      if (a.getAnomalyName().equals("Possible CCD"))
+        return 3;
+
+    // Le uniche anomalie rimaste sono di gravità media
+    return 2;
+
   }
 
 

@@ -18,6 +18,11 @@ public class ProfileController {
     this.profileService = profileService;
   }
 
+  @GetMapping("/user")
+  public String user () {
+    return "user";
+  }
+
   @PostMapping("/changeInfo")
   public String changeInfo(@RequestParam String firstName, @RequestParam String lastName,
                            @RequestParam String companyName, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -118,10 +123,6 @@ public class ProfileController {
     return "redirect:/user";
   }
 
-  @GetMapping("/user")
-  public String user (Model model) {
-    return "user";
-  }
 
   private boolean regexPassword (String password) {
     String passwordRegex =

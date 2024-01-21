@@ -6,16 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
-
-/*
-La seguente classe deve supportare le seguenti operazioni:
-1. Registrare l'apicoltore.
-2. Loggare dentro l'apicoltore.
-3. Loggare fuori l'apicoltore.
-4. Modificare i dati personali dell'apicoltore.
-5. Modificare la password dell'apicoltore.
- */
-
 @Service
 public class ProfileService {
   private final BeekeeperDAO beekeerperDAO;
@@ -61,18 +51,18 @@ public class ProfileService {
     }
   }
 
+  public boolean userExists(String email, String password) {
+    Beekeeper beekeeper = new Beekeeper();
+    beekeeper.setPasswordhash(password);
+    return !(beekeerperDAO.findByEmailAndPasswordhash(email,beekeeper.getPasswordhash()).isEmpty());
+  }
+
   public boolean emailExists(String email) {
     return (beekeerperDAO.findById(email)).isPresent();
   }
 
   public boolean pivaExists(String piva) {
     return !(beekeerperDAO.findByCompanyPiva(piva).isEmpty());
-  }
-
-  public boolean userExists(String email, String password) {
-    Beekeeper beekeeper = new Beekeeper();
-    beekeeper.setPasswordhash(password);
-    return !(beekeerperDAO.findByEmailAndPasswordhash(email,beekeeper.getPasswordhash()).isEmpty());
   }
 
   public Optional<Beekeeper> findBeekeeper(String email) {

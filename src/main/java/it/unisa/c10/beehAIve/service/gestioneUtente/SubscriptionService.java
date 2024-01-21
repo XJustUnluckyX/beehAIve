@@ -30,77 +30,6 @@ public class SubscriptionService {
     this.beekeeperDAO = beekeeperDAO;
   }
 
-  public Beekeeper getBeekeeper(String beekeeperEmail) {
-    // Ricerca del beekeeper nel database
-    Optional<Beekeeper> optionalBeekeeper = beekeeperDAO.findById(beekeeperEmail);
-
-    // Controllo sull'esistenza del beekeeper nel database
-    if (optionalBeekeeper.isPresent()) {
-      return optionalBeekeeper.get();
-    } else {
-      throw new NullPointerException("Beekeeper not found for email: " + beekeeperEmail);
-    }
-  }
-
-  public double calculatePayment(String subscriptionType) {
-    if (subscriptionType.equals("small")) { // Prezzo dell'abbonamento "Small"
-      return 49.99;
-    } else if (subscriptionType.equals("medium")) { // Prezzo dell'abbonamento "Medium"
-      return 319.99;
-    } else { // Prezzo dell'abbonamento "Large"
-      return 969.99;
-    }
-  }
-
-  public void modifySubscription(String beekeeperEmail, String subscriptionType) {
-    Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
-
-    // Sottoscrizione a un nuovo abbonamento
-    beekeeper.setSubscribed(true);
-    // Calcolo dell'importo pagato
-    beekeeper.setPaymentDue(calculatePayment(subscriptionType));
-    // Un mese alla scadenza a partire dalla data odierna
-    beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(1));
-
-    // Salvataggio delle modifiche nel database
-    beekeeperDAO.save(beekeeper);
-  }
-
-  public void cancelSubscription(String beekeeperEmail) {
-    Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
-
-    // Cancellazione dell'abbonamento dal database
-    beekeeper.setSubscribed(false);
-    beekeeper.setPaymentDue(0);
-    beekeeper.setSubscrExpirationDate(null);
-    // Salvataggio delle modifiche nel database
-    beekeeperDAO.save(beekeeper);
-  }
-
-  public boolean isSubscriptionExpired(String beekeeperEmail) {
-    Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
-
-    // Restituisce 'true' se la data odierna supera la data di scadenza, 'false' altrimenti
-    return beekeeper.getSubscrExpirationDate().isBefore(LocalDate.now());
-  }
-
-  public void cancelAllExpiredSubscriptions() {
-    List<Beekeeper> beekeepers = beekeeperDAO.findAll();
-
-    for (Beekeeper b : beekeepers) {
-      // Se l'abbonamento risulta scaduto...
-      if (b.getSubscrExpirationDate() != null && isSubscriptionExpired(b.getEmail())) {
-        // Cancellazione dell'abbonamento dal database
-        b.setSubscribed(false);
-        b.setPaymentDue(0);
-        b.setSubscrExpirationDate(null);
-        beekeeperDAO.save(b);
-      }
-    }
-  }
-
-  //--------------------------------------Metodi di PayPal------------------------------------------
-
   public Payment createPayment(Double total, String currency, String method, String intent,
                                String description, String cancelUrl, String successUrl)
       throws PayPalRESTException {
@@ -138,4 +67,63 @@ public class SubscriptionService {
     paymentExecute.setPayerId(payerId);
     return payment.execute(apiContext, paymentExecute);
   }
+
+  public boolean isSubscriptionExpired(String beekeeperEmail) {
+    Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
+
+    // Restituisce 'true' se la data odierna supera la data di scadenza, 'false' altrimenti
+    return beekeeper.getSubscrExpirationDate().isBefore(LocalDate.now());
+  }
+
+  public void modifySubscription(String beekeeperEmail, String subscriptionType) {
+    Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
+
+    // Sottoscrizione a un nuovo abbonamento
+    beekeeper.setSubscribed(true);
+    // Calcolo dell'importo pagato
+    beekeeper.setPaymentDue(calculatePayment(subscriptionType));
+    // Un mese alla scadenza a partire dalla data odierna
+    beekeeper.setSubscrExpirationDate(LocalDate.now().plusMonths(1));
+
+    // Salvataggio delle modifiche nel database
+    beekeeperDAO.save(beekeeper);
+  }
+
+  public void cancelAllExpiredSubscriptions() {
+    List<Beekeeper> beekeepers = beekeeperDAO.findAll();
+
+    for (Beekeeper b : beekeepers) {
+      // Se l'abbonamento risulta scaduto...
+      if (b.getSubscrExpirationDate() != null && isSubscriptionExpired(b.getEmail())) {
+        // Cancellazione dell'abbonamento dal database
+        b.setSubscribed(false);
+        b.setPaymentDue(0);
+        b.setSubscrExpirationDate(null);
+        beekeeperDAO.save(b);
+      }
+    }
+  }
+
+  public Beekeeper getBeekeeper(String beekeeperEmail) {
+    // Ricerca del beekeeper nel database
+    Optional<Beekeeper> optionalBeekeeper = beekeeperDAO.findById(beekeeperEmail);
+
+    // Controllo sull'esistenza del beekeeper nel database
+    if (optionalBeekeeper.isPresent()) {
+      return optionalBeekeeper.get();
+    } else {
+      throw new NullPointerException("Beekeeper not found for email: " + beekeeperEmail);
+    }
+  }
+
+  public double calculatePayment(String subscriptionType) {
+    if (subscriptionType.equals("small")) { // Prezzo dell'abbonamento "Small"
+      return 49.99;
+    } else if (subscriptionType.equals("medium")) { // Prezzo dell'abbonamento "Medium"
+      return 319.99;
+    } else { // Prezzo dell'abbonamento "Large"
+      return 969.99;
+    }
+  }
+
 }

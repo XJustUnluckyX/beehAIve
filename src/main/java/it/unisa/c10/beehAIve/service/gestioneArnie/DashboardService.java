@@ -63,16 +63,6 @@ public class DashboardService {
     measurementDAO.save(measurement);
   }
 
-  public void modifyHive(int hiveId, String nickname, String hiveType, String beeSpecies){
-    Hive hive = getHive(hiveId);
-
-    hive.setNickname(nickname);
-    hive.setHiveType(hiveType);
-    hive.setBeeSpecies(beeSpecies);
-
-    hiveDAO.save(hive);
-  }
-
   public Hive getHive(int hiveId) {
     // Ricerca dell'arnia nel database
     Optional<Hive> optionalHive = hiveDAO.findById(hiveId);
@@ -83,6 +73,20 @@ public class DashboardService {
     } else {
       throw new NullPointerException("Hive not found for ID: " + hiveId);
     }
+  }
+
+  public void modifyHive(int hiveId, String nickname, String hiveType, String beeSpecies){
+    Hive hive = getHive(hiveId);
+
+    hive.setNickname(nickname);
+    hive.setHiveType(hiveType);
+    hive.setBeeSpecies(beeSpecies);
+
+    hiveDAO.save(hive);
+  }
+
+  public void deleteHive(int id){
+    hiveDAO.deleteById(id);
   }
 
   public List<Hive> getBeekeeperHives(String beekeeperEmail){
@@ -113,28 +117,8 @@ public class DashboardService {
         beekeeperEmail);
   }
 
-  public List<Hive> getBeekeeperHivesByHiveType(String beekeeperEmail, String hiveType) {
-    return hiveDAO.findByHiveTypeAndBeekeeperEmail(hiveType, beekeeperEmail);
-  }
-
-  public List<Hive> getBeekeeperHivesByDateRange(String beekeeperEmail,
-                                                       LocalDate date1, LocalDate date2) {
-    return hiveDAO.findByCreationDateBetweenAndBeekeeperEmail(date1, date2, beekeeperEmail);
-  }
-
-  public List<Hive> getBeekeeperHivesByBeeSpecies(String beekeeperEmail, String beeSpecies) {
-    return hiveDAO.findByBeeSpeciesAndBeekeeperEmail(beeSpecies, beekeeperEmail);
-  }
-
-  public List<Hive> getBeekeeperHivesWithAnomalies(String beekeeperEmail){
-    return hiveDAO.findByBeekeeperEmailAndAnomaliesUnresolved(beekeeperEmail);
-  }
-
   public int getBeekeeperHivesCount(String beekeeperEmail) {
     return hiveDAO.countByBeekeeperEmail(beekeeperEmail);
   }
 
-  public void deleteHive(int id){
-    hiveDAO.deleteById(id);
-  }
 }

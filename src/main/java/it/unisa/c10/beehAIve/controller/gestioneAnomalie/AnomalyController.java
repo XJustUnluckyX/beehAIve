@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-// Gestisce la comunicazione con l'adapter per il modello e i vari controlli arbitari sulla misurazione, ovvero
-// temperatura, umidità, peso, presenza regina
-// e invia l'anomalia al database
 @Controller
 public class AnomalyController {
 
@@ -22,21 +18,6 @@ public class AnomalyController {
   @Autowired
   public AnomalyController(AnomalyService anomalyService) {
     this.anomalyService = anomalyService;
-  }
-
-
-
-  // Cancella un'anomalia
-  @GetMapping("/delete_anomaly")
-  @ResponseBody
-  public String deleteAnomaly (@RequestParam int anomalyId, HttpSession session) {
-
-    if (!checkHiveOwnership(session, anomalyId))
-      return "failure";
-
-    anomalyService.deleteAnomaly(anomalyId);
-
-    return "success";
   }
 
   // Risolve un'anomalia
@@ -51,6 +32,21 @@ public class AnomalyController {
 
     return "success";
   }
+
+  // Cancella un'anomalia
+  @GetMapping("/delete_anomaly")
+  @ResponseBody
+  public String deleteAnomaly (@RequestParam int anomalyId, HttpSession session) {
+
+    if (!checkHiveOwnership(session, anomalyId))
+      return "failure";
+
+    anomalyService.deleteAnomaly(anomalyId);
+
+    return "success";
+  }
+
+
 
 
   // Bisogna fare il controllo che l'anomalia sia effettivamente di un'arnia dell'apicoltore

@@ -1,11 +1,5 @@
 package it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneInterventi;
 
-// Gestisce Creazione, Modifica, Cancellazione e Visualizzazione di una singolo intervento (CRUD)
-// Gestisce inoltre il cambio di stato dell' Intervento.
-// In particolare la visualizzazione del singolo verrà utilizzata per mostrare un popup con i tasti di gestione
-// come Modifica o cambiare lo stato (Eseguito o meno)
-// Inoltre gestisce le notifiche sugli interventi imminenti
-
 import it.unisa.c10.beehAIve.persistence.entities.Beekeeper;
 import it.unisa.c10.beehAIve.persistence.entities.Hive;
 import it.unisa.c10.beehAIve.persistence.entities.Operation;
@@ -18,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -396,4 +389,5 @@ public class OperationController {
 
     return !operation.getBeekeeperEmail().equals(beekeeperEmail);
   }
+
 }

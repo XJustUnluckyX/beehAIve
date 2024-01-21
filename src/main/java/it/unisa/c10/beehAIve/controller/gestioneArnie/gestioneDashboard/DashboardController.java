@@ -20,6 +20,11 @@ public class DashboardController {
     this.dashboardService = dashboardService;
   }
 
+  @GetMapping("/new_hive")
+  public String showCreationHive() {
+    return "hive/creation-hive";
+  }
+
   @GetMapping("/dashboard")
   public String showHivesByFilters(@RequestParam(required = false) String nickname,
                                    @RequestParam(required = false)  String filterType,
@@ -86,8 +91,4 @@ public class DashboardController {
     return "hive/dashboard";
   }
 
-  @GetMapping("/new_hive")
-  public String showCreationHive() {
-    return "hive/creation-hive";
-  }
 }

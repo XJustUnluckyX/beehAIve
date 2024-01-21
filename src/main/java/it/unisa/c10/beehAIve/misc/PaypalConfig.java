@@ -2,11 +2,9 @@ package it.unisa.c10.beehAIve.misc;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
@@ -16,7 +14,6 @@ SANDBOX ACCOUNT
 Email: sb-8duro29328269@personal.example.com
 Password: Hi*bW4MT
 */
-
 @Configuration
 public class PaypalConfig {
   @Value("${paypal.client.id}")

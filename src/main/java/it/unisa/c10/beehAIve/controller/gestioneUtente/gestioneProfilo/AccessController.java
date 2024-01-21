@@ -36,6 +36,15 @@ public class AccessController {
     }
   }
 
+  @GetMapping("/login")
+  public String showLoginForm(HttpSession session) {
+    if (session.getAttribute("beekeeper") == null) {
+      return "login-page";
+    } else {
+      return "redirect:/";
+    }
+  }
+
   @PostMapping("/registration-form")
   public String registration(@RequestParam String email, @RequestParam String firstName,
                              @RequestParam String lastName, @RequestParam String companyName,
@@ -151,15 +160,6 @@ public class AccessController {
     profileService.registration(email, password, firstName, lastName, companyName, companyPiva);
 
     return "redirect:/login";
-  }
-
-  @GetMapping("/login")
-  public String showLoginForm(HttpSession session) {
-    if (session.getAttribute("beekeeper") == null) {
-      return "login-page";
-    } else {
-      return "redirect:/";
-    }
   }
 
   @PostMapping("/login-form")

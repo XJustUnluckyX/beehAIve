@@ -9,8 +9,55 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-//Converte una misurazione in JSON, comunica col microservice in Flask e riconverte la risposta in un oggetto Previsione
 public class FlaskAdapter {
+
+  // Questo metodo prende uno spettrogramma a caso dal dataset
+  public String getRandomSpectrogram () {
+    HttpURLConnection connection = null;
+    DataOutputStream outputStream = null;
+    String result = "";
+    try {
+      // Istanzia la connessione sull'ip
+      URL url = new URL("http://127.0.0.1:5000/get_spectrogram");
+      // Formattiamo in formato JSON
+      String[] inputData = {"{\"nothing\" : \"nothing\"}"};
+      for (String input : inputData) {
+        // Scriviamo il nostro file JSON sulla connessione
+        byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("charset", "utf-8");
+        connection.setRequestProperty("Content-Length", Integer.toString(input.length()));
+        outputStream = new DataOutputStream(connection.getOutputStream());
+        outputStream.write(postDataToSend);
+        outputStream.flush();
+
+        if (connection.getResponseCode() != 200) {
+          throw new RuntimeException("HTTP Error Code: " + connection.getResponseCode());
+        }
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        // Leggiamo il nostro output
+        String output;
+        while ((output = bufferedReader.readLine()) != null) {
+          result = output;
+        }
+        connection.disconnect();
+      }
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (connection != null)
+        connection.disconnect();
+    }
+    result = result.substring( 1, result.length() - 1 );
+    return result;
+  }
 
   // Questo metodo fa fare una previsione alla CNN partendo dal nome di uno spettrogramma
   public boolean predictQueenPresence (String fileName) {
@@ -126,52 +173,6 @@ public class FlaskAdapter {
     return result;
   }
 
-  // Questo metodo prende uno spettrogramma a caso dal dataset
-  public String getRandomSpectrogram () {
-    HttpURLConnection connection = null;
-    DataOutputStream outputStream = null;
-    String result = "";
-    try {
-      // Istanzia la connessione sull'ip
-      URL url = new URL("http://127.0.0.1:5000/get_spectrogram");
-      // Formattiamo in formato JSON
-      String[] inputData = {"{\"nothing\" : \"nothing\"}"};
-      for (String input : inputData) {
-        // Scriviamo il nostro file JSON sulla connessione
-        byte[] postDataToSend = input.getBytes(StandardCharsets.UTF_8);
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("charset", "utf-8");
-        connection.setRequestProperty("Content-Length", Integer.toString(input.length()));
-        outputStream = new DataOutputStream(connection.getOutputStream());
-        outputStream.write(postDataToSend);
-        outputStream.flush();
 
-        if (connection.getResponseCode() != 200) {
-          throw new RuntimeException("HTTP Error Code: " + connection.getResponseCode());
-        }
-
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        // Leggiamo il nostro output
-        String output;
-        while ((output = bufferedReader.readLine()) != null) {
-          result = output;
-        }
-        connection.disconnect();
-      }
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } finally {
-      if (connection != null)
-        connection.disconnect();
-    }
-    result = result.substring( 1, result.length() - 1 );
-    return result;
-  }
 
 }

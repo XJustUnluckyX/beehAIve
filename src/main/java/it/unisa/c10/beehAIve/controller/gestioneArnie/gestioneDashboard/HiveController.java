@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-// Gestisce Creazione, Modifica, Cancellazione e Visualizzazione di una singola arnia (CRUD)
-
 @Controller
 public class HiveController {
   private final DashboardService dashboardService;
@@ -33,6 +31,47 @@ public class HiveController {
     this.dashboardService = dashboardService;
     this.anomalyService = anomalyService;
     this.statusService = statusService;
+  }
+
+  @GetMapping("/hive")
+  public String showHive(@RequestParam String hiveId, HttpSession session,
+                         RedirectAttributes redirectAttributes, Model model) {
+    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
+
+    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
+    if (!beekeeper.isSubscribed()) {
+      redirectAttributes.addFlashAttribute("error",
+        "To create and monitor your hives, subscribe to one of our plans first!");
+      return "redirect:/user";
+    }
+
+    // Controllo della validità dell'ID dell'arnia
+    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
+      throw new RuntimeException();
+    }
+
+    // Ottenimento dell'arnia
+    int intHiveId = Integer.parseInt(hiveId);
+    Hive hive = dashboardService.getHive(intHiveId);
+
+    // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
+    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
+      throw new RuntimeException();
+    }
+
+    // Prendiamo tutte le anomalie non risolte dell'arnia
+    List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
+
+    // Prediamo la data dell'ultima misurazione dell'arnia
+    LocalDateTime lastMeasure = LocalDateTime.from(statusService.getHiveLastMeasurement(intHiveId).getMeasurementDate());
+
+    // Passaggio dell'arnia e delle anomalie
+    model.addAttribute("hive", hive);
+    model.addAttribute("lastMeasure",lastMeasure);
+    model.addAttribute("anomalies", anomalies);
+
+    // Redirect alla pagina relativa all'arnia
+    return "hive/hive";
   }
 
   @GetMapping("/create-hive")
@@ -160,47 +199,6 @@ public class HiveController {
     return "redirect:/hive?hiveId=" + hiveId;
   }
 
-  @GetMapping("/hive")
-  public String showHive(@RequestParam String hiveId, HttpSession session,
-                         RedirectAttributes redirectAttributes, Model model) {
-    Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
-
-    // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
-    if (!beekeeper.isSubscribed()) {
-      redirectAttributes.addFlashAttribute("error",
-          "To create and monitor your hives, subscribe to one of our plans first!");
-      return "redirect:/user";
-    }
-
-    // Controllo della validità dell'ID dell'arnia
-    if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
-      throw new RuntimeException();
-    }
-
-    // Ottenimento dell'arnia
-    int intHiveId = Integer.parseInt(hiveId);
-    Hive hive = dashboardService.getHive(intHiveId);
-
-    // Controllo sulla coerenza tra l'ID dell'arnia da modificare e l'email dell'apicoltore
-    if(isNotConsistentBetweenHiveIdAndBeekeeperEmail(intHiveId, beekeeper.getEmail())) {
-      throw new RuntimeException();
-    }
-
-    // Prendiamo tutte le anomalie non risolte dell'arnia
-    List<Anomaly> anomalies = anomalyService.getUnresolvedAnomalies(intHiveId);
-
-    // Prediamo la data dell'ultima misurazione dell'arnia
-    LocalDateTime lastMeasure = LocalDateTime.from(statusService.getHiveLastMeasurement(intHiveId).getMeasurementDate());
-
-    // Passaggio dell'arnia e delle anomalie
-    model.addAttribute("hive", hive);
-    model.addAttribute("lastMeasure",lastMeasure);
-    model.addAttribute("anomalies", anomalies);
-
-    // Redirect alla pagina relativa all'arnia
-    return "hive/hive";
-  }
-
   @GetMapping("/delete-hive")
   public String deleteHive(@RequestParam String hiveId, RedirectAttributes redirectAttributes,
                            HttpSession session) {
@@ -254,4 +252,5 @@ public class HiveController {
 
     return !hive.getBeekeeperEmail().equals(beekeeperEmail);
   }
+
 }

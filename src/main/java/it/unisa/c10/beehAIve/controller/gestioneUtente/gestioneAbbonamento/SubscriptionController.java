@@ -20,47 +20,14 @@ public class SubscriptionController {
 
   private final SubscriptionService subscriptionService;
   private final DashboardService dashboardService;
-
+  private String subscriptionType;
+  public static final String PAYPAL_SUCCESS_URL = "pay/success";
+  public static final String PAYPAL_CANCEL_URL = "pay/cancel";
   @Autowired
   public SubscriptionController (SubscriptionService subscriptionService, DashboardService dashboardService) {
     this.subscriptionService = subscriptionService;
     this.dashboardService = dashboardService;
   }
-
-  // Per PayPal
-  private String payerEmail;
-  private String subscriptionType;
-  public static final String PAYPAL_SUCCESS_URL = "pay/success";
-  public static final String PAYPAL_CANCEL_URL = "pay/cancel";
-
-  private boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
-    double beekeeperPaymentDue = subscriptionService.getBeekeeper(beekeeperEmail).getPaymentDue();
-    /* Si restituisce 'false' nei seguenti casi:
-     * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
-     * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
-     * - L'apicoltore vuole passare dall'abbonamento "Large" a "Medium" e possiede più di 100 arnie
-     */
-    if (((beekeeperPaymentDue == 49.99 && subscriptionType.equals("small"))
-        && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
-     || ((beekeeperPaymentDue == 319.99 && subscriptionType.equals("small"))
-        && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
-     || ((beekeeperPaymentDue == 969.99 && subscriptionType.equals("medium"))
-        && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 100)){
-      return false;
-    }
-
-    // Si restituisce 'true' se non si presenta nessuno dei casi precedenti perché il limite massimo
-    // di arnie è rispettato oppure perché beekeeperPaymentDue == null (l'apicoltore non ha alcun
-    // abbonamento)
-    return true;
-  }
-
-  @Scheduled(cron = "0 0 0 * * *")
-  public void cancelAllExpiredSubscription() {
-    subscriptionService.cancelAllExpiredSubscriptions();
-  }
-
-  //--------------------------------------Metodi di PayPal------------------------------------------
 
   @GetMapping("/pay")
   public String payment(@RequestParam String subscriptionType, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -152,4 +119,33 @@ public class SubscriptionController {
   public String cancelPay() {
     return "payments/payment-cancelled";
   }
+
+  @Scheduled(cron = "0 0 0 * * *")
+  public void cancelAllExpiredSubscription() {
+    subscriptionService.cancelAllExpiredSubscriptions();
+  }
+
+  private boolean canModifySubscription(String beekeeperEmail, String subscriptionType) {
+    double beekeeperPaymentDue = subscriptionService.getBeekeeper(beekeeperEmail).getPaymentDue();
+    /* Si restituisce 'false' nei seguenti casi:
+     * - L'apicoltore vuole passare dall'abbonamento "Medium" a "Small" e possiede più di 15 arnie
+     * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
+     * - L'apicoltore vuole passare dall'abbonamento "Large" a "Medium" e possiede più di 100 arnie
+     */
+    if (((beekeeperPaymentDue == 49.99 && subscriptionType.equals("small"))
+      && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
+      || ((beekeeperPaymentDue == 319.99 && subscriptionType.equals("small"))
+      && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
+      || ((beekeeperPaymentDue == 969.99 && subscriptionType.equals("medium"))
+      && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 100)){
+      return false;
+    }
+
+    // Si restituisce 'true' se non si presenta nessuno dei casi precedenti perché il limite massimo
+    // di arnie è rispettato oppure perché beekeeperPaymentDue == null (l'apicoltore non ha alcun
+    // abbonamento)
+    return true;
+  }
+
+
 }
