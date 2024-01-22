@@ -36,7 +36,7 @@ public class SubscriptionService {
    * @param total l'importo totale che l'utente dovr&agrave; versare
    * @param currency la valuta utilizzata dall'utente
    * @param method il metodo di pagamento (e.g. "PayPal")
-   * @param intent l'intento del pagamento, che pu&agrave; assumere solo i seguenti tre valori:
+   * @param intent l'intento del pagamento, che pu&ograve; assumere solo i seguenti tre valori:
    *               <ul>
    *                 <li>"sale": pagamento immediato</li>
    *                 <li>"order": pagamento futuro</li>
@@ -46,7 +46,7 @@ public class SubscriptionService {
    * @param cancelUrl l'URL a cui renderizzare l'utente in caso di annullamento del pagamento
    * @param successUrl l'URL a cui renderizzare l'utente dopo aver effettuato il pagamento
    * @return un oggetto {@code Payment} che rappresenta la transazione di pagamento
-   * @throws PayPalRESTException
+   * @throws PayPalRESTException Nel caso in cui si verifichino errori durante la creazione del pagamento.
    */
   public Payment createPayment(Double total, String currency, String method, String intent,
                                String description, String cancelUrl, String successUrl)
@@ -83,7 +83,7 @@ public class SubscriptionService {
    * @param paymentId l'ID del pagamento
    * @param payerId l'ID dell'acquirente
    * @return un oggetto {@code Payment} che rappresenta la transazione di pagamento
-   * @throws PayPalRESTException
+   * @throws PayPalRESTException Nel caso in cui si verifichino errori durante l'esecuzione del pagamento.
    */
   public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
     Payment payment = new Payment();

@@ -67,9 +67,9 @@ public class OperationService {
    * @param operationName Il nuovo nome dell'operazione.
    * @param operationType Il nuovo tipo dell'operazione.
    * @param operationStatus Il nuovo Status dell'operazione.
-   * @param operationDate La nuova data in cui &eacute; prevista l'operazione.
+   * @param operationDate La nuova data in cui &eagrave; prevista l'operazione.
    * @param notes Eventuali note sull'operazione.
-   * @param hiveId L'id dell'arnia su cui &eacute; prevista l'operazione.
+   * @param hiveId L'id dell'arnia su cui &egrave; prevista l'operazione.
    * @param beekeeperEmail L'email dell'apicoltore che vuole modificare l'operazione.
    */
   public void modifyScheduledOperation(int id, String operationName, String operationType, String operationStatus,

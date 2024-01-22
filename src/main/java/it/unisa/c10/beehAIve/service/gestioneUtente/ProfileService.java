@@ -87,18 +87,18 @@ public class ProfileService {
   }
 
   /**
-   * Verifica se un indirizzo email &eacute; registrato nel sistema.
+   * Verifica se un indirizzo email &egrave; registrato nel sistema.
    * @param email l'indirizzo email di cui vogliamo verificare l'esistenza nel sistema.
-   * @return {@code true} se l'indirizzo email &eacute; presente nel sistema, {@code false} altrimenti.
+   * @return {@code true} se l'indirizzo email &egrave; presente nel sistema, {@code false} altrimenti.
    */
   public boolean emailExists(String email) {
     return (beekeerperDAO.findById(email)).isPresent();
   }
 
   /**
-   * Verifica se la partita IVA &eacute; registrata nel sistema.
+   * Verifica se la partita IVA &egrave; registrata nel sistema.
    * @param piva La partita IVA di cui vogliamo verificare l'esistenza nel sistema.
-   * @return {@code true} se la partita IVA &eacute; presente nel sistema, {@code false} altrimenti.
+   * @return {@code true} se la partita IVA &egrave; presente nel sistema, {@code false} altrimenti.
    */
   public boolean pivaExists(String piva) {
     return !(beekeerperDAO.findByCompanyPiva(piva).isEmpty());

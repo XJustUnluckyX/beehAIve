@@ -67,7 +67,7 @@ public class AnomalyService {
   }
 
   /**
-   * Notifica l'apicoltore della gravit&aacute; di un'anomalia su un'arnia.
+   * Notifica l'apicoltore della gravit&agrave; di un'anomalia su un'arnia.
    * @param anomaly L'anomalia da notificare.
    */
   public void notifyAnomaly (Anomaly anomaly) {
@@ -168,7 +168,7 @@ public class AnomalyService {
    * Si interfaccia con l'adapter per comunicare con la CNN per prevedere se la regina &eacute; presente o meno
    * all'interno dell'arnia partendo da uno spettrogramma.
    * @param spectrogram Il nome del file dello spettrogramma.
-   * @return {@code true} se la regina &eacute; presente, {@code false} altrimenti.
+   * @return {@code true} se la regina &egrave; presente, {@code false} altrimenti.
    */
   public boolean predictQueenPresence (String spectrogram) {
     return adapter.predictQueenPresence(spectrogram);

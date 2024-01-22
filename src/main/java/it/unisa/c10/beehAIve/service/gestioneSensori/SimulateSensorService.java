@@ -36,7 +36,7 @@ public class SimulateSensorService {
    * <li>La temperatura dell'ambiente esterno.</li>
    * <li>L'umidità dell'ambiente esterno.</li>
    * <li>La temperatura interna all'arnia.</li>
-   * <li>L'umidit&aacute; interna all'arnia.</li>
+   * <li>L'umidit&agrave; interna all'arnia.</li>
    * <li>Il peso dell'arnia.</li>
    * <li>Uno spettrogramma casuale ricavato dal suono prodotto dalle api all'interno dell'arnia.</li>
    * <li>La presenza o l'assenza della regina.</li>
