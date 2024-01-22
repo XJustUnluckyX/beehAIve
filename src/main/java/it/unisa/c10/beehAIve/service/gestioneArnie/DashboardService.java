@@ -24,6 +24,13 @@ public class DashboardService {
     this.measurementDAO = measurementDAO;
   }
 
+  /**
+   * Permette di creare un'arnia all'interno del database.
+   * @param beekeeperEmail L'email dell'apicoltore che sta creando l'arnia.
+   * @param nickname Il nome dell'arnia.
+   * @param hiveType La tipologia dell'arnia.
+   * @param beeSpecies La specie delle api contenute nell'arnia.
+   */
   public void createHive(String beekeeperEmail, String nickname, String hiveType, String beeSpecies){
     // Creazione dell'arnia e salvataggio nel database
     Hive hive = new Hive();
@@ -63,6 +70,11 @@ public class DashboardService {
     measurementDAO.save(measurement);
   }
 
+  /**
+   * Prende un'arnia dal database.
+   * @param hiveId L'id dell'arnia da prendere.
+   * @return L'{@code Hive} che corrisponde a quell'id.
+   */
   public Hive getHive(int hiveId) {
     // Ricerca dell'arnia nel database
     Optional<Hive> optionalHive = hiveDAO.findById(hiveId);
@@ -75,6 +87,13 @@ public class DashboardService {
     }
   }
 
+  /**
+   * Permette di modificare un'arnia nel database.
+   * @param hiveId L'id dell'arnia da modificare.
+   * @param nickname Il nuovo nome dell'arnia.
+   * @param hiveType La nuova tipologia dell'arnia.
+   * @param beeSpecies La nuova specie delle api contenute nell'arnia.
+   */
   public void modifyHive(int hiveId, String nickname, String hiveType, String beeSpecies){
     Hive hive = getHive(hiveId);
 
@@ -85,38 +104,80 @@ public class DashboardService {
     hiveDAO.save(hive);
   }
 
+  /**
+   * Permette di eliminare un'arnia nel database.
+   * @param id L'id dell'arnia da eliminare.
+   */
   public void deleteHive(int id){
     hiveDAO.deleteById(id);
   }
 
+  /**
+   * Prende tutte le arnie di un apicoltore dal database.
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
+   * @return La {@code List} di {@code Hive} dell'apicoltore.
+   */
   public List<Hive> getBeekeeperHives(String beekeeperEmail){
     return hiveDAO.findByBeekeeperEmail(beekeeperEmail);
   }
 
+  /**
+   * Prende tutte le arnie di un apicoltore che contengono una stringa nel nome.
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
+   * @param nickname La stringa che cerchiamo all'interno del nome dell'arnia
+   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   */
   public List<Hive> getBeekeeperHivesByNickname(String beekeeperEmail, String nickname) {
     return hiveDAO.findByNicknameContainingAndBeekeeperEmail(nickname, beekeeperEmail);
   }
 
+  /**
+   * Prende tutte le arnie di un apicoltore che hanno operazioni imminenti
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
+   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   */
   public List<Hive> getBeekeeperHivesWithScheduledOperations(String beekeeperEmail) {
     return hiveDAO.findByUncompletedOperationsTrueAndBeekeeperEmail(beekeeperEmail);
   }
 
+  /**
+   * Prende tutte le arnie di un apicoltore che presentano uno stato di salute non ottimale.
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
+   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   */
   public List<Hive> getBeekeeperHivesWithHealthIssues(String beekeeperEmail) {
     return hiveDAO.findByHealthIssuesAndBeekeeperEmail(beekeeperEmail);
   }
 
+  /**
+   * Prende tutte le arnie di un apicoltore che hanno operazioni imminenti e che contengono una stringa nel nome.
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
+   * @param nickname La stringa che cerchiamo all'interno del nome dell'arnia
+   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   */
   public List<Hive> getBeekeeperHivesByNicknameAndScheduledOperations(String beekeeperEmail,
                                                                       String nickname) {
     return hiveDAO.findByNicknameContainingAndUncompletedOperationsTrueAndBeekeeperEmail(nickname,
         beekeeperEmail);
   }
 
+  /**
+   * Prende tutte le arnie di un apicoltore che presentano uno stato di salute non ottimale e che contengono una stringa nel nome.
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
+   * @param nickname La stringa che cerchiamo all'interno del nome dell'arnia
+   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   */
   public List<Hive> getBeekeeperHivesByNicknameAndHealthIssues(String beekeeperEmail,
                                                                String nickname) {
     return hiveDAO.findByNicknameContainingAndHealthIssuesAndBeekeeperEmail(nickname,
         beekeeperEmail);
   }
 
+  /**
+   * Conta il numero di arnie di un apicoltore
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo il numero di arnie.
+   * @return Il numero di arnie di quell'apicoltore.
+   */
   public int getBeekeeperHivesCount(String beekeeperEmail) {
     return hiveDAO.countByBeekeeperEmail(beekeeperEmail);
   }

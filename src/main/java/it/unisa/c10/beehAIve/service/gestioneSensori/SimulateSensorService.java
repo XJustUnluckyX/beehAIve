@@ -28,6 +28,21 @@ public class SimulateSensorService {
     this.anomalyService = anomalyService;
   }
 
+  /**
+   * Simula nuove misurazioni per tutte le arnie nel sistema.
+   * Per ciascuna arnia, genera una nuova misurazione basata sulla misurazione precedente.
+   * I dati simulati includono:
+   * <ul>
+   * <li>La temperatura dell'ambiente esterno.</li>
+   * <li>L'umidità dell'ambiente esterno.</li>
+   * <li>La temperatura interna all'arnia.</li>
+   * <li>L'umidit&aacute; interna all'arnia.</li>
+   * <li>Il peso dell'arnia.</li>
+   * <li>Uno spettrogramma casuale ricavato dal suono prodotto dalle api all'interno dell'arnia.</li>
+   * <li>La presenza o l'assenza della regina.</li>
+   * </ul>
+   * Le nuove misurazioni vengono quindi salvate nel database e infine controllate per eventuali anomalie.
+   */
   public void simulateMeasurements() {
 
     // Prendiamo tutte le Arnie
@@ -97,7 +112,6 @@ public class SimulateSensorService {
   }
 
   private double simulateAmbientTemp(double temperature, int hour) {
-
     boolean isMorning = false;
     boolean isDay = false;
     boolean isNight = false;
@@ -124,6 +138,7 @@ public class SimulateSensorService {
 
     return formatNumber(temperature);
   }
+
   private double simulateHiveTemp(double temperature) {
     if (temperature < 32) { //Anomalia, temperatura troppo bassa
       if (Math.random() > 0.20) { //80% di probabilità di sistemare la temperatura
