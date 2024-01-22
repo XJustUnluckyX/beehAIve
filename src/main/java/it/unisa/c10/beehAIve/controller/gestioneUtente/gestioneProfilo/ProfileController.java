@@ -133,20 +133,21 @@ public class ProfileController {
       return "redirect:/user";
     }
 
+    // Controllo sulla lunghezza della password
+    if (newPassword.length() < 8) {
+      redirectAttributes.addFlashAttribute("error", "Password too short.");
+      return "redirect:/user";
+    }
+    if (newPassword.length() > 100) {
+      redirectAttributes.addFlashAttribute("error", "Password too long.");
+      return "redirect:/user";
+    }
+
     // Controllo sul formato della password
     if (!regexPassword(newPassword)) {
       redirectAttributes.addFlashAttribute("error", "The password must be at least 8 " +
         "characters long and contain at least one uppercase letter, one lowercase letter, one " +
         "digit, and one special character ( @.$!%*?&_- ).");
-      return "redirect:/user";
-    }
-    // Controllo sulla lunghezza della password
-    if (newPassword.length() < 8) {
-      redirectAttributes.addFlashAttribute("error", "Password too short.");
-      return "redirect:/registration";
-    }
-    if (newPassword.length() > 100) {
-      redirectAttributes.addFlashAttribute("error", "Password too long.");
       return "redirect:/user";
     }
 
