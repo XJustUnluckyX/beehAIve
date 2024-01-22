@@ -311,7 +311,7 @@ public class HiveController {
   }
 
   private boolean isBeeSpeciesInvalid(String beeSpecies) {
-    List<String> validBeeSpecies = Arrays.asList("Apis millifera", "Apis cerana", "Apis dorsata",
+    List<String> validBeeSpecies = Arrays.asList("Apis mellifera", "Apis cerana", "Apis dorsata",
         "Apis florea");
     return !validBeeSpecies.contains(beeSpecies);
   }

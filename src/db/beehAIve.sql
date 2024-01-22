@@ -105,24 +105,24 @@ INSERT INTO Beekeeper (email, passwordhash, first_name, last_name, company_name,
 ('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,319.99,'2024-02-14');
 
 INSERT INTO Bee (scientific_name, common_name, bee_description, photo) VALUES
-('Apis millifera','Honeybee','This is the most common and widely raised species for honey production worldwide. Honeybees are divided into various subspecies.','honeybee.png'),
+('Apis mellifera','Honeybee','This is the most common and widely raised species for honey production worldwide. Honeybees are divided into various subspecies.','honeybee.png'),
 ('Apis cerana','Asian honeybee','Raised in some regions of Asia, they are also employed for honey production.','asian_honeybee.png'),
 ('Apis dorsata','Giant honeybee','Known for their size and open hives, larger than Apis mellifera. They are primarily found in certain regions of Asia.','giant_honeybee.png'),
 ('Apis florea','Dwarf honeybee','Among the smallest bee species. Mainly found in Asia and Africa.','dwarf_honeybee.png');
 
 INSERT INTO Hive (nickname, hive_type, creation_date, beekeeper_email, bee_species, hive_health, uncompleted_operations) VALUES
-('Tokyo','Langstroth','2024-01-14','n.gallotta@gmail.com','Apis millifera',1,false),
-('Berlino','Warre','2024-01-14','n.gallotta@gmail.com','Apis millifera',1,false),
-('Lisbona','Top-Bar','2024-01-14','n.gallotta@gmail.com','Apis millifera',1,false),
-('Arnia-1','Langstroth','2024-01-14','s.valente@gmail.com','Apis millifera',1,false),
-('Arnia-2','Warre','2024-01-14','s.valente@gmail.com','Apis millifera',1,false),
-('Arnia-3','Top-Bar','2024-01-14','s.valente@gmail.com','Apis millifera',1,false),
-('Aldo','Langstroth','2024-01-14','f.festa@gmail.com','Apis millifera',1,false),
-('Giovanni','Warre','2024-01-14','f.festa@gmail.com','Apis millifera',1,false),
-('Giacomo','Top-Bar','2024-01-14','f.festa@gmail.com','Apis millifera',1,false),
-('Dredge','Langstroth','2024-01-14','a.depasquale@gmail.com','Apis millifera',1,false),
-('Hillbilly','Warre','2024-01-14','a.depasquale@gmail.com','Apis millifera',1,false),
-('Trapper','Top-Bar','2024-01-14','a.depasquale@gmail.com','Apis millifera',1,false);
+('Tokyo','Langstroth','2024-01-14','n.gallotta@gmail.com','Apis mellifera',1,false),
+('Berlino','Warre','2024-01-14','n.gallotta@gmail.com','Apis mellifera',1,false),
+('Lisbona','Top-Bar','2024-01-14','n.gallotta@gmail.com','Apis mellifera',1,false),
+('Arnia-1','Langstroth','2024-01-14','s.valente@gmail.com','Apis mellifera',1,false),
+('Arnia-2','Warre','2024-01-14','s.valente@gmail.com','Apis mellifera',1,false),
+('Arnia-3','Top-Bar','2024-01-14','s.valente@gmail.com','Apis mellifera',1,false),
+('Aldo','Langstroth','2024-01-14','f.festa@gmail.com','Apis mellifera',1,false),
+('Giovanni','Warre','2024-01-14','f.festa@gmail.com','Apis mellifera',1,false),
+('Giacomo','Top-Bar','2024-01-14','f.festa@gmail.com','Apis mellifera',1,false),
+('Dredge','Langstroth','2024-01-14','a.depasquale@gmail.com','Apis mellifera',1,false),
+('Hillbilly','Warre','2024-01-14','a.depasquale@gmail.com','Apis mellifera',1,false),
+('Trapper','Top-Bar','2024-01-14','a.depasquale@gmail.com','Apis mellifera',1,false);
 
 INSERT INTO Production (product, weight, notes, registration_date, hive_ID, beekeeper_email) VALUES
 ('Honey',1,'First harvest of the season.','2024-01-14',1,'n.gallotta@gmail.com'),
