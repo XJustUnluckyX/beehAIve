@@ -33,19 +33,19 @@ public class SubscriptionService {
   /**
    * Restituisce un oggetto Payment che rappresenta un nuovo pagamento che l'utente dovr&agrave; effettuare attraverso PayPal.
    * L'oggetto creato contiene tutte le informazioni relative al pagamento.
-   * @param total l'importo totale che l'utente dovr&agrave; versare
-   * @param currency la valuta utilizzata dall'utente
-   * @param method il metodo di pagamento (e.g. "PayPal")
-   * @param intent l'intento del pagamento, che pu&ograve; assumere solo i seguenti tre valori:
+   * @param total L'importo totale che l'utente dovr&agrave; versare.
+   * @param currency La valuta utilizzata dall'utente.
+   * @param method Il metodo di pagamento (e.g. "PayPal").
+   * @param intent L'intento del pagamento, che pu&ograve; assumere solo i seguenti tre valori:
    *               <ul>
-   *                 <li>"sale": pagamento immediato</li>
-   *                 <li>"order": pagamento futuro</li>
-   *                 <li>"authorize": autorizzazione di un pagamento</li>
+   *               <li>"sale": pagamento immediato</li>
+   *               <li>"order": pagamento futuro</li>
+   *               <li>"authorize": autorizzazione di un pagamento</li>
    *               </ul>
-   * @param description la descrizione del pagamento
-   * @param cancelUrl l'URL a cui renderizzare l'utente in caso di annullamento del pagamento
-   * @param successUrl l'URL a cui renderizzare l'utente dopo aver effettuato il pagamento
-   * @return un oggetto {@code Payment} che rappresenta la transazione di pagamento
+   * @param description La descrizione del pagamento.
+   * @param cancelUrl L'URL a cui renderizzare l'utente in caso di annullamento del pagamento.
+   * @param successUrl L'URL a cui renderizzare l'utente dopo aver effettuato il pagamento.
+   * @return Un oggetto {@code Payment} che rappresenta la transazione di pagamento.
    * @throws PayPalRESTException Nel caso in cui si verifichino errori durante la creazione del pagamento.
    */
   public Payment createPayment(Double total, String currency, String method, String intent,
@@ -80,9 +80,9 @@ public class SubscriptionService {
 
   /**
    * Esegue un pagamento attraverso PayPal, utilizando l'ID del pagamento e dell'acquirente.
-   * @param paymentId l'ID del pagamento
-   * @param payerId l'ID dell'acquirente
-   * @return un oggetto {@code Payment} che rappresenta la transazione di pagamento
+   * @param paymentId L'ID del pagamento.
+   * @param payerId L'ID dell'acquirente.
+   * @return Un oggetto {@code Payment} che rappresenta la transazione di pagamento.
    * @throws PayPalRESTException Nel caso in cui si verifichino errori durante l'esecuzione del pagamento.
    */
   public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
@@ -95,8 +95,8 @@ public class SubscriptionService {
 
   /**
    * Verifica se l'abbonamento di un apicoltore sia scaduto o meno.
-   * @param beekeeperEmail l'email dell'apicoltore
-   * @return {@code true} se la data odierna supera la data di scadenza dell'abbonamento, altrimenti {@code false}
+   * @param beekeeperEmail L'email dell'apicoltore.
+   * @return {@code true} se la data odierna supera la data di scadenza dell'abbonamento, altrimenti {@code false}.
    */
   public boolean isSubscriptionExpired(String beekeeperEmail) {
     Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
@@ -107,8 +107,8 @@ public class SubscriptionService {
 
   /**
    * Permette un nuovo acquisto di un qualsiasi piano d'abbonamento per un apicoltore, salvandone i dati.
-   * @param beekeeperEmail l'email dell'apicoltore intenzionato ad acquistare un nuovo abbonamento
-   * @param subscriptionType il tipo di abbonamento che l'utente intende acquistare
+   * @param beekeeperEmail L'email dell'apicoltore intenzionato ad acquistare un nuovo abbonamento.
+   * @param subscriptionType Il tipo di abbonamento che l'utente intende acquistare.
    */
   public void modifySubscription(String beekeeperEmail, String subscriptionType) {
     Beekeeper beekeeper = getBeekeeper(beekeeperEmail);
@@ -144,8 +144,8 @@ public class SubscriptionService {
 
   /**
    * Restituisce un oggetto {@code Beekeeper}, contenente i dati di un apicoltore.
-   * @param beekeeperEmail l'email dell'apicoltore di cui vogliamo ottenere i dati
-   * @return un oggetto {@code Beekeeper} contenente i dati di un apicoltore
+   * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo ottenere i dati.
+   * @return Un oggetto {@code Beekeeper} contenente i dati di un apicoltore.
    */
   public Beekeeper getBeekeeper(String beekeeperEmail) {
     // Ricerca del beekeeper nel database
@@ -161,8 +161,8 @@ public class SubscriptionService {
 
   /**
    * Restituisce l'importo da pagare o pagato dall'apicoltore in base alla tipologia di abbonamento.
-   * @param subscriptionType il tipo di abbonamento da pagare o gi&agrave; pagato
-   * @return l'importo da pagare o gi&agrave; pagato per il tipo di abbonamento specificato
+   * @param subscriptionType Il tipo di abbonamento da pagare o gi&agrave; pagato.
+   * @return L'importo da pagare o gi&agrave; pagato per il tipo di abbonamento specificato.
    */
   public double calculatePayment(String subscriptionType) {
     if (subscriptionType.equals("small")) { // Prezzo dell'abbonamento "Small"

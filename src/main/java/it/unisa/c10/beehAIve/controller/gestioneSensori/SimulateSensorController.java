@@ -14,6 +14,10 @@ public class SimulateSensorController {
     this.sensorService = sensorService;
   }
 
+  /**
+   * Simula delle misurazioni ogni ora del giorno per ogni singola arnia registrata nel sistema.
+   * @see SimulateSensorService#simulateMeasurements()
+   */
   // (cron = 0 0 * * * *) significa ogni ora di ogni giorno alle xx:00
   // (cron = */10 * * * * *) significa ogni 10 secondi
   @Scheduled(cron = "0 0 * * * *")

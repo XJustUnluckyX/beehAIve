@@ -91,7 +91,7 @@ public class AnomalyService {
 
   /**
    * Imposta lo stato di un'anomalia su "Risolta", cambiando anche lo stato di salute se necessario.
-   * @param anomalyId L'id dell'anomalia da risolvere.
+   * @param anomalyId L'ID dell'anomalia da risolvere.
    */
   public void resolveAnomaly (int anomalyId) {
 
@@ -117,7 +117,7 @@ public class AnomalyService {
 
   /**
    * Elimina un'anomalia dal database, cambiando anche lo stato di salute se necessario.
-   * @param anomalyId L'id dell'anomalia da eliminare.
+   * @param anomalyId L'ID dell'anomalia da eliminare.
    */
   public void deleteAnomaly (int anomalyId) {
 
@@ -140,7 +140,7 @@ public class AnomalyService {
 
   /**
    * Prende tutte le anomalie non risolte di un'arnia dal database.
-   * @param hiveId L'id dell'arnia di cui si vogliono ottenere le anomalie non risolte.
+   * @param hiveId L'ID dell'arnia di cui si vogliono ottenere le anomalie non risolte.
    * @return Una lista di {@code Anomaly} non risolte dell'arnia.
    */
   public List<Anomaly> getUnresolvedAnomalies (int hiveId) {
@@ -149,7 +149,7 @@ public class AnomalyService {
 
   /**
    * Prende un'anomalia dal database.
-   * @param anomalyId L'id dell'anomalia da ottenere.
+   * @param anomalyId L'ID dell'anomalia da ottenere.
    * @return L'oggetto {@code Anomaly} che corrisponde a quell'id.
    */
   public Anomaly getAnomaly (int anomalyId) {

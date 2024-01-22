@@ -18,11 +18,28 @@ public class ProfileController {
     this.profileService = profileService;
   }
 
+  /**
+   * Gestisce le richieste GET per reindirizzare l'apicoltore al proprio profilo.
+   * @return Una stringa rappresentante l'URL di reindirizzamento al profilo dell'apicoltore.
+   */
   @GetMapping("/user")
   public String user () {
     return "user";
   }
 
+  /**
+   * Gestisce le richieste POST per permettere all'apicoltore di modificare le proprie informazioni.
+   * @param firstName Il nuovo nome dell'apicoltore.
+   * @param lastName Il nuovo cognome dell'apicoltore.
+   * @param companyName Il nuovo nome dell'azienda dell'apicoltore.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa rappresentante l'URL di reindirizzamento alla modifica delle informazioni
+   *         dell'apicoltore.
+   * @see ProfileService#changeInfo(String, String, String, String)
+   */
   @PostMapping("/changeInfo")
   public String changeInfo(@RequestParam String firstName, @RequestParam String lastName,
                            @RequestParam String companyName, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -85,10 +102,28 @@ public class ProfileController {
     return "redirect:/user";
   }
 
+  /**
+   * Gestisce le richieste POST per permettere all'apicoltore di modificare la propria password.
+   * @param oldPassword La vecchia password dell'utente, per verificare la sua identità.
+   * @param newPassword La nuova password dell'utente.
+   * @param confirmNewPassword Conferma della nuova password.
+   * @param model Un oggetto {@code Model} per aggiungere attributi alla risposta.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta
+   * @return Una stringa rappresentante l'URL di reindirizzamento alla modifica della password
+   *         dell'apicoltore.
+   * @see ProfileService#changePassword(String, String) 
+   */
   @PostMapping("/changePassword")
-  public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
-                               @RequestParam String confirmNewPassword, Model model,
-                               HttpSession session, RedirectAttributes redirectAttributes) {
+  public String changePassword(
+      @RequestParam String oldPassword,
+      @RequestParam String newPassword,
+      @RequestParam String confirmNewPassword,
+      Model model,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
     String beekeeperEmail = beekeeper.getEmail();
 

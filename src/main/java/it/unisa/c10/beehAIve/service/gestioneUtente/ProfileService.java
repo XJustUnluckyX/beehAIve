@@ -39,11 +39,11 @@ public class ProfileService {
 
   /**
    * Modifica le informazioni personali di un apicoltore registrato alla piattaforma.
-   * @param email la nuova email dell'apicoltore.
-   * @param firstName il nuovo nome dell'apicoltore.
-   * @param lastName il nuovo cognome dell'apicoltore.
-   * @param companyName il nuovo nome dell'azienda dell'apicoltore.
-   * @return un oggetto {@code Beekeeper} contenente i dati inseriti dall'apicoltore registrato.
+   * @param email L'email dell'apicoltore che ha intenzione di modificare le proprie informazioni.
+   * @param firstName Il nuovo nome dell'apicoltore.
+   * @param lastName Il nuovo cognome dell'apicoltore.
+   * @param companyName Il nuovo nome dell'azienda dell'apicoltore.
+   * @return Un oggetto {@code Beekeeper} contenente i dati inseriti dall'apicoltore registrato.
    */
   public Beekeeper changeInfo(String email, String firstName, String lastName, String companyName) {
     Optional<Beekeeper> beekeeperOptional = beekeerperDAO.findById(email);
@@ -61,8 +61,8 @@ public class ProfileService {
 
   /**
    * Modifica la password di un apicoltore registrato alla piattaforma.
-   * @param email l'email dell'apicoltore che ha intenzione di modificare la propria password.
-   * @param password la nuova password dell'apicoltore.
+   * @param email L'email dell'apicoltore che ha intenzione di modificare la propria password.
+   * @param password La nuova password dell'apicoltore.
    */
   public void changePassword(String email, String password) {
     Optional<Beekeeper> beekeeperOptional = beekeerperDAO.findById(email);
@@ -76,8 +76,8 @@ public class ProfileService {
 
   /**
    * Verifica se un utente &eacute; gi&aacute; esistente nel sistema attraverso un indirizzo email.
-   * @param email l'indirizzo email dell'utente di cui verificare l'esistenza nel sistema.
-   * @param password la password corrispondente alla email da verificare.
+   * @param email L'indirizzo email dell'utente di cui verificare l'esistenza nel sistema.
+   * @param password La password corrispondente alla email da verificare.
    * @return {@code true} se l'utente esiste nel sistema, {@code false} altrimenti.
    */
   public boolean userExists(String email, String password) {
@@ -88,7 +88,7 @@ public class ProfileService {
 
   /**
    * Verifica se un indirizzo email &egrave; registrato nel sistema.
-   * @param email l'indirizzo email di cui vogliamo verificare l'esistenza nel sistema.
+   * @param email L'indirizzo email di cui vogliamo verificare l'esistenza nel sistema.
    * @return {@code true} se l'indirizzo email &egrave; presente nel sistema, {@code false} altrimenti.
    */
   public boolean emailExists(String email) {
@@ -105,8 +105,8 @@ public class ProfileService {
   }
 
   /**
-   * Prende un apicoltore dal database partendo dall'email
-   * @param email L'email dell'apicoltore che stiamo cercando
+   * Ottiene un apicoltore dal database attraverso la sua email.
+   * @param email L'email dell'apicoltore che stiamo cercando.
    * @return L'oggetto {@code Optional} che contiene l'oggetto {@code Beekeeper} se esiste.
    */
   public Optional<Beekeeper> findBeekeeper(String email) {

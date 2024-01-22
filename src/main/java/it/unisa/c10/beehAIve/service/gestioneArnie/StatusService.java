@@ -39,8 +39,8 @@ public class StatusService {
   /**
    * Restituisce tutti i dati raccolti dalle misurazioni effettuate nelle ultime 48 ore relativi a una specifica arnia,
    * in un formato leggibile al grafico che le dovr&agrave; mostrare.
-   * @param hiveId l'ID dell'arnia di cui si vogliono ottenere i dati delle misurazioni.
-   * @return una lista contenente i dati delle misurazioni effettuate nelle ultime 48 ore sull'arnia specificata.
+   * @param hiveId L'ID dell'arnia di cui si vogliono ottenere i dati delle misurazioni.
+   * @return Una lista contenente i dati delle misurazioni effettuate nelle ultime 48 ore sull'arnia specificata.
    */
   public List<ArrayList<Object>> getGraphData (int hiveId) {
     // Prendiamo le ultime 48 misurazioni

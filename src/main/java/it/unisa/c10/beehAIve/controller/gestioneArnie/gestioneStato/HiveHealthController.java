@@ -29,6 +29,19 @@ public class HiveHealthController {
     this.dashboardService = dashboardService;
   }
 
+  /**
+   * Gestisce le richieste GET per visualizzare i parametri di un'arnia.
+   * @param hiveId L'ID dell'arnia di cui vogliamo visualizzare i parametri.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper}
+   *                dalla sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param model Un oggetto {@code Model} per aggiungere attributi alla risposta.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento alla pagina che visualizza i
+   *         parametri dell'arnia specificata.
+   * @see StatusService#getHiveLastMeasurement(int)
+   */
   @GetMapping("/parameters")
   public String showHiveParameters(@RequestParam String hiveId, HttpSession session, Model model,
                                    RedirectAttributes redirectAttributes) {
@@ -62,7 +75,13 @@ public class HiveHealthController {
     return "hive/parameters-hive";
   }
 
-  // Metodo Ajax per produrre il grafico
+  /**
+   * Gestisce le richieste GET per produrre un grafico che visualizza i dati raccolti dalle
+   * misurazioni di un'arnia effettuate nelle ultime 48 ore attraverso AJAX.
+   * @param hiveId L'ID dell'arnia di cui vogliamo produrre il grafico.
+   * @return Una stringa JSON che rappresenta i dati del grafico per l'arnia specificata.
+   * @see StatusService#getGraphData(int)
+   */
   @GetMapping("/produce_graph")
   @ResponseBody
   public String produceGraph(@RequestParam int hiveId) {
@@ -72,11 +91,27 @@ public class HiveHealthController {
     return gson.toJson(measurements);
   }
 
-  // Chiamata Ajax per scaricare il report di salute
+  /**
+   * Gestisce le richieste GET per generare un report di salute in formato PDF di un'arnia e
+   * restituirlo come download.
+   * @param hiveId L'ID dell'arnia di cui vogliamo generare il report.
+   * @param hiveNickname Il nickname dell'arnia di cui vogliamo generare il report, così da
+   *                     visualizzarlo nel PDF.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param response Un oggetto {@code RedirectAttributes} per trasferire messaggi di risposta.
+   * @throws IOException Nel caso in cui si verifichino errori nella gestione dell'output del file
+   *                     PDF.
+   * @see StatusService#generateReport(int, HttpServletResponse) 
+   */
   @GetMapping("/create_report")
-  public void generateHealthReport(@RequestParam String hiveId, @RequestParam String hiveNickname,
-                                   HttpSession session, HttpServletResponse response)
-        throws IOException {
+  public void generateHealthReport(
+      @RequestParam String hiveId,
+      @RequestParam String hiveNickname,
+      HttpSession session,
+      HttpServletResponse response)
+      throws IOException {
     // Controllo sulla validità dell'ID dell'arnia
     if (!hiveId.matches("^\\d+$") || Integer.parseInt(hiveId) <= 0) {
       throw new RuntimeException();
@@ -102,8 +137,6 @@ public class HiveHealthController {
     response.setHeader(header, headerValue);
     statusService.generateReport(intHiveId, response);
   }
-
-
 
   private boolean isNotConsistentBetweenHiveIdAndBeekeeperEmail(int hiveId, String beekeeperEmail) {
     // Ottenimento dell'arnia l'arnia

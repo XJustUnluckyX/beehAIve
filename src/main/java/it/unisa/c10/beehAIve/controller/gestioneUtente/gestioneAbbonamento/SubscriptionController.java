@@ -29,8 +29,19 @@ public class SubscriptionController {
     this.dashboardService = dashboardService;
   }
 
+  /**
+   * Gestisce le richieste GET per avviare il processo di pagamento di un piano di abbonamento.
+   * @param subscriptionType Il tipo di abbonamento che l'apicoltore intende acquistare.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta l'URL di reindirizzamento al sito di pagamento di PayPal.
+   * @see SubscriptionService#createPayment(Double, String, String, String, String, String, String)
+   */
   @GetMapping("/pay")
-  public String payment(@RequestParam String subscriptionType, HttpSession session, RedirectAttributes redirectAttributes) {
+  public String payment(@RequestParam String subscriptionType, HttpSession session,
+                        RedirectAttributes redirectAttributes) {
     // Controllo sulla validità del piano di abbonamento
     if (!subscriptionType.equals("small") &&
         !subscriptionType.equals("medium") &&
@@ -89,6 +100,16 @@ public class SubscriptionController {
     return "index";
   }
 
+  /**
+   * Gestisce le richieste GET per registrare il pagamento effettuato con successo.
+   * @param paymentId L'ID del pagamento.
+   * @param payerId L'ID dell'acquirente.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione e registrarne le nuove informazioni.
+   * @return Una stringa che rappresenta l'URL di reindirizzamento alla pagina di avvenuto
+   *         pagamento.
+   * @see SubscriptionService#modifySubscription(String, String)
+   */
   @GetMapping(PAYPAL_SUCCESS_URL)
   public String successPay(@RequestParam("paymentId") String paymentId,
                            @RequestParam("PayerID") String payerId, HttpSession session) {
@@ -115,11 +136,21 @@ public class SubscriptionController {
     return "index";
   }
 
+  /**
+   * Gestisce le richieste GET per reindirizzare l'apicoltore alla pagina di pagamento annullato.
+   * @return Una stringa che rappresenta l'URL di reindirizzamento alla pagina di pagamento
+   *         annullato.
+   */
   @GetMapping(PAYPAL_CANCEL_URL)
   public String cancelPay() {
     return "payments/payment-cancelled";
   }
 
+  /**
+   * Effettua un controllo ogni giorno alle ore 00:00:00 sull'esistenza di eventuali abbonamenti
+   * scaduti all'interno del sistema, eliminandoli.
+   * @see SubscriptionService#cancelAllExpiredSubscriptions()
+   */
   @Scheduled(cron = "0 0 0 * * *")
   public void cancelAllExpiredSubscription() {
     subscriptionService.cancelAllExpiredSubscriptions();

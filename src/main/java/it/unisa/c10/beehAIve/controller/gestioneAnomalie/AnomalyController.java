@@ -21,9 +21,20 @@ public class AnomalyController {
   }
 
   // Risolve un'anomalia
+
+  /**
+   * Gestisce le richieste GET per permettere a un apicoltore di risolvere un'anomalia di un'arnia
+   * di sua proprietà.
+   * @param anomalyId L'ID dell'anomalia che vogliamo eliminare.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @return
+   * @see AnomalyService#resolveAnomaly(int)
+   */
   @GetMapping("/resolve_anomaly")
   @ResponseBody
-  public String resolveAnomaly (@RequestParam int anomalyId, HttpSession session) {
+  public String resolveAnomaly(@RequestParam int anomalyId, HttpSession session) {
 
     if (!checkHiveOwnership(session, anomalyId))
       return "failure";
@@ -33,10 +44,19 @@ public class AnomalyController {
     return "success";
   }
 
-  // Cancella un'anomalia
+  /**
+   * Gestisce le richieste GET per permettere a un apicoltore di eliminare un'anomalia di un'arnia
+   * di sua proprietà.
+   * @param anomalyId L'ID dell'anomalia che vogliamo eliminare.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @return
+   * @see AnomalyService#deleteAnomaly(int)
+   */
   @GetMapping("/delete_anomaly")
   @ResponseBody
-  public String deleteAnomaly (@RequestParam int anomalyId, HttpSession session) {
+  public String deleteAnomaly(@RequestParam int anomalyId, HttpSession session) {
 
     if (!checkHiveOwnership(session, anomalyId))
       return "failure";
