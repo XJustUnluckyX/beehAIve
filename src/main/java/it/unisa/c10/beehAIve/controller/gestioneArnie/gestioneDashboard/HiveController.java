@@ -33,9 +33,27 @@ public class HiveController {
     this.statusService = statusService;
   }
 
+  /**
+   * Gestisce le richieste GET per reindirizzare l'apicoltore alla pagina di una delle sue arnie.
+   * @param hiveId L'ID dell'arnia che vogliamo visualizzare.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @param model Un oggetto {@code Model} per aggiungere attributi alla risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento alla pagina dell'arnia
+   *         specificata.
+   * @see DashboardService#getHive(int)
+   * @see AnomalyService#getUnresolvedAnomalies(int)
+   * @see StatusService#getHiveLastMeasurement(int)
+   */
   @GetMapping("/hive")
-  public String showHive(@RequestParam String hiveId, HttpSession session,
-                         RedirectAttributes redirectAttributes, Model model) {
+  public String showHive(
+      @RequestParam String hiveId,
+      HttpSession session,
+      RedirectAttributes redirectAttributes,
+      Model model) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -74,9 +92,26 @@ public class HiveController {
     return "hive/hive";
   }
 
+  /**
+   * Gestisce le richieste GET per reindirizzare l'apicoltore al form per creare un'arnia.
+   * @param nickname Il nickname dell'arnia che vogliamo creare.
+   * @param hiveType Il tipo dell'arnia che vogliamo creare.
+   * @param beeSpecies La specie d'api ospitata dall'arnia che vogliamo creare.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento alla dashboard contenente tutte
+   *         le arnie dell'apicoltore, inclusa quella creata.
+   * @see DashboardService#createHive(String, String, String, String)
+   */
   @GetMapping("/create-hive")
-  public String createHive(@RequestParam String nickname, @RequestParam String hiveType,
-                           @RequestParam String beeSpecies, HttpSession session, RedirectAttributes redirectAttributes) {
+  public String createHive(
+      @RequestParam String nickname,
+      @RequestParam String hiveType,
+      @RequestParam String beeSpecies,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -137,10 +172,30 @@ public class HiveController {
     return "redirect:/dashboard";
   }
 
+  /**
+   * Gestisce le richieste GET per permettere all'apicoltore di modificare le informazioni di
+   * un'arnia di sua proprietà.
+   * @param hiveId L'ID dell'arnia che vogliamo modificare.
+   * @param nickname Il nuovo nickname dell'arnia che vogliamo modificare.
+   * @param hiveType Il nuovo tipo dell'arnia che vogliamo modificare.
+   * @param beeSpecies La nuova specie d'api ospitata dall'arnia che vogliamo modificare.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento alla pagina dell'arnia
+   *         modificata.
+   * @see DashboardService#modifyHive(int, String, String, String)
+   */
   @GetMapping("/modify-hive")
-  public String modifyHive(@RequestParam String hiveId, @RequestParam String nickname,
-                           @RequestParam String hiveType, @RequestParam String beeSpecies,
-                           HttpSession session, RedirectAttributes redirectAttributes) {
+  public String modifyHive(
+      @RequestParam String hiveId,
+      @RequestParam String nickname,
+      @RequestParam String hiveType,
+      @RequestParam String beeSpecies,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -199,9 +254,21 @@ public class HiveController {
     return "redirect:/hive?hiveId=" + hiveId;
   }
 
+  /**
+   * Gestisce le richieste GET per permettere all'apicoltore di eliminare un'arnia di sua proprietà.
+   * @param hiveId L'ID dell'arnia che vogliamo eliminare.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @return Una stringa che rappresenta un URL di reindirizzamento alla dashboard contenente tutte
+   *         le arnie dell'apicoltore, senza quella eliminata.
+   * @see DashboardService#deleteHive(int)
+   */
   @GetMapping("/delete-hive")
-  public String deleteHive(@RequestParam String hiveId, RedirectAttributes redirectAttributes,
-                           HttpSession session) {
+  public String deleteHive(
+      @RequestParam String hiveId, RedirectAttributes redirectAttributes, HttpSession session) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento

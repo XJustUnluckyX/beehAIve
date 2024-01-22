@@ -27,6 +27,13 @@ public class AccessController {
     this.profileService = profileService;
   }
 
+  /**
+   * Gestisce le richieste GET per reindirizzare l'apicoltore alla pagina di registrazione.
+   * @param session Un oggetto {@code HttpSession} per controllare che l'oggetto {@code Beekeeper}
+   *                non sia già presente nella sessione.
+   * @return Una stringa rappresentante l'URL di reindirizzamento alla pagina di registrazione.
+   * @see #login(String, String, HttpSession, RedirectAttributes)
+   */
   @GetMapping("/registration")
   public String showRegistrationForm(HttpSession session) {
     if (session.getAttribute("beekeeper") == null) {
@@ -36,6 +43,13 @@ public class AccessController {
     }
   }
 
+  /**
+   * Gestisce le richieste GET per reindirizzare l'apicoltore alla pagina di login.
+   * @param session Un oggetto {@code HttpSession} per controllare che l'oggetto {@code Beekeeper}
+   *                non sia già presente nella sessione.
+   * @return Una stringa rappresentante l'URL di reindirizzamento alla pagina di login.
+   * @see #registration(String, String, String, String, String, String, String, RedirectAttributes)
+   */
   @GetMapping("/login")
   public String showLoginForm(HttpSession session) {
     if (session.getAttribute("beekeeper") == null) {
@@ -45,6 +59,20 @@ public class AccessController {
     }
   }
 
+  /**
+   * Gestisce le richieste POST per permettere all'apicoltore di registrarsi alla piattaforma.
+   * @param email L'email dell'apicoltore che ha intenzione di effettuare la registrazione.
+   * @param firstName Il nome dell'apicoltore che ha intenzione di effettuare la registrazione.
+   * @param lastName Il cognome dell'apicoltore che ha intenzione di effettuare la registrazione.
+   * @param companyName Il nome dell'azienda dell'apicoltore.
+   * @param companyPiva La partita IVA dell'azienda dell'apicoltore.
+   * @param password La password dell'apicoltore che ha intenzione di effettuare la registrazione.
+   * @param confirmPassword Conferma della password.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa rappresentante l'URL di reindirizzamento alla pagina di login.
+   * @see ProfileService#registration(String, String, String, String, String, String)
+   */
   @PostMapping("/registration-form")
   public String registration(@RequestParam String email, @RequestParam String firstName,
                              @RequestParam String lastName, @RequestParam String companyName,
@@ -162,9 +190,22 @@ public class AccessController {
     return "redirect:/login";
   }
 
+  /**
+   * Gestisce le richieste POST per permettere all'apicoltore di accedere alla piattaforma.
+   * @param email L'email dell'apicoltore che ha intenzione di effettuare l'accesso.
+   * @param password La password dell'apicoltore che ha intenzione di effettuare l'accesso.
+   * @param session Un oggetto {@code HttpSession} per inserire l'oggetto {@code Beekeeper}
+   *                all'interno della sessione.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta
+   * @return Una stringa rappresentante l'URL di reindirizzamento alla Home della piattaforma.
+   */
   @PostMapping("/login-form")
-  public String login(@RequestParam String email, @RequestParam String password,
-                      HttpSession session, RedirectAttributes redirectAttributes) {
+  public String login(
+      @RequestParam String email,
+      @RequestParam String password,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     if (!(profileService.userExists(email, password))) {
       redirectAttributes.addFlashAttribute("error", "Email or Password are incorrect.");
       return "redirect:/login";

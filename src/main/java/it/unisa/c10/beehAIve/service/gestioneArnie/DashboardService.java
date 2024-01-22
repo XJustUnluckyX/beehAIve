@@ -72,7 +72,7 @@ public class DashboardService {
 
   /**
    * Prende un'arnia dal database.
-   * @param hiveId L'id dell'arnia da prendere.
+   * @param hiveId L'ID dell'arnia da prendere.
    * @return L'{@code Hive} che corrisponde a quell'id.
    */
   public Hive getHive(int hiveId) {
@@ -89,7 +89,7 @@ public class DashboardService {
 
   /**
    * Permette di modificare un'arnia nel database.
-   * @param hiveId L'id dell'arnia da modificare.
+   * @param hiveId L'ID dell'arnia da modificare.
    * @param nickname Il nuovo nome dell'arnia.
    * @param hiveType La nuova tipologia dell'arnia.
    * @param beeSpecies La nuova specie delle api contenute nell'arnia.
@@ -106,7 +106,7 @@ public class DashboardService {
 
   /**
    * Permette di eliminare un'arnia nel database.
-   * @param id L'id dell'arnia da eliminare.
+   * @param id L'ID dell'arnia da eliminare.
    */
   public void deleteHive(int id){
     hiveDAO.deleteById(id);

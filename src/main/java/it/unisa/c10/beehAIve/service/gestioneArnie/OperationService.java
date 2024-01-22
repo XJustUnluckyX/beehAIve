@@ -67,9 +67,9 @@ public class OperationService {
    * @param operationName Il nuovo nome dell'operazione.
    * @param operationType Il nuovo tipo dell'operazione.
    * @param operationStatus Il nuovo Status dell'operazione.
-   * @param operationDate La nuova data in cui &eagrave; prevista l'operazione.
+   * @param operationDate La nuova data in cui &egrave; prevista l'operazione.
    * @param notes Eventuali note sull'operazione.
-   * @param hiveId L'id dell'arnia su cui &egrave; prevista l'operazione.
+   * @param hiveId L'ID dell'arnia su cui &egrave; prevista l'operazione.
    * @param beekeeperEmail L'email dell'apicoltore che vuole modificare l'operazione.
    */
   public void modifyScheduledOperation(int id, String operationName, String operationType, String operationStatus,
@@ -85,7 +85,7 @@ public class OperationService {
 
   /**
    * Cancella un'operazione pianificata.
-   * @param id L'id dell'operazione che vogliamo cancellare.
+   * @param id L'ID dell'operazione che vogliamo cancellare.
    */
   public void cancelScheduledOperation(int id) {
     // Ottenimento dell'intervento come oggetto Optional successivamente eliminato nel DB
@@ -101,7 +101,7 @@ public class OperationService {
 
   /**
    * Inverte lo Status di un'operazione da Not Completed a Completed o viceversa.
-   * @param id L'id dell'operazione di cui vogliamo invertire lo status.
+   * @param id L'ID dell'operazione di cui vogliamo invertire lo status.
    */
   public void changeOperationStatus(int id) {
     // Ottenimento dell'intervento come oggetto Optional
@@ -128,7 +128,7 @@ public class OperationService {
 
   /**
    * Prende tutte le operazioni di un'arnia.
-   * @param hiveId L'id dell'arnia di cui vogliamo le operazioni.
+   * @param hiveId L'ID dell'arnia di cui vogliamo le operazioni.
    * @return Una lista di tutte le {@code Operation} dell'arnia.
    */
   public List<Operation> viewHiveOperations(int hiveId) {
@@ -137,7 +137,7 @@ public class OperationService {
 
   /**
    * Prende tutte le operazioni non completate di un'arnia.
-   * @param hiveId L'id dell'arnia di cui vogliamo le operazioni.
+   * @param hiveId L'ID dell'arnia di cui vogliamo le operazioni.
    * @return Una lista di tutte le {@code Operation} non completate dell'arnia.
    */
   public List<Operation> getHiveUncompletedOperations (int hiveId) {
@@ -146,7 +146,7 @@ public class OperationService {
 
   /**
    * Prende tutte le operazioni completate di un'arnia
-   * @param hiveId L'id dell'arnia di cui vogliamo le operazioni
+   * @param hiveId L'ID dell'arnia di cui vogliamo le operazioni
    * @return Una lista di tutte le {@code Operation} completate dell'arnia
    */
   public List<Operation> getHiveCompletedOperations (int hiveId) {

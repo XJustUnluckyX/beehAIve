@@ -29,11 +29,27 @@ public class OperationController {
     this.dashboardService = dashboardService;
   }
 
-
-  // Pulsante nel pannello per mandare alla pagina dell'arnia sugli interventi
+  /**
+   * Gestisce le richieste GET per reindirizzare l'utente al pannello delle operazioni associate a
+   * un'arnia.
+   * @param hiveId L'ID dell'arnia di cui vogliamo visualizzare il pannello delle operazioni.
+   * @param model  Un oggetto {@code Model} per aggiungere attributi alla risposta.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento al pannello delle operazioni
+   *         associate all'arnia specificata.
+   * @see OperationService#getHiveCompletedOperations(int)
+   * @see OperationService#getHiveUncompletedOperations(int)
+   */
   @GetMapping("/operations")
-  public String redirectToOperationPanel(@RequestParam String hiveId, Model model,
-                                         HttpSession session, RedirectAttributes redirectAttributes) {
+  public String redirectToOperationPanel(
+      @RequestParam String hiveId,
+      Model model,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -70,15 +86,34 @@ public class OperationController {
     return "hive/operations-hive";
   }
 
-
-  // Pianificazione Intervento
+  /**
+   * Gestisce le richieste GET per la pianificazione di un nuovo intervento di un'arnia.
+   * @param operationName Il nome dell'intervento che vogliamo pianificare.
+   * @param operationDate La data dell'intervento che vogliamo pianificare.
+   * @param operationHour L'orario dell'intervento che vogliamo pianificare.
+   * @param operationType Il tipo dell'intervento che vogliamo pianificare.
+   * @param noteOperation Le note dell'intervento che vogliamo pianificare.
+   * @param hiveId L'ID dell'arnia di cui vogliamo pianificare l'intervento.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento al pannello delle operazioni
+   *         associate all'arnia specificata.
+   * @see
+   * OperationService#planningOperation(String, String, String, LocalDateTime, String, int, String)
+   */
   @GetMapping("/add_operation-form")
-  public String planningOperation(@RequestParam String operationName,
-                                  @RequestParam String operationDate,
-                                  @RequestParam String operationHour,
-                                  @RequestParam String operationType,
-                                  @RequestParam String noteOperation, @RequestParam String hiveId,
-                                  HttpSession session, RedirectAttributes redirectAttributes) {
+  public String planningOperation(
+      @RequestParam String operationName,
+      @RequestParam String operationDate,
+      @RequestParam String operationHour,
+      @RequestParam String operationType,
+      @RequestParam String noteOperation,
+      @RequestParam String hiveId,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -151,13 +186,44 @@ public class OperationController {
     return "redirect:/operations?hiveId=" + hiveId;
   }
 
-  // Modifica Intervento
+  /**
+   * Gestisce le richieste GET per la modifica delle informazioni di un intervento pianificato di
+   * un'arnia.
+   * @param operationIdModify L'ID dell'intervento che vogliamo modificare.
+   * @param operationName Il nuovo nome dell'intervento che vogliamo modificare.
+   * @param operationType Il nuovo tipo dell'intervento che vogliamo modificare.
+   * @param operationStatus Lo stato dell'intervento che vogliamo modificare, che può assumere solo
+   *                        i seguenti due valori:
+   *                        <ul>
+   *                        <li>Completed</li>
+   *                        <li>Not completed</li>
+   *                        </ul>
+   * @param operationDate La nuova data dell'intervento che vogliamo modificare.
+   * @param operationHour Il nuovo orario dell'intervento che vogliamo modificare.
+   * @param operationNotes Le nuove note dell'intervento che vogliamo modificare.
+   * @param hiveIdModify L'ID dell'arnia di cui vogliamo modificare l'intervento pianificato.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento al pannello degli interventi
+   *         associate all'arnia specificata, incluso quello modificato.
+   * @see
+   * OperationService#modifyScheduledOperation(int, String, String, String, LocalDateTime, String, int, String)
+   */
   @GetMapping("/modify-operation-form")
-  public String modifyOperation(@RequestParam String operationIdModify, @RequestParam String operationName,
-                                @RequestParam String operationType, @RequestParam String operationStatus,
-                                @RequestParam String operationDate, @RequestParam String operationHour,
-                                @RequestParam String operationNotes, @RequestParam String hiveIdModify,
-                                HttpSession session, RedirectAttributes redirectAttributes) {
+  public String modifyOperation(
+      @RequestParam String operationIdModify,
+      @RequestParam String operationName,
+      @RequestParam String operationType,
+      @RequestParam String operationStatus,
+      @RequestParam String operationDate,
+      @RequestParam String operationHour,
+      @RequestParam String operationNotes,
+      @RequestParam String hiveIdModify,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -245,10 +311,26 @@ public class OperationController {
   }
 
   // Annullamento Intervento
+
+  /**
+   * Gestisce le richieste GET per eliminare un intervento di un'arnia.
+   * @param operationIdCancel L'ID dell'intervento che vogliamo eliminare.
+   * @param hiveIdCancel L'ID dell'arnia di cui vogliamo eliminare l'intervento.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento al pannello degli interventi
+   *         associati all'arnia specificata, senza l'intervento cancellato.
+   * @see OperationService#cancelScheduledOperation(int)
+   */
   @GetMapping("/cancel-operation-form")
-  public String cancelOperation(@RequestParam String operationIdCancel,
-                                @RequestParam String hiveIdCancel, HttpSession session,
-                                RedirectAttributes redirectAttributes) {
+  public String cancelOperation(
+      @RequestParam String operationIdCancel,
+      @RequestParam String hiveIdCancel,
+      HttpSession session,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento
@@ -285,12 +367,29 @@ public class OperationController {
     return "redirect:/operations?hiveId=" + hiveIdCancel;
   }
 
-
+  /**
+   * Gestisce le richieste GET per cambiare lo stato dell'intervento (da non completato a completato
+   * o viceversa).
+   * @param operationIdStatus L'ID dell'intervento di cui vogliamo cambiare lo stato.
+   * @param hiveIdStatus L'ID dell'arnia di cui vogliamo cambiare lo stato dell'intervento.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione, cos&igrave; da verificare che l'arnia specificata sia di propriet&agrave;
+   *                dell'apicoltore autenticato.
+   * @param model Un oggetto {@code Model} per aggiungere attributi alla risposta.
+   * @param redirectAttributes Un oggetto {@code RedirectAttributes} per trasferire messaggi di
+   *                           risposta.
+   * @return Una stringa che rappresenta un URL di reindirizzamento al pannello degli interventi
+   *         associati all'arnia specificata.
+   * @see OperationService#changeOperationStatus(int)
+   */
   // Impostazione Intervento come completato
   @GetMapping("/change-operation-status-form")
-  public String changeOperationStatus(@RequestParam String operationIdStatus,
-                                      @RequestParam String hiveIdStatus, HttpSession session,
-                                      Model model, RedirectAttributes redirectAttributes) {
+  public String changeOperationStatus(
+      @RequestParam String operationIdStatus,
+      @RequestParam String hiveIdStatus,
+      HttpSession session,
+      Model model,
+      RedirectAttributes redirectAttributes) {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Controllo sull'iscrizione dell'apicoltore a uno dei piani di abbonamento

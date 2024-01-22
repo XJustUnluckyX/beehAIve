@@ -34,7 +34,14 @@ public class OperationHistoryController {
     return "calendar-page";
   }
 
-  // Chiamata ajax per ottenere gli interventi del calendario di una singola arnia
+  /**
+   * Gestisce le richieste GET per ottenere la cronologia degli interventi di un'arnia attraverso
+   * AJAX.
+   * @param hiveId L'ID dell'arnia di cui vogliamo ottenere la cronologia delle operazioni.
+   * @return Una stringa JSON che rappresenta la cronologia delle operazioni dell'arnia specificata.
+   * @see OperationService#viewHiveOperations(int) 
+   * @see OperationService#convertOperationToCalendar(List) 
+   */
   @GetMapping("/get_hive_operation_history")
   @ResponseBody
   public String getHiveOperationHistory(@RequestParam int hiveId) {
@@ -42,7 +49,16 @@ public class OperationHistoryController {
     return operationService.convertOperationToCalendar(operations);
   }
 
-  // Chiamata ajax per ottenere gli interventi del calendario di tutte le arnie di un apicoltore
+  /**
+   * Gestisce le richieste GET per ottenere la cronologia degli interventi di tutte le arnie
+   * associate a un apicoltore attraverso AJAX.
+   * @param session Un oggetto {@code HttpSession} per ottenere l'oggetto {@code Beekeeper} dalla
+   *                sessione.
+   * @return Una stringa JSON che rappresenta la cronologia delle operazioni di tutte le arnie
+   *         dell'apicoltore autenticato.
+   * @see OperationService#viewAllBeekeeperOperations(String)
+   * @see OperationService#convertOperationToCalendar(List)
+   */
   @GetMapping("get_beekeeper_operation_history")
   @ResponseBody
   public String getBeekeeperOperationHistory(HttpSession session) {
@@ -51,13 +67,18 @@ public class OperationHistoryController {
     return operationService.convertOperationToCalendar(operations);
   }
 
-  // Chiamata Ajax per ottenere le informazioni di un singolo intervento da caricare nella modifica
+  /**
+   * Gestisce le richieste GET per ottenere le informazioni di un intervento attraverso AJAX.
+   * @param operationId L'ID dell'intervento di cui vogliamo ottenere le informazioni.
+   * @return Una stringa JSON rappresentante le informazioni dell'intervento specificato.
+   * @see OperationService#retrieveOperationFromDB(int)
+   * @see OperationService#convertOperationToString(Operation)
+   */
   @GetMapping("/get_operation_information")
   @ResponseBody
   public String getOperationInformation(@RequestParam int operationId) {
     Operation op = operationService.retrieveOperationFromDB(operationId);
     return operationService.convertOperationToString(op);
   }
-
 
 }
