@@ -20,6 +20,9 @@
             <div class="col-fluid">
                 <div class="card-body py-3">
                     <div class="input-group" style="display: flex;justify-content: center;">
+                        <div class="text-center w-100">
+                            <p th:text="${success}" id="success" class="custom-success-model fw-bolder pt-3 "></p>
+                        </div>
                         <form th:action="@{/calendar}" method="get">
                             <input type="submit" class="btn" style="border: 1px solid black;background-color: #FFF0B3;border-radius: 10px;margin-bottom: 10px;" value="Calendar Planning">
                         </form>
@@ -84,7 +87,7 @@
                                                 <div class="row sopra">
 
                                                 </div>
-                                                <div class="row text-center custom-name" th:text="${hive.getNickname()}">
+                                                <div class="row text-center custom-name w-50" th:text="${hive.getNickname()}">
                                                     <span th:text="${hive.getNickname()}"></span>
                                                 </div>
                                                 <div class="row sotto">

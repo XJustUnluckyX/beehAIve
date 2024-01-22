@@ -66,5 +66,11 @@ body{
 .custom-error-model {
     color: red;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
+}
+
+.custom-success-model {
+    color: green;
+    font-weight: bold;
+    font-size: 20px;
 }
