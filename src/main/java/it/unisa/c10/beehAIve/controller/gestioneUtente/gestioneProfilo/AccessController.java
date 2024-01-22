@@ -85,16 +85,16 @@ public class AccessController {
     }
     // Controllo sulla lunghezza dell'email
     if (email.length() < 5) {
-      redirectAttributes.addFlashAttribute("error", "Email address too short");
+      redirectAttributes.addFlashAttribute("error", "Email address too short.");
       return "redirect:/registration";
     }
     if (email.length() > 50) {
-      redirectAttributes.addFlashAttribute("error", "Email address too long");
+      redirectAttributes.addFlashAttribute("error", "Email address too long.");
       return "redirect:/registration";
     }
     // Controllo sull'eventuale esistenza della stessa email nel database
     if (profileService.emailExists(email)) {
-      redirectAttributes.addFlashAttribute("error", "Email already exists");
+      redirectAttributes.addFlashAttribute("error", "Email already exists.");
       return "redirect:/registration";
     }
 
@@ -187,7 +187,7 @@ public class AccessController {
     // Salvataggio del nuovo utente nel database
     profileService.registration(email, password, firstName, lastName, companyName, companyPiva);
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     return "redirect:/login";
   }

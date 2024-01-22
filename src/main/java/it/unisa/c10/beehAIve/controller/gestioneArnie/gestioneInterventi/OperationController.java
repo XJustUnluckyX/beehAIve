@@ -184,7 +184,7 @@ public class OperationController {
     operationService.planningOperation(operationName, operationType, "Not completed",
         operationDate1, noteOperation, hiveId1, hive.getBeekeeperEmail());
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     return "redirect:/operations?hiveId=" + hiveId;
   }
@@ -310,7 +310,7 @@ public class OperationController {
     operationService.modifyScheduledOperation(operationId1, operationName, operationType, operationStatus, operationDate1, operationNotes,
       hiveId1, beekeeper.getEmail());
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     return "redirect:/operations?hiveId=" + hiveIdModify;
   }
