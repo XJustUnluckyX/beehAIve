@@ -141,7 +141,7 @@ public class AnomalyService {
   /**
    * Prende tutte le anomalie non risolte di un'arnia dal database.
    * @param hiveId L'id dell'arnia di cui si vogliono ottenere le anomalie non risolte.
-   * @return Una {@code List} di {@code Anomaly} non risolte dell'arnia.
+   * @return Una lista di {@code Anomaly} non risolte dell'arnia.
    */
   public List<Anomaly> getUnresolvedAnomalies (int hiveId) {
     return anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);

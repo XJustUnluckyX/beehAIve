@@ -115,7 +115,7 @@ public class DashboardService {
   /**
    * Prende tutte le arnie di un apicoltore dal database.
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
-   * @return La {@code List} di {@code Hive} dell'apicoltore.
+   * @return Una lista di {@code Hive} dell'apicoltore.
    */
   public List<Hive> getBeekeeperHives(String beekeeperEmail){
     return hiveDAO.findByBeekeeperEmail(beekeeperEmail);
@@ -125,7 +125,7 @@ public class DashboardService {
    * Prende tutte le arnie di un apicoltore che contengono una stringa nel nome.
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
    * @param nickname La stringa che cerchiamo all'interno del nome dell'arnia
-   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   * @return Una lista di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
    */
   public List<Hive> getBeekeeperHivesByNickname(String beekeeperEmail, String nickname) {
     return hiveDAO.findByNicknameContainingAndBeekeeperEmail(nickname, beekeeperEmail);
@@ -134,7 +134,7 @@ public class DashboardService {
   /**
    * Prende tutte le arnie di un apicoltore che hanno operazioni imminenti
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
-   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   * @return Una lista di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
    */
   public List<Hive> getBeekeeperHivesWithScheduledOperations(String beekeeperEmail) {
     return hiveDAO.findByUncompletedOperationsTrueAndBeekeeperEmail(beekeeperEmail);
@@ -143,7 +143,7 @@ public class DashboardService {
   /**
    * Prende tutte le arnie di un apicoltore che presentano uno stato di salute non ottimale.
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
-   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   * @return Una lista di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
    */
   public List<Hive> getBeekeeperHivesWithHealthIssues(String beekeeperEmail) {
     return hiveDAO.findByHealthIssuesAndBeekeeperEmail(beekeeperEmail);
@@ -153,7 +153,7 @@ public class DashboardService {
    * Prende tutte le arnie di un apicoltore che hanno operazioni imminenti e che contengono una stringa nel nome.
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
    * @param nickname La stringa che cerchiamo all'interno del nome dell'arnia
-   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   * @return Una lista di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
    */
   public List<Hive> getBeekeeperHivesByNicknameAndScheduledOperations(String beekeeperEmail,
                                                                       String nickname) {
@@ -165,7 +165,7 @@ public class DashboardService {
    * Prende tutte le arnie di un apicoltore che presentano uno stato di salute non ottimale e che contengono una stringa nel nome.
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le arnie.
    * @param nickname La stringa che cerchiamo all'interno del nome dell'arnia
-   * @return La {@code List} di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
+   * @return Una lista di {@code Hive} dell'apicoltore che corrisponde ai parametri di ricerca.
    */
   public List<Hive> getBeekeeperHivesByNicknameAndHealthIssues(String beekeeperEmail,
                                                                String nickname) {

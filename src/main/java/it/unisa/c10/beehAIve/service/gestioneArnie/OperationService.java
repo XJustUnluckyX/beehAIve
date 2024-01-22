@@ -129,7 +129,7 @@ public class OperationService {
   /**
    * Prende tutte le operazioni di un'arnia.
    * @param hiveId L'id dell'arnia di cui vogliamo le operazioni.
-   * @return La {@code List} di tutte le {@code Operation} dell'arnia.
+   * @return Una lista di tutte le {@code Operation} dell'arnia.
    */
   public List<Operation> viewHiveOperations(int hiveId) {
     return operationDAO.findAllByHiveId(hiveId);
@@ -138,7 +138,7 @@ public class OperationService {
   /**
    * Prende tutte le operazioni non completate di un'arnia.
    * @param hiveId L'id dell'arnia di cui vogliamo le operazioni.
-   * @return La {@code List} di tutte le {@code Operation} non completate dell'arnia.
+   * @return Una lista di tutte le {@code Operation} non completate dell'arnia.
    */
   public List<Operation> getHiveUncompletedOperations (int hiveId) {
     return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateAsc("Not completed", hiveId);
@@ -147,7 +147,7 @@ public class OperationService {
   /**
    * Prende tutte le operazioni completate di un'arnia
    * @param hiveId L'id dell'arnia di cui vogliamo le operazioni
-   * @return La {@code List} di tutte le {@code Operation} completate dell'arnia
+   * @return Una lista di tutte le {@code Operation} completate dell'arnia
    */
   public List<Operation> getHiveCompletedOperations (int hiveId) {
     return operationDAO.findAllByOperationStatusAndHiveIdOrderByOperationDateDesc("Completed", hiveId);
@@ -156,7 +156,7 @@ public class OperationService {
   /**
    * Prende tute le operazioni di un apicoltore
    * @param beekeeperEmail L'email dell'apicoltore di cui vogliamo le operazioni
-   * @return La {@code List} di tutte le {@code Operation} dell'apicoltore.
+   * @return Una lista di tutte le {@code Operation} dell'apicoltore.
    */
   public List<Operation> viewAllBeekeeperOperations (String beekeeperEmail) {
     return operationDAO.findAllByBeekeeperEmail(beekeeperEmail);
