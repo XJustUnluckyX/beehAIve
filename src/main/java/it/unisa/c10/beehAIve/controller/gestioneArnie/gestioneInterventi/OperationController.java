@@ -265,7 +265,7 @@ public class OperationController {
       redirectAttributes.addFlashAttribute("error", "Operation notes must contain zero or " +
         "more characters, which can be uppercase and lowercase letters, digits, spaces and " +
         "special symbols ( -_()'\",.?!: )");
-      return "hive/operations-hive";
+      return "redirect:/operations?hiveId=" + hiveIdModify;
     }
     // Controllo sulla lunghezza delle note dell'intervento
     if(operationNotes.length() > 300) {
