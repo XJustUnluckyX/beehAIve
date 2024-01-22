@@ -99,7 +99,7 @@ public class ProfileController {
 
     session.setAttribute("beekeeper", beekeeper);
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     return "redirect:/user";
   }
@@ -162,7 +162,7 @@ public class ProfileController {
     // Cambiamento della password nel database
     profileService.changePassword(beekeeperEmail, newPassword);
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     return "redirect:/user";
   }

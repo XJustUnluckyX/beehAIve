@@ -168,7 +168,7 @@ public class HiveController {
     // Creazione dell'arnia
     dashboardService.createHive(beekeeperEmail, nickname, hiveType, beeSpecies);
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     // Redirect alla dashboard aggiornata
     return "redirect:/dashboard";
@@ -252,7 +252,7 @@ public class HiveController {
     // Modifica dell'arnia
     dashboardService.modifyHive(intHiveId, nickname, hiveType, beeSpecies);
 
-    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully.");
 
     // Redirect allo stato dell'arnia aggiornato
     return "redirect:/hive?hiveId=" + hiveId;
