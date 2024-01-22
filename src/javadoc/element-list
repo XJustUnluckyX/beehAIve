@@ -1,0 +1,16 @@
+it.unisa.c10.beehAIve
+it.unisa.c10.beehAIve.controller
+it.unisa.c10.beehAIve.controller.gestioneAnomalie
+it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneDashboard
+it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneInterventi
+it.unisa.c10.beehAIve.controller.gestioneArnie.gestioneStato
+it.unisa.c10.beehAIve.controller.gestioneSensori
+it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneAbbonamento
+it.unisa.c10.beehAIve.controller.gestioneUtente.gestioneProfilo
+it.unisa.c10.beehAIve.misc
+it.unisa.c10.beehAIve.persistence.dao
+it.unisa.c10.beehAIve.persistence.entities
+it.unisa.c10.beehAIve.service.gestioneAnomalie
+it.unisa.c10.beehAIve.service.gestioneArnie
+it.unisa.c10.beehAIve.service.gestioneSensori
+it.unisa.c10.beehAIve.service.gestioneUtente
