@@ -11,7 +11,10 @@ import java.nio.charset.StandardCharsets;
 
 public class FlaskAdapter {
 
-  // Questo metodo prende uno spettrogramma a caso dal dataset
+  /**
+   * Si interfaccia con il sistema Flask attraverso HTTP per prendere il nome di uno spettrogramma casuale.
+   * @return Il nome di uno spettrogramma.
+   */
   public String getRandomSpectrogram () {
     HttpURLConnection connection = null;
     DataOutputStream outputStream = null;
@@ -59,7 +62,12 @@ public class FlaskAdapter {
     return result;
   }
 
-  // Questo metodo fa fare una previsione alla CNN partendo dal nome di uno spettrogramma
+  /**
+   * Si interfaccia con il sistema Flask attraverso HTTP per comunicare con la CNN e far predire, partendo dal nome di
+   * uno spettrogramma, se la regina &egrave; presente o meno nell'arnia.
+   * @param fileName Il nome dello spettrogramma.
+   * @return {@code true} se la regina &egrave; presente, {@code false} altrimenti.
+   */
   public boolean predictQueenPresence (String fileName) {
     HttpURLConnection connection = null;
     DataOutputStream outputStream = null;
@@ -106,7 +114,16 @@ public class FlaskAdapter {
     return result;
   }
 
-  // Questo metodo fa fare una previsione al modello partendo dalle feature
+  /**
+   * Si interfaccia con il sistema Flask attraverso HTTP per comunicare col classificatore e far predire, partendo da
+   * dei parametri misurati dell'arnia, se questa è a rischio CCD o meno.
+   * @param hiveTemp La temperatura dell'arnia.
+   * @param ambientTemp La temperatura dell'ambiente.
+   * @param hiveHumidity L'umidità dell'arnia.
+   * @param ambientHumidity L'umidità dell'ambiente.
+   * @param queenPresence La presenza della regina
+   * @return {@code true} se l'arnia è a rischio CCD, {@code false} altrimenti.
+   */
   public boolean predictCCD (double hiveTemp, double ambientTemp, double hiveHumidity, double ambientHumidity, boolean queenPresence) {
     // Formattiamo la presenza della regina in un formato leggibile al modello
     int queenPresenceFormatted = 1;

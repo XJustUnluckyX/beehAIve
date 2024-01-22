@@ -23,6 +23,10 @@ public class PaypalConfig {
   @Value("${paypal.mode}")
   private String mode;
 
+  /**
+   * Configura le credenziali PayPal SDK.
+   * @return Una mappa contenente le configurazioni necessarie per le credenziali PayPal SDK.
+   */
   @Bean
   public Map<String, String> paypalSdkConfig() {
     Map<String, String> configMap = new HashMap<>();
@@ -30,11 +34,20 @@ public class PaypalConfig {
     return configMap;
   }
 
+  /**
+   * Fornisce le credenziali OAuthToken per l'autenticazione con PayPal.
+   * @return Un oggetto OAuthTokenCredential contenente le credenziali OAuthToken.
+   */
   @Bean
   public OAuthTokenCredential oAuthTokenCredential() {
     return new OAuthTokenCredential(clientId, clientSecret, paypalSdkConfig());
   }
 
+  /**
+   * Fornisce un contesto API per le operazioni di PayPal.
+   * @return Un oggetto APIContext configurato per l'autenticazione e l'utilizzo delle API di PayPal.
+   * @throws PayPalRESTException Nel caso in cui si verifichino errori durante la creazione del contesto API.
+   */
   @Bean
   public APIContext apiContext() throws PayPalRESTException {
     APIContext context = new APIContext(oAuthTokenCredential().getAccessToken());

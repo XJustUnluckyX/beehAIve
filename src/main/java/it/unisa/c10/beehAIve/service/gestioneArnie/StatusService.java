@@ -26,8 +26,8 @@ public class StatusService {
   private MeasurementDAO measurementDAO;
   private AnomalyDAO anomalyDAO;
   private OperationDAO operationDAO;
-
   private HiveDAO hiveDAO;
+
   @Autowired
   public StatusService(MeasurementDAO measurementDAO, AnomalyDAO anomalyDAO, OperationDAO operationDAO, HiveDAO hiveDAO) {
     this.measurementDAO = measurementDAO;
@@ -36,6 +36,12 @@ public class StatusService {
     this.hiveDAO = hiveDAO;
   }
 
+  /**
+   * Restituisce tutti i dati raccolti dalle misurazioni effettuate nelle ultime 48 ore relativi a una specifica arnia,
+   * in un formato leggibile al grafico che le dovr&agrave; mostrare.
+   * @param hiveId l'ID dell'arnia di cui si vogliono ottenere i dati delle misurazioni.
+   * @return una lista contenente i dati delle misurazioni effettuate nelle ultime 48 ore sull'arnia specificata.
+   */
   public List<ArrayList<Object>> getGraphData (int hiveId) {
     // Prendiamo le ultime 48 misurazioni
     List<Measurement> measurements = measurementDAO.findFirst49ByHiveIdOrderByMeasurementDateDesc(hiveId);
@@ -70,6 +76,13 @@ public class StatusService {
 
   }
 
+  /**
+   * Genera un report di salute di un'arnia, restituito all'utente come documento PDF. Il rapporto include informazioni
+   * sull'arnia, tra cui operazioni pianificate e completate, anomalie non risolte e anomalie risolte.
+   * @param hiveId L'ID dell'arnia di cui vogliamo generare il report.
+   * @param response La risposta HTTP in cui inserire il file PDF da scaricare.
+   * @throws IOException Nel caso in cui non si riesca ad aprire la response per scrivere al suo interno.
+   */
   public void generateReport (int hiveId, HttpServletResponse response) throws IOException {
     Hive hive = hiveDAO.findById(hiveId).get();
 
@@ -198,6 +211,11 @@ public class StatusService {
     document.close();
   }
 
+  /**
+   * Restituisce l'ultima misurazione effettuata di un'arnia.
+   * @param hiveId L'ID dell'arnia di cui vogliamo ottenere l'ultima misurazione.
+   * @return L'oggetto {@code Measurement} contenente le informazioni relative all'arnia.
+   */
   public Measurement getHiveLastMeasurement(int hiveId) {
     return measurementDAO.findTopByHiveIdOrderByMeasurementDateDesc(hiveId);
   }

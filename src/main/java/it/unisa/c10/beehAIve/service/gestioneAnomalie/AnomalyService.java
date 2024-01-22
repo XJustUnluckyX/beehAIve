@@ -26,6 +26,12 @@ public class AnomalyService {
     this.hiveDAO = hiveDAO;
   }
 
+  /**
+   * Controlla, partendo da una misurazione di un'arnia, tutte le eventuali anomalie su di essa e le
+   * aggiunge al database. In particolare controlla la presenza della regina e di eventuale CCD interfacciandosi con
+   * un adapter per interagire con dei modelli di IA. Dopodich&eacute; le notifica tutte all'apicoltore.
+   * @param measurement La misurazione da esaminare.
+   */
   public void checkAnomalies (Measurement measurement) {
     Hive hive = hiveDAO.findById(measurement.getHiveId()).get();
     String beekeeperEmail = hive.getBeekeeperEmail();
@@ -60,6 +66,10 @@ public class AnomalyService {
 
   }
 
+  /**
+   * Notifica l'apicoltore della gravit&agrave; di un'anomalia su un'arnia.
+   * @param anomaly L'anomalia da notificare.
+   */
   public void notifyAnomaly (Anomaly anomaly) {
     Hive hive = hiveDAO.findById(anomaly.getHiveId()).get();
 
@@ -79,6 +89,10 @@ public class AnomalyService {
     hiveDAO.save(hive);
   }
 
+  /**
+   * Imposta lo stato di un'anomalia su "Risolta", cambiando anche lo stato di salute se necessario.
+   * @param anomalyId L'id dell'anomalia da risolvere.
+   */
   public void resolveAnomaly (int anomalyId) {
 
     // Prendiamo l'anomalia dal database
@@ -101,6 +115,10 @@ public class AnomalyService {
 
   }
 
+  /**
+   * Elimina un'anomalia dal database, cambiando anche lo stato di salute se necessario.
+   * @param anomalyId L'id dell'anomalia da eliminare.
+   */
   public void deleteAnomaly (int anomalyId) {
 
     // Prendiamo l'anomalia dal database per ricavarne l'arnia dopo
@@ -120,22 +138,41 @@ public class AnomalyService {
 
   }
 
+  /**
+   * Prende tutte le anomalie non risolte di un'arnia dal database.
+   * @param hiveId L'id dell'arnia di cui si vogliono ottenere le anomalie non risolte.
+   * @return Una lista di {@code Anomaly} non risolte dell'arnia.
+   */
   public List<Anomaly> getUnresolvedAnomalies (int hiveId) {
     return anomalyDAO.findByHiveIdAndResolvedFalse(hiveId);
   }
 
+  /**
+   * Prende un'anomalia dal database.
+   * @param anomalyId L'id dell'anomalia da ottenere.
+   * @return L'oggetto {@code Anomaly} che corrisponde a quell'id.
+   */
   public Anomaly getAnomaly (int anomalyId) {
     return anomalyDAO.findById(anomalyId).get();
   }
 
+  /**
+   * Si interfaccia con l'adapter per prendere uno spettrogramma casuale dal dataset usato per i modelli.
+   * @return Il nome del file dello spettrogramma.
+   */
   public String getRandomSpectrogram() {
     return adapter.getRandomSpectrogram();
   }
 
+  /**
+   * Si interfaccia con l'adapter per comunicare con la CNN per prevedere se la regina &eacute; presente o meno
+   * all'interno dell'arnia partendo da uno spettrogramma.
+   * @param spectrogram Il nome del file dello spettrogramma.
+   * @return {@code true} se la regina &egrave; presente, {@code false} altrimenti.
+   */
   public boolean predictQueenPresence (String spectrogram) {
     return adapter.predictQueenPresence(spectrogram);
   }
-
 
   private Anomaly checkHiveWeight(Measurement measurement, String beekeeperEmail) {
 

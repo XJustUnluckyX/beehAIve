@@ -10,6 +10,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+  /**
+   * Configura la catena di filtri di sicurezza per gestire l'autenticazione e l'autorizzazione delle richieste HTTP.
+   * @param http La configurazione di sicurezza per l'applicazione.
+   * @return Una catena di filtri di sicurezza configurata.
+   * @throws Exception Nel caso in cui si verifichino errori durante la configurazione della sicurezza.
+   */
   @Bean
   public SecurityFilterChain filterSecurity(HttpSecurity http) throws Exception {
     http

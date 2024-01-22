@@ -105,7 +105,11 @@ public class ProfileController {
         "digit, and one special character ( @.$!%*?&_- ).");
       return "redirect:/user";
     }
-    // Controllo sulla lunghezza massima della password
+    // Controllo sulla lunghezza della password
+    if (newPassword.length() < 8) {
+      redirectAttributes.addFlashAttribute("error", "Password too short.");
+      return "redirect:/registration";
+    }
     if (newPassword.length() > 100) {
       redirectAttributes.addFlashAttribute("error", "Password too long.");
       return "redirect:/user";
