@@ -187,6 +187,8 @@ public class AccessController {
     // Salvataggio del nuovo utente nel database
     profileService.registration(email, password, firstName, lastName, companyName, companyPiva);
 
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
+
     return "redirect:/login";
   }
 

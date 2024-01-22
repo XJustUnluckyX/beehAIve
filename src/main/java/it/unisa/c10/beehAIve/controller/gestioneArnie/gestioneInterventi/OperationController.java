@@ -83,6 +83,7 @@ public class OperationController {
       throw new RuntimeException();
     }
 
+
     return "hive/operations-hive";
   }
 
@@ -182,6 +183,8 @@ public class OperationController {
     // Salvataggio nel DB dell'intervento usando il service (se i controlli sono andati a buon fine)
     operationService.planningOperation(operationName, operationType, "Not completed",
         operationDate1, noteOperation, hiveId1, hive.getBeekeeperEmail());
+
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
 
     return "redirect:/operations?hiveId=" + hiveId;
   }
@@ -306,6 +309,8 @@ public class OperationController {
     // Salvataggio dell'intervento nel database
     operationService.modifyScheduledOperation(operationId1, operationName, operationType, operationStatus, operationDate1, operationNotes,
       hiveId1, beekeeper.getEmail());
+
+    redirectAttributes.addFlashAttribute("success", "Operation completed successfully");
 
     return "redirect:/operations?hiveId=" + hiveIdModify;
   }
