@@ -73,10 +73,10 @@ public class BeehAIveUnitTests {
       Hive h1 = new Hive();
       h1.setId(1);
       h1.setNickname("Test1");
-      h1.setHiveType("Langstroth"); //Warre, Top-Bar
+      h1.setHiveType("Langstroth");
       h1.setCreationDate(LocalDate.now());
       h1.setBeekeeperEmail("a.depasquale@gmail.com");
-      h1.setBeeSpecies("Apis millifera");
+      h1.setBeeSpecies("Apis mellifera");
       h1.setHiveHealth(1);
       h1.setUncompletedOperations(false);
 
@@ -86,17 +86,17 @@ public class BeehAIveUnitTests {
       h2.setHiveType("Warre");
       h2.setCreationDate(LocalDate.now());
       h2.setBeekeeperEmail("n.gallotta@gmail.com");
-      h2.setBeeSpecies("Apis millifera");
+      h2.setBeeSpecies("Apis mellifera");
       h2.setHiveHealth(1);
       h2.setUncompletedOperations(true);
 
       Hive h3 = new Hive();
       h3.setId(1);
       h3.setNickname("Test3");
-      h3.setHiveType("Top-Bar"); //Warre, Top-Bar
+      h3.setHiveType("Top-Bar");
       h3.setCreationDate(LocalDate.now());
       h3.setBeekeeperEmail("s.valente@gmail.com");
-      h3.setBeeSpecies("Apis millifera");
+      h3.setBeeSpecies("Apis mellifera");
       h3.setHiveHealth(1);
       h3.setUncompletedOperations(false);
 
