@@ -2,7 +2,7 @@
   "id": "4de535a9-f275-49af-8c70-f1d2c2219ca6",
   "version": "2.0",
   "name": "beehAIve",
-  "url": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+  "url": "http://localhost:8080/beehAIve_war/dashboard",
   "tests": [{
     "id": "5670c788-e766-48e6-a4f0-54f9e9aaa7dd",
     "name": "1.TC_GP_4.1",
@@ -3355,23 +3355,52 @@
         ["xpath=//div[4]/input", "xpath:position"]
       ],
       "value": ""
-    }, {
-      "id": "415e0363-9a23-44e9-b02c-016f7210ca9f",
-      "comment": "",
-      "command": "assertText",
-      "target": "linkText=Bee Built",
-      "targets": [],
-      "value": "Bee Built"
     }]
   }, {
     "id": "f819aac4-8df8-435d-8174-93d22ae59e69",
     "name": "3.TC_GI_1.1",
     "commands": [{
-      "id": "b6493bdb-bb2b-4aa6-9065-9d2dd0f3f372",
+      "id": "7c0d9100-660b-4908-9205-477cb3b59588",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "4d88b41d-093f-47f3-9617-48464cadf283",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "634262f8-2494-4000-8c10-e3fbbbac3d23",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8b91566e-d964-49fa-9262-367adeef2670",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "f15e5a7e-6370-40ca-8dd8-948042ba1922",
@@ -3948,6 +3977,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "cc2dd52a-f572-49e7-bd81-788834b17626",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "79a47b0a-c28b-4932-a0e2-fedea1c01842",
       "comment": "",
       "command": "click",
@@ -4041,6 +4077,13 @@
       "comment": "",
       "command": "open",
       "target": "http://localhost:8080/beehAIve_war/dashboard",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "405ed4ab-7e9b-4dab-9ee6-47b5c86a7525",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
       "targets": [],
       "value": ""
     }, {
@@ -4140,6 +4183,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "ba1fb4ee-bdee-4961-b1e2-5a1be68f67e4",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "88372d03-314e-482d-b1c3-a2fec04432c4",
       "comment": "",
       "command": "click",
@@ -4233,6 +4283,13 @@
       "comment": "",
       "command": "open",
       "target": "http://localhost:8080/beehAIve_war/dashboard",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f764a1e8-2d6f-4f9f-a3c4-46c1b8be3fc8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
       "targets": [],
       "value": ""
     }, {
@@ -4332,6 +4389,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "3e896549-2760-49d1-bd37-4473cad7be80",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "dd0595a4-7b0a-469b-8c62-7da08540b599",
       "comment": "",
       "command": "click",
@@ -4428,6 +4492,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "fc8ebb15-fd5d-410b-bc58-89e225908d6b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "4db108e4-50cb-4800-adb1-12d15f556a8e",
       "comment": "",
       "command": "click",
@@ -4513,8 +4584,44 @@
       "id": "c6c8039a-e7df-4e46-afe1-5fd9b5b360db",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "50a8ccaa-0300-40a6-9cf7-fbbfacd453bd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fddd4720-96b2-4fdf-b918-cfe1d6f41ac8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "24b47df6-e393-4fcf-89c1-7fc64c8c85d6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "2aca2d93-0362-4abc-9ded-47a85f69903c",
@@ -4614,11 +4721,47 @@
     "id": "7e3ca0ea-fab3-467c-b62e-bbaf58ecfb76",
     "name": "3.TC_GI_1.3",
     "commands": [{
-      "id": "b627428d-6bc0-49c5-9fde-c26832355ea5",
+      "id": "d52ce27e-801e-4455-a1f6-087afd74cacf",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "a6f6827e-5829-4adc-9536-c2fb6d96e169",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc1e975b-e60c-4d9f-bfc0-4c9fc8468433",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ba78c331-0133-4b54-a425-ed02b926669e",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "9afd4141-b32a-4a04-adc3-20d807cd91f9",
@@ -4718,11 +4861,47 @@
     "id": "c4e535b0-6092-405a-8d3e-a4a5d7f4cd47",
     "name": "3.TC_GI_1.4",
     "commands": [{
-      "id": "150d72c1-daa5-427a-8445-d254e12ad350",
+      "id": "f2cee241-5a4d-4244-a8bb-7141f5b909cb",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "978d09f9-7367-4024-ac5a-9fc08fadc76c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "99a44fb9-8772-4a19-8b53-15af49bb08f5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "594e9a1d-d4d6-4043-9f90-42e86499545d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "5e5e44e7-cd23-4dc5-8b49-d9d09844dcd7",
@@ -4822,11 +5001,47 @@
     "id": "0403a675-14b5-4605-bf8f-b79d00d7e8b4",
     "name": "3.TC_GI_1.5",
     "commands": [{
-      "id": "3020f334-870f-46e3-8ed2-88361a5e0ad9",
+      "id": "e23c4a84-7429-4eba-a794-d05bbdd58f32",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "414cf86b-1869-4708-b480-610e03df6bb3",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "62efde62-f7a7-43b7-a4f3-f93c1b5db43c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8e6a6800-9596-483f-b32e-744319cbbcbf",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "07a18f4f-3df8-41cc-8d44-354dd97a2830",
@@ -4926,11 +5141,47 @@
     "id": "48fc4714-29c3-4a6e-8862-5b771f55c206",
     "name": "3.TC_GI_1.6",
     "commands": [{
-      "id": "a91e5472-d27e-4ecf-90c1-89d4b51c5360",
+      "id": "c39ab329-af69-4be6-8820-f295396a6254",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "1845b4f6-09ed-4390-a241-6796a278c8d7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "30ed7a7d-7955-416e-8da2-561421c4ae09",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "543c43f6-9b27-4ea9-a5dd-83fd37de4261",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "39c2a8a5-11c6-4aab-8b47-7eac2d44cf0f",
@@ -5037,11 +5288,47 @@
     "id": "bd76fd73-211d-47c6-a52f-9bd8de77509d",
     "name": "3.TC_GI_1.7",
     "commands": [{
-      "id": "2f72f01b-7381-4844-be3c-8c1f54ed9f18",
+      "id": "9272a3fa-b32c-4e83-802c-115c0b0c8d3e",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "cfb7fd3f-cc90-4723-bc9f-de548bac38db",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f8a21469-1660-4381-bfbe-2fe4f28782cb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b58379b5-c08a-471f-9428-94d3859d565c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "ff4fb0a0-c97d-4adf-b65f-27413e2d6fa6",
@@ -5141,11 +5428,47 @@
     "id": "6e798ed7-672b-45f2-bce9-1ed9c5d7581b",
     "name": "3.TC_GI_2.1",
     "commands": [{
-      "id": "f3ddcdde-cb24-429d-be52-2602b6ed5db7",
+      "id": "64d19be5-a625-4819-bcfc-e986746a5d52",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "4145177a-c7fa-42a6-b2f9-9956ae28c122",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0d931e47-e8c9-49b2-b2cb-995758257fd3",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4a743d7f-1af9-4aa1-a24b-266e9f595b34",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "fe71e71b-12a2-486c-9dd7-451320fcb886",
@@ -5254,11 +5577,47 @@
     "id": "057675f6-df49-4354-9566-a9fe3d3e2566",
     "name": "3.TC_GI_2.2",
     "commands": [{
-      "id": "4e389622-4121-4dec-a4b7-34df2119c0f8",
+      "id": "e340ab12-db4c-4ef3-9325-ab01309a63a2",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "65072113-483d-4b91-8f36-9e3ab7a9bd90",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "225bb5e4-e584-422a-96f1-87c502dc19c5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d09ddd17-0f3f-4117-a958-6a173950ac66",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "f7d73426-7a9c-4d0e-899f-cd22fa0f9a24",
@@ -5367,11 +5726,47 @@
     "id": "6df08041-8126-4fcc-a23d-4d96fe644dbf",
     "name": "3.TC_GI_2.3",
     "commands": [{
-      "id": "4fea8d01-fe8e-433d-bd5d-ea5afed6edac",
+      "id": "36b98fea-1ba2-458b-9bd2-64bea33704cd",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "f3501093-9152-49a3-96f7-aab41055745c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c42b876f-81a4-4ee4-a054-9c1fbd55b094",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e41723cd-ff49-4468-87a9-1572df83020a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "21c76100-2b36-4204-8d8c-8afc743e31c4",
@@ -5480,11 +5875,47 @@
     "id": "02fa8097-2875-4619-806d-6ef8f0a35206",
     "name": "3.TC_GI_2.4",
     "commands": [{
-      "id": "01a450eb-df54-425d-84a7-f8460ce13449",
+      "id": "313b4d25-6bc2-4f75-8513-b3a65bfbde77",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "be436393-780c-40f6-94d4-eac617aba5a9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "561742b7-0037-4953-8297-29d92e8ca20f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5362269d-e635-48bf-a7e2-816d47a1b062",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "2e6f16b7-970f-48f2-a685-3ad261e78130",
@@ -5593,11 +6024,47 @@
     "id": "6df1df8a-27e0-4d4f-858b-392295fa8352",
     "name": "3.TC_GI_2.5",
     "commands": [{
-      "id": "27340810-58cc-48bc-a551-1723b56546ab",
+      "id": "76fa5450-21ae-4766-8146-fdd625efa952",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "9c6172a6-9850-499c-8f3b-2308bf2aa04b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c847e8ee-58b3-4865-90c2-38ec52efd4f8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "12d64fd2-c7f2-4f3b-8168-4675e5df9d73",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "865b5f56-4e27-42c7-b37a-5952431575bd",
@@ -5706,11 +6173,47 @@
     "id": "e5552cd0-6884-4c94-be81-82322284213b",
     "name": "3.TC_GI_2.6",
     "commands": [{
-      "id": "261258fa-fa07-4653-803a-e7594d460521",
+      "id": "c9682f2d-6e1d-48c0-9e8f-5a642dc90e16",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "ceb71d50-f8b7-42ea-9f56-336695202d58",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7c9a875-fb01-464d-8d89-4acb65d9a802",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1066cb9c-a633-4e1c-93aa-2e239b1d7fc2",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "06df5b56-575d-4959-97d0-450bcff09ac1",
@@ -5826,11 +6329,47 @@
     "id": "f587a0d9-1dbd-4447-9d43-d6a3df37134a",
     "name": "3.TC_GI_2.7",
     "commands": [{
-      "id": "7f4bdfa3-b5e3-4824-87f9-aa3749ef6685",
+      "id": "da81034e-e9de-4a6c-a07c-5e83d76e89a5",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/beehAIve_war/operations?hiveId=13",
+      "target": "http://localhost:8080/beehAIve_war/dashboard",
       "targets": [],
+      "value": ""
+    }, {
+      "id": "9db5d5d7-a04e-4b82-9035-02e73c6a2041",
+      "comment": "",
+      "command": "click",
+      "target": "css=.custom-space",
+      "targets": [
+        ["css=.custom-space", "css:finder"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a31ca4e1-f1fa-47d8-ab07-6a076c8001e4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-none",
+      "targets": [
+        ["css=.d-none", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b2f70f5a-de47-474e-afef-04a52ac20b03",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Operations",
+      "targets": [
+        ["linkText=Operations", "linkText"],
+        ["css=h2:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Operations')]", "xpath:link"],
+        ["xpath=//div[@id='staticBackdrop']/div[2]/div[2]/h2[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/beehAIve_war/operations?hiveId=15')]", "xpath:href"],
+        ["xpath=//h2[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Operations')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
       "id": "277282c6-9c77-40eb-994a-8bb9dc85ee30",
@@ -6018,6 +6557,148 @@
       "targets": [],
       "value": "Passwords don't match."
     }]
+  }, {
+    "id": "c5e51956-aca6-44b2-b411-5e5c00569c35",
+    "name": "1.TC_GP_2.Subscription",
+    "commands": [{
+      "id": "5c983ee0-8e79-4a74-a390-2f1ffd9b307b",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/beehAIve_war/subscription_plans",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4bede9f3-3991-49be-9474-2ecbb6fd9a0f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1702x1060",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6613febc-5202-4977-863c-ca2dae2b1cd8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col-lg-4:nth-child(3) .btn",
+      "targets": [
+        ["css=.col-lg-4:nth-child(3) .btn", "css:finder"],
+        ["xpath=(//button[@name='subscriptionType'])[3]", "xpath:attributes"],
+        ["xpath=//div[3]/div/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "09bbe3d0-e29e-46a9-9c4f-093f54b7f7e2",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=login_email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[@id='login_emaildiv']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dcc6babc-140d-48ff-8101-7c08b324c188",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=login_email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[@id='login_emaildiv']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "sb-8duro29328269@personal.example.com"
+    }, {
+      "id": "6b9918b0-82c8-47b9-86cf-85a21626668d",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnNext",
+      "targets": [
+        ["id=btnNext", "id"],
+        ["name=btnNext", "name"],
+        ["css=#btnNext", "css:finder"],
+        ["xpath=//button[@id='btnNext']", "xpath:attributes"],
+        ["xpath=//div[@id='splitEmail']/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Avanti')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "abd70417-2ead-4e65-85ff-b93283ad93c8",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=login_password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login_passworddiv']/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "52e333f3-b3d0-4675-949d-00bc3f468923",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=login_password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login_passworddiv']/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/div/input", "xpath:position"]
+      ],
+      "value": "Hi*bW4MT"
+    }, {
+      "id": "834bf8ad-a478-425d-b5a0-f6f5206aca3e",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnLogin",
+      "targets": [
+        ["id=btnLogin", "id"],
+        ["name=btnLogin", "name"],
+        ["css=#btnLogin", "css:finder"],
+        ["xpath=//button[@id='btnLogin']", "xpath:attributes"],
+        ["xpath=//div[@id='splitPassword']/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "58eb027c-86bd-49c2-b24f-aba04a13ba78",
+      "comment": "",
+      "command": "click",
+      "target": "id=payment-submit-btn",
+      "targets": [
+        ["id=payment-submit-btn", "id"],
+        ["css=#payment-submit-btn", "css:finder"],
+        ["xpath=//button[@id='payment-submit-btn']", "xpath:attributes"],
+        ["xpath=//div[@id='hermione-container']/div/main/div[4]/div/button", "xpath:idRelative"],
+        ["xpath=//div[4]/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5bc75ee7-2bab-467e-bdb6-f0101aeebbe8",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Back to homepage",
+      "targets": [
+        ["linkText=Back to homepage", "linkText"],
+        ["css=.btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Back to homepage')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, '/beehAIve_war/')])[7]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Back to homepage')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "85c154a4-c26f-48dc-8a12-7c63aadda88e",
@@ -6027,6 +6708,6 @@
     "timeout": 300,
     "tests": ["5670c788-e766-48e6-a4f0-54f9e9aaa7dd"]
   }],
-  "urls": ["http://localhost:8080/beehAIve_war/", "http://localhost:8080/beehAIve_war/operations?hiveId=13"],
+  "urls": ["http://localhost:8080/beehAIve_war/", "http://localhost:8080/beehAIve_war/operations?hiveId=13", "http://localhost:8080/beehAIve_war/dashboard"],
   "plugins": []
 }
