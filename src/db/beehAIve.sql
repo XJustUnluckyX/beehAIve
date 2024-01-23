@@ -99,10 +99,10 @@ CREATE TABLE Measurement (
 
 # Inserimenti - Stato Zero
 INSERT INTO Beekeeper (email, passwordhash, first_name, last_name, company_name, company_PIVA, subscribed, payment_due, subscr_expiration_date) VALUES
-('n.gallotta@gmail.com',SHA2('Password-123',256),'NicolÃ²','Gallotta','The London Bee Company','GBLBC123456789',1,319.99,'2024-02-14'),
-('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','Bee Raw','USBR123456789',1,319.99,'2024-02-14'),
-('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','Rowse Honey','GBRH123456789',1,319.99,'2024-02-14'),
-('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,319.99,'2024-02-14');
+('n.gallotta@gmail.com',SHA2('Password-123',256),'NicolÃ²','Gallotta','The London Bee Company','GBLBC123456789',1,239.99,'2024-02-14'),
+('s.valente@gmail.com',SHA2('Password-123',256),'Sara','Valente','Bee Raw','USBR123456789',1,239.99,'2024-02-14'),
+('f.festa@gmail.com',SHA2('Password-123',256),'Francesco','Festa','Rowse Honey','GBRH123456789',1,239.99,'2024-02-14'),
+('a.depasquale@gmail.com',SHA2('Password-123',256),'Andrea','De Pasquale','Beekeeper\'s Naturals','GBBN123456789',1,239.99,'2024-02-14');
 
 INSERT INTO Bee (scientific_name, common_name, bee_description, photo) VALUES
 ('Apis millifera','Honeybee','This is the most common and widely raised species for honey production worldwide. Honeybees are divided into various subspecies.','honeybee.png'),
