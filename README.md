@@ -34,14 +34,17 @@ questa cartella sono contenuti tutti i file relativi al back-end e al front-end 
 suddivisi in altre sotto-cartelle. Questa suddivisione è stata creata allo scopo di seguire la 
 struttura di Java Spring, utilizzato per lo sviluppo del progetto. Le cartelle principali sono le 
 seguenti: 
-- "_**main/java/it/unisa/c10/beehaive/controller**_": in questa cartella sono presenti le classi responsabili di gestire le richieste
-  degli utenti e restituire la risposta appropriata;
-- "**_main/java/it/unisa/c10/beehaive/service_**": in questa cartella sono presenti le classi che contengono la logica di business;
-- "**_main/java/it/unisa/c10/beehaive/persistence_**": in questa cartella sono presenti le classi che implementano le repository basate su
-  Java Persistence API per accedere al database;
-- "**_main/java/it/unisa/c10/beehaive/misc_**": in questa cartella sono presenti tutti i file di configurazione, tra cui quelli
+- "_**main/java/it/unisa/c10/beehaive/controller**_": in questa cartella sono presenti le classi 
+  responsabili di gestire le richieste degli utenti e restituire la risposta appropriata;
+- "**_main/java/it/unisa/c10/beehaive/service_**": in questa cartella sono presenti le classi che 
+  contengono la logica di business;
+- "**_main/java/it/unisa/c10/beehaive/persistence_**": in questa cartella sono presenti le classi 
+  che implementano le repository basate su Java Persistence API per accedere al database;
+- "**_main/java/it/unisa/c10/beehaive/misc_**": in questa cartella sono presenti tutti i file di 
+  configurazione, tra cui quelli
   riguardanti Java Spring Security e l'API di PayPal;
-- "**_main/resources_**": in questa cartella sono presenti tutti i file relativi al front-end e gli script JavaScript;
+- "**_main/resources_**": in questa cartella sono presenti tutti i file relativi al front-end e gli 
+  script JavaScript;
 - "**_test_**": in questa cartella sono presenti i file relativi al testing di unità e di sistema;
 - "**_db_**": in questa cartella è presente lo schema SQL e gli inserimenti di default.
 
@@ -67,6 +70,9 @@ progetto sotto la cartella "**_src/project_docs_**". In particolare, al suo inte
 Per quanto riguarda l'Intelligenza Artificiale, il file interessato si trova al seguente path:
 **_src/ai/beehAIve_documentazione.pdf_**. Il documento ricalca tutti gli step effettuati in forma 
 più dettagliata e discorsiva.
+
+Infine, per consultare la documentazione Javadoc, è possibile visitare il seguente link:
+https://xjustunluckyx.github.io/beehAIve/.
 
 ## Dataset AI
 
