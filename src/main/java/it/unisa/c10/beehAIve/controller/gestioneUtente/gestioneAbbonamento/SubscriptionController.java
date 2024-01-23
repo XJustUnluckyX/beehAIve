@@ -52,9 +52,9 @@ public class SubscriptionController {
     Beekeeper beekeeper = (Beekeeper) session.getAttribute("beekeeper");
 
     // Prevenzione di un secondo pagamento per un piano di abbonamento già attivo
-    if ((subscriptionType.equals("small") && beekeeper.getPaymentDue() == 49.99) ||
-        (subscriptionType.equals("medium") && beekeeper.getPaymentDue() == 319.99) ||
-        (subscriptionType.equals("large") && beekeeper.getPaymentDue() == 969.99) ) {
+    if ((subscriptionType.equals("small") && beekeeper.getPaymentDue() == 39.99) ||
+        (subscriptionType.equals("medium") && beekeeper.getPaymentDue() == 239.99) ||
+        (subscriptionType.equals("large") && beekeeper.getPaymentDue() == 709.99) ) {
       throw new RuntimeException();
     }
 
@@ -163,11 +163,11 @@ public class SubscriptionController {
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Small" e possiede più di 15 arnie
      * - L'apicoltore vuole passare dall'abbonamento "Large" a "Medium" e possiede più di 100 arnie
      */
-    if (((beekeeperPaymentDue == 49.99 && subscriptionType.equals("small"))
+    if (((beekeeperPaymentDue == 39.99 && subscriptionType.equals("small"))
       && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
-      || ((beekeeperPaymentDue == 319.99 && subscriptionType.equals("small"))
+      || ((beekeeperPaymentDue == 239.99 && subscriptionType.equals("small"))
       && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 15)
-      || ((beekeeperPaymentDue == 969.99 && subscriptionType.equals("medium"))
+      || ((beekeeperPaymentDue == 709.99 && subscriptionType.equals("medium"))
       && dashboardService.getBeekeeperHivesCount(beekeeperEmail) > 100)){
       return false;
     }
